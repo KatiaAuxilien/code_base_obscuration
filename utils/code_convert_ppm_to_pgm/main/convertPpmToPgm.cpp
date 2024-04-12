@@ -1,7 +1,7 @@
-#include "ImageBase.h"
-#include "Functions.h"
+#include "../include/ImageBase.h"
+#include "../include/Functions.h"
 extern "C"{
-    #include "image_ppm.h"
+    #include "../include/image_ppm.h"
 }
 
 #include <cstdio>

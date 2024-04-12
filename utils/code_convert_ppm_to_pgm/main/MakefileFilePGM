@@ -1,0 +1,16 @@
+CXX = g++
+CXXFLAGS = -Wall -Wextra -g 
+INCLUDES = -I.../include/
+LDLIBS = 
+
+SRC = convertPpmToPgm.cpp ../src/ImageBase.cpp
+OBJ = $(SRC:../src/%.cpp=../obj/%.o)
+EXEC = convertPpmToPgm.out
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDLIBS)
+
+../obj/%.o: ../src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<

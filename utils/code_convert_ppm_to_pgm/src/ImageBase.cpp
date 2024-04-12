@@ -13,8 +13,8 @@
 *
 *******************************************************************************/
 
-#include "ImageBase.h"
-#include "image_ppm.h"
+#include "../include/ImageBase.h"
+#include "../include/image_ppm.h"
 
 
 ImageBase::ImageBase(void)
