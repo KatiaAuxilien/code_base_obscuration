@@ -373,6 +373,37 @@ void areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start
         }
 }
 
+/**
+ *  @brief
+ *  @param
+ *  @author Norman Hutte
+ *  @date 06/03/2024
+ *
+ *
+ *
+ *  @details
+ */
+void scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+{
+    int current_i = 0, current_j = 0;
+    int height, width;
+    height = image.getHeight();
+    width = image.getWidth();
+    int area_h, area_w;
+    while (current_i < height)
+    {
+        area_h = (current_i + regionHeight <= height ? regionHeight : height - current_i);
+        area_w = (current_j + regionWidth <= width ? regionWidth : width - current_j);
+        areaScrambling(image, o_image, current_i, current_j, area_h, area_w);
+        current_j += area_w;
+        if (current_j == width)
+        {
+            current_j = 0;
+            current_i = (current_i + regionHeight <= height ? current_i + regionHeight : height);
+        }
+    }
+}
+
 //====================== Averager ======================//
 
 /**
@@ -404,6 +435,37 @@ void areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j
             o_image[3 * i][3 * j + 1] = val_G;
             o_image[3 * i][3 * j + 2] = val_B;
         }
+}
+
+/**
+ *  @brief
+ *  @param
+ *  @author Norman Hutte
+ *  @date 06/03/2024
+ *
+ *
+ *
+ *  @details
+ */
+void averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+{
+    int current_i = 0, current_j = 0;
+    int height, width;
+    height = image.getHeight();
+    width = image.getWidth();
+    int area_h, area_w;
+    while (current_i < height)
+    {
+        area_h = (current_i + regionHeight <= height ? regionHeight : height - current_i);
+        area_w = (current_j + regionWidth <= width ? regionWidth : width - current_j);
+        areaAverager(image, o_image, current_i, current_j, area_h, area_w);
+        current_j += area_w;
+        if (current_j == width)
+        {
+            current_j = 0;
+            current_i = (current_i + regionHeight <= height ? current_i + regionHeight : height);
+        }
+    }
 }
 
 //====================== Encryption ======================//
