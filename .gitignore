@@ -5,3 +5,4 @@ utils/code_convert_ppm_to_pgm/main/convertPpmToPgm.out
 ObscurationPGM_main.out
 ObscurationPGM_main.out
 main/PPM/ObscurationPPM_main.out
+main/obscuredPGM/*
