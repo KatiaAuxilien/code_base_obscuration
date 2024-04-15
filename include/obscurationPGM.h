@@ -337,4 +337,77 @@ void selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
     }
 }
 
+/**
+ *  @brief
+ *  @param
+ *  @author Katia Auxilien
+ *  @date 15/04/2024
+ *  Inspired by Norman Hutte's method selectiveProgressiveEncryption.
+ *
+ *
+ *  @details
+ */
+void selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
+{
+    unsigned int bSeq[8];
+    int height, width;
+    height = image.getHeight();
+    width = image.getWidth();
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            genPRNS(bSeq);
+            std::bitset<8> pBits_V(image[i][j]);
+            for (int b = 0; b < 8; ++b)
+            {
+                if (MSBtoLSB)
+                {
+                    pBits_V[7 - b] = (pBits_V[7 - b] ^ bSeq[b]);
+                }
+                else
+                {
+                    pBits_V[b] = (pBits_V[b] ^ bSeq[7 - b]);
+                }
+                o_images[b][i][j + 0] = pBits_V.to_ulong();
+            }
+        }
+    }
+}
+
+
+/**
+ *  @brief
+ *  @param
+ *  @author Katia Auxilien
+ *  @date 15/04/2024
+ *  Inspired by Norman Hutte's method selectiveGroupEncryption.
+ *
+ *
+ *  @details
+ */
+void selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
+{
+    unsigned int bSeq[8];
+    int height, width;
+    height = image.getHeight();
+    width = image.getWidth();
+
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            genPRNS(bSeq);
+            std::bitset<8> pBits_V(image[i][j]);
+            for (int b_i = 0; b_i < groupSize; ++b_i)
+            {
+                int b = bitsGroup[b_i];
+                pBits_V[b] = (pBits_V[b] ^ bSeq[7 - b]);
+            }
+            o_image[i][j] = pBits_V.to_ulong();
+        }
+    }
+}
+
+
 #endif // OBSCURATION_PGM_LIBRARY
