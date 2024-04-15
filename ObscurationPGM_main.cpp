@@ -12,15 +12,16 @@
 
 #define FILE_EXT ".pgm"
 
-
 /**
  * Pour utiliser ce programme, les images contenues dans vos fichiers doivent avoir le nom 'nomdudossier_ (i)' i allant de 0 à n images.
-**/
-int main(int argc, char **argv) {
-	if (argc != 2) {
-		printf("Usage : directory\n");
-		return 1;
-	}
+ **/
+int main(int argc, char **argv)
+{
+    if (argc != 2)
+    {
+        printf("Usage : directory\n");
+        return 1;
+    }
 
     char t_cImagePath[200];
     std::string sFolderPath = argv[1];
@@ -30,7 +31,7 @@ int main(int argc, char **argv) {
 
     // ============================ DEBUT Blurring ============================ //
     // std::cout << "Debut floutage moyenneur..." << "\n";
-    
+
     // std::strcpy(t_cImagePath, sFolderPath.c_str());
     // sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPPM/blurring/" + sImgClass;
     // getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
@@ -47,7 +48,7 @@ int main(int argc, char **argv) {
 
     //     ImageBase ibImgInResized(299, 299, false);
     //     bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
-            
+
     //     std::vector<ImageBase> v_ibImgOut;
     //     newAverageBlurring_PGM(ibImgInResized, v_ibImgOut);
 
@@ -62,9 +63,9 @@ int main(int argc, char **argv) {
     // std::cout << "Fin floutage moyenneur" << "\n";
     // ============================ FIN Blurring ============================ //
 
-// ============================ DEBUT Scrambling ============================ //
+    // ============================ DEBUT Scrambling ============================ //
     // std::cout << "Debut melange par region..." << "\n";
-    
+
     // std::strcpy(t_cImagePath, sFolderPath.c_str());
     // sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPPM/scrambling/" + sImgClass;
     // getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
@@ -81,7 +82,7 @@ int main(int argc, char **argv) {
 
     //     ImageBase ibImgInResized(299, 299, false);
     //     bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
-            
+
     //     for (int cpt = 1; cpt <= 50; ++cpt) {
     //         ImageBase ibImgOut(ibImgInResized.getWidth(),ibImgInResized.getHeight(),ibImgInResized.getColor());
 
@@ -89,7 +90,7 @@ int main(int argc, char **argv) {
     //                                 + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
     //         std::strcpy(t_cImagePath, sImOutPath.c_str());
 
-    //         scrambling(ibImgInResized,ibImgOut,cpt,cpt);
+    //         scrambling_PGM(ibImgInResized,ibImgOut,cpt,cpt);
     //         ibImgOut.save(t_cImagePath);
     //     }
     //     std::cout << "Image " << nImg_cpt+1 << " sur " << v_sImagePaths.size() << "\n";
@@ -97,41 +98,109 @@ int main(int argc, char **argv) {
     // std::cout << "Fin melange par region" << "\n";
     // ============================ FIN Scrambling ============================ //
 
-// ============================ DEBUT Scrambling ============================ //
-    std::cout << "Debut moyenneur par r�gion..." << "\n";
-    
+    // ============================ DEBUT Pixelisation ============================ //
+    // std::cout << "Debut moyenneur par r�gion..." << "\n";
+
+    // std::strcpy(t_cImagePath, sFolderPath.c_str());
+    // sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPPM/pixeliser/" + sImgClass;
+    // getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    // for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt) {
+    //     ImageBase ibImgInOriginal;
+    //     std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt+1) + ")" + FILE_EXT;
+    //     std::strcpy(t_cImagePath, sImInPath.c_str());
+    //     ibImgInOriginal.load(t_cImagePath);
+    //     std::cout << "Image n°" << nImg_cpt+1 << " en cours ... " <<"\n";
+
+    //     std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+    //     createDirectoryIfNotExists(sNewImgPath);
+
+    //     ImageBase ibImgInResized(299, 299, false);
+    //     bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+
+    //     for (int cpt = 1; cpt <= 50; ++cpt) {
+    //         ImageBase ibImgOut(ibImgInResized.getWidth(),ibImgInResized.getHeight(),ibImgInResized.getColor());
+
+    //         std::string sImOutPath = sNewImgPath + "/" + sImgClass
+    //                                 + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
+    //         std::strcpy(t_cImagePath, sImOutPath.c_str());
+
+    //         averageByRegion_PGM(ibImgInResized,ibImgOut,cpt,cpt);
+    //         ibImgOut.save(t_cImagePath);
+    //     }
+    //     std::cout << "Image " << nImg_cpt+1 << " sur " << v_sImagePaths.size() << "\n";
+    // }
+    // std::cout << "Fin moyenneur par region" << "\n";
+    // ============================ FIN Pixelisation ============================ //
+
+    // ============================ DEBUT Chiffrement sélectif ============================ //
+
+    // ============== DEBUT Chiffrement sélectif par bit individuel ============== //
+
+    std::cout << "Debut chiffrement selectif par bit individuel..."
+              << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPPM/pixeliser/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPPM/encryption/individual/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt) {
+    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
         ImageBase ibImgInOriginal;
-        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt+1) + ")" + FILE_EXT;
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt+1 << " en cours ... " <<"\n";
+        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+                  << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
-            
-        for (int cpt = 1; cpt <= 50; ++cpt) {
-            ImageBase ibImgOut(ibImgInResized.getWidth(),ibImgInResized.getHeight(),ibImgInResized.getColor());
 
-            std::string sImOutPath = sNewImgPath + "/" + sImgClass
-                                    + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
+        ImageBase t_ibImages[8] = {ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
+                                   ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor())};
+        selectiveIndividualEncryption_PGM(ibImgInResized, t_ibImages);
+
+        for (int cpt = 0; cpt <= 7; ++cpt)
+        {
+
+            std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
             std::strcpy(t_cImagePath, sImOutPath.c_str());
 
-            averageByRegion(ibImgInResized,ibImgOut,cpt,cpt);
-            ibImgOut.save(t_cImagePath);
+            t_ibImages[cpt].save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt+1 << " sur " << v_sImagePaths.size() << "\n";
+        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin moyenneur par region" << "\n";
-    // ============================ FIN Scrambling ============================ //
+    std::cout << "Fin chiffrement selectif par bit individuel."
+              << "\n";
+    // ============== FIN Chiffrement sélectif par bit individuel ============== //
 
+    // ============================ FIN Chiffrement sélectif ============================ //
 
-	return 0;
+    // ============================ DEBUT Chiffrement AES ============================ //
+    // ============== DEBUT Chiffrement AES ECB ============== //
+    // ============== FIN Chiffrement AES ECB ============== //
+
+    // ============== DEBUT Chiffrement AES CBC ============== //
+    // ============== FIN Chiffrement AES CBC ============== //
+
+    // ============== DEBUT Chiffrement AES OFB ============== //
+    // ============== FIN Chiffrement AES OFB ============== //
+
+    // ============== DEBUT Chiffrement AES CFB ============== //
+    // ============== FIN Chiffrement AES CFB ============== //
+
+    // ============== DEBUT Chiffrement AES CTR ============== //
+    // ============== FIN Chiffrement AES CTR ============== //
+
+    // ============================ FIN Chiffrement AES ============================ //
+
+    return 0;
 }
