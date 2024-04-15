@@ -33,9 +33,9 @@ int main(int argc, char **argv)
     std::string sImgClass = getLastDirectoryName(sFolderPath);
     std::string sNewFolderPath;
     std::vector<std::string> v_sImagePaths;
-/*
+
     // ============================ DEBUT Blurring ============================ //
-    std::cout << "Debut floutage moyenneur..."
+    std::cout << "\t" << "Début floutage moyenneur..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
@@ -68,12 +68,12 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin floutage moyenneur"
+    std::cout  << "\t" << "Fin floutage moyenneur"
               << "\n";
     // ============================ FIN Blurring ============================ //
 
     // ============================ DEBUT Scrambling ============================ //
-    std::cout << "Debut melange par region..."
+    std::cout << "\t" << "Début melange par region..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
@@ -107,12 +107,12 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin melange par region"
+    std::cout  << "\t" << "Fin du mélange par région"
               << "\n";
     // ============================ FIN Scrambling ============================ //
 
     // ============================ DEBUT Pixelisation ============================ //
-    std::cout << "Debut moyenneur par r�gion..."
+    std::cout  << "\t" << "Début moyenneur par région..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
@@ -146,7 +146,7 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin moyenneur par region"
+    std::cout  << "\t" << "Fin du moyenneur par region"
               << "\n";
     // ============================ FIN Pixelisation ============================ //
 
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 
     // ============== DEBUT Chiffrement sélectif par bit individuel ============== //
 
-    std::cout << "Debut chiffrement selectif par bit individuel..."
+    std::cout  << "\t" << "Debut chiffrement selectif par bit individuel..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/individual/" + sImgClass;
@@ -198,13 +198,13 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement selectif par bit individuel."
+    std::cout  << "\t" << "Fin chiffrement selectif par bit individuel."
               << "\n";
     // ============== FIN Chiffrement sélectif par bit individuel ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
-    std::cout << "Debut chiffrement selectif par bit consecutif MSB à LSB..."
+    std::cout  << "\t" << "Debut chiffrement selectif par bit consecutif MSB à LSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-MSB2LSB/" + sImgClass;
@@ -244,13 +244,13 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement selectif par bit consecutif MSB à LSB."
+    std::cout  << "\t" << "Fin chiffrement selectif par bit consecutif MSB à LSB."
               << "\n";
     // ============== FIN Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
-    std::cout << "Debut chiffrement selectif par bit consecutif LSB à MSB..."
+    std::cout  << "\t" << "Debut chiffrement selectif par bit consecutif LSB à MSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-LSB2MSB/" + sImgClass;
@@ -290,13 +290,13 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement selectif par bit consecutif LSB à MSB."
+    std::cout  << "\t" << "Fin chiffrement selectif par bit consecutif LSB à MSB."
               << "\n";
     // ============== FIN Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit groupé ============== //
 
-    std::cout << "Debut chiffrement selectif par bit groupé..."
+    std::cout  << "\t" << "Debut chiffrement selectif par bit groupé..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/ranged/" + sImgClass;
@@ -336,11 +336,11 @@ int main(int argc, char **argv)
         }
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement selectif par bit groupé."
+    std::cout << "\t"  << "Fin chiffrement selectif par bit groupé."
               << "\n";
     // ============== FIN Chiffrement sélectif par bit groupé============== //
     // ============================ FIN Chiffrement sélectif ============================ //
-*/
+
     // ============================ DEBUT Chiffrement AES ============================ //
     std::cout << "\t"
               << "Chiffrement AES"
@@ -350,7 +350,7 @@ int main(int argc, char **argv)
 
     // ============== DEBUT Chiffrement AES ECB ============== //
 
-    std::cout << "Debut chiffrement AES mode ECB..."
+    std::cout  << "\t" << "Debut chiffrement AES mode ECB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/" + sImgClass;
@@ -391,13 +391,13 @@ int main(int argc, char **argv)
 
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement AES mode ECB"
+    std::cout  << "\t" << "Fin chiffrement AES mode ECB"
               << "\n";
 
     // ============== FIN Chiffrement AES ECB ============== //
 
     // ============== DEBUT Chiffrement AES CBC ============== //
-    std::cout << "Debut chiffrement AES mode CBC..."
+    std::cout  << "\t" << "Debut chiffrement AES mode CBC..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/" + sImgClass;
@@ -445,7 +445,7 @@ int main(int argc, char **argv)
 
     // ============== DEBUT Chiffrement AES CTR ============== //
 
-    std::cout << "Debut chiffrement AES mode CTR..."
+    std::cout  << "\t" << "Debut chiffrement AES mode CTR..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/" + sImgClass;
@@ -487,14 +487,14 @@ int main(int argc, char **argv)
 
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement AES mode CTR"
+    std::cout  << "\t" << "Fin chiffrement AES mode CTR"
               << "\n";
 
     // ============== FIN Chiffrement AES CTR ============== //
 
     // ============== DEBUT Chiffrement AES CFB ============== //
     
-    std::cout << "Debut chiffrement AES mode CFB..."
+    std::cout  << "\t" << "Debut chiffrement AES mode CFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/" + sImgClass;
@@ -536,14 +536,14 @@ int main(int argc, char **argv)
 
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement AES mode CFB"
+    std::cout  << "\t" << "Fin chiffrement AES mode CFB"
               << "\n";
 
     // ============== FIN Chiffrement AES CFB ============== //
 
     // ============== DEBUT Chiffrement AES OFB ============== //
 
-    std::cout << "Debut chiffrement AES mode OFB..."
+    std::cout  << "\t" << "Debut chiffrement AES mode OFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/" + sImgClass;
@@ -585,7 +585,7 @@ int main(int argc, char **argv)
 
         std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement AES mode OFB"
+    std::cout  << "\t" << "Fin chiffrement AES mode OFB"
               << "\n";
 
 
