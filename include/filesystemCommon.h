@@ -69,10 +69,10 @@ void createDirectoryIfNotExists(const std::string & path) {
         if (!std::filesystem::create_directories(path)) {
             fprintf(stderr,"Erreur : Impossible de creer le repertoire %s \n", path.c_str());
         } else {
-            printf("Repertoire cree : %s \n", path.c_str());
+            //printf("Repertoire cree : %s \n", path.c_str());
         }
     } else {
-        printf("Le repertoire existe deja : %s \n", path.c_str());
+        //printf("Le repertoire existe deja : %s \n", path.c_str());
     }
 }
 

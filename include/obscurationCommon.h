@@ -77,7 +77,7 @@ void genBitsGroups(std::vector<std::vector<int>> & groups, int groupSize) {
  *  @details 
  */
 void intVec2intArray(std::vector<int> & vec, int arr[8]) {
-    for (int i = 0; i < vec.size(); ++i)
+    for (size_t i = 0; i < vec.size(); ++i)
         arr[i] = vec[i];
 }
 

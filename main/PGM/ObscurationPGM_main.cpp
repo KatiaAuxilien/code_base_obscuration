@@ -6,7 +6,7 @@
 #include "../../include/AES.h"
 extern "C"
 {
-    #include "../../include/image_ppm.h"
+#include "../../include/image_ppm.h"
 }
 
 #include <cstdio>
@@ -16,6 +16,42 @@ extern "C"
 #include <vector>
 
 #define FILE_EXT ".pgm"
+
+void afficherBarreDeChargement(size_t progress, size_t total)
+{
+    int barSize = 50;
+    int progressSize = (progress * barSize) / total;
+
+    std::string colorCode;
+    if (progress <= total * 0.50)
+    {
+        colorCode = "\e[1;91m";
+    }
+    else if (progress <= total * 0.70)
+    {
+        colorCode = "\e[1;93m";
+    }
+    else
+    {
+        colorCode = "\e[1;92m"; // Dark green
+    }
+
+    std::cout << "[";
+    for (int i = 0; i < barSize; ++i)
+    {
+        if (i < progressSize)
+        {
+            std::cout << colorCode << "#";
+        }
+        else
+        {
+            std::cout << ".";
+        }
+    }
+    std::cout << "\e[0m";
+    std::cout << "] " << (progress * 100 / total) << "%\r";
+    std::cout.flush();
+}
 
 /**
  * Pour utiliser ce programme, les images contenues dans vos fichiers doivent avoir le nom 'nomdudossier_ (i)' i allant de 0 à n images.
@@ -35,21 +71,25 @@ int main(int argc, char **argv)
     std::vector<std::string> v_sImagePaths;
 
     // ============================ DEBUT Blurring ============================ //
-    std::cout << "\t" << "Début floutage moyenneur..."
+    std::cout << "Floutage moyenneur..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/blurring/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    int nTotalImg = v_sImagePaths.size();
+
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
+
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -66,28 +106,29 @@ int main(int argc, char **argv)
             std::strcpy(t_cImagePath, sImOutPath.c_str());
             v_ibImgOut[cpt / 2].save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin floutage moyenneur"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============================ FIN Blurring ============================ //
 
     // ============================ DEBUT Scrambling ============================ //
-    std::cout << "\t" << "Début melange par region..."
+    std::cout << "Mélange par region..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/scrambling/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -105,28 +146,29 @@ int main(int argc, char **argv)
             scrambling_PGM(ibImgInResized, ibImgOut, cpt, cpt);
             ibImgOut.save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin du mélange par région"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============================ FIN Scrambling ============================ //
 
     // ============================ DEBUT Pixelisation ============================ //
-    std::cout  << "\t" << "Début moyenneur par région..."
+    std::cout << "Moyenneur par région..."
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/pixeliser/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -144,10 +186,10 @@ int main(int argc, char **argv)
             averageByRegion_PGM(ibImgInResized, ibImgOut, cpt, cpt);
             ibImgOut.save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin du moyenneur par region"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============================ FIN Pixelisation ============================ //
 
     // ============================ DEBUT Chiffrement sélectif ============================ //
@@ -157,20 +199,22 @@ int main(int argc, char **argv)
 
     // ============== DEBUT Chiffrement sélectif par bit individuel ============== //
 
-    std::cout  << "\t" << "Debut chiffrement selectif par bit individuel..."
+    std::cout << "par bit individuel..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/individual/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
+
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -196,28 +240,29 @@ int main(int argc, char **argv)
 
             t_ibImages[cpt].save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement selectif par bit individuel."
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============== FIN Chiffrement sélectif par bit individuel ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
-    std::cout  << "\t" << "Debut chiffrement selectif par bit consecutif MSB à LSB..."
+    std::cout << "par bit consecutif MSB à LSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-MSB2LSB/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -242,28 +287,30 @@ int main(int argc, char **argv)
 
             t_ibImages[cpt].save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement selectif par bit consecutif MSB à LSB."
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
+
     // ============== FIN Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
-    std::cout  << "\t" << "Debut chiffrement selectif par bit consecutif LSB à MSB..."
+    std::cout << "bit consecutif LSB à MSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-LSB2MSB/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -288,28 +335,29 @@ int main(int argc, char **argv)
 
             t_ibImages[cpt].save(t_cImagePath);
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement selectif par bit consecutif LSB à MSB."
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============== FIN Chiffrement sélectif par bit consecutif MSB à LSB ============== //
 
     // ============== DEBUT Chiffrement sélectif par bit groupé ============== //
 
-    std::cout  << "\t" << "Debut chiffrement selectif par bit groupé..."
+    std::cout << "par bits groupé..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/ranged/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         ImageBase ibImgInOriginal;
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImagePath, sImInPath.c_str());
         ibImgInOriginal.load(t_cImagePath);
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -321,7 +369,7 @@ int main(int argc, char **argv)
         {
             std::vector<std::vector<int>> v_nBitGroup;
             genBitsGroups(v_nBitGroup, nGSize);
-            for (int i = 0; i < v_nBitGroup.size(); ++i)
+            for (size_t i = 0; i < v_nBitGroup.size(); ++i)
             {
                 int nGroup[8];
                 intVec2intArray(v_nBitGroup[i], nGroup);
@@ -334,10 +382,10 @@ int main(int argc, char **argv)
                 ibImgOut.save(t_cImagePath);
             }
         }
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "\t"  << "Fin chiffrement selectif par bit groupé."
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
     // ============== FIN Chiffrement sélectif par bit groupé============== //
     // ============================ FIN Chiffrement sélectif ============================ //
 
@@ -350,19 +398,20 @@ int main(int argc, char **argv)
 
     // ============== DEBUT Chiffrement AES ECB ============== //
 
-    std::cout  << "\t" << "Debut chiffrement AES mode ECB..."
+    std::cout << "mode ECB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -389,27 +438,28 @@ int main(int argc, char **argv)
         ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement AES mode ECB"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
 
     // ============== FIN Chiffrement AES ECB ============== //
 
     // ============== DEBUT Chiffrement AES CBC ============== //
-    std::cout  << "\t" << "Debut chiffrement AES mode CBC..."
+    std::cout << "mode CBC..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -429,35 +479,37 @@ int main(int argc, char **argv)
 
         AES aes(AESKeyLength::AES_128);
 
-        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char key[] = {0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b};
         unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
 
-        oImgOut = aes.EncryptCBC(oImgIn, nTaille, key,iv);
+        oImgOut = aes.EncryptCBC(oImgIn, nTaille, key, iv);
 
         ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout << "Fin chiffrement AES mode CBC"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
+
     // ============== FIN Chiffrement AES CBC ============== //
 
     // ============== DEBUT Chiffrement AES CTR ============== //
 
-    std::cout  << "\t" << "Debut chiffrement AES mode CTR..."
+    std::cout << "mode CTR..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -477,36 +529,38 @@ int main(int argc, char **argv)
 
         AES aes(AESKeyLength::AES_128);
 
-        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char key[] = {0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b};
         unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
 
-        oImgOut = aes.EncryptCTR(oImgIn, nTaille, key,iv);
+        oImgOut = aes.EncryptCTR(oImgIn, nTaille, key, iv);
 
         ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement AES mode CTR"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
 
     // ============== FIN Chiffrement AES CTR ============== //
 
     // ============== DEBUT Chiffrement AES CFB ============== //
-    
-    std::cout  << "\t" << "Debut chiffrement AES mode CFB..."
+
+    std::cout << "mode CFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
+
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -526,36 +580,38 @@ int main(int argc, char **argv)
 
         AES aes(AESKeyLength::AES_128);
 
-        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char key[] = {0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b};
         unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
 
-        oImgOut = aes.EncryptCFB(oImgIn, nTaille, key,iv);
+        oImgOut = aes.EncryptCFB(oImgIn, nTaille, key, iv);
 
         ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement AES mode CFB"
-              << "\n";
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
 
     // ============== FIN Chiffrement AES CFB ============== //
 
     // ============== DEBUT Chiffrement AES OFB ============== //
 
-    std::cout  << "\t" << "Debut chiffrement AES mode OFB..."
+    std::cout << "mode OFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
     sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/" + sImgClass;
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
-    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
+
         std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
-        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
-                  << "\n";
+        // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+        //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
         createDirectoryIfNotExists(sNewImgPath);
@@ -575,22 +631,20 @@ int main(int argc, char **argv)
 
         AES aes(AESKeyLength::AES_128);
 
-        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char key[] = {0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b};
         unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
 
-        oImgOut = aes.EncryptOFB(oImgIn, nTaille, key,iv);
+        oImgOut = aes.EncryptOFB(oImgIn, nTaille, key, iv);
 
         ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
-        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+        // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
     }
-    std::cout  << "\t" << "Fin chiffrement AES mode OFB"
-              << "\n";
-
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
 
     // ============== FIN Chiffrement AES OFB ============== //
-
 
     // ============================ FIN Chiffrement AES ============================ //
 
