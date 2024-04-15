@@ -397,16 +397,200 @@ int main(int argc, char **argv)
     // ============== FIN Chiffrement AES ECB ============== //
 
     // ============== DEBUT Chiffrement AES CBC ============== //
+    std::cout << "Debut chiffrement AES mode CBC..."
+              << "\n";
+    std::strcpy(t_cImagePath, sFolderPath.c_str());
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/" + sImgClass;
+    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
+        std::strcpy(t_cImageInPath, sImInPath.c_str());
+
+        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+                  << "\n";
+
+        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        createDirectoryIfNotExists(sNewImgPath);
+
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
+        int nH, nW, nTaille;
+        OCTET *oImgIn, *oImgOut;
+
+        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        nTaille = nH * nW;
+
+        allocation_tableau(oImgIn, OCTET, nTaille);
+        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        allocation_tableau(oImgOut, OCTET, nTaille);
+
+        AES aes(AESKeyLength::AES_128);
+
+        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
+
+        oImgOut = aes.EncryptCBC(oImgIn, nTaille, key,iv);
+
+        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        free(oImgIn);
+
+        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+    }
+    std::cout << "Fin chiffrement AES mode CBC"
+              << "\n";
     // ============== FIN Chiffrement AES CBC ============== //
 
-    // ============== DEBUT Chiffrement AES OFB ============== //
-    // ============== FIN Chiffrement AES OFB ============== //
+    // ============== DEBUT Chiffrement AES CTR ============== //
+
+    std::cout << "Debut chiffrement AES mode CTR..."
+              << "\n";
+    std::strcpy(t_cImagePath, sFolderPath.c_str());
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/" + sImgClass;
+    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
+        std::strcpy(t_cImageInPath, sImInPath.c_str());
+
+        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+                  << "\n";
+
+        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        createDirectoryIfNotExists(sNewImgPath);
+
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
+        int nH, nW, nTaille;
+        OCTET *oImgIn, *oImgOut;
+
+        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        nTaille = nH * nW;
+
+        allocation_tableau(oImgIn, OCTET, nTaille);
+        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        allocation_tableau(oImgOut, OCTET, nTaille);
+
+        AES aes(AESKeyLength::AES_128);
+
+        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
+
+        oImgOut = aes.EncryptCTR(oImgIn, nTaille, key,iv);
+
+        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        free(oImgIn);
+
+        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+    }
+    std::cout << "Fin chiffrement AES mode CTR"
+              << "\n";
+
+    // ============== FIN Chiffrement AES CTR ============== //
 
     // ============== DEBUT Chiffrement AES CFB ============== //
+    
+    std::cout << "Debut chiffrement AES mode CFB..."
+              << "\n";
+    std::strcpy(t_cImagePath, sFolderPath.c_str());
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/" + sImgClass;
+    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
+        std::strcpy(t_cImageInPath, sImInPath.c_str());
+
+        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+                  << "\n";
+
+        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        createDirectoryIfNotExists(sNewImgPath);
+
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
+        int nH, nW, nTaille;
+        OCTET *oImgIn, *oImgOut;
+
+        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        nTaille = nH * nW;
+
+        allocation_tableau(oImgIn, OCTET, nTaille);
+        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        allocation_tableau(oImgOut, OCTET, nTaille);
+
+        AES aes(AESKeyLength::AES_128);
+
+        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
+
+        oImgOut = aes.EncryptCFB(oImgIn, nTaille, key,iv);
+
+        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        free(oImgIn);
+
+        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+    }
+    std::cout << "Fin chiffrement AES mode CFB"
+              << "\n";
+
     // ============== FIN Chiffrement AES CFB ============== //
 
-    // ============== DEBUT Chiffrement AES CTR ============== //
-    // ============== FIN Chiffrement AES CTR ============== //
+    // ============== DEBUT Chiffrement AES OFB ============== //
+
+    std::cout << "Debut chiffrement AES mode OFB..."
+              << "\n";
+    std::strcpy(t_cImagePath, sFolderPath.c_str());
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/" + sImgClass;
+    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    for (int nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
+        std::strcpy(t_cImageInPath, sImInPath.c_str());
+
+        std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
+                  << "\n";
+
+        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        createDirectoryIfNotExists(sNewImgPath);
+
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
+        int nH, nW, nTaille;
+        OCTET *oImgIn, *oImgOut;
+
+        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        nTaille = nH * nW;
+
+        allocation_tableau(oImgIn, OCTET, nTaille);
+        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        allocation_tableau(oImgOut, OCTET, nTaille);
+
+        AES aes(AESKeyLength::AES_128);
+
+        unsigned char key[] = { 0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b };
+        unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
+
+        oImgOut = aes.EncryptOFB(oImgIn, nTaille, key,iv);
+
+        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        free(oImgIn);
+
+        std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
+    }
+    std::cout << "Fin chiffrement AES mode OFB"
+              << "\n";
+
+
+    // ============== FIN Chiffrement AES OFB ============== //
+
 
     // ============================ FIN Chiffrement AES ============================ //
 

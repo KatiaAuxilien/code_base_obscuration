@@ -87,6 +87,7 @@ unsigned char *AES::DecryptCBC(const unsigned char in[], unsigned int inLen,
   return out;
 }
 
+
 unsigned char *AES::EncryptCFB(const unsigned char in[], unsigned int inLen,
                                const unsigned char key[],
                                const unsigned char *iv) {
@@ -128,6 +129,50 @@ unsigned char *AES::DecryptCFB(const unsigned char in[], unsigned int inLen,
 
   return out;
 }
+
+unsigned char *AES::EncryptOFB(const unsigned char in[], unsigned int inLen,
+                               const unsigned char key[],
+                               const unsigned char *iv) {
+  CheckLength(inLen);
+  unsigned char *out = new unsigned char[inLen];
+  unsigned char block[blockBytesLen];
+  unsigned char encryptedBlock[blockBytesLen];
+  unsigned char *roundKeys = new unsigned char[4 * Nb * (Nr + 1)];
+  KeyExpansion(key, roundKeys);
+  memcpy(block, iv, blockBytesLen);
+  for (unsigned int i = 0; i < inLen; i += blockBytesLen) {
+      EncryptBlock(block, encryptedBlock, roundKeys);
+      XorBlocks(in + i, encryptedBlock, out + i, blockBytesLen);
+      memcpy(block, encryptedBlock, blockBytesLen);
+  }
+
+  delete[] roundKeys;
+
+  return out;
+}
+
+unsigned char *AES::DecryptOFB(const unsigned char in[], unsigned int inLen,
+                               const unsigned char key[],
+                               const unsigned char *iv) {
+  CheckLength(inLen);
+  unsigned char *out = new unsigned char[inLen];
+  unsigned char block[blockBytesLen];
+  unsigned char encryptedBlock[blockBytesLen];
+  unsigned char *roundKeys = new unsigned char[4 * Nb * (Nr + 1)];
+  KeyExpansion(key, roundKeys);
+  memcpy(block, iv, blockBytesLen);
+  for (unsigned int i = 0; i < inLen; i += blockBytesLen) {
+    EncryptBlock(block, encryptedBlock, roundKeys);
+        memcpy(block,encryptedBlock, blockBytesLen);
+
+    XorBlocks(in + i, encryptedBlock, out + i, blockBytesLen);
+  }
+
+  delete[] roundKeys;
+
+  return out;
+}
+
 
 void AES::IncrementCounter(unsigned char counter[blockBytesLen]) {
   for (int i = blockBytesLen - 1; i >= 0; i--) {

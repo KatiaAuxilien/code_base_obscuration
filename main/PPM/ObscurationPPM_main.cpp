@@ -25,7 +25,6 @@ void getFilePathsOfPPMFilesFromFolder(std::vector<std::string> & imagePaths, std
     }
 }
 
-
 void string2char(std::string str, char* charArray) {
     charArray = new char[str.length() + 1];
     std::strcpy(charArray, str.c_str());
