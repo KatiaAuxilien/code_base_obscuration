@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -Wextra -g
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = ObscurationPGM_main.cpp src/ImageBase.cpp
+SRC = ObscurationPGM_main.cpp src/ImageBase.cpp src/AES.cpp
 OBJ = $(SRC:src/%.cpp=obj/%.o)
 EXEC = ObscurationPGM_main.out
 
