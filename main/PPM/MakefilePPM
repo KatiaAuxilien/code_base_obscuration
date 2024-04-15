@@ -1,0 +1,19 @@
+CXX = g++
+CXXFLAGS = -Wall -Wextra -g 
+INCLUDES = -I./include/
+LDLIBS = 
+
+SRC = ObscurationPPM_main.cpp ../../src/ImageBase.cpp
+OBJ = $(SRC:../../src/%.cpp=../../obj/%.o)
+EXEC = ObscurationPPM_main.out
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDLIBS)
+
+../../obj/%.o: ../../src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+
+clean:
+	rm -f $(OBJ) $(EXEC)
