@@ -1,4 +1,5 @@
 #include "../include/AES.h"
+//Norme FIPS 197
 
 AES::AES(const AESKeyLength keyLength) {
   switch (keyLength) {
