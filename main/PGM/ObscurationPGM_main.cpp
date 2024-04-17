@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     int nTotalImg = v_sImagePaths.size();
-
+/*
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
         afficherBarreDeChargement(nImg_cpt, nTotalImg);
@@ -388,7 +388,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
     // ============== FIN Chiffrement sélectif par bit groupé============== //
     // ============================ FIN Chiffrement sélectif ============================ //
-
+*/
     // ============================ DEBUT Chiffrement AES ============================ //
     std::cout << "\t"
               << "Chiffrement AES"
@@ -401,7 +401,7 @@ int main(int argc, char **argv)
     std::cout << "mode ECB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -413,10 +413,10 @@ int main(int argc, char **argv)
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
 
-        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_ECB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
         int nH, nW, nTaille;
@@ -449,7 +449,7 @@ int main(int argc, char **argv)
     std::cout << "mode CBC..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -461,11 +461,12 @@ int main(int argc, char **argv)
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
 
-        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CBC_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
 
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
@@ -499,7 +500,7 @@ int main(int argc, char **argv)
     std::cout << "mode CTR..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -511,11 +512,12 @@ int main(int argc, char **argv)
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
 
-        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CTR_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
 
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
@@ -549,7 +551,7 @@ int main(int argc, char **argv)
     std::cout << "mode CFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -562,11 +564,12 @@ int main(int argc, char **argv)
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
 
-        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+        std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
 
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
@@ -600,7 +603,7 @@ int main(int argc, char **argv)
     std::cout << "mode OFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/" + sImgClass;
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -613,10 +616,11 @@ int main(int argc, char **argv)
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
 
-        std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
+
+        std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_OFB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
         int nH, nW, nTaille;
