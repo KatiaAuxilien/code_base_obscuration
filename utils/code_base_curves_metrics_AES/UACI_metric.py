@@ -36,28 +36,8 @@ def main() :
         uaci_modes.append(uaci)
 
 
-    # print("uaci")
-    for i in range(0,len(uaci_modes)):
-        # print(modes_op_aes[i])
-        # for y in range(0,len(uaci_modes[i])):
-        #     print(uaci_modes[i][y])
-            
-        x = np.arange(0, len(uaci_modes[i]))  # Indices des images
-        y = uaci_modes[i]  # uaci pour le premier mode opératoire
-
-        plt.plot(x, y,label=modes_op_aes[i])
-
-
-    # plt.yticks(np.arange(5.0, 8.5 + 0.1, 0.1))
-    # plt.xticks(np.arange(1, len(uaci_modes[0]), 1))
-    plt.xlabel('Images')
-    plt.ylabel('UACI')
-    plt.title('Courbe du UACI d\'images chiffrées par chiffrement AES en différents modes d\'opération')
-
-    plt.grid()
-    plt.legend()
-    plt.show()
-
+    with open("UACI_results.bin","wb") as f:
+        pickle.dump(uaci_modes,f)
 
 
 

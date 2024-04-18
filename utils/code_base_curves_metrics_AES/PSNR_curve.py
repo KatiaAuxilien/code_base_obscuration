@@ -19,7 +19,7 @@ def main() :
         x = np.arange(0, len(psnr_modes[i])) 
         y = psnr_modes[i] 
 
-        plt.plot(x, y,label=modes_op_aes[i],marker = 'o')
+        plt.plot(x, y,label=modes_op_aes[i])
 
 
     # plt.yticks(np.arange(5.0, 8.5 + 0.1, 0.1))
