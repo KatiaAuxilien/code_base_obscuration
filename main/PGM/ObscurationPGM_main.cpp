@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     int nTotalImg = v_sImagePaths.size();
-/*
+
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
         afficherBarreDeChargement(nImg_cpt, nTotalImg);
@@ -388,7 +388,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
     // ============== FIN Chiffrement sélectif par bit groupé============== //
     // ============================ FIN Chiffrement sélectif ============================ //
-*/
+
     // ============================ DEBUT Chiffrement AES ============================ //
     std::cout << "\t"
               << "Chiffrement AES"
