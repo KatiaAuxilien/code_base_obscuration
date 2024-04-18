@@ -26,7 +26,7 @@ def main() :
     # plt.xticks(np.arange(1, len(psnr_modes[0]), 1))
     plt.xlabel('Images')
     plt.ylabel('PSNR (dB)')
-    plt.title('Courbe du PSNR d\'images chiffrées par chiffrement AES en différents modes d\'opération')
+    plt.title('Courbes du PSNR d\'images chiffrées par chiffrement AES en différents modes d\'opération')
 
     plt.grid()
     plt.legend()

@@ -24,7 +24,7 @@ def main() :
 
     plt.xlabel('Images')
     plt.ylabel('UACI')
-    plt.title('Courbe du UACI d\'images chiffrées par chiffrement AES en différents modes d\'opération')
+    plt.title('Courbes du UACI d\'images chiffrées par chiffrement AES en différents modes d\'opération')
 
     plt.grid()
     plt.legend()

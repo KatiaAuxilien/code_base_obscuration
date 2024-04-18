@@ -33,7 +33,7 @@ def main() :
         x = np.arange(0, len(npcr_modes[i]))  # Indices des images
         y = npcr_modes[i]  # npcr pour le premier mode opératoire
 
-        plt.plot(x, y,label=modes_op_aes[i],marker = 'o')
+        plt.plot(x, y,label=modes_op_aes[i])
 
     # plt.yticks(np.arange(5.0, 8.5 + 0.1, 0.1))
     # plt.xticks(np.arange(1, len(npcr_modes[0]), 1))

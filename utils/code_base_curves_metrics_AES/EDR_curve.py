@@ -23,7 +23,7 @@ def main() :
 
     plt.xlabel('Images')
     plt.ylabel('EDR')
-    plt.title('Courbe du EDR d\'images chiffrées par chiffrement AES dans différents modes d\'opération')
+    plt.title('Courbes du EDR d\'images chiffrées par chiffrement AES en différents modes d\'opération')
     plt.grid()
     plt.legend()
     plt.show()

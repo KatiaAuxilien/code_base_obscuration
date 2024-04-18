@@ -54,7 +54,7 @@ def main() :
 
     plt.xlabel('Images')
     plt.ylabel('Entropie (bit)')
-    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES dans différents modes d\'opération')
+    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en différents modes d\'opération')
     plt.grid()
     plt.legend()
     plt.show()
