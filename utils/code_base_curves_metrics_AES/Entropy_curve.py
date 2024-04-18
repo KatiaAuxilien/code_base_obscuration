@@ -45,6 +45,10 @@ def main() :
     
     with open("Entropy_results.bin","rb") as f:
         entropy_modes = pickle.load(f)
+    
+    for i in range(len(entropy_modes)) :
+        for y in range(len(entropy_modes[i])):
+            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(entropy_modes[i][y]))
 
     for i in range(0,len(entropy_modes)):
         x = np.arange(0, len(entropy_modes[i]))

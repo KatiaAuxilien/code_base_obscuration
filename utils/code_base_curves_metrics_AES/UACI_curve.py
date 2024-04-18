@@ -16,6 +16,10 @@ def main() :
     with open("UACI_results.bin","rb") as f :
         uaci_modes = pickle.load(f)
 
+    for i in range(len(uaci_modes)) :
+        for y in range(len(uaci_modes[i])):
+            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(uaci_modes[i][y]))
+
     for i in range(0,len(uaci_modes)):            
         x = np.arange(0, len(uaci_modes[i])) 
         y = uaci_modes[i]

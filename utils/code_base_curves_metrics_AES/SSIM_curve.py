@@ -15,6 +15,11 @@ def main() :
     with open("SSIM_results.bin","rb") as f:
         ssim_modes = pickle.load(f)
 
+    for i in range(len(ssim_modes)) :
+        for y in range(len(ssim_modes[i])):
+            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(ssim_modes[i][y]))
+
+
     for i in range(0,len(ssim_modes)):
         x = np.arange(0, len(ssim_modes[i])) 
         y = ssim_modes[i] 

@@ -9,21 +9,16 @@ import pickle
 from lib.metriques import *
 
 def main() :
-
-    dossier_images = "origin\\"
-    file_tab_original = []
-    for fichier in os.listdir(dossier_images):
-        if fichier.endswith(".pgm") :
-            file_tab_original.append(dossier_images+fichier)
-            
-    cv_img_original = [cv2.imread(img, cv2.IMREAD_GRAYSCALE) for img in file_tab_original]
-
     modes_op_aes = ["ECB","CBC","CTR","CFB","OFB"]
-
     npcr_modes = []
 
     with open("NPCR_results.bin","rb") as f:
         npcr_modes = pickle.load(f)
+
+    for i in range(len(npcr_modes)) :
+        for y in range(len(npcr_modes[i])):
+            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(npcr_modes[i][y]))
+
 
     for i in range(0,len(npcr_modes)):
             

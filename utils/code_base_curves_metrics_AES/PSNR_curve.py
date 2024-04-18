@@ -15,6 +15,10 @@ def main() :
     with open("PSNR_results.bin","rb") as f:
         psnr_modes = pickle.load(f)
 
+    for i in range(len(psnr_modes)) :
+        for y in range(len(psnr_modes[i])):
+            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(psnr_modes[i][y]))
+
     for i in range(0,len(psnr_modes)):
         x = np.arange(0, len(psnr_modes[i])) 
         y = psnr_modes[i] 
