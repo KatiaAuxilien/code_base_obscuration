@@ -26,17 +26,12 @@ def main() :
         npcr_modes = pickle.load(f)
 
     for i in range(0,len(npcr_modes)):
-        # print(modes_op_aes[i])
-        # for y in range(0,len(npcr_modes[i])):
-        #     print(npcr_modes[i][y])
             
-        x = np.arange(0, len(npcr_modes[i]))  # Indices des images
-        y = npcr_modes[i]  # npcr pour le premier mode opératoire
+        x = np.arange(0, len(npcr_modes[i])) 
+        y = npcr_modes[i]
 
         plt.plot(x, y,label=modes_op_aes[i])
 
-    # plt.yticks(np.arange(5.0, 8.5 + 0.1, 0.1))
-    # plt.xticks(np.arange(1, len(npcr_modes[0]), 1))
     plt.xlabel('Images')
     plt.ylabel('NPCR')
     plt.title('Courbes du NPCR d\'images chiffrées par chiffrement AES en différents modes d\'opération')

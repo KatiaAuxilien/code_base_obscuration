@@ -22,8 +22,6 @@ def main() :
         plt.plot(x, y,label=modes_op_aes[i])
 
 
-    # plt.yticks(np.arange(5.0, 8.5 + 0.1, 0.1))
-    # plt.xticks(np.arange(1, len(psnr_modes[0]), 1))
     plt.xlabel('Images')
     plt.ylabel('PSNR (dB)')
     plt.title('Courbes du PSNR d\'images chiffrées par chiffrement AES en différents modes d\'opération')
