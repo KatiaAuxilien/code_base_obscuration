@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 import sys
+import pickle
 sys.path.append('../')
 
 from lib.metriques import *
@@ -35,29 +36,8 @@ def main() :
         ssim = get_SSIM_for_images_and_origins_gray(cv_img_original,cv_img_alt,cle)
         ssim_modes.append(ssim)
 
-
-    # print("ssim")
-    for i in range(0,len(ssim_modes)):
-        # print(modes_op_aes[i])
-        # for y in range(0,len(ssim_modes[i])):
-        #     print(ssim_modes[i][y])
-            
-        x = np.arange(0, len(ssim_modes[i]))  # Indices des images
-        y = ssim_modes[i]  # ssim pour le premier mode opératoire
-
-        plt.plot(x, y,label=modes_op_aes[i])
-
-
-    # plt.yticks(np.arange(0, 1 , 0.1))
-    # plt.xticks(np.arange(1, len(ssim_modes[0]), 1))
-    plt.xlabel('Images')
-    plt.ylabel('SSIM')
-    plt.title('Courbes de la SSIM d\'images chiffrées par chiffrement AES en différents modes d\'opération')
-
-    plt.grid()
-    plt.legend()
-    plt.show()
-
+    with open("SSIM_results.bin","wb") as f:
+        pickle.dump(ssim_modes,f)
 
 
 

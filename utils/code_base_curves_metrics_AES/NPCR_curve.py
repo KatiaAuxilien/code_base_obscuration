@@ -4,6 +4,7 @@ import os
 import cv2
 import sys
 sys.path.append('../')
+import pickle
 
 from lib.metriques import *
 
@@ -21,22 +22,9 @@ def main() :
 
     npcr_modes = []
 
-    for i in range(len(modes_op_aes)):
-        file_tab_alt = []
-        dossier_images = modes_op_aes[i]
-        for fichier in os.listdir(dossier_images):
-            if fichier.endswith(".pgm") :
-                file_tab_alt.append(dossier_images+"\\"+fichier)
-                
-        cv_img_alt = [cv2.imread(img, cv2.IMREAD_GRAYSCALE) for img in file_tab_alt]
+    with open("NPCR_results.bin","rb") as f:
+        npcr_modes = pickle.load(f)
 
-        cle = modes_op_aes[i]
-
-        npcr = get_NPCR_for_images_and_origins(cv_img_original,cv_img_alt,cle)
-        npcr_modes.append(npcr)
-
-
-    # print("npcr")
     for i in range(0,len(npcr_modes)):
         # print(modes_op_aes[i])
         # for y in range(0,len(npcr_modes[i])):

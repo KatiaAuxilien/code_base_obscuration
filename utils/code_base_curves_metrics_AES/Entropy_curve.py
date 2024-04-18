@@ -46,24 +46,17 @@ def main() :
     with open("Entropy_results.bin","rb") as f:
         entropy_modes = pickle.load(f)
 
-
-    # print("entropy")
     for i in range(0,len(entropy_modes)):
-        # print(modes_op_aes[i])
-        # for y in range(0,len(entropy_modes[i])):
-        #     print(entropy_modes[i][y])
-            
-        x = np.arange(0, len(entropy_modes[i]))  # Indices des images
-        y = entropy_modes[i]  # entropy pour le premier mode opératoire
+        x = np.arange(0, len(entropy_modes[i]))
+        y = entropy_modes[i]
 
-        plt.plot(x, y,label=modes_op_aes[i],marker = 'o')
+        plt.plot(x, y,label=modes_op_aes[i])
 
     plt.xlabel('Images')
-    plt.ylabel('Entropy')
-    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en différents modes d\'opération')
+    plt.ylabel('Entropie (bit)')
+    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES dans différents modes d\'opération')
     plt.grid()
     plt.legend()
-    # plt.xticks(np.arange(1, len(entropy_modes[0]), 1))
     plt.show()
 
 
