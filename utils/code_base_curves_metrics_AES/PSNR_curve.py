@@ -17,13 +17,39 @@ def main() :
 
     for i in range(len(psnr_modes)) :
         for y in range(len(psnr_modes[i])):
-            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(psnr_modes[i][y]))
+            if(y == 2) :
+                print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(psnr_modes[i][y]))
 
-    for i in range(0,len(psnr_modes)):
-        x = np.arange(0, len(psnr_modes[i])) 
-        y = psnr_modes[i] 
+    i=4
+    x = np.arange(0, len(psnr_modes[i])) 
+    y = psnr_modes[i] 
 
-        plt.plot(x, y,label=modes_op_aes[i])
+    plt.plot(x, y,label=modes_op_aes[i])
+
+    i=3
+    x = np.arange(0, len(psnr_modes[i])) 
+    y = psnr_modes[i] 
+
+    plt.plot(x, y,label=modes_op_aes[i])
+
+    i=2
+    x = np.arange(0, len(psnr_modes[i])) 
+    y = psnr_modes[i] 
+
+    plt.plot(x, y,label=modes_op_aes[i])
+
+    
+    i=0
+    x = np.arange(0, len(psnr_modes[i])) 
+    y = psnr_modes[i] 
+
+    plt.plot(x, y,label=modes_op_aes[i])
+    
+    i=1
+    x = np.arange(0, len(psnr_modes[i])) 
+    y = psnr_modes[i] 
+
+    plt.plot(x, y,label=modes_op_aes[i])
 
 
     plt.xlabel('Images')
@@ -33,8 +59,6 @@ def main() :
     plt.grid()
     plt.legend()
     plt.show()
-
-
 
 
 if __name__ == "__main__":

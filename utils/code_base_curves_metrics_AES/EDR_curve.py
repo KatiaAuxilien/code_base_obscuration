@@ -14,11 +14,6 @@ def main() :
 
     with open("EDR_results.bin","rb") as f:
         edr_modes = pickle.load(f)
-    
-    for i in range(len(edr_modes)) :
-        for y in range(len(edr_modes[i])):
-            print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(edr_modes[i][y]))
-
 
     for i in range(0,len(edr_modes)):
         x = np.arange(0, len(edr_modes[i]))
