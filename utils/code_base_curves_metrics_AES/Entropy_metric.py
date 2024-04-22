@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+ import math
 import numpy as np
 import os
 import cv2
@@ -20,8 +21,9 @@ def main() :
 
     modes_op_aes = ["ECB","CBC","CTR","CFB","OFB"]
 
-    ########## MOYENNE ##########
+    # ######### MOYENNE ##########
     # entropy_avg_modes = []
+    # entropy_ecart_type_modes = []
 
     # for mode in modes_op_aes:
     #     file_tab_alt = []
@@ -36,11 +38,19 @@ def main() :
 
     #     entropy = get_entropy_for_images_gray(cv_img_alt)
     #     sum = 0
+    #     sum_pow = 0
     #     for i in range(len(entropy)):
     #         sum += entropy[i]
+    #         sum_pow = pow(entropy[i],2)
     #     entropy_avg = sum / len(entropy)
+    #     entropy_avg_pow = sum_pow / len(entropy)
+
     #     entropy_avg_modes.append(entropy_avg)
-    #     #Ajouter l'entropy d'origine ??? pour une comparaison éventuelle ?
+
+    #     var = entropy_avg_pow - pow(entropy_avg,2)
+    #     o = math.sqrt(var)
+    #     entropy_ecart_type_modes.append()
+
 
 
     entropy_modes = []

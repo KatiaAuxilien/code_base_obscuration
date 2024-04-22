@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import math
 import numpy as np
 import os
 import cv2
@@ -32,18 +33,34 @@ def main() :
     ########## MOYENNE ##########
 
     entropy_avg_modes= []
+    entropy_ecart_type_modes = []
+
     sum = []
     sum1 = 0
+
+    t__sum_pow = []
+    sum_pow = 0
 
     for i in range(len(entropy_modes)) :
         sum1 = 0
         for y in range(len(entropy_modes[i])):
-            # print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(entropy_modes[i][y]))
-            sum1 +=entropy_modes[i][y];
+            sum1 +=entropy_modes[i][y]
+            x = entropy_modes[i][y]
+            sum_pow += pow(x,2)
         sum.append(sum1)
+        t__sum_pow.append(sum_pow)
 
     for i in range(len(entropy_modes)) :
-        entropy_avg_modes.append(sum[i] / 1000)
+        entropy_avg = sum[i] / len(entropy_modes[i])
+        entropy_avg_modes.append(entropy_avg)
+
+
+        entropy_avg_pow =  t__sum_pow[i] / len(entropy_modes[i])
+        var = entropy_avg_pow - pow(entropy_avg,2)
+        o = math.sqrt(var)
+        entropy_ecart_type_modes.append(o)
+
+
 
     ########## BARRES ##########
     x = modes_op_aes
@@ -54,6 +71,26 @@ def main() :
     plt.xlabel('Mode opératoire')
     plt.ylabel('Entropie (bit)')
     plt.title('Graphe de l\'entropie moyenne de 1000 images chiffrées par chiffrement AES en différents modes opératoire')
+
+    font = {'family': 'serif',
+            'color':  'black',
+            'weight': 'bold',
+            'size': 10
+            }
+
+    box = {'facecolor': 'none',
+        'edgecolor': 'green',
+        'boxstyle': 'round'
+        }
+
+    #add text with custom font
+    plt.text("ECB", 7.98411, 'σ = '+ str(entropy_ecart_type_modes[0])+'', fontdict=font, bbox=box)
+    plt.text("CBC", 7.99946, 'σ = '+ str(entropy_ecart_type_modes[1])+'', fontdict=font, bbox=box)
+    plt.text("CTR", 7.99930, 'σ = '+ str(entropy_ecart_type_modes[2])+'', fontdict=font, bbox=box)
+    plt.text("CFB", 7.99933, 'σ = '+ str(entropy_ecart_type_modes[3])+'', fontdict=font, bbox=box)
+    plt.text("OFB", 7.99930, 'σ = '+ str(entropy_ecart_type_modes[4])+'', fontdict=font, bbox=box)
+
+
 
     min = 7.975
     max = 8.001
