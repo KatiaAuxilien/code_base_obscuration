@@ -9,7 +9,7 @@ import pickle
 from lib.metriques import *
 
 def main() :
-    modes_op_aes = ["ECB","CBC","CTR","CFB","OFB"]
+    modes_op_aes = ["CFB","CFB_div"]
 
     # plt.plot(x, y, marker = 'o')
 
@@ -26,7 +26,7 @@ def main() :
 
     entropy_modes = []
     
-    with open("Entropy_results.bin","rb") as f:
+    with open("Entropy_2_results.bin","rb") as f:
         entropy_modes = pickle.load(f)
     
     ########## MOYENNE ##########
@@ -53,12 +53,12 @@ def main() :
 
     plt.xlabel('Mode opératoire')
     plt.ylabel('Entropie (bit)')
-    plt.title('Graphe de l\'entropie moyenne de 1000 images chiffrées par chiffrement AES en différents modes opératoire')
+    plt.title('Graphe de l\'entropie moyenne de .. images chiffrées par chiffrement AES en différents modes opératoire')
 
-    min = 7.975
-    max = 8.001
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.001))
+    # min = 7.975
+    # max = 8.001
+    # plt.ylim(min,max)
+    # plt.yticks(np.arange(min,max, 0.001))
     plt.show()
 
     ########## COURBES ##########
@@ -72,20 +72,6 @@ def main() :
     plt.xlabel('Images')
     plt.ylabel('Entropie (bit)')
     plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en différents modes d\'opération')
-    plt.grid()
-    plt.legend()
-    plt.show()
-
-    ########## COURBES INDIVIDUEL ##########
-    for i in range(0,len(entropy_modes)-1):
-        x = np.arange(0, len(entropy_modes[i+1]))
-        y = entropy_modes[i+1]
-
-        plt.plot(x, y,label=modes_op_aes[i])
-    
-    plt.xlabel('Images')
-    plt.ylabel('Entropie (bit)')
-    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en CBC,CTR,OFB,CFB')
     plt.grid()
     plt.legend()
     plt.show()

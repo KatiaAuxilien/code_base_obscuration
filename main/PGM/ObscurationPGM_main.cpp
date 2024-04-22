@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     int nTotalImg = v_sImagePaths.size();
-
+/*
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
         afficherBarreDeChargement(nImg_cpt, nTotalImg);
@@ -390,12 +390,13 @@ int main(int argc, char **argv)
     // ============================ FIN Chiffrement sélectif ============================ //
 
     // ============================ DEBUT Chiffrement AES ============================ //
+    */
     std::cout << "\t"
               << "Chiffrement AES"
               << "\n";
 
     char t_cImageInPath[200], t_cImageOutPath[200];
-
+/*
     // ============== DEBUT Chiffrement AES ECB ============== //
 
     std::cout << "mode ECB..."
@@ -649,8 +650,66 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES OFB ============== //
-
+*/
     // ============================ FIN Chiffrement AES ============================ //
+
+    // ============================ Chiffrement AES avec autre clé ============================ //
+
+
+
+    std::cout << "mode CFB avec déchiffrement par clé différente..."
+              << "\n";
+    std::strcpy(t_cImagePath, sFolderPath.c_str());
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB_div/";
+    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+
+    for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
+    {
+        afficherBarreDeChargement(nImg_cpt, nTotalImg);
+
+        std::string sImInPath = sFolderPath + '/' + sImgClass + "_ (" + std::to_string(nImg_cpt + 1) + ")" + FILE_EXT;
+        std::strcpy(t_cImageInPath, sImInPath.c_str());
+
+        std::string sNewImgPath = sNewFolderPath + "/";
+        createDirectoryIfNotExists(sNewImgPath);
+
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_div_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::strcpy(t_cImageOutPath, sImOutPath.c_str());
+
+
+        int nH, nW, nTaille;
+        OCTET *oImgIn, *oImgOut, *oImgOutDec;
+
+        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        nTaille = nH * nW;
+
+        allocation_tableau(oImgIn, OCTET, nTaille);
+        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        allocation_tableau(oImgOut, OCTET, nTaille);
+
+
+        AES aes(AESKeyLength::AES_128);
+
+        unsigned char key[] = {0x96, 0x39, 0xb4, 0xfa, 0xe6, 0x52, 0xd1, 0x84, 0x59, 0x97, 0x3b, 0xd9, 0x26, 0xde, 0x71, 0x5b};
+        unsigned char iv[] = {0xd7, 0x7a, 0x79, 0xe3, 0xb2, 0xc5, 0x93, 0x7d, 0x30, 0x69, 0xc4, 0x28, 0x59, 0x62, 0xa3, 0xc8};
+
+        oImgOut = aes.EncryptCFB(oImgIn, nTaille, key, iv);
+
+        unsigned char key_falsified[] = {0xa7, 0xe8, 0x46, 0x9f, 0x3a, 0x67, 0x89, 0xab, 0x92, 0x7a, 0x8b, 0x2e, 0x7c, 0xd2, 0xd1, 0xe3};
+
+        allocation_tableau(oImgOutDec, OCTET, nTaille);
+
+        oImgOutDec = aes.DecryptCFB(oImgOut, nTaille,key_falsified,iv);
+
+        ecrire_image_pgm(t_cImageOutPath, oImgOutDec, nH, nW);
+        free(oImgIn);
+        free(oImgOut);
+
+    }
+    afficherBarreDeChargement(nTotalImg, nTotalImg);
+    std::cout << "\n";
+
+
 
     return 0;
 }
