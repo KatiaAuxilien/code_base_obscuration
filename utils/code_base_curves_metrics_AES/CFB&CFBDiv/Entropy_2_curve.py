@@ -11,6 +11,7 @@ from lib.metriques import *
 
 def main() :
     modes_op_aes = ["CFB","CFB_dec_bad_key"]
+    couleurs = ['purple', 'pink']
 
     # plt.plot(x, y, marker = 'o')
 
@@ -64,7 +65,6 @@ def main() :
     ########## BARRES ##########
     x = modes_op_aes
     y = entropy_avg_modes
-    couleurs = ['purple', 'pink']
     plt.bar(x, y, color=couleurs)
 
     plt.xlabel('Mode opératoire')
@@ -97,7 +97,7 @@ def main() :
         x = np.arange(0, len(entropy_modes[i]))
         y = entropy_modes[i]
 
-        plt.plot(x, y,label=modes_op_aes[i])
+        plt.plot(x, y,label=modes_op_aes[i],color=couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('Entropie (bit/pixel)')

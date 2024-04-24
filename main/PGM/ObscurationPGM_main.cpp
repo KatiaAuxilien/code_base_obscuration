@@ -655,8 +655,6 @@ int main(int argc, char **argv)
 
     // ============================ Chiffrement AES avec autre clé ============================ //
 
-
-
     std::cout << "mode CFB avec déchiffrement par clé différente..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());

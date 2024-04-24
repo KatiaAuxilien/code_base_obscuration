@@ -12,6 +12,7 @@ from lib.metriques import *
 def main() :
     modes_op_aes = ["CFB","CFB_dec_bad_key"]
     edr_modes = []
+    couleurs = ['purple', 'pink']
 
     with open("EDR_2_results.bin","rb") as f:
         edr_modes = pickle.load(f)
@@ -20,7 +21,7 @@ def main() :
     for i in range(0,len(edr_modes)):
         x = np.arange(0, len(edr_modes[i]))
         y = edr_modes[i]  
-        plt.plot(x, y,label=modes_op_aes[i])
+        plt.plot(x, y,label=modes_op_aes[i],color=couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('EDR')
@@ -49,7 +50,6 @@ def main() :
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
-    couleurs = ['purple', 'pink']
     plt.bar(x, y, color=couleurs)
 
     plt.xlabel('Mode opératoire')
@@ -71,10 +71,10 @@ def main() :
     for i in range(0, len(modes_op_aes)):
         plt.text(modes_op_aes[i], t_avg[i] + 0.00005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
 
-    min = 0.4189
-    max = 0.4194
+    min = 0.4172
+    max = 0.4680
     plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.0001))
+    plt.yticks(np.arange(min,max, 0.001))
     plt.show()
 
 if __name__ == "__main__":

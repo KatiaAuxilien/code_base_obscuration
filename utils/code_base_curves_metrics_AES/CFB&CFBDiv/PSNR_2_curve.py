@@ -67,13 +67,12 @@ def main() :
         }
 
     #add text with custom font
-    for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
-
-    min = 8.330
-    max = 8.345
+    plt.text(modes_op_aes[0], t_avg[0] - 0.02, 's = '+ str(t_ecart_type[0])+'', fontdict=font, bbox=box)
+    plt.text(modes_op_aes[1], t_avg[1] +0.01 , 's = '+ str(t_ecart_type[1])+'', fontdict=font, bbox=box)
+    min = 7.735
+    max = 8.35
     plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.001))
+    plt.yticks(np.arange(min,max, 0.01))
     plt.show()
 
 
