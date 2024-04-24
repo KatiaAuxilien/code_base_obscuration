@@ -70,7 +70,7 @@ def main() :
         x = np.arange(0, len(npcr_modes[i])) 
         y = npcr_modes[i]
 
-        plt.plot(x, y,label=modes_op_aes[i])
+        plt.plot(x, y,label=modes_op_aes[i],color = couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('NPCR')

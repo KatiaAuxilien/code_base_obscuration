@@ -55,8 +55,12 @@ def main() :
         }
 
     for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.0005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
-
+        plt.text(modes_op_aes[i], t_avg[i] + 0.00005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+    
+    mini = min(t_avg) - 0.0005
+    maxi = max(t_avg) + 0.0005
+    plt.ylim(mini,maxi)
+    plt.yticks(np.arange(mini,maxi, 0.0001))
     plt.show()
 
 
@@ -66,7 +70,7 @@ def main() :
         x = np.arange(0, len(uaci_modes[i])) 
         y = uaci_modes[i]
 
-        plt.plot(x, y,label=modes_op_aes[i])
+        plt.plot(x, y,label=modes_op_aes[i],color=couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('UACI')
