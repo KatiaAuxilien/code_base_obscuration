@@ -546,7 +546,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES CTR ============== //
-
+*/
     // ============== DEBUT Chiffrement AES CFB ============== //
 
     std::cout << "mode CFB..."
@@ -598,7 +598,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES CFB ============== //
-
+/*
     // ============== DEBUT Chiffrement AES OFB ============== //
 
     std::cout << "mode OFB..."

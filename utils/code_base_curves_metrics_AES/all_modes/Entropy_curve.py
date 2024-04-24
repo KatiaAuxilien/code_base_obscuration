@@ -15,7 +15,7 @@ def main() :
     # plt.plot(x, y, marker = 'o')
 
     # plt.xlabel('Mode opératoire')
-    # plt.ylabel('Entropie')
+    # plt.ylabel('Entropie (bit/pixel)')
     # plt.title('Courbe de l\'entropie moyenne des modes opératoire du chiffrement AES')
 
     # min = 7.65
@@ -43,17 +43,16 @@ def main() :
 
     for i in range(len(entropy_modes)) :
         sum1 = 0
+        sum_pow = 0 
         for y in range(len(entropy_modes[i])):
             sum1 +=entropy_modes[i][y]
-            x = entropy_modes[i][y]
-            sum_pow += pow(x,2)
+            sum_pow += pow(entropy_modes[i][y],2)
         sum.append(sum1)
         t__sum_pow.append(sum_pow)
 
     for i in range(len(entropy_modes)) :
         entropy_avg = sum[i] / len(entropy_modes[i])
         entropy_avg_modes.append(entropy_avg)
-
 
         entropy_avg_pow =  t__sum_pow[i] / len(entropy_modes[i])
         var = entropy_avg_pow - pow(entropy_avg,2)
@@ -69,28 +68,23 @@ def main() :
     plt.bar(x, y, color=couleurs)
 
     plt.xlabel('Mode opératoire')
-    plt.ylabel('Entropie (bit)')
+    plt.ylabel('Entropie (bit/pixel)')
     plt.title('Graphe de l\'entropie moyenne de 1000 images chiffrées par chiffrement AES en différents modes opératoire')
 
     font = {'family': 'serif',
             'color':  'black',
             'weight': 'bold',
-            'size': 10
+            'size': 8
             }
 
     box = {'facecolor': 'none',
-        'edgecolor': 'green',
+        'edgecolor': 'black',
         'boxstyle': 'round'
         }
 
     #add text with custom font
-    plt.text("ECB", 7.98411, 'σ = '+ str(entropy_ecart_type_modes[0])+'', fontdict=font, bbox=box)
-    plt.text("CBC", 7.99946, 'σ = '+ str(entropy_ecart_type_modes[1])+'', fontdict=font, bbox=box)
-    plt.text("CTR", 7.99930, 'σ = '+ str(entropy_ecart_type_modes[2])+'', fontdict=font, bbox=box)
-    plt.text("CFB", 7.99933, 'σ = '+ str(entropy_ecart_type_modes[3])+'', fontdict=font, bbox=box)
-    plt.text("OFB", 7.99930, 'σ = '+ str(entropy_ecart_type_modes[4])+'', fontdict=font, bbox=box)
-
-
+    for i in range(0, len(modes_op_aes)):
+        plt.text(modes_op_aes[i], entropy_avg_modes[i] + 0.001 , 's = '+ str(entropy_ecart_type_modes[i])+'', fontdict=font, bbox=box)
 
     min = 7.975
     max = 8.001
@@ -107,25 +101,25 @@ def main() :
         plt.plot(x, y,label=modes_op_aes[i])
 
     plt.xlabel('Images')
-    plt.ylabel('Entropie (bit)')
+    plt.ylabel('Entropie (bit/pixel)')
     plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en différents modes d\'opération')
     plt.grid()
     plt.legend()
     plt.show()
 
     ########## COURBES INDIVIDUEL ##########
-    for i in range(0,len(entropy_modes)-1):
-        x = np.arange(0, len(entropy_modes[i+1]))
-        y = entropy_modes[i+1]
+    for i in range(0,len(entropy_modes)):
+        x = np.arange(0, len(entropy_modes[i]))
+        y = entropy_modes[i]
 
-        plt.plot(x, y,label=modes_op_aes[i])
-    
-    plt.xlabel('Images')
-    plt.ylabel('Entropie (bit)')
-    plt.title('Courbes d\'entropie d\'images chiffrées par chiffrement AES en CBC,CTR,OFB,CFB')
-    plt.grid()
-    plt.legend()
-    plt.show()
+        plt.plot(x, y,label=modes_op_aes[i], color=couleurs[i])
+        
+        plt.xlabel('Images')
+        plt.ylabel('Entropie (bit/pixel)')
+        plt.title('Courbe d\'entropie d\'images chiffrées par chiffrement AES en '+modes_op_aes[i])
+        plt.grid()
+        plt.legend()
+        plt.show()
 
 
 if __name__ == "__main__":
