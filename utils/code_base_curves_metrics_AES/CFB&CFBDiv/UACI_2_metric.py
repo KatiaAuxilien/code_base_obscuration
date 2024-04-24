@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 import sys
-sys.path.append('../')
 import pickle
-
+sys.path.append('../')
 from lib.metriques import *
+
 
 def main() :
 
-    dossier_images = "origin\\"
+    dossier_images = "..\\..\\..\\main\\img\\"
     file_tab_original = []
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
@@ -18,9 +18,9 @@ def main() :
             
     cv_img_original = [cv2.imread(img, cv2.IMREAD_GRAYSCALE) for img in file_tab_original]
 
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
 
-    edr_modes = []
+    uaci_modes = []
 
     file_tab_alt = []
     dossier_images = modes_op_aes[0]
@@ -32,9 +32,8 @@ def main() :
 
     cle = modes_op_aes[0]
 
-    edr = get_EDR_for_images_and_origins_gray(cv_img_original,cv_img_alt,cle)
-    edr_modes.append(edr)
-
+    uaci = get_UACI_for_images_and_origins(cv_img_original,cv_img_alt,cle)
+    uaci_modes.append(uaci)
 
     file_tab_alt = []
     dossier_images = modes_op_aes[1]
@@ -46,12 +45,11 @@ def main() :
 
     cle = modes_op_aes[1]
 
-    edr = get_EDR_for_images_and_origins_gray(cv_img_alt,cv_img_alt_2,cle)
-    edr_modes.append(edr)
+    uaci = get_UACI_for_images_and_origins(cv_img_alt,cv_img_alt_2,cle)
+    uaci_modes.append(uaci)
 
-    with open("EDR_2_results.bin","wb") as f:
-        pickle.dump(edr_modes,f)
-    
+    with open("UACI_2_results.bin","wb") as f:
+        pickle.dump(uaci_modes,f)
 
 
 

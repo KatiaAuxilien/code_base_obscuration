@@ -660,7 +660,7 @@ int main(int argc, char **argv)
     std::cout << "mode CFB avec déchiffrement par clé différente..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB_div/";
+    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB_dec_bad_key/";
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
@@ -673,7 +673,7 @@ int main(int argc, char **argv)
         std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
 
-        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_div_" + std::to_string(nImg_cpt) + FILE_EXT;
+        std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_dec_bad_key_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
 

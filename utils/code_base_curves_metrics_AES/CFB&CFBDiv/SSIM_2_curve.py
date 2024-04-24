@@ -10,19 +10,20 @@ sys.path.append('../')
 from lib.metriques import *
 
 def main() :
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
     ssim_modes = []
 
     with open("SSIM_2_results.bin","rb") as f:
         ssim_modes = pickle.load(f)
 
     ########## COURBES ##########
+    couleurs = ['purple', 'pink']
 
     for i in range(0,len(ssim_modes)):
         x = np.arange(0, len(ssim_modes[i])) 
         y = ssim_modes[i] 
 
-        plt.plot(x, y,label=modes_op_aes[i])
+        plt.plot(x, y,label=modes_op_aes[i], color = couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('SSIM')
@@ -50,7 +51,6 @@ def main() :
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
-    couleurs = ['purple', 'pink']
     plt.bar(x, y, color=couleurs)
 
     plt.xlabel('Mode opératoire')
@@ -68,13 +68,9 @@ def main() :
         'boxstyle': 'round'
         }
 
-    #add text with custom font
     for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.000005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
-    min = 0.0088
-    max = 0.008935
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.00001))
+        plt.text(modes_op_aes[i], t_avg[i] + 0.00005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+
     plt.show()
 
 

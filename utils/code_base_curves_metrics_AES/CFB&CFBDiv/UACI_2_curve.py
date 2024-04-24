@@ -11,7 +11,7 @@ from lib.metriques import *
 
 def main() :
 
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
     uaci_modes = []
 
     with open("UACI_2_results.bin","rb") as f :
@@ -56,18 +56,11 @@ def main() :
 
     for i in range(0, len(modes_op_aes)):
         plt.text(modes_op_aes[i], t_avg[i] + 0.0005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
-    min = 49.975
-    max = 50.005
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.001))
+
     plt.show()
 
 
     ########## COURBES ##########
-
-    # for i in range(len(uaci_modes)) :
-    #     for y in range(len(uaci_modes[i])):
-            # print(str(modes_op_aes[i]) + " n°"+ str(y)+" : " + str(uaci_modes[i][y]))
 
     for i in range(0,len(uaci_modes)):            
         x = np.arange(0, len(uaci_modes[i])) 
@@ -78,7 +71,6 @@ def main() :
     plt.xlabel('Images')
     plt.ylabel('UACI')
     plt.title('Courbes du UACI d\'images chiffrées par chiffrement AES en CFB et déchiffrées (mauvaise clé)')
-
     plt.grid()
     plt.legend()
     plt.show()

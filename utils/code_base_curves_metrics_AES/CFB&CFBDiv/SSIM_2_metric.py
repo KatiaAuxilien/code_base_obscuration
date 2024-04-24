@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 import os
 import cv2
 import sys
-sys.path.append('../')
 import pickle
+sys.path.append('../')
 
 from lib.metriques import *
 
 def main() :
-    dossier_images = "origin\\"
+
+    dossier_images = "..\\..\\..\\main\\img\\"
     file_tab_original = []
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
@@ -17,9 +18,10 @@ def main() :
             
     cv_img_original = [cv2.imread(img, cv2.IMREAD_GRAYSCALE) for img in file_tab_original]
 
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
 
-    npcr_modes = []
+    ssim_modes = []
+
 
     file_tab_alt = []
     dossier_images = modes_op_aes[0]
@@ -31,8 +33,9 @@ def main() :
 
     cle = modes_op_aes[0]
 
-    npcr = get_NPCR_for_images_and_origins(cv_img_original,cv_img_alt,cle)
-    npcr_modes.append(npcr)
+    ssim = get_SSIM_for_images_and_origins_gray(cv_img_original,cv_img_alt,cle)
+    ssim_modes.append(ssim)
+
 
     file_tab_alt = []
     dossier_images = modes_op_aes[1]
@@ -44,11 +47,12 @@ def main() :
 
     cle = modes_op_aes[1]
 
-    npcr = get_NPCR_for_images_and_origins(cv_img_alt,cv_img_alt_2,cle)
-    npcr_modes.append(npcr)
+    ssim = get_SSIM_for_images_and_origins_gray(cv_img_alt,cv_img_alt_2,cle)
+    ssim_modes.append(ssim)
 
-    with open("NPCR_2_results.bin","wb") as f :
-        pickle.dump(npcr_modes,f)
+
+    with open("SSIM_2_results.bin","wb") as f:
+        pickle.dump(ssim_modes,f)
 
 
 

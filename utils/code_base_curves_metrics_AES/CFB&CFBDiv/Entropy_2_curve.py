@@ -10,7 +10,7 @@ import pickle
 from lib.metriques import *
 
 def main() :
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
 
     # plt.plot(x, y, marker = 'o')
 

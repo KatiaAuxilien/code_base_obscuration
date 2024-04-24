@@ -10,17 +10,18 @@ import pickle
 from lib.metriques import *
 
 def main() :
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
+    couleurs = ['purple', 'pink']
+
     psnr_modes = []
 
     with open("PSNR_2_results.bin","rb") as f:
         psnr_modes = pickle.load(f)
 
     for i in range(len(psnr_modes)) :
-        for y in range(len(psnr_modes[i])):
-            x = np.arange(0, len(psnr_modes[i])) 
-            y = psnr_modes[i] 
-            plt.plot(x, y,label=modes_op_aes[i])
+        x = np.arange(0, len(psnr_modes[i])) 
+        y = psnr_modes[i] 
+        plt.plot(x, y,label=modes_op_aes[i], color = couleurs[i])
 
     plt.xlabel('Images')
     plt.ylabel('PSNR (dB)')
@@ -48,7 +49,6 @@ def main() :
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
-    couleurs = ['purple', 'pink']
     plt.bar(x, y, color=couleurs)
 
     plt.xlabel('Mode opératoire')
@@ -70,8 +70,8 @@ def main() :
     for i in range(0, len(modes_op_aes)):
         plt.text(modes_op_aes[i], t_avg[i] , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
 
-    min = 8.34
-    max = 8.355
+    min = 8.330
+    max = 8.345
     plt.ylim(min,max)
     plt.yticks(np.arange(min,max, 0.001))
     plt.show()

@@ -10,7 +10,7 @@ from lib.metriques import *
 
 def main() :
 
-    dossier_images = "..\\..\\main\\img\\"
+    dossier_images = "..\\..\\..\\main\\img\\"
     file_tab_original = []
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
@@ -18,7 +18,7 @@ def main() :
             
     cv_img_original = [cv2.imread(img, cv2.IMREAD_GRAYSCALE) for img in file_tab_original]
 
-    modes_op_aes = ["CFB","CFB_div"]
+    modes_op_aes = ["CFB","CFB_dec_bad_key"]
 
     ########## MOYENNE ##########
     # entropy_avg_modes = []
