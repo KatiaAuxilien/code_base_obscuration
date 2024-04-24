@@ -46,7 +46,7 @@ def main() :
     entropy_modes = []
     for i in range(len(modes_op_aes)):
         file_tab_alt = []
-        dossier_images = modes_op_aes[i]
+        dossier_images =dossier_images = "..\\..\\..\\main\\obscuredPGM\\encryption\\AES\\"+modes_op_aes[i]
         for fichier in os.listdir(dossier_images):
             if fichier.endswith(".pgm") :
                 file_tab_alt.append(dossier_images+"\\"+fichier)

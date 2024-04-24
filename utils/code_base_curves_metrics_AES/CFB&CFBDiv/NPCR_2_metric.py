@@ -22,7 +22,7 @@ def main() :
     npcr_modes = []
 
     file_tab_alt = []
-    dossier_images = modes_op_aes[0]
+    dossier_images = dossier_images =dossier_images = "..\\..\\..\\main\\obscuredPGM\\encryption\\AES\\"+modes_op_aes[0]
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
             file_tab_alt.append(dossier_images+"\\"+fichier)
@@ -35,7 +35,7 @@ def main() :
     npcr_modes.append(npcr)
 
     file_tab_alt = []
-    dossier_images = modes_op_aes[1]
+    dossier_images = "..\\..\\..\\main\\obscuredPGM\\encryption\\AES\\"+modes_op_aes[1]
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
             file_tab_alt.append(dossier_images+"\\"+fichier)

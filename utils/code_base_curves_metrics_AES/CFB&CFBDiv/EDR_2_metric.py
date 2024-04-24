@@ -9,7 +9,7 @@ from metriques import *
 
 def main() :
 
-    dossier_images = "..\\origin\\"
+    dossier_images = "..\\..\\..\\main\\img\\"
     file_tab_original = []
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
@@ -22,7 +22,8 @@ def main() :
     edr_modes = []
 
     file_tab_alt = []
-    dossier_images = modes_op_aes[0]
+    dossier_images = "..\\..\\..\\main\\obscuredPGM\\encryption\\AES\\"+modes_op_aes[0]
+    print(dossier_images)
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
             file_tab_alt.append(dossier_images+"\\"+fichier)
@@ -36,7 +37,7 @@ def main() :
 
 
     file_tab_alt = []
-    dossier_images = modes_op_aes[1]
+    dossier_images = "..\\..\\..\\main\\obscuredPGM\\encryption\\AES\\"+modes_op_aes[1]
     for fichier in os.listdir(dossier_images):
         if fichier.endswith(".pgm") :
             file_tab_alt.append(dossier_images+"\\"+fichier)
