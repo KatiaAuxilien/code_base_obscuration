@@ -31,6 +31,11 @@ def main() :
     with open("Entropy_2_results.bin","rb") as f:
         entropy_modes = pickle.load(f)
     
+    
+    for i in range(len(entropy_modes)):
+        for y in range(len(entropy_modes[i])) :
+            print(modes_op_aes[i] + ':' + str(entropy_modes[i][y]))
+
     ########## MOYENNE ##########
 
     entropy_avg_modes= []

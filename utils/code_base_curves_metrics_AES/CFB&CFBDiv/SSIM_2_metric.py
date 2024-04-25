@@ -47,7 +47,7 @@ def main() :
 
     cle = modes_op_aes[1]
 
-    ssim = get_SSIM_for_images_and_origins_gray(cv_img_alt,cv_img_alt_2,cle)
+    ssim = get_SSIM_for_images_and_origins_gray(cv_img_original,cv_img_alt_2,cle)
     ssim_modes.append(ssim)
 
 

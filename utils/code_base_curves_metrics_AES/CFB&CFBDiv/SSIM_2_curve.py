@@ -16,6 +16,10 @@ def main() :
     with open("SSIM_2_results.bin","rb") as f:
         ssim_modes = pickle.load(f)
 
+    for i in range(len(ssim_modes)):
+        for y in range(len(ssim_modes[i])) :
+            print(modes_op_aes[i] + ':' + str(ssim_modes[i][y]))
+
     ########## COURBES ##########
     couleurs = ['purple', 'pink']
 
@@ -69,7 +73,12 @@ def main() :
         }
 
     for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.00005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+        plt.text(modes_op_aes[i], t_avg[i] + 0.000001 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+
+    min = 0.00885
+    max = 0.008871
+    plt.ylim(min,max)
+    plt.yticks(np.arange(min,max, 0.000001))
 
     plt.show()
 

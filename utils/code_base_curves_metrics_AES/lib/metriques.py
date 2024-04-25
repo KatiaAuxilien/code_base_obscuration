@@ -18,18 +18,30 @@ def calculate_NPCR(image1, image2):
     npcr = ratio * 100
     return npcr
 
+# def calculate_UACI(image1, image2):
+#     if image1.shape != image2.shape:
+#         raise ValueError("Erreur ! Tailles des images différentes !")
+#     sum = 0
+#     nb_pixels = image1.shape[0] * image1.shape[1]
+#     for i in range(image1.shape[0]):
+#         for j in range(image1.shape[1]):
+#             sum += (image1[i][j] - image2[i][j]) / 255.0
+#     ratio = sum / nb_pixels
+#     ratio = np.mean(ratio)
+#     uaci = ratio * 100
+#     return uaci
+
+
 def calculate_UACI(image1, image2):
     if image1.shape != image2.shape:
         raise ValueError("Erreur ! Tailles des images différentes !")
     sum = 0
-    nb_pixels = image1.shape[0] * image1.shape[1]
     for i in range(image1.shape[0]):
         for j in range(image1.shape[1]):
-            sum += (image1[i][j] - image2[i][j]) / 255.0
-    ratio = sum / nb_pixels
-    ratio = np.mean(ratio)
-    uaci = ratio * 100
+            sum += (abs(int(image1[i][j]) - int(image2[i][j]))) 
+    uaci = sum * 100 / (image1.shape[0] * image1.shape[1] * 255)
     return uaci
+
 
 def extract_edges_rgb(image):
     image_Y = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

@@ -44,7 +44,7 @@ def main() :
 
     cle = modes_op_aes[1]
 
-    npcr = get_NPCR_for_images_and_origins(cv_img_alt,cv_img_alt_2,cle)
+    npcr = get_NPCR_for_images_and_origins(cv_img_original,cv_img_alt_2,cle)
     npcr_modes.append(npcr)
 
     with open("NPCR_2_results.bin","wb") as f :

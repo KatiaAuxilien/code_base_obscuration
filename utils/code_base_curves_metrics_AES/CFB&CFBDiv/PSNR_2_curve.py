@@ -18,6 +18,11 @@ def main() :
     with open("PSNR_2_results.bin","rb") as f:
         psnr_modes = pickle.load(f)
 
+    for i in range(len(psnr_modes)):
+        for y in range(len(psnr_modes[i])) :
+            print(modes_op_aes[i] + ':' + str(psnr_modes[i][y]))
+
+
     for i in range(len(psnr_modes)) :
         x = np.arange(0, len(psnr_modes[i])) 
         y = psnr_modes[i] 
@@ -67,12 +72,12 @@ def main() :
         }
 
     #add text with custom font
-    plt.text(modes_op_aes[0], t_avg[0] - 0.02, 's = '+ str(t_ecart_type[0])+'', fontdict=font, bbox=box)
-    plt.text(modes_op_aes[1], t_avg[1] +0.01 , 's = '+ str(t_ecart_type[1])+'', fontdict=font, bbox=box)
-    min = 7.735
-    max = 8.35
+    plt.text(modes_op_aes[0], t_avg[0] + 0.00001, 's = '+ str(t_ecart_type[0])+'', fontdict=font, bbox=box)
+    plt.text(modes_op_aes[1], t_avg[1] +0.00001 , 's = '+ str(t_ecart_type[1])+'', fontdict=font, bbox=box)
+    min = 8.343
+    max = 8.34324
     plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.01))
+    plt.yticks(np.arange(min,max, 0.00001))
     plt.show()
 
 

@@ -17,6 +17,11 @@ def main() :
     with open("EDR_2_results.bin","rb") as f:
         edr_modes = pickle.load(f)
 
+    for i in range(len(edr_modes)):
+        for y in range(len(edr_modes[i])) :
+            print(modes_op_aes[i] + ':' + str(edr_modes[i][y]))
+
+
     ############ COURBES ############
     for i in range(0,len(edr_modes)):
         x = np.arange(0, len(edr_modes[i]))
@@ -69,12 +74,12 @@ def main() :
 
     #add text with custom font
     for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.00005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+        plt.text(modes_op_aes[i], t_avg[i] + 0.000005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
 
-    min = 0.4172
-    max = 0.4680
+    min = 0.41907
+    max = 0.4191348
     plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.001))
+    plt.yticks(np.arange(min,max, 0.00001))
     plt.show()
 
 if __name__ == "__main__":

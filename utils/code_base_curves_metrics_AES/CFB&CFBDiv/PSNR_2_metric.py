@@ -45,7 +45,7 @@ def main() :
 
     cle = modes_op_aes[1]
 
-    psnr = get_PSNR_for_images_and_origins(cv_img_alt,cv_img_alt_2,cle)
+    psnr = get_PSNR_for_images_and_origins(cv_img_original,cv_img_alt_2,cle)
     psnr_modes.append(psnr)
 
     with open("PSNR_2_results.bin","wb") as f:

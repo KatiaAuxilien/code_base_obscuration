@@ -16,6 +16,11 @@ def main() :
     with open("NPCR_2_results.bin","rb") as f:
         npcr_modes = pickle.load(f)
 
+
+    for i in range(len(npcr_modes)):
+        for y in range(len(npcr_modes[i])) :
+            print(modes_op_aes[i] + ':' + str(npcr_modes[i][y]))
+
     ############ MOYENNES ############
 
     t_ecart_type = []
