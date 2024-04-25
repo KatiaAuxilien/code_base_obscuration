@@ -39,6 +39,7 @@ def main() :
     ############ MOYENNES ############
 
     t_ecart_type = []
+    t_ecart_type2 = []
     t_avg = []
     for i in range(0, len(ssim_modes)):
         sum = 0
@@ -51,11 +52,14 @@ def main() :
         t_avg.append(avg)
         var = pow_avg - pow(avg,2)
         t_ecart_type.append(math.sqrt(var))
+        t_ecart_type2.append(math.sqrt(var)/2)
+
 
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
     plt.bar(x, y, color=couleurs)
+    plt.errorbar(range(len(y)),y,t_ecart_type2, fmt='none',capsize=10,ecolor='black',elinewidth=2,capthick=2)
 
     plt.xlabel('Mode opératoire')
     plt.ylabel('SSIM')
@@ -72,13 +76,20 @@ def main() :
         'boxstyle': 'round'
         }
 
-    for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.000001 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+    avg_min, avg_max = min(t_avg), max(t_avg)
+    ecart_min, ecart_max = min(t_ecart_type), max(t_ecart_type)
 
-    min = 0.00885
-    max = 0.008871
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.000001))
+    facteur = 0.60
+
+    mini = avg_min - facteur * ecart_max
+    maxi = avg_max + facteur * ecart_max
+
+    plt.ylim(mini, maxi)
+    espacement = (maxi - mini) / 30
+    plt.yticks(np.arange(mini, maxi + espacement, espacement))
+
+    for i in range(0, len(modes_op_aes)):
+        plt.text( modes_op_aes[i], t_avg[i] + espacement/2 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
 
     plt.show()
 

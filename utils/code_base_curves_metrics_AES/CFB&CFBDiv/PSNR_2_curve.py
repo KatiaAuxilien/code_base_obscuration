@@ -18,9 +18,9 @@ def main() :
     with open("PSNR_2_results.bin","rb") as f:
         psnr_modes = pickle.load(f)
 
-    for i in range(len(psnr_modes)):
-        for y in range(len(psnr_modes[i])) :
-            print(modes_op_aes[i] + ':' + str(psnr_modes[i][y]))
+    # for i in range(len(psnr_modes)):
+    #     for y in range(len(psnr_modes[i])) :
+    #         print(modes_op_aes[i] + ':' + str(psnr_modes[i][y]))
 
 
     for i in range(len(psnr_modes)) :
@@ -38,6 +38,8 @@ def main() :
     ############ MOYENNES ############
 
     t_ecart_type = []
+    t_ecart_type2 = []
+
     t_avg = []
     for i in range(0, len(psnr_modes)):
         sum = 0
@@ -50,11 +52,14 @@ def main() :
         t_avg.append(avg)
         var = pow_avg - pow(avg,2)
         t_ecart_type.append(math.sqrt(var))
+        t_ecart_type2.append(math.sqrt(var)/2)
+
 
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
     plt.bar(x, y, color=couleurs)
+    plt.errorbar(range(len(y)),y,t_ecart_type2, fmt='none',capsize=10,ecolor='black',elinewidth=2,capthick=2)
 
     plt.xlabel('Mode opératoire')
     plt.ylabel('PSNR (dB)')
@@ -71,13 +76,22 @@ def main() :
         'boxstyle': 'round'
         }
 
-    #add text with custom font
-    plt.text(modes_op_aes[0], t_avg[0] + 0.00001, 's = '+ str(t_ecart_type[0])+'', fontdict=font, bbox=box)
-    plt.text(modes_op_aes[1], t_avg[1] +0.00001 , 's = '+ str(t_ecart_type[1])+'', fontdict=font, bbox=box)
-    min = 8.343
-    max = 8.34324
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.00001))
+    
+    avg_min, avg_max = min(t_avg), max(t_avg)
+    ecart_min, ecart_max = min(t_ecart_type), max(t_ecart_type)
+
+    facteur = 0.60
+
+    mini = avg_min - facteur * ecart_max
+    maxi = avg_max + facteur * ecart_max
+
+    plt.ylim(mini, maxi)
+    espacement = (maxi - mini) / 30
+    plt.yticks(np.arange(mini, maxi + espacement, espacement))
+
+    for i in range(0, len(modes_op_aes)):
+        plt.text( modes_op_aes[i], t_avg[i] + espacement/2 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+
     plt.show()
 
 

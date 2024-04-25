@@ -17,9 +17,9 @@ def main() :
     with open("EDR_2_results.bin","rb") as f:
         edr_modes = pickle.load(f)
 
-    for i in range(len(edr_modes)):
-        for y in range(len(edr_modes[i])) :
-            print(modes_op_aes[i] + ':' + str(edr_modes[i][y]))
+    # for i in range(len(edr_modes)):
+    #     for y in range(len(edr_modes[i])) :
+    #         print(modes_op_aes[i] + ':' + str(edr_modes[i][y]))
 
 
     ############ COURBES ############
@@ -39,6 +39,7 @@ def main() :
 ############ MOYENNES ############
 
     t_ecart_type = []
+    t_ecart_type2 = []
     t_avg = []
     for i in range(0, len(edr_modes)):
         sum = 0
@@ -51,11 +52,14 @@ def main() :
         t_avg.append(avg)
         var = pow_avg - pow(avg,2)
         t_ecart_type.append(math.sqrt(var))
+        t_ecart_type2.append(math.sqrt(var)/2)
+
 
     ########## BARRES ##########
     x = modes_op_aes
     y = t_avg
     plt.bar(x, y, color=couleurs)
+    plt.errorbar(range(len(y)),y,t_ecart_type2, fmt='none',capsize=10,ecolor='black',elinewidth=2,capthick=2)
 
     plt.xlabel('Mode opératoire')
     plt.ylabel('EDR')
@@ -72,14 +76,22 @@ def main() :
         'boxstyle': 'round'
         }
 
-    #add text with custom font
-    for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], t_avg[i] + 0.000005 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+    
+    avg_min, avg_max = min(t_avg), max(t_avg)
+    ecart_min, ecart_max = min(t_ecart_type), max(t_ecart_type)
 
-    min = 0.41907
-    max = 0.4191348
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.00001))
+    facteur = 0.60
+
+    mini = avg_min - facteur * ecart_max
+    maxi = avg_max + facteur * ecart_max
+
+    plt.ylim(mini, maxi)
+    espacement = (maxi - mini) / 30
+    plt.yticks(np.arange(mini, maxi + espacement, espacement))
+
+    for i in range(0, len(modes_op_aes)):
+        plt.text( modes_op_aes[i], t_avg[i] + espacement/2 , 's = '+ str(t_ecart_type[i])+'', fontdict=font, bbox=box)
+
     plt.show()
 
 if __name__ == "__main__":

@@ -32,15 +32,15 @@ def main() :
         entropy_modes = pickle.load(f)
     
     
-    for i in range(len(entropy_modes)):
-        for y in range(len(entropy_modes[i])) :
-            print(modes_op_aes[i] + ':' + str(entropy_modes[i][y]))
+    # for i in range(len(entropy_modes)):
+    #     for y in range(len(entropy_modes[i])) :
+    #         print(modes_op_aes[i] + ':' + str(entropy_modes[i][y]))
 
     ########## MOYENNE ##########
 
     entropy_avg_modes= []
     entropy_ecart_type_modes = []
-
+    entropy_ecart_type_modes2=[]
     sum = []
     sum1 = 0
 
@@ -64,13 +64,14 @@ def main() :
         var = entropy_avg_pow - pow(entropy_avg,2)
         o = math.sqrt(var)
         entropy_ecart_type_modes.append(o)
-
+        entropy_ecart_type_modes2.append(o/2)
 
 
     ########## BARRES ##########
     x = modes_op_aes
     y = entropy_avg_modes
     plt.bar(x, y, color=couleurs)
+    plt.errorbar(range(len(y)),y,entropy_ecart_type_modes2, fmt='none',capsize=10,ecolor='black',elinewidth=2,capthick=2)
 
     plt.xlabel('Mode opératoire')
     plt.ylabel('Entropie (bit/pixel)')
@@ -87,14 +88,22 @@ def main() :
         'boxstyle': 'round'
         }
 
-    #add text with custom font
-    for i in range(0, len(modes_op_aes)):
-        plt.text(modes_op_aes[i], entropy_avg_modes[i] + 0.001 , 's = '+ str(entropy_ecart_type_modes[i])+'', fontdict=font, bbox=box)
+    
+    avg_min, avg_max = min(entropy_avg_modes), max(entropy_avg_modes)
+    ecart_min, ecart_max = min(entropy_ecart_type_modes), max(entropy_ecart_type_modes)
 
-    min = 7.975
-    max = 8.001
-    plt.ylim(min,max)
-    plt.yticks(np.arange(min,max, 0.001))
+    facteur = 0.50
+
+    mini = avg_min - facteur * ecart_max
+    maxi = avg_max + facteur * ecart_max
+
+    plt.ylim(mini, maxi)
+    espacement = (maxi - mini) / 30
+    plt.yticks(np.arange(mini, maxi + espacement, espacement))
+
+    for i in range(0, len(modes_op_aes)):
+        plt.text( modes_op_aes[i], entropy_avg_modes[i] + espacement/2 , 's = '+ str(entropy_ecart_type_modes[i])+'', fontdict=font, bbox=box)
+
     plt.show()
 
     ########## COURBES ##########
