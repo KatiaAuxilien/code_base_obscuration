@@ -1,6 +1,18 @@
-//
-// Created by Norman on 06/03/2024.
-//
+/******************************************************************************
+* ICAR_Interns_Library
+*
+* Fichier : obscurationPPM.h
+*
+* Description : 
+*
+* Auteur : Norman HUTTE
+*
+* Mail : 
+*
+* Date : 06/03/2024
+*
+*******************************************************************************/
+
 #include "ImageBase.h"
 #include "obscurationCommon.h"
 

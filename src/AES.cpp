@@ -1,5 +1,19 @@
+/******************************************************************************
+* ICAR_Library
+*
+* Fichier : AES.cpp
+*
+* Description : AES en norme FIPS 197
+*
+* Auteur : Norman HUTTE
+*
+* Mail : 
+*
+* Date : 
+*
+*******************************************************************************/
+
 #include "../include/AES.h"
-//Norme FIPS 197
 
 AES::AES(const AESKeyLength keyLength) {
   switch (keyLength) {

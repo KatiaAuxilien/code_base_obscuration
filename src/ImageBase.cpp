@@ -15,7 +15,8 @@
 
 #include "../include/ImageBase.h"
 #include "../include/image_ppm.h"
-
+#include "../include/image_pgm.h"
+#include "../include/image.h"
 
 ImageBase::ImageBase(void)
 {
