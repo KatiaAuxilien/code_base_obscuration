@@ -93,11 +93,16 @@ int main(int argc, char **argv)
 
 	/*******Encryption*******/
 	if (isEncryption) {
-//TODO : Ajouter le chemin en argument de l'image à chiffrer ou déchiffrer
-//		char cNomImgLue[250] = "C:\\Users\\Bianca\\Documents\\Paillier_Image\\01_Lena.pgm";
 		char cNomImgLue[250];
 		strcpy(cNomImgLue,s_file.c_str());
-		char cNomImgEcriteEnc[250] = "24E.pgm";
+
+		string toErase = ".pgm";
+		size_t pos = s_file.find(".pgm");
+		s_file.erase(pos,toErase.length());
+		string s_fileNew = s_file + "_E.pgm";
+		char cNomImgEcriteEnc[250];
+		strcpy(cNomImgEcriteEnc,s_fileNew.c_str());
+
 		int nH, nW, nTaille;
 
 		OCTET* ImgIn, * ImgOutDec;
