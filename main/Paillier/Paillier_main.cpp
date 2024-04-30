@@ -91,42 +91,33 @@ int main(int argc, char **argv)
     }
 
 
-	// FILE* f_image = NULL;
-	// f_image = fopen(s_file,"r");
-	// if(f_image == NULL){
-	// 	fprintf(stderr, "Impossible to open %s.",s_file);
-	// 	fclose(f_image);
-	// 	return 1;
-	// }
-
-
-
 	/*******Encryption*******/
-// 	if (isEncryption) {
-// //TODO : Ajouter le chemin en argument de l'image à chiffrer ou déchiffrer
-// //		char cNomImgLue[250] = "C:\\Users\\Bianca\\Documents\\Paillier_Image\\01_Lena.pgm";
-// 		char cNomImgLue[250] = "24.pgm";
-// 		char cNomImgEcriteEnc[250] = "24E.pgm";
-// 		int nH, nW, nTaille;
+	if (isEncryption) {
+//TODO : Ajouter le chemin en argument de l'image à chiffrer ou déchiffrer
+//		char cNomImgLue[250] = "C:\\Users\\Bianca\\Documents\\Paillier_Image\\01_Lena.pgm";
+		char cNomImgLue[250];
+		strcpy(cNomImgLue,s_file.c_str());
+		char cNomImgEcriteEnc[250] = "24E.pgm";
+		int nH, nW, nTaille;
 
-// 		OCTET* ImgIn, * ImgOutDec;
-// 		uint64_t* ImgOutEnc;
+		OCTET* ImgIn, * ImgOutDec;
+		uint64_t* ImgOutEnc;
 
-// 		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
-// 		nTaille = nH * nW;
+		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		nTaille = nH * nW;
 
-// 		allocation_tableau(ImgIn, OCTET, nTaille);
-// 		lire_image_pgm(cNomImgLue, ImgIn, nH * nW);
-// 		allocation_tableau(ImgOutEnc, uint64_t, nTaille);
+		allocation_tableau(ImgIn, OCTET, nTaille);
+		lire_image_pgm(cNomImgLue, ImgIn, nH * nW);
+		allocation_tableau(ImgOutEnc, uint64_t, nTaille);
 
-// 		for (int i = 0; i < nTaille; i++) {
-// 			uint64_t c = paillierEncryption(n, g, ImgIn[i]);
-// 			ImgOutEnc[i] = c;
-// 		}
+		for (int i = 0; i < nTaille; i++) {
+			uint64_t c = paillierEncryption(n, g, ImgIn[i]);
+			ImgOutEnc[i] = c;
+		}
 
-// 		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n * n);
-// 		free(ImgIn); free(ImgOutEnc); 
-// 	}
+		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n * n);
+		free(ImgIn); free(ImgOutEnc); 
+	}
 	
 // 	/*******Decryption*******/
 // 	else {
