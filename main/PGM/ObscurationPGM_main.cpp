@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     int nTotalImg = v_sImagePaths.size();
-/*
+
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
         afficherBarreDeChargement(nImg_cpt, nTotalImg);
@@ -390,13 +390,13 @@ int main(int argc, char **argv)
     // ============================ FIN Chiffrement sélectif ============================ //
 
     // ============================ DEBUT Chiffrement AES ============================ //
-    */
+   
     std::cout << "\t"
               << "Chiffrement AES"
               << "\n";
 
     char t_cImageInPath[200], t_cImageOutPath[200];
-/*
+
     // ============== DEBUT Chiffrement AES ECB ============== //
 
     std::cout << "mode ECB..."
@@ -546,7 +546,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES CTR ============== //
-*/
+
     // ============== DEBUT Chiffrement AES CFB ============== //
 
     std::cout << "mode CFB..."
@@ -598,7 +598,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES CFB ============== //
-/*
+
     // ============== DEBUT Chiffrement AES OFB ============== //
 
     std::cout << "mode OFB..."
@@ -650,7 +650,7 @@ int main(int argc, char **argv)
     std::cout << "\n";
 
     // ============== FIN Chiffrement AES OFB ============== //
-*/
+
     // ============================ FIN Chiffrement AES ============================ //
 
     // ============================ Chiffrement AES avec autre clé ============================ //

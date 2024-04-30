@@ -2,9 +2,21 @@
 
 #define BITSETSIZE 64
 
+using namespace std;
+
+bool isPrime(int n, int i = 2)
+{
+	if (n <= 2) return (n == 2) ? true : false;
+	if (n % i == 0) return false;
+	if (i * i > n)
+	return true;
+
+	return isPrime(n, i + 1);
+}
+
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n) {
 	uint64_t c = 1;
-	std::bitset<BITSETSIZE> bits = std::bitset<BITSETSIZE>(e);
+	bitset<BITSETSIZE> bits = bitset<BITSETSIZE>(e);
 
 	for (int i = BITSETSIZE - 1; i >= 0; i--) {
 		c = c * c % n;

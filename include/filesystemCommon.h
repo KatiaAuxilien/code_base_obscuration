@@ -3,7 +3,8 @@
 *
 * Fichier : filesystemCommon.h
 *
-* Description : Classe contenant des fonctions qui permettent 
+* Description : Classe contenant des fonctions qui permettent de traiter des 
+*  images dans un système de fichiers. Inspirée de function.h de Norman Hutte.
 *
 * Auteurs : Norman Hutte, Katia Auxilien
 *

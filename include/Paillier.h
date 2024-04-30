@@ -8,6 +8,8 @@
 #ifndef PAILLIER_CRYPTOSYSTEM
 #define PAILLIER_CRYPTOSYSTEM
 
+bool isPrime(int n, int i);
+
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n);
 
 uint64_t gcd(uint64_t a, uint64_t b);

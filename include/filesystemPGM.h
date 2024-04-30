@@ -1,10 +1,10 @@
 /******************************************************************************
 * ICAR_Interns_Library
 *
-* Fichier : ObscurationPgm.h
+* Fichier : filesystementPGM.h
 *
-* Description : Classe contenant des fonctions qui permettent d'obscurcir 
-*    une image au format .pgm. Classe inspirée de Functions.h de Norman Hutte.
+* Description : Classe contenant des fonctions qui permettent de récupérer des
+*    images au format .pgm. Classe inspirée de Functions.h de Norman Hutte.
 *
 * Auteur : Katia Auxilien
 *
