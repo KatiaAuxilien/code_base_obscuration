@@ -39,7 +39,6 @@ uint64_t checkNumbersArgument(string pos, char * arg){
 	return p;
 }
 
-
 bool endsWith(const std::string& str, const std::string& suffix) {
     return str.size() >= suffix.size() &&
            str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
@@ -50,7 +49,7 @@ int main(int argc, char **argv)
 
     if (argc != 5)
     {
-        printf("Usage : [e or d] p q file\n");
+        printf("Usage : [e or d] p q file.pgm\n");
         return 1;
     }
 
@@ -77,10 +76,15 @@ int main(int argc, char **argv)
 	}
 
 	uint64_t n = p * q;
-	uint64_t g = n + 1;
+	vector<int> e =  calc_set_same_remainder_divide_euclide(n); 
+	int i_position_e = rand() % e.size();
+	uint64_t g = e.at(i_position_e);
 	// uint64_t g = rand() % (uint64_t)pow(n, 2);
 	uint64_t lambda, mu;
 	generatePrivateKey(lambda, mu, p, q, n, g);
+
+	// Private key (lambda;mu)
+	// Public key (n;g)
 
 	char* c_file = argv[4];
 	string s_file = c_file;
@@ -120,7 +124,9 @@ int main(int argc, char **argv)
 			ImgOutEnc[i] = c;
 		}
 
-		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n * n);
+		// ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n * n);
+		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, 255);
+
 		free(ImgIn); free(ImgOutEnc); 
 	}
 	

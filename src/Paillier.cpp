@@ -27,17 +27,55 @@ uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n) {
 }
 
 // Greatest common divisor
+// uint64_t gcd(uint64_t a, uint64_t b) {
+// 	uint64_t q, r;		// quotient, remainder
+
+// 	while (b > 0) {
+// 		q = a / b;		// the integer
+// 		r = a - q * b;	// the modulo
+// 		a = b;
+// 		b = r;
+// 	}
+
+// 	return a;
+// }
+
+
+/**
+ *  @brief 
+ *  @param 
+ *  @authors Katia Auxilien
+ *  @date 30/04/2024 15:51:00
+ * 
+ *  Calcul du PGCD en récursif.
+ *
+ *  @details 
+ */
 uint64_t gcd(uint64_t a, uint64_t b) {
-	uint64_t q, r;		// quotient, remainder
+    if (b == 0) {
+        return a;
+    }
+    return gcd(b, a % b);
+}
 
-	while (b > 0) {
-		q = a / b;		// the integer
-		r = a - q * b;	// the modulo
-		a = b;
-		b = r;
-	}
-
-	return a;
+/**
+ *  @brief 
+ *  @param 
+ *  @authors Katia Auxilien
+ *  @date 30/04/2024 15:51:00
+ * 
+ *  Calcul de l'ensemble des éléments de  g ∈ (Z/n2Z)*
+ *
+ *  @details 
+ */
+std::vector<int> calc_set_same_remainder_divide_euclide(int n) {
+  std::vector<int> result;
+  for (int i = 0; i < n; i++) {
+    if (gcd(i, n) == 1) {
+      result.push_back(i);
+    }
+  }
+  return result;
 }
 
 uint64_t L(uint64_t x, uint64_t n) {

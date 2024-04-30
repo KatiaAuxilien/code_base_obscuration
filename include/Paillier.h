@@ -14,6 +14,8 @@ uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n);
 
 uint64_t gcd(uint64_t a, uint64_t b);
 
+std::vector<int> calc_set_same_remainder_divide_euclide(int n);
+
 uint64_t L(uint64_t x, uint64_t n);
 
 uint64_t lcm(uint64_t a, uint64_t b);
