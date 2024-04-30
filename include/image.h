@@ -12,13 +12,10 @@
 * Date : 
 *
 *******************************************************************************/
-
-#define _USE_MATH_DEFINES
-#include <cmath>
-
 #ifndef IMAGE
 #define IMAGE
 
+#include <cmath>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -34,4 +31,4 @@ typedef unsigned char OCTET;
 
 void ignorer_commentaires(FILE * f);
 
-#endif
+#endif //IMAGE

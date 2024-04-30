@@ -1,9 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 #include "../include/image.h"
 
-/*===========================================================================*/
 void ignorer_commentaires(FILE* f)
 {
 	unsigned char c;
@@ -11,4 +7,3 @@ void ignorer_commentaires(FILE* f)
 		while ((c = fgetc(f)) != '\n');
 	fseek(f, -sizeof(unsigned char), SEEK_CUR);
 }
-/*===========================================================================*/

@@ -3,9 +3,9 @@ CXXFLAGS = -Wall -Wextra -g
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = ObscurationPGM_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/image_ppm.cpp ../../src/ImageBase.cpp ../../src/AES.cpp
+SRC = Paillier_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/Paillier.cpp
 OBJ = $(SRC:../../src/%.cpp=../../obj/%.o)
-EXEC = ObscurationPGM_main.out
+EXEC = Paillier_main.out
 
 all: $(EXEC)
 

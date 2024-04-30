@@ -1,14 +1,10 @@
-#include <iostream>
-#include <bitset>
-#include <vector>
 #include "../include/Paillier.h"
-#include "../include/image.h"
 
 #define BITSETSIZE 64
 
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n) {
 	uint64_t c = 1;
-	bitset<BITSETSIZE> bits = bitset<BITSETSIZE>(e);
+	std::bitset<BITSETSIZE> bits = std::bitset<BITSETSIZE>(e);
 
 	for (int i = BITSETSIZE - 1; i >= 0; i--) {
 		c = c * c % n;

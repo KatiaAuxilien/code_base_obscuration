@@ -1,8 +1,8 @@
 extern "C"
 {
-    #include "../../include/image.h"
-    #include "../../include/image_pgm.h"
+   #include "../../include/image.h" 
 }
+#include "../../include/image_pgm.h"
 #include "../../include/ImageBase.h"
 #include "../../include/obscurationCommon.h"
 #include "../../include/obscurationPGM.h"

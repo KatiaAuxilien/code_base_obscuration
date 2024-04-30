@@ -2,22 +2,19 @@
 // g++ -c Paillier_Image_v2.cpp
 // g++ image.o Paillier_Image_v2.o -o Paillier
 
-#include <iostream>
-#include <bitset>
-#include <vector>
 #include "../../include/Paillier.h"
-#include "../../include/image.h"
-#include "../../include/image_pgm.h"
+
 
 using namespace std;
 
 int main()
 {
-	bool isEncryption = false;
+	bool isEncryption = false; //TODO : Ajouter en param : true ou false pour le chiffrement ou déchiffrement
 	//bool isEncryption = true;
 	
+//TODO : Ajouter le fais qu'on précise en argument p et q
 	//23x11 ne marche pas car 22x10=11*20
-	uint64_t p = 13;//23;//19; 
+	uint64_t p = 13;//23;//19;  
 	uint64_t q = 19;//11;//17; 
 	uint64_t n = p * q;
 	uint64_t g = n + 1;
@@ -29,6 +26,7 @@ int main()
 
 	/*******Encryption*******/
 	if (isEncryption) {
+//TODO : Ajouter le chemin en argument de l'image à chiffrer ou déchiffrer
 //		char cNomImgLue[250] = "C:\\Users\\Bianca\\Documents\\Paillier_Image\\01_Lena.pgm";
 		char cNomImgLue[250] = "24.pgm";
 		char cNomImgEcriteEnc[250] = "24E.pgm";

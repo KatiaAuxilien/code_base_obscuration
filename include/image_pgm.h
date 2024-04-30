@@ -12,15 +12,13 @@
 * Date : 
 *
 *******************************************************************************/
-
+#ifndef IMAGE_PGM
+#define IMAGE_PGM
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdint.h>
 #include <inttypes.h>
-
-#ifndef IMAGE_PGM
-#define IMAGE_PGM
 
 typedef unsigned char OCTET;
 

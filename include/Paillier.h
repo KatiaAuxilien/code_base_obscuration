@@ -1,10 +1,12 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
-#include "../include/Paillier.h"
 #include "../include/image.h"
+#include "../include/image_ppm.h"
+#include "../include/image_pgm.h"
 
-//AJOUTER LE IFDEF Etc.. ??
+#ifndef PAILLIER_CRYPTOSYSTEM
+#define PAILLIER_CRYPTOSYSTEM
 
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n);
 
@@ -23,3 +25,5 @@ void generateMu(uint64_t& mu, const uint64_t& g, const uint64_t& lambda, const u
 void generatePrivateKey(uint64_t& lambda, uint64_t& mu, const uint64_t& p, const uint64_t& q, const uint64_t& n, const uint64_t& g);
 
 uint64_t paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c);
+
+#endif //PAILLIER_CRYPTOSYSTEM
