@@ -54,65 +54,152 @@ bool endsWith(const std::string &str, const std::string &suffix)
 int main(int argc, char **argv)
 {
 
-	if (argc != 5)
+	if (argc < 4)
 	{
-		printf("Usage : [e or d] p q file.pgm\n");
+		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
 		return 1;
 	}
 
 	bool isEncryption;
+	bool useKeys = false;
 	if (tolower(argv[1][0]) == 'e')
 	{
 		isEncryption = true;
+		if (tolower(argv[1][1]) == 'k')
+		{
+			useKeys = true;
+		}
 	}
-	else if (tolower(argv[1][0]) == 'd')
+	else if (tolower(argv[1][0]) == 'd' && tolower(argv[1][1]) == 'k')
 	{
 		isEncryption = false;
+		useKeys = true;
 	}
 	else
 	{
-		fprintf(stderr, "The first argument must be e or d. (the case don't matter)\n");
+		fprintf(stderr, "The first argument must be e, ek or dk. (the case don't matter)\n");
 		return 1;
 	}
 
-	uint64_t p = checkNumbersArgument("second", argv[2]);
-	if (p == 1)
-	{
-		return 1;
-	}
-	uint64_t q = checkNumbersArgument("third", argv[3]);
-	if (q == 1)
-	{
-		return 1;
-	}
+	int argImg=4;
+	string englishArgNumb = "fourth";
+	char *c_key_file;
+	if(useKeys){
+		argImg = 3;
+		englishArgNumb = "third";
 
-	uint64_t n = p * q;
-	uint64_t pgc_pq = gcd(p * q, (p - 1) * (q - 1));
+		c_key_file = argv[2];
+		string s_key_file = c_key_file;
+		ifstream file(c_key_file);
+		if (!file || !endsWith(s_key_file, ".bin"))
+		{
+			cerr << "The second argument must be an existing .bin file." << endl;
+			return 1;
+		}
 
-	if (pgc_pq != 1)
-	{
-		fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
-		return 1;
 	}
-
-	char *c_file = argv[4];
+	char *c_file = argv[argImg];
 	string s_file = c_file;
 	ifstream file(c_file);
 	if (!file || !endsWith(s_file, ".pgm"))
 	{
-		cerr << "The fourth argument must be an existing .pgm file." << endl;
+		cerr << "The "+englishArgNumb+" argument must be an existing .pgm file." << endl;
 		return 1;
 	}
 
-	vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n);
+	PaillierPrivateKey pk;
+	PaillierPublicKey pubk;
+	if (!useKeys && isEncryption)
+	{
+		uint64_t p = checkNumbersArgument("second", argv[2]);
+		if (p == 1)
+		{
+			return 1;
+		}
+		uint64_t q = checkNumbersArgument("third", argv[3]);
+		if (q == 1)
+		{
+			return 1;
+		}
+		uint64_t n, lambda, mu;
+
+		n = p * q;
+		uint64_t pgc_pq = gcd(p * q, (p - 1) * (q - 1));
+
+		if (pgc_pq != 1)
+		{
+			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
+			return 1;
+		}
+
+		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n);
+
+		uint64_t g = choose_g_in_vec(set, n, lambda);
+
+		generatePrivateKey(lambda, mu, p, q, n, g);
+		pk = PaillierPrivateKey(lambda, mu);
+		pubk = PaillierPublicKey(n, g);
+
+		FILE *f_private_key = NULL;
+
+		f_private_key = fopen("Paillier_private_key.bin", "w+b");
+
+		if (f_private_key == NULL)
+		{
+			fprintf(stderr, "Error ! Opening Paillier_private_key.bin\n");
+			return 1;
+		}
+
+		fwrite(&pk, sizeof(PaillierPrivateKey), 1, f_private_key);
+
+		fclose(f_private_key);
+
+		FILE *f_public_key = NULL;
+		f_public_key = fopen("Paillier_public_key.bin", "w+b");
+
+		if (f_public_key == NULL)
+		{
+			fprintf(stderr, "Error ! Opening Paillier_public_key.bin\n");
+			return 1;
+		}
+		fwrite(&pubk, sizeof(PaillierPublicKey), 1, f_public_key);
+
+		fclose(f_public_key);
+	}
+	else
+	{
+		if(!isEncryption){
+			FILE *f_private_key = NULL;
+
+			f_private_key = fopen(c_key_file, "rb");
+
+			if (f_private_key == NULL)
+			{
+				fprintf(stderr, "Error ! Opening %s \n",c_key_file);
+				return 1;
+			}
+
+			fread(&pk, sizeof(PaillierPrivateKey), 1, f_private_key);
+
+			fclose(f_private_key);
+		}
+		if(isEncryption)
+		{
+			FILE *f_public_key = NULL;
+			f_public_key = fopen(c_key_file, "rb");
+
+			if (f_public_key == NULL)
+			{
+				fprintf(stderr, "Error ! Opening %s \n",c_key_file);
+				return 1;
+			}
+			fread(&pubk, sizeof(PaillierPublicKey), 1, f_public_key);
+
+			fclose(f_public_key);
+		}
+	}
+
 	
-	uint64_t lambda, mu;
-
-	uint64_t g = choose_g_in_vec(set, n,lambda);
-
-	generatePrivateKey(lambda, mu, p, q, n, g);
-	PaillierPrivateKey pk = new PaillierPrivateKey(lambda,mu);
-	PaillierPublicKey pubk = new PaillierPublicKey(n,g);
 
 	/*******Encryption*******/
 	if (isEncryption)
@@ -139,28 +226,32 @@ int main(int argc, char **argv)
 		lire_image_pgm(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutEnc, uint64_t, nH * (nW * 2));
 
-		int x=0,y=1;
+		uint64_t n,g;
+		n= pubk.getN();
+		g=pubk.getG();
+		int x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint64_t pixel_recrop = (ImgIn[i]/255) % n;
+			uint64_t pixel_recrop = (ImgIn[i] / 255) % n;
 
 			uint64_t pixel_enc = paillierEncryption(n, g, pixel_recrop);
 
-			uint64_t pixel_enc_dec_x = pixel_enc/n;
-			uint64_t pixel_enc_dec_y = pixel_enc%n;
+			uint64_t pixel_enc_dec_x = pixel_enc / n;
+			uint64_t pixel_enc_dec_y = pixel_enc % n;
 			ImgOutEnc[x] = pixel_enc_dec_x;
 			ImgOutEnc[y] = pixel_enc_dec_y;
-			x=x+2;
-			y=y+2;
+			x = x + 2;
+			y = y + 2;
 		}
 
-		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, 255);
+		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, n);
 
 		free(ImgIn);
 		free(ImgOutEnc);
 	}
 	/*******Decryption*******/
-	else {
+	else
+	{
 		char cNomImgLue[250];
 		strcpy(cNomImgLue, s_file.c_str());
 
@@ -179,27 +270,30 @@ int main(int argc, char **argv)
 		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
 		nTaille = nH * nW;
 
+		uint64_t n, lambda, mu;
+
 		allocation_tableau(ImgIn, OCTET, nTaille);
-		lire_image_pgm(cNomImgLue, ImgIn, nTaille);
+		n = lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutDec, uint64_t, nH * (nW / 2));
 
-		int x=0,y=1;
-		for (int i = 0; i < nTaille; i++)
+		lambda = pk.getLambda();
+		mu = pk.getLambda();
+		int x = 0, y = 1;
+		for (int i = 0; i <nH * (nW / 2) ; i++)
 		{
-			uint64_t pixel_enc_dec_x = ImgOutDec[x];
-			uint64_t pixel_enc_dec_y = ImgOutDec[y];
-			uint64_t cipher = pixel_enc_dec_x * n + pixel_enc_dec_y;
-			
-			ImgIn[i] = paillierDecryption(n,lambda,mu,cipher);
-			
-			x=x+2;
-			y=y+2;
+			uint64_t pixel_enc_dec_x = ImgIn[x];
+			uint64_t pixel_enc_dec_y = ImgIn[y];
+			uint64_t cipher = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
+
+			ImgOutDec[i] = paillierDecryption(n, lambda, mu, cipher);
+
+			x = x + 2;
+			y = y + 2;
 		}
 
-		ecrire_image_pgm_variable_size(cNomImgEcriteDec, ImgOutDec, nH, nW / 2, 255);
+		ecrire_image_pgm_variable_size(cNomImgEcriteDec, ImgOutDec, nH, nW / 2, n);
 
 		free(ImgIn);
 		free(ImgOutDec);
-		
 	}
 }

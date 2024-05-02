@@ -4,7 +4,7 @@
 class PaillierPublicKey
 {
     public:
-
+    PaillierPublicKey();
     PaillierPublicKey(uint64_t n,uint64_t g);
     uint64_t getN();
     uint64_t getG();
@@ -13,6 +13,9 @@ class PaillierPublicKey
     private:
     uint64_t n, g;
 };
+PaillierPublicKey::PaillierPublicKey(){
+    n = g = 0;
+}
 
 PaillierPublicKey::PaillierPublicKey(uint64_t N,uint64_t G){
     n = N;
