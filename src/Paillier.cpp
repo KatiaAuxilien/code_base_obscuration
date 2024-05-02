@@ -70,7 +70,7 @@ uint64_t gcd(uint64_t a, uint64_t b) {
  */
 std::vector<long uint64_t> calc_set_same_remainder_divide_euclide(uint64_t n) {
   std::vector<long uint64_t> result;
-  for (int i = 0; i < n; i++) {
+  for (uint64_t i = 0; i < n; i++) {
     if (gcd(i, n) == 1) {
       result.push_back(i);
     }
@@ -121,10 +121,18 @@ uint64_t modInverse(uint64_t a, uint64_t n) {
 	return 0;
 }
 
+uint64_t generate_rand_r(uint64_t n){
+	std::vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n);
+	
+	uint64_t r = set.at(rand() % set.size());
+	
+	return r;
+}
+
 uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m) {
 	uint64_t c;
 
-	uint64_t r = rand() % n;
+	uint64_t r = generate_rand_r(n);
 
 	while (gcd(r, n) != 1 || r == 0) {
 		r = rand() % n;
@@ -137,6 +145,23 @@ uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m) {
 
 	return c;
 }
+
+// uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m) {
+// 	uint64_t c;
+
+// 	uint64_t r = rand() % n;
+
+// 	while (gcd(r, n) != 1 || r == 0) {
+// 		r = rand() % n;
+// 	}
+
+// 	uint64_t fm1 = fastMod(g, m, n * n);
+// 	uint64_t fm2 = fastMod(r, n, n * n);
+
+// 	c = (fm1 * fm2) % (n * n);		// (a+b)%n = (a%n + b%n) % n
+
+// 	return c;
+// }
 
 void generateMu(uint64_t& mu, const uint64_t& g, const uint64_t& lambda, const uint64_t& n) {
 	uint64_t u = fastMod(g, lambda, n * n);
@@ -151,5 +176,5 @@ void generatePrivateKey(uint64_t& lambda, uint64_t& mu, const uint64_t& p, const
 }
 
 uint64_t paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c) {
-	return ((fastMod(c, lambda, n * n) - 1) / n) * mu % n;
+	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
 }

@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 
-		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n);
+		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n*n);
 
 		uint64_t g = choose_g_in_vec(set, n, lambda);
 
@@ -165,6 +165,11 @@ int main(int argc, char **argv)
 		fwrite(&pubk, sizeof(PaillierPublicKey), 1, f_public_key);
 
 		fclose(f_public_key);
+
+		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
 	}
 	else
 	{
@@ -232,7 +237,7 @@ int main(int argc, char **argv)
 		int x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint64_t pixel_recrop = (ImgIn[i] / 255) % n;
+			uint64_t pixel_recrop = (ImgIn[i] * n)/ 255;
 
 			uint64_t pixel_enc = paillierEncryption(n, g, pixel_recrop);
 
@@ -277,7 +282,7 @@ int main(int argc, char **argv)
 		allocation_tableau(ImgOutDec, uint64_t, nH * (nW / 2));
 
 		lambda = pk.getLambda();
-		mu = pk.getLambda();
+		mu = pk.getMu();
 		int x = 0, y = 1;
 		for (int i = 0; i <nH * (nW / 2) ; i++)
 		{
