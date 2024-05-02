@@ -68,14 +68,38 @@ uint64_t gcd(uint64_t a, uint64_t b) {
  *
  *  @details 
  */
-std::vector<int> calc_set_same_remainder_divide_euclide(int n) {
-  std::vector<int> result;
+std::vector<long uint64_t> calc_set_same_remainder_divide_euclide(uint64_t n) {
+  std::vector<long uint64_t> result;
   for (int i = 0; i < n; i++) {
     if (gcd(i, n) == 1) {
       result.push_back(i);
     }
   }
   return result;
+}
+
+/**
+ *  @brief 
+ *  @param 
+ *  @authors Katia Auxilien
+ *  @date 02/05/2024
+ * 
+ *  Choix de g tant que (x - 1)/n ne donne pas un L(x) entier. 
+ *
+ *  @details 
+ */
+uint64_t choose_g_in_vec(std::vector<long uint64_t>& set, const uint64_t& n, const uint64_t& lambda){
+	uint64_t x;
+	int i = 0;
+	uint64_t g, r,r2;
+	while(r != 0 && r2 !=0 ){ //Est-ce que ça pose problème d'avoir en soi toujours le même g avec les mêmes p et q ? Est-ce qu'il faut ajouter de l'aléatoire ?
+		g = set.at(i); // int i_position_e = rand() % e.size();
+		x = fastMod(g, lambda, n * n);
+		r = (x - 1) % n;
+		r2 = (x - 1) / n;
+		i++;
+	}
+	return g;
 }
 
 uint64_t L(uint64_t x, uint64_t n) {
