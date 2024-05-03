@@ -1,3 +1,18 @@
+/******************************************************************************
+ * ICAR_Interns_Library
+ *
+ * Fichier : Paillier.h
+ *
+ * Description : 
+ *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *
+ * Auteur : Katia Auxilien
+ *
+ * Mail : katia.auxilien@mail.fr
+ *
+ * Date : Avril 2024 - Mai 2024
+ *
+ *******************************************************************************/
 #include <iostream>
 #include <bitset>
 #include <vector>
