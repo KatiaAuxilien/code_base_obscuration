@@ -133,7 +133,6 @@ int main(int argc, char **argv)
 		}
 
 		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n*n);
-
 		uint64_t g = choose_g_in_vec(set, n, lambda);
 
 		generatePrivateKey(lambda, mu, p, q, n, g);
