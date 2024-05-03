@@ -38,7 +38,7 @@ int main(int argc, char **argv)
         std::cout << m << " ";
         for(int y = 1;y<5;y++){
             if(m == 3*y || m == 5*y){
-            fprintf(stderr, "ERROR : the set contains 3 or 5 multiple.");
+            fprintf(stderr, "ERROR : the set contains 3 or 5 multiple.\n");
             return 1;
             }
         }
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     r = (x - 1) % n;
     r2 = (x - 1) / n;
 	if(r != 0 && r2 !=0 ){
-        fprintf(stderr, "ERROR : g is not good.");
+        fprintf(stderr, "ERROR : g is not good.\n");
         return 1;
     }
 

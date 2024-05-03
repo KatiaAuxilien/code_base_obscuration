@@ -1,11 +1,11 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -g 
+CXXFLAGS = -Wall -Wextra -g -O3
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = Paillier_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/Paillier.cpp
+SRC = Paillier_num_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/Paillier.cpp
 OBJ = $(SRC:../../src/%.cpp=../../obj/%.o)
-EXEC = Paillier_main.out
+EXEC = Paillier_num_main.out
 
 all: $(EXEC)
 
