@@ -375,7 +375,6 @@ void selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8],
     }
 }
 
-
 /**
  *  @brief
  *  @param
@@ -408,6 +407,5 @@ void selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bits
         }
     }
 }
-
 
 #endif // OBSCURATION_PGM_LIBRARY

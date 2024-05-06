@@ -28,4 +28,4 @@ def compare_images(image1_path, image2_path):
     else:
         print("The images are identical.")
 
-compare_images('6996.pgm', '6996.pgm')
+compare_images('4754.pgm', '4754_E_D.pgm')

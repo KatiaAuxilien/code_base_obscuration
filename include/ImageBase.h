@@ -1,17 +1,17 @@
 /******************************************************************************
-* ICAR_Library
-*
-* Fichier : ImageBase.h
-*
-* Description : Classe contennant quelques fonctionnalités de base
-*
-* Auteur : Mickael Pinto
-*
-* Mail : mickael.pinto@live.fr
-*
-* Date : Octobre 2012
-*
-*******************************************************************************/
+ * ICAR_Library
+ *
+ * Fichier : ImageBase.h
+ *
+ * Description : Classe contennant quelques fonctionnalitï¿½s de base
+ *
+ * Auteur : Mickael Pinto
+ *
+ * Mail : mickael.pinto@live.fr
+ *
+ * Date : Octobre 2012
+ *
+ *******************************************************************************/
 
 #pragma once
 #include <cstdio>
@@ -21,8 +21,12 @@ class ImageBase
 {
 	///////////// Enumerations
 public:
-	typedef enum { PLAN_R, PLAN_G, PLAN_B} PLAN;
-
+	typedef enum
+	{
+		PLAN_R,
+		PLAN_G,
+		PLAN_B
+	} PLAN;
 
 	///////////// Attributs
 protected:
@@ -35,7 +39,6 @@ protected:
 	int nTaille;
 	bool isValid;
 
-
 	///////////// Constructeurs/Destructeurs
 protected:
 	void init();
@@ -43,10 +46,10 @@ protected:
 
 public:
 	ImageBase(void);
-    ImageBase(const ImageBase &other);
+	ImageBase(const ImageBase &other);
 	ImageBase(int imWidth, int imHeight, bool isColor);
 	~ImageBase(void);
-	
+
 	///////////// Methodes
 protected:
 	void copy(const ImageBase &copy);
@@ -59,7 +62,6 @@ public:
 	bool getColor() { return color; };
 	unsigned char *getData() { return data; };
 
-
 	void load(char *filename);
 	bool save(char *filename);
 
@@ -67,4 +69,3 @@ public:
 
 	unsigned char *operator[](int l);
 };
-

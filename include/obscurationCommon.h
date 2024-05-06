@@ -27,14 +27,14 @@
 //====================== Encryption utils ======================//
 
 /**
- *  @brief 
- *  @param 
+ *  @brief
+ *  @param
  *  @author Norman Hutte
  *  @date 06/03/2024
- * 
+ *
  *  Genere une sequence de 8 bits al�atoires
  *
- *  @details 
+ *  @details
  */
 void genPRNS(unsigned int seq[8])
 {
@@ -46,20 +46,23 @@ void genPRNS(unsigned int seq[8])
 }
 
 /**
- *  @brief 
- *  @param 
+ *  @brief
+ *  @param
  *  @author Norman Hutte
  *  @date 06/03/2024
- * 
- *  Genere une sequence de 
  *
- *  @details 
+ *  Genere une sequence de
+ *
+ *  @details
  */
-void genBitsGroups(std::vector<std::vector<int>> & groups, int groupSize) {
+void genBitsGroups(std::vector<std::vector<int>> &groups, int groupSize)
+{
     groups.clear();
-    for (int i = 0; i < 7 - groupSize + 2; ++i) {
+    for (int i = 0; i < 7 - groupSize + 2; ++i)
+    {
         std::vector<int> indexes;
-        for  (int j = 0; j < groupSize; ++j) {
+        for (int j = 0; j < groupSize; ++j)
+        {
             indexes.push_back(i + j);
         }
         groups.push_back(indexes);
@@ -67,20 +70,19 @@ void genBitsGroups(std::vector<std::vector<int>> & groups, int groupSize) {
 }
 
 /**
- *  @brief 
- *  @param 
+ *  @brief
+ *  @param
  *  @author Norman Hutte
  *  @date 06/03/2024
- * 
- *  
  *
- *  @details 
+ *
+ *
+ *  @details
  */
-void intVec2intArray(std::vector<int> & vec, int arr[8]) {
+void intVec2intArray(std::vector<int> &vec, int arr[8])
+{
     for (size_t i = 0; i < vec.size(); ++i)
         arr[i] = vec[i];
 }
-
-
 
 #endif // OBSCURATION_COMMON_LIBRARY

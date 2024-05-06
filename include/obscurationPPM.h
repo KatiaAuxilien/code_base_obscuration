@@ -1,17 +1,17 @@
 /******************************************************************************
-* ICAR_Interns_Library
-*
-* Fichier : obscurationPPM.h
-*
-* Description : 
-*
-* Auteur : Norman HUTTE
-*
-* Mail : 
-*
-* Date : 06/03/2024
-*
-*******************************************************************************/
+ * ICAR_Interns_Library
+ *
+ * Fichier : obscurationPPM.h
+ *
+ * Description :
+ *
+ * Auteur : Norman HUTTE
+ *
+ * Mail :
+ *
+ * Date : 06/03/2024
+ *
+ *******************************************************************************/
 
 #include "ImageBase.h"
 #include "obscurationCommon.h"
@@ -298,7 +298,7 @@ void newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
         {
             int sum_R = 0, sum_G = 0, sum_B = 0, nbV = 0;
             for (int r = 1; r <= 101; r += 2)
-            {                     
+            {
                 int step = r / 2;
                 for (int v_i = -step; v_i <= step; ++v_i)
                 {
@@ -359,13 +359,13 @@ void areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start
 {
     int nbPixels = area_h * area_w;
     std::random_device randev;
-    std::mt19937 rng(randev()); // QUESTION : Qu'est-ce que rng ?
-                                //  => Générateur de pseudo-aléatoire.
+    std::mt19937 rng(randev());                                            // QUESTION : Qu'est-ce que rng ?
+                                                                           //  => Générateur de pseudo-aléatoire.
     std::uniform_int_distribution<unsigned int> distrbit(0, nbPixels - 1); // QUESTION : A quoi ça sert ?
                                                                            //=> La distribution uniforme distrbit est utilisée pour choisir de manière
                                                                            // aléatoire un pixel dans la région en cours de mélange.
-    ImageBase unavailability(area_w, area_h, false); // QUESTION : ?
-                                                     //  => Image binaire pour marquer les pixels déjà mélangés.
+    ImageBase unavailability(area_w, area_h, false);                       // QUESTION : ?
+                                                                           //  => Image binaire pour marquer les pixels déjà mélangés.
     for (int i = 0; i < area_h; ++i)
         for (int j = 0; j < area_w; ++j)
         {

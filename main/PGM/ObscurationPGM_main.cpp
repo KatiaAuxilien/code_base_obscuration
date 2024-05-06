@@ -1,6 +1,6 @@
 extern "C"
 {
-   #include "../../include/image.h" 
+#include "../../include/image.h"
 }
 #include "../../include/image_pgm.h"
 #include "../../include/ImageBase.h"
@@ -390,7 +390,7 @@ int main(int argc, char **argv)
     // ============================ FIN Chiffrement sélectif ============================ //
 
     // ============================ DEBUT Chiffrement AES ============================ //
-   
+
     std::cout << "\t"
               << "Chiffrement AES"
               << "\n";
@@ -468,7 +468,6 @@ int main(int argc, char **argv)
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CBC_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
-
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
@@ -518,7 +517,6 @@ int main(int argc, char **argv)
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CTR_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
-
 
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
@@ -571,7 +569,6 @@ int main(int argc, char **argv)
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
-
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
@@ -616,7 +613,6 @@ int main(int argc, char **argv)
 
         // std::cout << "Image n°" << nImg_cpt + 1 << " en cours ... "
         //           << "\n";
-
 
         std::string sNewImgPath = sNewFolderPath + "/";
         createDirectoryIfNotExists(sNewImgPath);
@@ -674,7 +670,6 @@ int main(int argc, char **argv)
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_dec_bad_key_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
 
-
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut, *oImgOutDec;
 
@@ -684,7 +679,6 @@ int main(int argc, char **argv)
         allocation_tableau(oImgIn, OCTET, nTaille);
         lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
-
 
         AES aes(AESKeyLength::AES_128);
 
@@ -697,17 +691,14 @@ int main(int argc, char **argv)
 
         allocation_tableau(oImgOutDec, OCTET, nTaille);
 
-        oImgOutDec = aes.DecryptCFB(oImgOut, nTaille,key_falsified,iv);
+        oImgOutDec = aes.DecryptCFB(oImgOut, nTaille, key_falsified, iv);
 
         ecrire_image_pgm(t_cImageOutPath, oImgOutDec, nH, nW);
         free(oImgIn);
         free(oImgOut);
-
     }
     afficherBarreDeChargement(nTotalImg, nTotalImg);
     std::cout << "\n";
-
-
 
     return 0;
 }

@@ -1,18 +1,18 @@
 /******************************************************************************
-* ICAR_Interns_Library
-*
-* Fichier : filesystementPGM.h
-*
-* Description : Classe contenant des fonctions qui permettent de récupérer des
-*    images au format .pgm. Classe inspirée de Functions.h de Norman Hutte.
-*
-* Auteur : Katia Auxilien
-*
-* Mail : katia.auxilien@mail.fr
-*
-* Date : Avril 2024
-*
-*******************************************************************************/
+ * ICAR_Interns_Library
+ *
+ * Fichier : filesystementPGM.h
+ *
+ * Description : Classe contenant des fonctions qui permettent de récupérer des
+ *    images au format .pgm. Classe inspirée de Functions.h de Norman Hutte.
+ *
+ * Auteur : Katia Auxilien
+ *
+ * Mail : katia.auxilien@mail.fr
+ *
+ * Date : Avril 2024
+ *
+ *******************************************************************************/
 #include <iostream>
 #include <vector>
 #include <random>
@@ -27,43 +27,45 @@
 #define FILESYSTEM_PGM_LIBRARY
 
 /**
- *  @brief 
+ *  @brief
  *  @param extension
  *  @authors Norman Hutte, Katia Auxilien
  *  @date 11/04/2024
- * 
+ *
  *  desc
  *
- *  @details 
+ *  @details
  */
-bool is_pgm(const std::string& extension) {
+bool is_pgm(const std::string &extension)
+{
     return extension == ".pgm";
 }
 
 /**
- *  @brief 
+ *  @brief
  *  @param imagePaths
  *  @param folderPath
  *  @authors Norman Hutte, Katia Auxilien
  *  @date 11/04/2024
- * 
- *  
  *
- *  @details 
+ *
+ *
+ *  @details
  */
-void getFilePathsOfPGMFilesFromFolder(std::vector<std::string> & imagePaths, std::string folderPath) {
+void getFilePathsOfPGMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath)
+{
     imagePaths.clear();
-    for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
-        if (entry.is_regular_file()) {
+    for (const auto &entry : std::filesystem::directory_iterator(folderPath))
+    {
+        if (entry.is_regular_file())
+        {
             std::string file_extension = entry.path().extension().string();
-            if (is_pgm(file_extension)) {
+            if (is_pgm(file_extension))
+            {
                 imagePaths.push_back(entry.path().string());
             }
         }
     }
 }
 
-
-
-
-#endif //FILESYSTEM_PGM_LIBRARY
+#endif // FILESYSTEM_PGM_LIBRARY
