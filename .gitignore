@@ -9,3 +9,5 @@ main/obscuredPGM/*
 main/img/*
 
 *.pgm
+main/Paillier_pgm/Paillier_private_key.bin
+main/Paillier_pgm/Paillier_public_key.bin

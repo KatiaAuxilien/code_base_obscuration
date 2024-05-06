@@ -166,6 +166,7 @@ int main(int argc, char **argv)
 
 		if (pgc_pq != 1)
 		{
+			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
 			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
 			return 1;
 		}
@@ -297,13 +298,14 @@ int main(int argc, char **argv)
 		{
 			uint64_t pixel;
 			if(recropPixels){
-				pixel = (ImgIn[i] * n) / 255;
+				
+				pixel = (ImgIn[i] * n) / 256;
 			}else{
 				pixel = ImgIn[i];
 			}
 
 			uint64_t pixel_enc = paillierEncryption(n, g,pixel);
-
+			
 			if(distributeOnTwo){
 				uint64_t pixel_enc_dec_x = pixel_enc / n;
 				uint64_t pixel_enc_dec_y = pixel_enc % n;
