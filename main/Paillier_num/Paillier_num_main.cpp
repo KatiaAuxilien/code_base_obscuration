@@ -77,16 +77,14 @@ bool endsWith(const std::string &str, const std::string &suffix)
 int main(int argc, char **argv)
 {
 	/*======================== Check arguments ========================*/
-	if (argc < 4)
+	if (argc < 3)
 	{
-		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
+		printf("Usage : [e or ek or dk] [params] \n e p q \n ek public_key.bin \n dk private_key.bin \n");
 		return 1;
 	}
 
 	bool isEncryption;
 	bool useKeys = false;
-	bool distributeOnTwo = false;
-	bool recropPixels = false;
 
 	if (tolower(argv[1][0]) == 'e')
 	{
@@ -94,10 +92,6 @@ int main(int argc, char **argv)
 		if (tolower(argv[1][1]) == 'k')
 		{
 			useKeys = true;
-		}
-		if (tolower(argv[1][1]) == 'r' || argv[1][2] == 'r' || argv[1][3] == 'r')
-		{
-			recropPixels = true;
 		}
 	}
 	else if (tolower(argv[1][0]) == 'd' && tolower(argv[1][1]) == 'k')
@@ -107,21 +101,14 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		fprintf(stderr, "The first argument must be e, ek or dk, e2, ek2 or dk2. (the case don't matter)\n");
+		fprintf(stderr, "The first argument must be e, ek or dk. (the case don't matter)\n");
 		return 1;
 	}
 
-	if (tolower(argv[1][1]) == '2' || argv[1][2] == '2')
-	{
-		distributeOnTwo = true;
-	}
-
-	int argImg = 4;
 	string englishArgNumb = "fourth";
 	char *c_key_file;
 	if (useKeys)
 	{
-		argImg = 3;
 		englishArgNumb = "third";
 
 		c_key_file = argv[2];
@@ -132,14 +119,6 @@ int main(int argc, char **argv)
 			cerr << "The second argument must be an existing .bin file." << endl;
 			return 1;
 		}
-	}
-	char *c_file = argv[argImg];
-	string s_file = c_file;
-	ifstream file(c_file);
-	if (!file || !endsWith(s_file, ".pgm"))
-	{
-		cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
-		return 1;
 	}
 
 	/*======================== Generate keys ========================*/
@@ -256,142 +235,105 @@ int main(int argc, char **argv)
 	}
 
 	/*======================== Encryption ========================*/
-	if (isEncryption)
+	uint64_t n, g;
+	n = pubk.getN();
+	g = pubk.getG();
+
+	std::vector<long uint64_t> vector_r_values = calc_set_same_remainder_divide_euclide(n);
+
+	uint64_t t_x[vector_r_values.size()][256];
+	uint64_t t_y[vector_r_values.size()][256];
+	uint64_t t_pix_enc[vector_r_values.size()][256];
+
+	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
 	{
-		char cNomImgLue[250];
-		strcpy(cNomImgLue, s_file.c_str());
-
-		string toErase = ".pgm";
-		size_t pos = s_file.find(".pgm");
-		s_file.erase(pos, toErase.length());
-		string s_fileNew = s_file + "_E.pgm";
-		char cNomImgEcriteEnc[250];
-		strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
-
-		int nH, nW, nTaille, nTailleOut, nWOut;
-
-		OCTET *ImgIn;
-		uint64_t *ImgOutEnc;
-
-		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
-		nTaille = nH * nW;
-		if (distributeOnTwo)
+		printf("r = %" PRIu64 "\n", vector_r_values.at(l));
+		for (int i = 0; i < 256; i++)
 		{
-			nWOut = nW * 2;
+			unsigned char msg = i;
+			uint64_t pixel_enc = paillierEncryption(n, g, msg, vector_r_values.at(l));
+
+			t_pix_enc[l][i] = pixel_enc;
+			// printf("pix = %" PRIu64 "\n",pixel_enc);
+
+			uint64_t pixel_enc_dec_x = pixel_enc / n;
+			uint64_t pixel_enc_dec_y = pixel_enc % n;
+			t_x[l][i] = pixel_enc_dec_x;
+			t_y[l][i] = pixel_enc_dec_y;
 		}
-		else
-		{
-			nWOut = nW;
-		}
-
-		nTailleOut = nH * nWOut;
-
-		uint64_t n, g;
-		n = pubk.getN();
-		g = pubk.getG();
-
-		allocation_tableau(ImgIn, OCTET, nTaille);
-		lire_image_pgm(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutEnc, uint64_t, nTailleOut);
-		int x = 0, y = 1;
-		for (int i = 0; i < nTaille; i++)
-		{
-			uint64_t pixel;
-			if (recropPixels)
-			{
-
-				pixel = (ImgIn[i] * n) / 256;
-			}
-			else
-			{
-				pixel = ImgIn[i];
-			}
-
-			uint64_t pixel_enc = paillierEncryption(n, g, pixel);
-
-			if (distributeOnTwo)
-			{
-				uint64_t pixel_enc_dec_x = pixel_enc / n;
-				uint64_t pixel_enc_dec_y = pixel_enc % n;
-				ImgOutEnc[x] = pixel_enc_dec_x;
-				ImgOutEnc[y] = pixel_enc_dec_y;
-				x = x + 2;
-				y = y + 2;
-			}
-			else
-			{
-				ImgOutEnc[i] = pixel_enc;
-			}
-		}
-
-		ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nWOut, n);
-
-		free(ImgIn);
-		free(ImgOutEnc);
 	}
-	/*======================== Decryption ========================*/
-	else
+
+	FILE *file_pix_enc = NULL;
+	file_pix_enc = fopen("results_pix_enc.txt", "w+");
+
+	if (file_pix_enc == NULL)
 	{
-		char cNomImgLue[250];
-		strcpy(cNomImgLue, s_file.c_str());
-
-		string toErase = ".pgm";
-		size_t pos = s_file.find(".pgm");
-		s_file.erase(pos, toErase.length());
-		string s_fileNew = s_file + "_D.pgm";
-		char cNomImgEcriteDec[250];
-		strcpy(cNomImgEcriteDec, s_fileNew.c_str());
-
-		int nH, nW, nTaille, nTailleOut, nWOut;
-		uint64_t n, lambda, mu;
-		uint64_t *ImgIn;
-		OCTET *ImgOutDec;
-
-		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
-		nTaille = nH * nW;
-
-		if (distributeOnTwo)
-		{
-			nWOut = nW / 2;
-		}
-		else
-		{
-			nWOut = nW;
-		}
-
-		nTailleOut = nH * nWOut;
-
-		allocation_tableau(ImgIn, uint64_t, nTaille);
-		n = lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutDec, OCTET, nTailleOut);
-
-		lambda = pk.getLambda();
-		mu = pk.getMu();
-		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
-		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
-
-		int x = 0, y = 1;
-		for (int i = 0; i < nTailleOut; i++)
-		{
-			uint64_t pixel;
-			if (distributeOnTwo)
-			{
-				uint64_t pixel_enc_dec_x = ImgIn[x];
-				uint64_t pixel_enc_dec_y = ImgIn[y];
-				pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
-				x = x + 2;
-				y = y + 2;
-			}
-			else
-			{
-				pixel = ImgIn[i];
-			}
-			uint64_t c = paillierDecryption(n, lambda, mu, pixel);
-			ImgOutDec[i] = static_cast<OCTET>(c);
-		}
-
-		ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nWOut);
-		free(ImgIn);
-		free(ImgOutDec);
+		printf("Error!");
+		exit(1);
 	}
+
+	fprintf(file_pix_enc, "%lu \n", vector_r_values.size());
+	fprintf(file_pix_enc, "%" PRIu64 "", g);
+
+	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			fprintf(file_pix_enc, "\n");
+
+			fprintf(file_pix_enc, "%" PRIu64 "", t_pix_enc[l][i]);
+		}
+	}
+
+	fclose(file_pix_enc);
+
+	FILE *file_t_x = NULL;
+	file_t_x = fopen("results_t_x.txt", "w+");
+
+	if (file_t_x == NULL)
+	{
+		printf("Error!");
+		exit(1);
+	}
+
+	fprintf(file_t_x, "%lu \n", vector_r_values.size());
+	fprintf(file_t_x, "%" PRIu64 "", g);
+
+
+	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			fprintf(file_t_x, "\n");
+
+			fprintf(file_t_x, "%" PRIu64 "", t_x[l][i]);
+		}
+	}
+
+	fclose(file_t_x);
+
+	FILE *file_t_y = NULL;
+	file_t_y = fopen("results_t_y.txt", "w+");
+	
+	if (file_t_y == NULL)
+	{
+		printf("Error!");
+		exit(1);
+	}
+
+	fprintf(file_t_y, "%lu \n", vector_r_values.size());
+	fprintf(file_t_y, "%" PRIu64 "", g);
+
+
+	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			fprintf(file_t_y, "\n");
+
+			fprintf(file_t_y, "%" PRIu64 "", t_y[l][i]);
+		}
+	}
+
+	fclose(file_t_y);
 }

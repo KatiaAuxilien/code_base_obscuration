@@ -31,17 +31,6 @@ bool isPrime(int n, int i = 2)
 	return isPrime(n, i + 1);
 }
 
-// uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n) {
-//     uint64_t result = 1;
-//     x %= n;
-//     while (e > 0) {
-//         if (e & 1) result = (result * x) % n;
-//         x = (x * x) % n;
-//         e >>= 1;
-//     }
-//     return result;
-// }
-
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n)
 {
 	uint64_t c = 1;
@@ -136,15 +125,6 @@ uint64_t lcm(uint64_t a, uint64_t b)
 	return a * b / gcd(a, b);
 }
 
-// uint64_t modInverse(uint64_t a, uint64_t n) {
-//     uint64_t b = n, u = 1, v = 0;
-//     while (a > 0) {
-//         uint64_t q = b / a;
-//         uint64_t t = a; a = b % a; b = t;
-//         t = u; u = v - q * u; v = t;
-//     }
-//     return (v + n) % n;
-// }
 
 uint64_t modInverse(uint64_t a, uint64_t n)
 {
@@ -194,6 +174,19 @@ uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m)
 
 	return c;
 }
+uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m, uint64_t r)
+{
+	uint64_t c;
+	
+	// c = ((pow_uint64_t(g,m))*(pow_uint64_t(r,n)) ) % (n * n);
+
+	uint64_t fm1 = fastMod(g, m, n * n);
+	uint64_t fm2 = fastMod(r, n, n * n);
+	c = (fm1 * fm2) % (n * n); // (a+b)%n = (a%n + b%n) % n
+
+	return c;
+}
+
 
 void generateMu(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
 {
