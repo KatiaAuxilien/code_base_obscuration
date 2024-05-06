@@ -91,33 +91,36 @@ void lire_image_pgm(char  nom_image[], OCTET *pt_image, int taille_image)
       }
 }
 
-uint64_t lire_image_pgm_and_get_maxgrey(char  nom_image[], OCTET *pt_image, int taille_image)
+uint64_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint64_t * pt_image, int taille_image)
 {
-   FILE *f_image;
-   int  nb_colonnes, nb_lignes, max_grey_val;
+		FILE* f_image;
+	int  nb_colonnes, nb_lignes;
+	uint64_t max_grey_val;
 
-   if( (f_image = fopen(nom_image, "rb")) == NULL)
-      {
-	 printf("\nPas d'acces en lecture sur l'image %s \n", nom_image);
-	 exit(EXIT_FAILURE);
-      }
-   else
-      {
-	fscanf(f_image, "P5 ");
-	ignorer_commentaires(f_image);
-	fscanf(f_image, "%d %d %d%*c",
-	       &nb_colonnes, &nb_lignes, &max_grey_val); /*lecture entete*/
+	if ((f_image = fopen(nom_image, "rb")) == NULL)
+	{
+		printf("\nPas d'acces en lecture sur l'image %s \n", nom_image);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		fscanf(f_image, "P5 ");
+		ignorer_commentaires(f_image);
+		fscanf(f_image, "%d %d %" SCNd64 "%*c",
+			&nb_colonnes, &nb_lignes, &max_grey_val); /*lecture entete*/
 
-	 if( (fread((OCTET*)pt_image, sizeof(OCTET), taille_image, f_image))
-	     !=  (size_t) taille_image)
-	    {
-	       printf("\nErreur de lecture de l'image %s \n", nom_image);
-	       exit(EXIT_FAILURE);
-	    }
-	 fclose(f_image);
-	 return (uint64_t) max_grey_val;
-      }
+		if ((fread((uint64_t*)pt_image, sizeof(uint64_t), taille_image, f_image))
+			!= (size_t)taille_image)
+		{
+			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			exit(EXIT_FAILURE);
+		}
+		fclose(f_image);
+	}
+	return max_grey_val;
 }
+
+
 
 void lire_image_pgm_variable_size(char  nom_image[], uint64_t* pt_image, int taille_image)
 {

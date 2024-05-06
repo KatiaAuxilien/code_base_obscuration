@@ -32,6 +32,6 @@ void ecrire_image_pgm_variable_size(char  nom_image[], uint64_t * pt_image, int 
 
 void lire_image_pgm_variable_size(char  nom_image[], uint64_t * pt_image, int taille_image);
 
-uint64_t lire_image_pgm_and_get_maxgrey(char  nom_image[], OCTET *pt_image, int taille_image);
+uint64_t lire_image_pgm_and_get_maxgrey(char  nom_image[], uint64_t * pt_image, int taille_image);
 
 #endif
