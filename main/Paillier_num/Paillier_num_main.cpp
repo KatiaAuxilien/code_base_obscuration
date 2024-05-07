@@ -241,99 +241,112 @@ int main(int argc, char **argv)
 
 	std::vector<long uint64_t> vector_r_values = calc_set_same_remainder_divide_euclide(n);
 
-	uint64_t t_x[vector_r_values.size()][256];
-	uint64_t t_y[vector_r_values.size()][256];
-	uint64_t t_pix_enc[vector_r_values.size()][256];
+	size_t size_vec_r = vector_r_values.size();
 
-	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	// uint64_t t_x[size_vec_r][256];
+	// uint64_t t_y[size_vec_r][256];
+	// uint64_t t_pix_enc[size_vec_r][256];
+
+	double t_x_avg[size_vec_r];
+	double t_y_avg[size_vec_r];
+	// double t_pix_enc_avg[size_vec_r];
+
+	for (size_t l = 0; l < size_vec_r ; l++)
 	{
-		printf("r = %" PRIu64 "\n", vector_r_values.at(l));
+		int count_y = 0, count_x = 0;
+		// int count_enc_pix = 0;
+
 		for (int i = 0; i < 256; i++)
 		{
 			unsigned char msg = i;
 			uint64_t pixel_enc = paillierEncryption(n, g, msg, vector_r_values.at(l));
-
-			t_pix_enc[l][i] = pixel_enc;
-			// printf("pix = %" PRIu64 "\n",pixel_enc);
-
+			// t_pix_enc[l][i] = pixel_enc;
 			uint64_t pixel_enc_dec_x = pixel_enc / n;
 			uint64_t pixel_enc_dec_y = pixel_enc % n;
-			t_x[l][i] = pixel_enc_dec_x;
-			t_y[l][i] = pixel_enc_dec_y;
+			// t_x[l][i] = pixel_enc_dec_x;
+			// t_y[l][i] = pixel_enc_dec_y;
+
+			// if(pixel_enc %2 == 0){
+			// 	count_enc_pix++;
+			// }
+			if(pixel_enc_dec_x %2 == 0){
+				count_x++;
+			}
+			if(pixel_enc_dec_y %2 == 0){
+				count_y++;
+			}
 		}
+		t_x_avg[l] = count_x / (double) 256;
+		t_y_avg[l] = count_y / (double) 256;
+		// t_pix_enc_avg[l] = count_enc_pix / 256;
 	}
 
-	FILE *file_pix_enc = NULL;
-	file_pix_enc = fopen("results_pix_enc.txt", "w+");
 
-	if (file_pix_enc == NULL)
+	/////////////////////////////// Enregistrement des résultats : Pix_enc.
+	// FILE *file_pix_enc = NULL;
+	// file_pix_enc = fopen("results_pix_enc.txt", "w+");
+
+	// if (file_pix_enc == NULL)
+	// {
+	// 	printf("Error!");
+	// 	exit(1);
+	// }
+
+	// fprintf(file_pix_enc, "%lu \n", size_vec_r);
+	// fprintf(file_pix_enc, "%" PRIu64 "", g);
+
+	// for (size_t l = 0; l < size_vec_r; l++)
+	// {
+	// 	fprintf(file_pix_enc, "\n");
+	// 	fprintf(file_pix_enc, "%" PRIu64 "", vector_r_values.at(l));
+	// 	fprintf(file_pix_enc, "\n");
+	// 	fprintf(file_pix_enc, "%lf", t_pix_enc_avg[l]);
+	// }
+
+	// fclose(file_pix_enc);
+
+	FILE *file_x = NULL;
+	file_x = fopen("results_x.txt", "w+");
+
+	if (file_x == NULL)
 	{
 		printf("Error!");
 		exit(1);
 	}
 
-	fprintf(file_pix_enc, "%lu \n", vector_r_values.size());
-	fprintf(file_pix_enc, "%" PRIu64 "", g);
+	fprintf(file_x, "%lu \n", size_vec_r);
+	fprintf(file_x, "%" PRIu64 "", g);
 
-	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	for (size_t l = 0; l < size_vec_r; l++)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			fprintf(file_pix_enc, "\n");
-
-			fprintf(file_pix_enc, "%" PRIu64 "", t_pix_enc[l][i]);
-		}
+		fprintf(file_x, "\n");
+		fprintf(file_x, "%" PRIu64 "", vector_r_values.at(l));
+		fprintf(file_x, "\n");
+		fprintf(file_x, "%lf", t_x_avg[l]);
 	}
 
-	fclose(file_pix_enc);
+	fclose(file_x);
 
-	FILE *file_t_x = NULL;
-	file_t_x = fopen("results_t_x.txt", "w+");
-
-	if (file_t_x == NULL)
-	{
-		printf("Error!");
-		exit(1);
-	}
-
-	fprintf(file_t_x, "%lu \n", vector_r_values.size());
-	fprintf(file_t_x, "%" PRIu64 "", g);
-
-
-	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
-	{
-		for (int i = 0; i < 256; i++)
-		{
-			fprintf(file_t_x, "\n");
-
-			fprintf(file_t_x, "%" PRIu64 "", t_x[l][i]);
-		}
-	}
-
-	fclose(file_t_x);
-
-	FILE *file_t_y = NULL;
-	file_t_y = fopen("results_t_y.txt", "w+");
 	
-	if (file_t_y == NULL)
+	FILE *file_y = NULL;
+	file_y = fopen("results_y.txt", "w+");
+
+	if (file_y == NULL)
 	{
 		printf("Error!");
 		exit(1);
 	}
 
-	fprintf(file_t_y, "%lu \n", vector_r_values.size());
-	fprintf(file_t_y, "%" PRIu64 "", g);
+	fprintf(file_y, "%lu \n", size_vec_r);
+	fprintf(file_y, "%" PRIu64 "", g);
 
-
-	for (long unsigned int l = 0; l < vector_r_values.size(); l++)
+	for (size_t l = 0; l < size_vec_r; l++)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			fprintf(file_t_y, "\n");
-
-			fprintf(file_t_y, "%" PRIu64 "", t_y[l][i]);
-		}
+		fprintf(file_y, "\n");
+		fprintf(file_y, "%" PRIu64 "", vector_r_values.at(l));
+		fprintf(file_y, "\n");
+		fprintf(file_y, "%lf", t_y_avg[l]);
 	}
 
-	fclose(file_t_y);
+	fclose(file_y);
 }
