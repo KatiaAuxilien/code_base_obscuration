@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../include/Paillier.h"
+#include "../include/Paillier.hpp"
 
 #define BITSETSIZE 64
 

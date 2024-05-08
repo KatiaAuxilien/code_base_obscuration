@@ -42,7 +42,6 @@ uint64_t modInverse(uint64_t a, uint64_t n);
 uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m);
 uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m, uint64_t r);
 
-
 void generateMu(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n);
 
 void generatePrivateKey(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g);
