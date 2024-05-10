@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/Paillier.hpp"
+#include "../../include/Paillier.h"
 #include "../../include/filesystemCommon.h"
 #include "../../include/filesystemPGM.h"
 #include "../../include/Paillier_private_key.hpp"
@@ -36,7 +36,7 @@ using namespace std;
  *
  *  @details
  */
-uint8_t checkNumbersArgument(string pos, char *arg)
+uint64_t checkNumbersArgument(string pos, char *arg)
 {
 	for (size_t i = 0; i < strlen(arg); i++)
 	{
@@ -149,33 +149,31 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
-		// 🧹
-
-		uint8_t p = checkNumbersArgument("second", argv[2]);
+		uint64_t p = checkNumbersArgument("second", argv[2]);
 		if (p == 1)
 		{
 			return 1;
 		}
-		uint8_t q = checkNumbersArgument("third", argv[3]);
+		uint64_t q = checkNumbersArgument("third", argv[3]);
 		if (q == 1)
 		{
 			return 1;
 		}
-		uint8_t lambda, n;
-		int mu;
+		uint64_t n, lambda, mu;
 
 		n = p * q;
-		uint8_t pgc_pq = gcd(p * q, (p - 1) * (q - 1));
+		uint64_t pgc_pq = gcd(p * q, (p - 1) * (q - 1));
 
 		if (pgc_pq != 1)
 		{
-			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu8 "\n", pgc_pq);
+			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
 			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
 			return 1;
 		}
-		vector<int> set = calc_set_same_remainder_divide_euclide( (uint16_t)n * n);
-		int g = choose_g_in_vec(set, n, lambda);
 
+		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n * n);
+		uint64_t g = choose_g_in_vec(set, n, lambda);
+		// uint64_t g = n+1;
 		if (g == 0)
 		{
 			fprintf(stderr, "ERROR with g.\n");
@@ -212,10 +210,10 @@ int main(int argc, char **argv)
 
 		fclose(f_public_key);
 
-		printf("Pub Key G = %d\n", pubk.getG());
-		printf("Pub Key N = %" PRIu8 "\n", pubk.getN());
-		printf("Priv Key lambda = %"PRIu8"\n", pk.getLambda());
-		printf("Priv Key mu = %d\n", pk.getMu());
+		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
 	}
 	else
 	{
@@ -288,8 +286,9 @@ int main(int argc, char **argv)
 
 		nTailleOut = nH * nWOut;
 
-		uint8_t n = pubk.getN();
-		int g = pubk.getG();
+		uint64_t n, g;
+		n = pubk.getN();
+		g = pubk.getG();
 
 		allocation_tableau(ImgIn, OCTET, nTaille);
 		lire_image_pgm(cNomImgLue, ImgIn, nTaille);
@@ -297,7 +296,7 @@ int main(int argc, char **argv)
 		int x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel;
+			uint64_t pixel;
 			if (recropPixels)
 			{
 
@@ -308,12 +307,12 @@ int main(int argc, char **argv)
 				pixel = ImgIn[i];
 			}
 
-			uint16_t pixel_enc = paillierEncryption(n, g, pixel);
+			uint64_t pixel_enc = paillierEncryption(n, g, pixel);
 
 			if (distributeOnTwo)
 			{
-				uint8_t pixel_enc_dec_x = pixel_enc / n;
-				uint8_t pixel_enc_dec_y = pixel_enc % n;
+				uint64_t pixel_enc_dec_x = pixel_enc / n;
+				uint64_t pixel_enc_dec_y = pixel_enc % n;
 				ImgOutEnc[x] = pixel_enc_dec_x;
 				ImgOutEnc[y] = pixel_enc_dec_y;
 				x = x + 2;

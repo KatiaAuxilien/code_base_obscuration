@@ -6,33 +6,31 @@ class PaillierPrivateKey
 
 public:
     PaillierPrivateKey();
-    PaillierPrivateKey(uint8_t l, int m);
-    uint8_t getLambda();
-    int getMu();
+    PaillierPrivateKey(uint64_t l, uint64_t m);
+    uint64_t getLambda();
+    uint64_t getMu();
     ~PaillierPrivateKey();
 
 private:
-    uint8_t lambda;
-    int mu;
+    uint64_t lambda, mu;
 };
 PaillierPrivateKey::PaillierPrivateKey()
 {
-    lambda = 0;
-    mu = 0;
+    lambda = mu = 0;
 }
 
-PaillierPrivateKey::PaillierPrivateKey(uint8_t l, int m)
+PaillierPrivateKey::PaillierPrivateKey(uint64_t l, uint64_t m)
 {
     lambda = l;
     mu = m;
 }
 
-uint8_t PaillierPrivateKey::getLambda()
+uint64_t PaillierPrivateKey::getLambda()
 {
     return lambda;
 }
 
-int PaillierPrivateKey::getMu()
+uint64_t PaillierPrivateKey::getMu()
 {
     return mu;
 }
