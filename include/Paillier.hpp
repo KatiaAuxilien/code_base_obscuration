@@ -25,7 +25,7 @@
 
 bool isPrime(int n, int i);
 
-//UINT64_T
+// UINT64_T
 
 uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n);
 
@@ -57,7 +57,7 @@ uint64_t paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c
 p : uint16_t
 q : uint16_t
 n : uint16_t -- finalement sur 16bit.
-g : int 
+g : int
 lambda : uint16_t
 mu : int
 r : uint16_t
@@ -65,30 +65,26 @@ m (pixel origin) : uint8_t
 pix_enc : uint16_t
 */
 
-int fastMod(int x, uint16_t e, uint16_t n);
-int fastMod(int x, uint16_t e, uint32_t n);
-int fastMod(uint16_t x, uint16_t e, uint32_t n)
+int fastMod(int x, int e, int n);
 
-uint8_t gcd(uint16_t a, uint16_t b);
+int gcd(int a, int b);
 
-std::vector<int> calc_set_same_remainder_divide_euclide_g(int n);
-std::vector<uint16_t> calc_set_same_remainder_divide_euclide_r(int n);
+int choose_g_in_vec(std::vector<int> &set, const int &n, const int &lambda);
 
-int choose_g_in_vec(std::vector<int> &set, const uint16_t &n, const int &lambda);
+int L(int x, int n);
 
-int L(int x, uint16_t n);
+int lcm(int a, int b);
 
-uint8_t lcm(uint16_t a, uint16_t b);
+int modInverse(int a, int n);
 
-int modInverse(uint16_t a, uint16_t n);
+uint16_t paillierEncryption(int n, int g, uint8_t m);
 
-uint16_t paillierEncryption(uint16_t n, int g, uint8_t m);
-uint16_t paillierEncryption(uint16_t n, int g, uint8_t m, uint16_t r);
+uint16_t paillierEncryption(int n, int g, uint8_t m, int r);
 
-void generateMu(int &mu, const int &g, const uint16_t &lambda, const uint16_t &n);
+void generateMu(int &mu, const int &g, const int &lambda, const int &n);
 
-void generatePrivateKey(uint16_t &lambda, int &mu, const uint16_t &p, const uint16_t &q, const uint16_t &n, const int &g);
+void generatePrivateKey(int &lambda, int &mu, const int &p, const int &q, const int &n, const int &g);
 
-uint8_t paillierDecryption(uint16_t n, uint16_t lambda, int mu, uint16_t c);
+uint8_t paillierDecryption(int n, int lambda, int mu, uint16_t c);
 
 #endif // PAILLIER_CRYPTOSYSTEM

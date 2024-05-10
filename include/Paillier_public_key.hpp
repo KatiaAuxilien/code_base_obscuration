@@ -5,13 +5,13 @@ class PaillierPublicKey
 {
 public:
     PaillierPublicKey();
-    PaillierPublicKey(uint8_t n, int g);
-    uint8_t getN();
+    PaillierPublicKey(int n, int g);
+    int getN();
     int getG();
     ~PaillierPublicKey();
 
 private:
-    uint8_t n;
+    int n;
     int g;
 };
 PaillierPublicKey::PaillierPublicKey()
@@ -19,13 +19,13 @@ PaillierPublicKey::PaillierPublicKey()
     n = g = 0;
 }
 
-PaillierPublicKey::PaillierPublicKey(uint8_t N, int G)
+PaillierPublicKey::PaillierPublicKey(int N, int G)
 {
     n = N;
     g = G;
 }
 
-uint8_t PaillierPublicKey::getN()
+int PaillierPublicKey::getN()
 {
     return n;
 }
