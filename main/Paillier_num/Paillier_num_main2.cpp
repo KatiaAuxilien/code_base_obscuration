@@ -143,7 +143,16 @@ int main(int argc, char **argv)
 	}
 
 	vector<long uint64_t> vector_g_good;
-	for (size_t i_position = 0; i_position < vector_g.size();i_position ++)
+
+	uint64_t vector_size_g;
+	if(vector_g.size() >= 1000)
+	{
+		vector_size_g = vector_g.size();
+	}else{
+		vector_size_g = 1000;
+	}
+
+	for (size_t i_position = 0; i_position < vector_size_g;i_position ++)
 	{
 
 		uint64_t x;
@@ -207,7 +216,7 @@ int main(int argc, char **argv)
 		// float pix_sum = 0;
 		// float pix_sum_sqr = 0;
 
-	int nbElements = 256*vector_g.size();
+	int nbElements = 256*vector_size_g;
 	double t_x_avg[size_vec_r];
 	double t_y_avg[size_vec_r];
 	double t_pix_enc_avg[size_vec_r];
