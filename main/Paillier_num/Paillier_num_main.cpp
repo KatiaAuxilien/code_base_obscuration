@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/Paillier.h"
+#include "../../include/Paillier.hpp"
 #include "../../include/filesystemCommon.h"
 #include "../../include/filesystemPGM.h"
 #include "../../include/Paillier_private_key.hpp"
@@ -150,16 +150,15 @@ int main(int argc, char **argv)
 			return 1;
 		}
 
-		vector<long uint64_t> set = calc_set_same_remainder_divide_euclide(n * n);
-		uint64_t g = choose_g_in_vec(set, n, lambda);
-		// uint64_t g = n+1;
+		vector<uint64_t> set = calc_set_same_remainder_divide_euclide_64t(n * n);
+		uint64_t g = choose_g_in_vec_64t(set, n, lambda);
 		if (g == 0)
 		{
 			fprintf(stderr, "ERROR with g.\n");
 			return 1;
 		}
 
-		generatePrivateKey(lambda, mu, p, q, n, g);
+		generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu);
 		pubk = PaillierPublicKey(n, g);
 
@@ -239,79 +238,23 @@ int main(int argc, char **argv)
 	n = pubk.getN();
 	g = pubk.getG();
 
-		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
-		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
-	std::vector<long uint64_t> vector_r_values = calc_set_same_remainder_divide_euclide(n);
+	printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+	printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+	std::vector<uint64_t> vector_r_values = calc_set_same_remainder_divide_euclide_64t(n);
 
 	size_t size_vec_r = vector_r_values.size();
-
-	// uint64_t t_x[size_vec_r][256];
-	// uint64_t t_y[size_vec_r][256];
-	// uint64_t t_pix_enc[size_vec_r][256];
-
-	double t_x_avg[size_vec_r];
-	double t_y_avg[size_vec_r];
-	double t_pix_enc_avg[size_vec_r];
-
-	// float ecart_type_x[size_vec_r];
-	// float ecart_type_y[size_vec_r];
-	// float ecart_type_pix[size_vec_r];
+	printf(" vect r : %ld", size_vec_r);
+	uint16_t t_pix_enc[size_vec_r][n];
 
 	for (size_t l = 0; l < size_vec_r ; l++)
 	{
-		int count_y = 0, count_x = 0;
-		int count_enc_pix = 0;
-
-		// float x_sum = 0;
-		// float x_sum_sqr = 0;
-
-		// float y_sum = 0;
-		// float y_sum_sqr = 0;
-
-		// float pix_sum = 0;
-		// float pix_sum_sqr = 0;
-
-		for (int i = 0; i < 256; i++)
+		for (uint64_t i = 0; i < n; i++)
 		{
 			unsigned char msg = i;
-			uint64_t pixel_enc = paillierEncryption(n, g, msg, vector_r_values.at(l));
-			// t_pix_enc[l][i] = pixel_enc;
-			uint64_t pixel_enc_dec_x = pixel_enc / n;
-			uint64_t pixel_enc_dec_y = pixel_enc % n;
-			// t_x[l][i] = pixel_enc_dec_x;
-			// t_y[l][i] = pixel_enc_dec_y;
-
-			if(pixel_enc %2 == 0){
-				count_enc_pix++;
-				// pix_sum += pixel_enc;
-				// pix_sum_sqr += pixel_enc * pixel_enc;
-			}
-			if(pixel_enc_dec_x %2 == 0){
-				count_x++;
-				// x_sum += pixel_enc_dec_x;
-				// x_sum_sqr += pixel_enc_dec_x * pixel_enc_dec_x;
-			}
-			if(pixel_enc_dec_y %2 == 0){
-				count_y++;
-				// y_sum += pixel_enc_dec_y;
-				// y_sum_sqr += pixel_enc_dec_y * pixel_enc_dec_y;
-			}
+			uint16_t pixel_enc = paillierEncryption_8t_r(n, g, msg, vector_r_values.at(l));
+			t_pix_enc[l][i] = pixel_enc;
 		}
-		t_x_avg[l] = count_x / (double) 256;
-		t_y_avg[l] = count_y / (double) 256;
-		t_pix_enc_avg[l] = count_enc_pix / (double) 256;
-
-		// double variance_x = (x_sum_sqr/(double)size_vec_r)-((x_sum*x_sum)/(double)size_vec_r);
-		// double variance_y = (y_sum_sqr/(double)size_vec_r)-((y_sum*y_sum)/(double)size_vec_r);
-		// double variance_pix = (pix_sum_sqr/(double)size_vec_r) - ((pix_sum*pix_sum)/(double)size_vec_r);
-
-		// ecart_type_x[l] = sqrt(variance_x);
-		// ecart_type_y[l] = sqrt(variance_y);
-		// ecart_type_pix[l] = sqrt(variance_pix);
 	}
-
-
-	/////////////////////////////// Enregistrement des résultats : Pix_enc.
 
 	FILE *file_enc_pix = NULL;
 	file_enc_pix = fopen("results_pix.txt", "w+");
@@ -322,38 +265,26 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	// fprintf(file_enc_pix, "%lu \n", size_vec_r);
-	// fprintf(file_enc_pix, "%" PRIu64 "", g);
+	fprintf(file_enc_pix, "%" PRIu64 "", n);
+	fprintf(file_enc_pix, "\n");
+	fprintf(file_enc_pix, "%ld", size_vec_r);
 
 	for (size_t l = 0; l < size_vec_r; l++)
 	{
+		fprintf(file_enc_pix, "\n");
 		fprintf(file_enc_pix, "%" PRIu64 "", vector_r_values.at(l));
-		fprintf(file_enc_pix, "\n");
-		fprintf(file_enc_pix, "%lf", t_pix_enc_avg[l]);
-		fprintf(file_enc_pix, "\n");
+		for (uint64_t i = 0; i < n; i++)
+		{
+			fprintf(file_enc_pix, "\n");
+			fprintf(file_enc_pix, "%" PRIu16 "", t_pix_enc[l][i]);
+		}
 	}
 
 	fclose(file_enc_pix);
 
-	// file_enc_pix = NULL;
-	// file_enc_pix = fopen("results_pix_ecart_type.txt", "w+");
-
-	// if (file_enc_pix == NULL)
-	// {
-	// 	printf("Error!");
-	// 	exit(1);
-	// }
-
-	// for (size_t l = 0; l < size_vec_r; l++)
-	// {
-	// 	fprintf(file_enc_pix, "\n");
-	// 	fprintf(file_enc_pix, "%f", ecart_type_pix[l]);
-	// }
-
-	// fclose(file_enc_pix);
 
 	/////////////////////////////// Enregistrement des résultats : x
-
+/*
 	FILE *file_x = NULL;
 	file_x = fopen("results_x.txt", "w+");
 
@@ -363,8 +294,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	// fprintf(file_x, "%lu \n", size_vec_r);
-	// fprintf(file_x, "%" PRIu64 "", g);
 
 	for (size_t l = 0; l < size_vec_r; l++)
 	{
@@ -375,26 +304,9 @@ int main(int argc, char **argv)
 	}
 
 	fclose(file_x);
-
-	// file_x = NULL;
-	// file_x = fopen("results_x_ecart_type.txt", "w+");
-
-	// if (file_x == NULL)
-	// {
-	// 	printf("Error!");
-	// 	exit(1);
-	// }
-
-	// for (size_t l = 0; l < size_vec_r; l++)
-	// {
-	// 	fprintf(file_x, "\n");
-	// 	fprintf(file_x, "%f", ecart_type_x[l]);
-	// }
-
-	// fclose(file_x);
-
+*/
 	/////////////////////////////// Enregistrement des résultats : y
-
+/*
 	FILE *file_y = NULL;
 	file_y = fopen("results_y.txt", "w+");
 
@@ -404,8 +316,6 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	// fprintf(file_y, "%lu \n", size_vec_r);
-	// fprintf(file_y, "%" PRIu64 "", g);
 
 	for (size_t l = 0; l < size_vec_r; l++)
 	{
@@ -416,21 +326,5 @@ int main(int argc, char **argv)
 	}
 
 	fclose(file_y);
-
-	// file_y = NULL;
-	// file_y = fopen("results_y_ecart_type.txt", "w+");
-
-	// if (file_y == NULL)
-	// {
-	// 	printf("Error!");
-	// 	exit(1);
-	// }
-
-	// for (size_t l = 0; l < size_vec_r; l++)
-	// {
-	// 	fprintf(file_y, "\n");
-	// 	fprintf(file_y, "%f", ecart_type_y[l]);
-	// }
-
-	// fclose(file_y);
+*/
 }

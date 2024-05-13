@@ -45,8 +45,6 @@ void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, con
 
 void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g);
 
-
-
 uint16_t paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m);
 
 uint16_t paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uint64_t r);
