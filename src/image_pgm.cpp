@@ -32,7 +32,7 @@ void ecrire_image_pgm(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_c
 
 		if ((fwrite((OCTET *)pt_image, sizeof(OCTET), taille_image, f_image)) != (size_t)taille_image)
 		{
-			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			printf("\nErreur d'écriture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
@@ -89,7 +89,7 @@ void lire_image_pgm(char nom_image[], OCTET *pt_image, int taille_image)
 }
 
 //uint8_t
-void ecrire_image_pgm_variable_size(char nom_image[], uint8_t *pt_image, int nb_lignes, int nb_colonnes, uint8_t max_value)
+void ecrire_image_pgm_variable_size_8t(char nom_image[], uint8_t *pt_image, int nb_lignes, int nb_colonnes, uint8_t max_value)
 {
 	FILE *f_image;
 	int taille_image = nb_colonnes * nb_lignes;
@@ -106,14 +106,14 @@ void ecrire_image_pgm_variable_size(char nom_image[], uint8_t *pt_image, int nb_
 
 		if ((fwrite((uint8_t *)pt_image, sizeof(uint8_t), taille_image, f_image)) != (size_t)taille_image)
 		{
-			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			printf("\nErreur d'écriture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
 	}
 }
 
-uint8_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint8_t *pt_image, int taille_image)
+uint8_t lire_image_pgm_and_get_maxgrey_8t(char nom_image[], uint8_t *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes;
@@ -121,7 +121,7 @@ uint8_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint8_t *pt_image, int 
 
 	if ((f_image = fopen(nom_image, "rb")) == NULL)
 	{
-		printf("\nPas d'acces en lecture sur l'image %s \n", nom_image);
+		printf("\nlire_image_pgm_and_get_maxgrey_8t : Pas d'acces en lecture sur l'image %s \n", nom_image);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -133,7 +133,7 @@ uint8_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint8_t *pt_image, int 
 
 		if ((fread((uint8_t *)pt_image, sizeof(uint8_t), taille_image, f_image)) != (size_t)taille_image)
 		{
-			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			printf("\nlire_image_pgm_and_get_maxgrey_8t : Erreur de lecture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
@@ -143,7 +143,7 @@ uint8_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint8_t *pt_image, int 
 
 //uint16_t
 
-void ecrire_image_pgm_variable_size(char nom_image[], uint16_t *pt_image, int nb_lignes, int nb_colonnes, uint16_t max_value)
+void ecrire_image_pgm_variable_size_16t(char nom_image[], uint16_t *pt_image, int nb_lignes, int nb_colonnes, uint16_t max_value)
 {
 	FILE *f_image;
 	int taille_image = nb_colonnes * nb_lignes;
@@ -160,14 +160,14 @@ void ecrire_image_pgm_variable_size(char nom_image[], uint16_t *pt_image, int nb
 
 		if ((fwrite((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
 		{
-			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			printf("\nErreur d'écriture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
 	}
 }
 
-uint16_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint16_t *pt_image, int taille_image)
+uint16_t lire_image_pgm_and_get_maxgrey_16t(char nom_image[], uint16_t *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes;
@@ -197,7 +197,7 @@ uint16_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint16_t *pt_image, in
 
 //uint64_t
 
-void lire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int taille_image)
+void lire_image_pgm_variable_size_64t(char nom_image[], uint64_t *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes;
@@ -224,7 +224,7 @@ void lire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int tail
 	}
 }
 
-void ecrire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int nb_lignes, int nb_colonnes, uint64_t max_value)
+void ecrire_image_pgm_variable_size_64t(char nom_image[], uint64_t *pt_image, int nb_lignes, int nb_colonnes, uint64_t max_value)
 {
 	FILE *f_image;
 	int taille_image = nb_colonnes * nb_lignes;
@@ -241,14 +241,14 @@ void ecrire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int nb
 
 		if ((fwrite((uint64_t *)pt_image, sizeof(uint64_t), taille_image, f_image)) != (size_t)taille_image)
 		{
-			printf("\nErreur de lecture de l'image %s \n", nom_image);
+			printf("\nErreur d'écriture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
 	}
 }
 
-uint64_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint64_t *pt_image, int taille_image)
+uint64_t lire_image_pgm_and_get_maxgrey_64t(char nom_image[], uint64_t *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes;

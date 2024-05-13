@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		uint64_t n, lambda, mu;
 
 		n = p * q;
-		uint64_t pgc_pq = gcd(p * q, (p - 1) * (q - 1));
+		uint64_t pgc_pq = gcd_64t(p * q, (p - 1) * (q - 1));
 
 		if (pgc_pq != 1)
 		{

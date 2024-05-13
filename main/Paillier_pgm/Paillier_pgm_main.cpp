@@ -24,6 +24,8 @@
 #include <string_view>
 using namespace std;
 
+/* Vérification d'arguments */
+
 /**
  *  @brief
  *  @param string pos
@@ -150,28 +152,28 @@ int main(int argc, char **argv)
 	if (!useKeys && isEncryption)
 	{
 
-		int p = checkNumbersArgument("second", argv[2]);
+		uint64_t p = checkNumbersArgument("second", argv[2]);
 		if (p == 1)
 		{
 			return 1;
 		}
-		int q = checkNumbersArgument("third", argv[3]);
+		uint64_t q = checkNumbersArgument("third", argv[3]);
 		if (q == 1)
 		{
 			return 1;
 		}
-		int lambda, n, mu;
+		uint64_t lambda, n, mu;
 		n = p * q;
-		int pgc_pq = gcd_int(p * q, (p - 1) * (q - 1));
+		uint64_t pgc_pq = gcd_64t(p * q, (p - 1) * (q - 1));
 
 		if (pgc_pq != 1)
 		{
-			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu8 "\n", pgc_pq);
+			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
 			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
 			return 1;
 		}
-		vector<long int> set = calc_set_same_remainder_divide_euclide_int(n * n);
-		long int g = choose_g_in_vec_int(set, n, lambda);
+		vector<uint64_t> set = calc_set_same_remainder_divide_euclide_64t(n * n);
+		uint64_t g = choose_g_in_vec_64t(set, n, lambda);
 
 		if (g == 0)
 		{
@@ -179,7 +181,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 
-		generatePrivateKey_int(lambda, mu, p, q, n, g);
+		generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu);
 		pubk = PaillierPublicKey(n, g);
 
@@ -209,10 +211,10 @@ int main(int argc, char **argv)
 
 		fclose(f_public_key);
 
-		printf("Pub Key G = %ld\n", pubk.getG());
-		printf("Pub Key N = %d \n", pubk.getN());
-		printf("Priv Key lambda = %d\n", pk.getLambda());
-		printf("Priv Key mu = %d\n", pk.getMu());
+		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
 	}
 	else
 	{
@@ -268,21 +270,23 @@ int main(int argc, char **argv)
 		strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
 		int nH, nW, nTaille;
-		int n = pubk.getN();
-		long int g = pubk.getG();
+		uint64_t n = pubk.getN();
+		uint64_t g = pubk.getG();
+		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 
-		uint8_t *ImgIn;
+		OCTET *ImgIn;
 		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
 
 		if (distributeOnTwo)
 		{
 			uint8_t *ImgOutEnc;
-			nTaille = nH * (nW*2);
+			nTaille = nH * nW;
 
-			allocation_tableau(ImgIn, uint8_t, nTaille);
+			allocation_tableau(ImgIn, OCTET, nTaille);
 			lire_image_pgm(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutEnc, OCTET, nTaille);
-			int x = 0, y = 1;
+			allocation_tableau(ImgOutEnc, OCTET, nH * (2*nW));
+			uint64_t x = 0, y = 1;
 			for (int i = 0; i < nTaille; i++)
 			{
 				uint8_t pixel;
@@ -304,7 +308,7 @@ int main(int argc, char **argv)
 				y = y + 2;
 			}
 
-			ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+			ecrire_image_pgm_variable_size_8t(cNomImgEcriteEnc, ImgOutEnc, nH, nW*2, n);
 
 			free(ImgIn);
 			free(ImgOutEnc);
@@ -336,7 +340,7 @@ int main(int argc, char **argv)
 				ImgOutEnc[i] = pixel_enc;
 			}
 
-			ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+			ecrire_image_pgm_variable_size_16t(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
 
 			free(ImgIn);
 			free(ImgOutEnc);
@@ -358,47 +362,43 @@ int main(int argc, char **argv)
 		strcpy(cNomImgEcriteDec, s_fileNew.c_str());
 
 		int nH, nW, nTaille;
-		int n, lambda, mu;
+		uint64_t n, lambda, mu;
 		lambda = pk.getLambda();
 		mu = pk.getMu();
-		printf("Priv Key lambda = %d\n", pk.getLambda());
-		printf("Priv Key mu = %d\n", pk.getMu());
 
 		OCTET *ImgOutDec;
-
 		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		nTaille = nH * nW;
 
 		if (distributeOnTwo)
 		{
 			uint8_t *ImgIn;
-			nTaille = nH * nW;
 
 			allocation_tableau(ImgIn, uint8_t, nTaille);
-			n = lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutDec, OCTET, nTaille);
+			n = lire_image_pgm_and_get_maxgrey_8t(cNomImgLue, ImgIn, nTaille);
+			allocation_tableau(ImgOutDec, OCTET, nH*(nW/2));
 
 			int x = 0, y = 1;
-			for (int i = 0; i < nTaille; i++)
+			for (int i = 0; i < nH*(nW/2); i++)
 			{
-				uint8_t pixel;
+				uint16_t pixel;
 				uint8_t pixel_enc_dec_x = ImgIn[x];
 				uint8_t pixel_enc_dec_y = ImgIn[y];
 				pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
 				x = x + 2;
 				y = y + 2;
-				uint8_t c = paillierDecryption_8t(n, lambda, mu, pixel);
+				uint8_t c = paillierDecryption_16t(n, lambda, mu, pixel);
 				ImgOutDec[i] = static_cast<OCTET>(c);
 			}
-			ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW);
+			ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
 			free(ImgIn);
 			free(ImgOutDec);
 		}
 		else
 		{
 			uint16_t *ImgIn;
-			nTaille = nH * (nW/2);
 			allocation_tableau(ImgIn, uint16_t, nTaille);
-			n = lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
+			n = lire_image_pgm_and_get_maxgrey_16t(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutDec, OCTET, nTaille);
 
 			for (int i = 0; i < nTaille; i++)
