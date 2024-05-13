@@ -310,7 +310,12 @@ void generatePrivateKey(int &lambda, int &mu, const int &p, const int &q, const 
 	generateMu(mu, g, lambda, n);
 }
 
-uint8_t paillierDecryption(int n, int lambda, int mu, int c)
+uint8_t paillierDecryption(int n, int lambda, int mu, uint16_t c)
+{
+	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
+}
+
+uint8_t paillierDecryption(int n, int lambda, int mu, uint8_t c)
 {
 	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
 }

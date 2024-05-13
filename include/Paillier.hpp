@@ -87,4 +87,6 @@ void generatePrivateKey(int &lambda, int &mu, const int &p, const int &q, const 
 
 uint8_t paillierDecryption(int n, int lambda, int mu, uint16_t c);
 
+uint8_t paillierDecryption(int n, int lambda, int mu, uint8_t c);
+
 #endif // PAILLIER_CRYPTOSYSTEM
