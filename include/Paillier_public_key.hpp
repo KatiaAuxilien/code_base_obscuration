@@ -5,31 +5,32 @@ class PaillierPublicKey
 {
 public:
     PaillierPublicKey();
-    PaillierPublicKey(uint64_t n, uint64_t g);
-    uint64_t getN();
-    uint64_t getG();
+    PaillierPublicKey(int n, long int g);
+    int getN();
+    long int getG();
     ~PaillierPublicKey();
 
 private:
-    uint64_t n, g;
+    int n;
+    long int g;
 };
 PaillierPublicKey::PaillierPublicKey()
 {
     n = g = 0;
 }
 
-PaillierPublicKey::PaillierPublicKey(uint64_t N, uint64_t G)
+PaillierPublicKey::PaillierPublicKey(int N, long int G)
 {
     n = N;
     g = G;
 }
 
-uint64_t PaillierPublicKey::getN()
+int PaillierPublicKey::getN()
 {
     return n;
 }
 
-uint64_t PaillierPublicKey::getG()
+long int PaillierPublicKey::getG()
 {
     return g;
 }

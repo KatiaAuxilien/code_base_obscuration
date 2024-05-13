@@ -33,7 +33,7 @@ bool isPrime(int n, int i = 2)
 
 /////////////////// UINT64_T
 
-uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n)
+uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
 {
 	uint64_t c = 1;
 	bitset<BITSETSIZE> bits = bitset<BITSETSIZE>(e);
@@ -58,13 +58,13 @@ uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n)
  *
  *  @details
  */
-uint64_t gcd(uint64_t a, uint64_t b)
+uint64_t gcd_64t(uint64_t a, uint64_t b)
 {
 	if (b == 0)
 	{
 		return a;
 	}
-	return gcd(b, a % b);
+	return gcd_64t(b, a % b);
 }
 
 /**
@@ -77,12 +77,12 @@ uint64_t gcd(uint64_t a, uint64_t b)
  *
  *  @details
  */
-std::vector<long uint64_t> calc_set_same_remainder_divide_euclide(uint64_t n)
+std::vector<long uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n)
 {
 	std::vector<long uint64_t> result;
 	for (uint64_t i = 0; i < n; i++)
 	{
-		if (gcd(i, n) == 1)
+		if (gcd_64t(i, n) == 1)
 		{
 			result.push_back(i);
 		}
@@ -100,7 +100,7 @@ std::vector<long uint64_t> calc_set_same_remainder_divide_euclide(uint64_t n)
  *
  *  @details
  */
-uint64_t choose_g_in_vec(std::vector<long uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
+uint64_t choose_g_in_vec_64t(std::vector<long uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
 {
 	uint64_t x;
 	int i_position = 0;
@@ -109,25 +109,25 @@ uint64_t choose_g_in_vec(std::vector<long uint64_t> &set, const uint64_t &n, con
 	{
 		i_position = rand() % set.size();
 		g = set.at(i_position);
-		x = fastMod(g, lambda, n * n);
+		x = fastMod_64t(g, lambda, n * n);
 		r = (x - 1) % n;
 		r2 = (x - 1) / n;
 	}
 	return g;
 }
 
-uint64_t L(uint64_t x, uint64_t n)
+uint64_t L_64t(uint64_t x, uint64_t n)
 {
 	return (x - 1) / n;
 }
 
 // least common multiple
-uint64_t lcm(uint64_t a, uint64_t b)
+uint64_t lcm_64t(uint64_t a, uint64_t b)
 {
-	return a * b / gcd(a, b);
+	return a * b / gcd_64t(a, b);
 }
 
-uint64_t modInverse(uint64_t a, uint64_t n)
+uint64_t modInverse_64t(uint64_t a, uint64_t n)
 {
 	a = a % n;
 	for (uint64_t x = 1; x < n; x++)
@@ -148,51 +148,51 @@ uint64_t pow_uint64_t(uint64_t x, uint64_t n)
 	return x * pow_uint64_t(x, n - 1);
 }
 
-uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m)
+uint64_t paillierEncryption_64t(uint64_t n, uint64_t g, uint64_t m)
 {
 	uint64_t c;
 	uint64_t r = rand() % n;
-	while (gcd(r, n) != 1 || r == 0)
+	while (gcd_64t(r, n) != 1 || r == 0)
 	{
 		r = rand() % n;
 	}
 
-	uint64_t fm1 = fastMod(g, m, n * n);
-	uint64_t fm2 = fastMod(r, n, n * n);
+	uint64_t fm1 = fastMod_64t(g, m, n * n);
+	uint64_t fm2 = fastMod_64t(r, n, n * n);
 	c = (fm1 * fm2) % (n * n); // (a+b)%n = (a%n + b%n) % n
 
 	return c;
 }
-uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m, uint64_t r)
+uint64_t paillierEncryption_64t(uint64_t n, uint64_t g, uint64_t m, uint64_t r)
 {
 	uint64_t c;
 
 	// c = ((pow_uint64_t(g,m))*(pow_uint64_t(r,n)) ) % (n * n);
 
-	uint64_t fm1 = fastMod(g, m, n * n);
-	uint64_t fm2 = fastMod(r, n, n * n);
+	uint64_t fm1 = fastMod_64t(g, m, n * n);
+	uint64_t fm2 = fastMod_64t(r, n, n * n);
 	c = (fm1 * fm2) % (n * n); // (a+b)%n = (a%n + b%n) % n
 
 	return c;
 }
 
-void generateMu(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
+void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
 {
-	uint64_t u = fastMod(g, lambda, n * n);
+	uint64_t u = fastMod_64t(g, lambda, n * n);
 	uint64_t l = (u - 1) / n;
-	mu = modInverse(l, n);
+	mu = modInverse_64t(l, n);
 }
 
-void generatePrivateKey(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
+void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
 {
-	lambda = lcm(p - 1, q - 1);
+	lambda = lcm_64t(p - 1, q - 1);
 
-	generateMu(mu, g, lambda, n);
+	generateMu_64t(mu, g, lambda, n);
 }
 
-uint64_t paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c)
+uint64_t paillierDecryption_64t(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c)
 {
-	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
+	return (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
 }
 
 ///////////////////////// Opti
@@ -210,7 +210,7 @@ pix_enc : uint16_t
 
 #define BITSETSIZE2 32
 
-int fastMod(int x, int e, int n)
+int fastMod_int(int x, int e, int n)
 {
 	int c = 1;
 	bitset<BITSETSIZE2> bits = bitset<BITSETSIZE2>(e);
@@ -225,17 +225,17 @@ int fastMod(int x, int e, int n)
 	return c;
 }
 
-int gcd(int a, int b)
+int gcd_int(int a, int b)
 {
 	if (b == 0)
 	{
 		return a;
 	}
-	return gcd(b, a % b);
+	return gcd_int(b, a % b);
 }
 
 
-long int choose_g_in_vec(std::vector<long int> &set, const int &n, const int &lambda)
+long int choose_g_in_vec_int(std::vector<long int> &set, const int &n, const int &lambda)
 {
 	int x;
 	int i_position = 0;
@@ -244,24 +244,47 @@ long int choose_g_in_vec(std::vector<long int> &set, const int &n, const int &la
 	{
 		i_position = rand() % set.size();
 		g = set.at(i_position);
-		x = fastMod(g, lambda, n * n);
+		x = fastMod_int(g, lambda, n * n);
 		r = (x - 1) % n;
 		r2 = (x - 1) / n;
 	}
 	return g;
 }
 
-int L(int x, int n)
+/**
+ *  @brief
+ *  @param
+ *  @authors Katia Auxilien
+ *  @date 13/05/2024 10:08:00
+ *
+ *  Calcul de l'ensemble des éléments de  g ∈ (Z/n2Z)*
+ *
+ *  @details
+ */
+std::vector<long int> calc_set_same_remainder_divide_euclide_int(int n)
+{
+	std::vector<long int> result;
+	for (int i = 0; i < n; i++)
+	{
+		if (gcd_int(i, n) == 1)
+		{
+			result.push_back(i);
+		}
+	}
+	return result;
+}
+
+int L_int(int x, int n)
 {
 	return (x - 1) / n;
 }
 
-int lcm(int a, int b)
+int lcm_int(int a, int b)
 {
-	return a * b / gcd(a, b);
+	return a * b / gcd_int(a, b);
 }
 
-int modInverse(int a, int n)
+int modInverse_int(int a, int n)
 {
 	a = a % n;
 	for (int x = 1; x < n; x++)
@@ -272,50 +295,50 @@ int modInverse(int a, int n)
 	return 0;
 }
 
-uint16_t paillierEncryption(int n, long int g, uint8_t m)
+uint16_t paillierEncryption_8t(int n, long int g, uint8_t m)
 {
 	int c;
 	int r = rand() % n;
-	while (gcd(r, n) != 1 || r == 0)
+	while (gcd_int(r, n) != 1 || r == 0)
 	{
 		r = rand() % n;
 	}
 
-	int fm1 = fastMod(g, m, n * n);
-	int fm2 = fastMod(r, n, n * n);
+	int fm1 = fastMod_int(g, m, n * n);
+	int fm2 = fastMod_int(r, n, n * n);
 	c = (fm1 * fm2) % (n * n);
 
 	return (uint16_t) c;
 }
 
-uint16_t paillierEncryption(int n,long int g, uint8_t m, int r)
+uint16_t paillierEncryption_8t_r(int n,long int g, uint8_t m, int r)
 {
 	int c;
-	int fm1 = fastMod(g, m, n * n);
-	int fm2 = fastMod(r, n, n * n);
+	int fm1 = fastMod_int(g, m, n * n);
+	int fm2 = fastMod_int(r, n, n * n);
 	c = (fm1 * fm2) % (n * n);
 	return (uint16_t) c;
 }
 
-void generateMu(int &mu, const long int &g, const int &lambda, const int &n)
+void generateMu_int(int &mu, const long int &g, const int &lambda, const int &n)
 {
-	int u = fastMod(g, lambda, n * n);
+	int u = fastMod_int(g, lambda, n * n);
 	int l = (u - 1) / n;
-	mu = modInverse(l, n);
+	mu = modInverse_int(l, n);
 }
 
-void generatePrivateKey(int &lambda, int &mu, const int &p, const int &q, const int &n, const long int &g)
+void generatePrivateKey_int(int &lambda, int &mu, const int &p, const int &q, const int &n, const long int &g)
 {
-	lambda = lcm(p - 1, q - 1);
-	generateMu(mu, g, lambda, n);
+	lambda = lcm_int(p - 1, q - 1);
+	generateMu_int(mu, g, lambda, n);
 }
 
-uint8_t paillierDecryption(int n, int lambda, int mu, uint16_t c)
+uint8_t paillierDecryption_16t(int n, int lambda, int mu, uint16_t c)
 {
-	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
+	return (((fastMod_int(c, lambda, n * n) - 1) / n) * mu) % n;
 }
 
-uint8_t paillierDecryption(int n, int lambda, int mu, uint8_t c)
+uint8_t paillierDecryption_8t(int n, int lambda, int mu, uint8_t c)
 {
-	return (((fastMod(c, lambda, n * n) - 1) / n) * mu) % n;
+	return (((fastMod_int(c, lambda, n * n) - 1) / n) * mu) % n;
 }

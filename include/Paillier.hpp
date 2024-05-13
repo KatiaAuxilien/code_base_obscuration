@@ -27,30 +27,30 @@ bool isPrime(int n, int i);
 
 // UINT64_T
 
-uint64_t fastMod(uint64_t x, uint64_t e, uint64_t n);
+uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n);
 
-uint64_t gcd(uint64_t a, uint64_t b);
+uint64_t gcd_64t(uint64_t a, uint64_t b);
 
-std::vector<long uint64_t> calc_set_same_remainder_divide_euclide(uint64_t n);
+std::vector<long uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n);
 
-uint64_t choose_g_in_vec(std::vector<long uint64_t> &set, const uint64_t &n, const uint64_t &lambda);
+uint64_t choose_g_in_vec_64t(std::vector<long uint64_t> &set, const uint64_t &n, const uint64_t &lambda);
 
-uint64_t L(uint64_t x, uint64_t n);
+uint64_t L_64t(uint64_t x, uint64_t n);
 
-uint64_t lcm(uint64_t a, uint64_t b);
+uint64_t lcm_64t(uint64_t a, uint64_t b);
 
-uint64_t modInverse(uint64_t a, uint64_t n);
+uint64_t modInverse_64t(uint64_t a, uint64_t n);
 
 uint64_t pow_uint64_t(uint64_t x, uint64_t n);
 
-uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m);
-uint64_t paillierEncryption(uint64_t n, uint64_t g, uint64_t m, uint64_t r);
+uint64_t paillierEncryption_64t(uint64_t n, uint64_t g, uint64_t m);
+uint64_t paillierEncryption_64t(uint64_t n, uint64_t g, uint64_t m, uint64_t r);
 
-void generateMu(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n);
+void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n);
 
-void generatePrivateKey(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g);
+void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g);
 
-uint64_t paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c);
+uint64_t paillierDecryption_64t(uint64_t n, uint64_t lambda, uint64_t mu, uint64_t c);
 
 ///////////////////////// Opti
 /* Paramètres
@@ -65,28 +65,30 @@ m (pixel origin) : uint8_t
 pix_enc : uint16_t
 */
 
-int fastMod(int x, int e, int n);
+int fastMod_int(int x, int e, int n);
 
-int gcd(int a, int b);
+int gcd_int(int a, int b);
 
-int choose_g_in_vec(std::vector<int> &set, const int &n, const int &lambda);
+long int choose_g_in_vec_int(std::vector<long int> &set, const int &n, const int &lambda);
 
-int L(int x, int n);
+std::vector<long int> calc_set_same_remainder_divide_euclide_int(int n);
 
-int lcm(int a, int b);
+int L_int(int x, int n);
 
-int modInverse(int a, int n);
+int lcm_int(int a, int b);
 
-uint16_t paillierEncryption(int n, int g, uint8_t m);
+int modInverse_int(int a, int n);
 
-uint16_t paillierEncryption(int n, int g, uint8_t m, int r);
+uint16_t paillierEncryption_8t(int n, long int g, uint8_t m);
 
-void generateMu(int &mu, const int &g, const int &lambda, const int &n);
+uint16_t paillierEncryption_8t_r(int n, long int g, uint8_t m, int r);
 
-void generatePrivateKey(int &lambda, int &mu, const int &p, const int &q, const int &n, const int &g);
+void generateMu_int(int &mu, const int &g, const int &lambda, const int &n);
 
-uint8_t paillierDecryption(int n, int lambda, int mu, uint16_t c);
+void generatePrivateKey_int(int &lambda, int &mu, const int &p, const int &q, const int &n, const long int &g);
 
-uint8_t paillierDecryption(int n, int lambda, int mu, uint8_t c);
+uint8_t paillierDecryption_16t(int n, int lambda, int mu, uint16_t c);
+
+uint8_t paillierDecryption_8t(int n, int lambda, int mu, uint8_t c);
 
 #endif // PAILLIER_CRYPTOSYSTEM
