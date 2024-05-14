@@ -22,8 +22,7 @@
 
 using namespace std;
 
-Paillier::Paillier(){
-}
+Paillier::Paillier(){};
 
 /**
  *  @brief Calcul de l'exponentiation modulaire rapide.

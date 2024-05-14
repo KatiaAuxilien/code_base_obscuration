@@ -293,7 +293,7 @@ int main(int argc, char **argv)
 		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 
 		OCTET *ImgIn;
-		img_pgm.lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
 
 		if (distributeOnTwo)
 		{
@@ -301,7 +301,7 @@ int main(int argc, char **argv)
 			nTaille = nH * nW;
 
 			allocation_tableau(ImgIn, OCTET, nTaille);
-			img_pgm.lire_image_pgm(cNomImgLue, ImgIn, nTaille);
+			img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutEnc, OCTET, nH * (2*nW));
 			uint64_t x = 0, y = 1;
 			for (int i = 0; i < nTaille; i++)
@@ -336,7 +336,7 @@ int main(int argc, char **argv)
 			nTaille = nH * nW;
 
 			allocation_tableau(ImgIn, OCTET, nTaille);
-			img_pgm.lire_image_pgm(cNomImgLue, ImgIn, nTaille);
+			img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutEnc, uint16_t, nTaille);
 
 			for (int i = 0; i < nTaille; i++)
@@ -384,7 +384,7 @@ int main(int argc, char **argv)
 		mu = pk.getMu();
 
 		OCTET *ImgOutDec;
-		img_pgm.lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
 		nTaille = nH * nW;
 
 		if (distributeOnTwo)
@@ -407,7 +407,7 @@ int main(int argc, char **argv)
 				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
 				ImgOutDec[i] = static_cast<OCTET>(c);
 			}
-			img_pgm.ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
+			img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
 			free(ImgIn);
 			free(ImgOutDec);
 		}
@@ -425,7 +425,7 @@ int main(int argc, char **argv)
 				ImgOutDec[i] = static_cast<OCTET>(c);
 				
 			}
-			img_pgm.ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW);
+			img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);
 			free(ImgIn);
 			free(ImgOutDec);
 		}

@@ -1,15 +1,16 @@
 /******************************************************************************
- * ICAR_Library
+ * ICAR_Interns_Library
  *
- * Fichier : image.h
+ * Fichier : image_portable.hpp
  *
  * Description :
+ *   Fichier source de départ image.h, ICAR_Library, de William Puech, en Tue Mar 31 13:26:36 2005
+ * 
+ * Auteur : Katia Auxilien
  *
- * Auteur :
+ * Mail : katia.auxilien@mail.fr
  *
- * Mail :
- *
- * Date :
+ * Date : Mai 2024
  *
  *******************************************************************************/
 #ifndef IMAGE_PORTABLE

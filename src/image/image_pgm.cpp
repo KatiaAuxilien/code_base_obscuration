@@ -4,7 +4,7 @@
  * Fichier : image_pgm.cpp
  *
  * Description :
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   Fichier source de départ image.cpp de Bianca Jansen Van Rensburg
  * 
  * Auteur : Katia Auxilien
  *
@@ -13,9 +13,9 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/image/image_pgm.h"
+#include "../../include/image/image_pgm.hpp"
 
-void image_pgm::ecrire_image_pgm(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
+void image_pgm::ecrire_image_p(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
 {
 	FILE *f_image;
 	int taille_image = nb_colonnes * nb_lignes;
@@ -39,7 +39,7 @@ void image_pgm::ecrire_image_pgm(char nom_image[], OCTET *pt_image, int nb_ligne
 	}
 }
 
-void image_pgm::lire_nb_lignes_colonnes_image_pgm(char nom_image[], int *nb_lignes, int *nb_colonnes)
+void image_pgm::lire_nb_lignes_colonnes_image_p(char nom_image[], int *nb_lignes, int *nb_colonnes)
 {
 	FILE *f_image;
 	int max_grey_val;
@@ -62,7 +62,7 @@ void image_pgm::lire_nb_lignes_colonnes_image_pgm(char nom_image[], int *nb_lign
 	}
 }
 
-void image_pgm::lire_image_pgm(char nom_image[], OCTET *pt_image, int taille_image)
+void image_pgm::lire_image_p(char nom_image[], OCTET *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes, max_grey_val;

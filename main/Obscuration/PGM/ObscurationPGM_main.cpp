@@ -1,5 +1,19 @@
+/******************************************************************************
+ * ICAR_Interns_Library
+ *
+ * Fichier : ObscurationPGM_main.cpp
+ *
+ * Description :
+ *   Fichier source de départ main.cpp et Functions.h de  Norman Hutte
+ *
+ * Auteur : Katia Auxilien
+ *
+ * Mail : katia.auxilien@mail.fr
+ *
+ * Date : Avril 2024
+ *
+ *******************************************************************************/
 
-// #include "../../../include/image/image_pgm.hpp"
 #include "../../../include/image/ImageBase.hpp"
 #include "../../../include/obscuration/obscurationCommon.h"
 #include "../../../include/obscuration/obscurationPGM.h"

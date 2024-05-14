@@ -16,7 +16,7 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
-#include "../../../include/image/image_pgm.h"
+#include "../../../include/image/image_pgm.hpp"
 
 #ifndef PAILLIER_CRYPTOSYSTEM
 #define PAILLIER_CRYPTOSYSTEM

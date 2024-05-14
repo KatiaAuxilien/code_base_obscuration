@@ -1,15 +1,16 @@
 /******************************************************************************
- * ICAR_Library
+ * ICAR_Interns_Library
  *
- * Fichier : image_ppm.h
+ * Fichier : image_pgm.h
  *
  * Description :
+ *   Fichier source de départ image.h, ICAR_Library, de William Puech, en Tue Mar 31 13:26:36 2005
  *
- * Auteur :
+ * Auteur : Katia Auxilien
  *
- * Mail :
+ * Mail : katia.auxilien@mail.fr
  *
- * Date : Tue Mar 31 13:26:36 2005
+ * Date : Mai 2024
  *
  *******************************************************************************/
 #ifndef IMAGE_PGM

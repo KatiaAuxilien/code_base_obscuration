@@ -1,3 +1,18 @@
+/******************************************************************************
+ * ICAR_Interns_Library
+ *
+ * Fichier : image.cpp
+ *
+ * Description :
+ *   Fichier source de départ image.cpp de Bianca Jansen Van Rensburg
+ * 
+ * Auteur : Katia Auxilien
+ *
+ * Mail : katia.auxilien@mail.fr
+ *
+ * Date : Avril 2024 - Mai 2024
+ *
+ *******************************************************************************/
 #include "../../include/image/image_portable.hpp"
 
 void image_portable::ignorer_commentaires(FILE *f)

@@ -1,7 +1,7 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_main.cpp
+ * Fichier : Paillier_num_main_V3.cpp
  *
  * Description :
  *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg

@@ -1,15 +1,16 @@
 /******************************************************************************
- * ICAR_Library
+ * ICAR_Interns_Library
  *
  * Fichier : image_ppm.cpp
  *
  * Description :
+ *   Fichier source de départ image.cpp de Bianca Jansen Van Rensburg
+ * 
+ * Auteur : Katia Auxilien
  *
- * Auteur :
+ * Mail : katia.auxilien@mail.fr
  *
- * Mail :
- *
- * Date :
+ * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
 #include "../../include/image/image_ppm.hpp"

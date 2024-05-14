@@ -13,7 +13,7 @@
  *
  *******************************************************************************/
 
-#include "../image/ImageBase.h"
+#include "../image/ImageBase.hpp"
 #include "../obscuration/obscurationCommon.h"
 
 #include <iostream>
