@@ -3,17 +3,17 @@
 
 class PaillierPrivateKey
 {
+    public:
+        PaillierPrivateKey();
+        PaillierPrivateKey(uint64_t l, uint64_t m);
+        uint64_t getLambda();
+        uint64_t getMu();
+        ~PaillierPrivateKey();
 
-public:
-    PaillierPrivateKey();
-    PaillierPrivateKey(uint64_t l, uint64_t m);
-    uint64_t getLambda();
-    uint64_t getMu();
-    ~PaillierPrivateKey();
-
-private:
-    uint64_t lambda, mu;
+    private:
+        uint64_t lambda, mu;
 };
+
 PaillierPrivateKey::PaillierPrivateKey()
 {
     lambda = mu = 0;

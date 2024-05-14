@@ -12,8 +12,8 @@
  * Date :
  *
  *******************************************************************************/
-#ifndef IMAGE
-#define IMAGE
+#ifndef IMAGE_PORTABLE
+#define IMAGE_PORTABLE
 
 #include <cmath>
 #include <cstdlib>
@@ -29,6 +29,13 @@
 
 typedef unsigned char OCTET;
 
-void ignorer_commentaires(FILE *f);
+class image_portable{
+    protected:
+        void ignorer_commentaires(FILE *f);
+    public:
+        virtual void lire_nb_lignes_colonnes_image_p(char nom_image[], int *nb_lignes, int *nb_colonnes) = 0;
+        virtual void lire_image_p(char nom_image[], OCTET *pt_image, int taille_image) = 0;
+        virtual void ecrire_image_p(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes) = 0;
+};
 
 #endif // IMAGE

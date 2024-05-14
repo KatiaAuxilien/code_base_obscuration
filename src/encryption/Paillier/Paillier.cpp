@@ -26,27 +26,6 @@ Paillier::Paillier(){
 }
 
 /**
- *  @brief Vérifier si n est un nombre premier.
- *  @details
- *  @param int n 
- *  @param int i
- *  @authors Katia Auxilien
- *  @date 30/04/2024 
- */
-bool Paillier::isPrime(int n, int i = 2)
-{
-	if (n <= 2)
-		return (n == 2) ? true : false;
-	if (n % i == 0)
-		return false;
-	if (i * i > n)
-		return true;
-
-	return isPrime(n, i + 1);
-}
-
-
-/**
  *  @brief Calcul de l'exponentiation modulaire rapide.
  *  @details Calcul de l'exponentiation modulaire rapide.
  *  @param uint64_t x 

@@ -1,9 +1,6 @@
-extern "C"
-{
-#include "../../../include/image/image.h"
-}
-#include "../../../include/image/image_pgm.h"
-#include "../../../include/image/ImageBase.h"
+
+// #include "../../../include/image/image_pgm.hpp"
+#include "../../../include/image/ImageBase.hpp"
 #include "../../../include/obscuration/obscurationCommon.h"
 #include "../../../include/obscuration/obscurationPGM.h"
 #include "../../../include/filesystem/filesystemPGM.h"
@@ -58,6 +55,9 @@ void afficherBarreDeChargement(size_t progress, size_t total)
  **/
 int main(int argc, char **argv)
 {
+    image_pgm img_pgm;
+    img_pgm = image_pgm();
+
     if (argc != 2)
     {
         printf("Usage : directory\n");
@@ -423,11 +423,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -436,7 +436,7 @@ int main(int argc, char **argv)
 
         oImgOut = aes.EncryptECB(oImgIn, nTaille, key);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -471,11 +471,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -485,7 +485,7 @@ int main(int argc, char **argv)
 
         oImgOut = aes.EncryptCBC(oImgIn, nTaille, key, iv);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -521,11 +521,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -535,7 +535,7 @@ int main(int argc, char **argv)
 
         oImgOut = aes.EncryptCTR(oImgIn, nTaille, key, iv);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -572,11 +572,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -586,7 +586,7 @@ int main(int argc, char **argv)
 
         oImgOut = aes.EncryptCFB(oImgIn, nTaille, key, iv);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -623,11 +623,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -637,7 +637,7 @@ int main(int argc, char **argv)
 
         oImgOut = aes.EncryptOFB(oImgIn, nTaille, key, iv);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOut, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOut, nH, nW);
         free(oImgIn);
 
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -673,11 +673,11 @@ int main(int argc, char **argv)
         int nH, nW, nTaille;
         OCTET *oImgIn, *oImgOut, *oImgOutDec;
 
-        lire_nb_lignes_colonnes_image_pgm(t_cImageInPath, &nH, &nW);
+        img_pgm.lire_nb_lignes_colonnes_image_p(t_cImageInPath, &nH, &nW);
         nTaille = nH * nW;
 
         allocation_tableau(oImgIn, OCTET, nTaille);
-        lire_image_pgm(t_cImageInPath, oImgIn, nH * nW);
+        img_pgm.lire_image_p(t_cImageInPath, oImgIn, nH * nW);
         allocation_tableau(oImgOut, OCTET, nTaille);
 
         AES aes(AESKeyLength::AES_128);
@@ -693,7 +693,7 @@ int main(int argc, char **argv)
 
         oImgOutDec = aes.DecryptCFB(oImgOut, nTaille, key_falsified, iv);
 
-        ecrire_image_pgm(t_cImageOutPath, oImgOutDec, nH, nW);
+        img_pgm.ecrire_image_p(t_cImageOutPath, oImgOutDec, nH, nW);
         free(oImgIn);
         free(oImgOut);
     }

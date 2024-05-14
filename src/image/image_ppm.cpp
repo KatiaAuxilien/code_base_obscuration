@@ -12,10 +12,9 @@
  * Date :
  *
  *******************************************************************************/
-#include "../../include/image/image.h"
-#include "../../include/image/image_ppm.h"
+#include "../../include/image/image_ppm.hpp"
 
-void planR(OCTET *pt_image, OCTET *src, int taille_image)
+void image_ppm::planR(OCTET *pt_image, OCTET *src, int taille_image)
 {
 	int i;
 	for (i = 0; i < taille_image; i++)
@@ -24,7 +23,7 @@ void planR(OCTET *pt_image, OCTET *src, int taille_image)
 	}
 }
 
-void planV(OCTET *pt_image, OCTET *src, int taille_image)
+void image_ppm::planV(OCTET *pt_image, OCTET *src, int taille_image)
 {
 	int i;
 	for (i = 0; i < taille_image; i++)
@@ -33,7 +32,7 @@ void planV(OCTET *pt_image, OCTET *src, int taille_image)
 	}
 }
 
-void planB(OCTET *pt_image, OCTET *src, int taille_image)
+void image_ppm::planB(OCTET *pt_image, OCTET *src, int taille_image)
 {
 	int i;
 	for (i = 0; i < taille_image; i++)
@@ -42,7 +41,7 @@ void planB(OCTET *pt_image, OCTET *src, int taille_image)
 	}
 }
 
-void lire_nb_lignes_colonnes_image_ppm(char nom_image[], int *nb_lignes, int *nb_colonnes)
+void image_ppm::lire_nb_lignes_colonnes_image_p(char nom_image[], int *nb_lignes, int *nb_colonnes)
 {
 	FILE *f_image;
 	int max_grey_val;
@@ -65,7 +64,7 @@ void lire_nb_lignes_colonnes_image_ppm(char nom_image[], int *nb_lignes, int *nb
 	}
 }
 
-void lire_image_ppm(char nom_image[], OCTET *pt_image, int taille_image)
+void image_ppm::lire_image_p(char nom_image[], OCTET *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes, max_grey_val;
@@ -92,7 +91,7 @@ void lire_image_ppm(char nom_image[], OCTET *pt_image, int taille_image)
 	}
 }
 
-void ecrire_image_ppm(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
+void image_ppm::ecrire_image_p(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
 {
 	FILE *f_image;
 	int taille_image = 3 * nb_colonnes * nb_lignes;

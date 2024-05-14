@@ -25,6 +25,26 @@
 using namespace std;
 
 /**
+ *  @brief Vérifier si n est un nombre premier.
+ *  @details
+ *  @param int n 
+ *  @param int i
+ *  @authors Katia Auxilien
+ *  @date 30/04/2024 
+ */
+bool isPrime(int n, int i = 2)
+{
+	if (n <= 2)
+		return (n == 2) ? true : false;
+	if (n % i == 0)
+		return false;
+	if (i * i > n)
+		return true;
+
+	return isPrime(n, i + 1);
+}
+
+/**
  *  @brief
  *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
  *  @param string pos
@@ -114,7 +134,7 @@ int main(int argc, char **argv)
 	}
 
 	/*======================== Generate keys ========================*/
-
+	Paillier paillier;
 	PaillierPrivateKey pk;
 	PaillierPublicKey pubk;
 
@@ -142,15 +162,15 @@ int main(int argc, char **argv)
 			return 1;
 		}
 
-		vector<uint64_t> set = calc_set_same_remainder_divide_euclide_64t(n * n);
-		uint64_t g = choose_g_in_vec_64t(set, n, lambda);
+		vector<uint64_t> set = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
+		uint64_t g = paillier.choose_g_in_vec_64t(set, n, lambda);
 		if (g == 0)
 		{
 			fprintf(stderr, "ERROR with g.\n");
 			return 1;
 		}
 
-		generatePrivateKey_64t(lambda, mu, p, q, n, g);
+		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu);
 		pubk = PaillierPublicKey(n, g);
 
@@ -232,7 +252,7 @@ int main(int argc, char **argv)
 
 	printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
 	printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
-	std::vector<uint64_t> vector_r_values = calc_set_same_remainder_divide_euclide_64t(n);
+	std::vector<uint64_t> vector_r_values = paillier.calc_set_same_remainder_divide_euclide_64t(n);
 
 	size_t size_vec_r = vector_r_values.size();
 	printf(" vect r : %ld", size_vec_r);
@@ -243,7 +263,7 @@ int main(int argc, char **argv)
 		for (uint64_t i = 0; i < n; i++)
 		{
 			unsigned char msg = i;
-			uint16_t pixel_enc = paillierEncryption_8t_r(n, g, msg, vector_r_values.at(l));
+			uint16_t pixel_enc = paillier.paillierEncryption_8t_r(n, g, msg, vector_r_values.at(l));
 			t_pix_enc[l][i] = pixel_enc;
 		}
 	}

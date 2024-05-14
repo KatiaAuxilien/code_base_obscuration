@@ -12,11 +12,7 @@
  * Date : Octobre 2012
  *
  *******************************************************************************/
-
-#include "../../include/image/ImageBase.h"
-#include "../../include/image/image_ppm.h"
-#include "../../include/image/image_pgm.h"
-#include "../../include/image/image.h"
+#include "../../include/image/ImageBase.hpp"
 
 ImageBase::ImageBase(void)
 {
@@ -113,22 +109,22 @@ void ImageBase::load(char *filename)
 	if (strcmp(filename + l - 3, "pgm") == 0) // L'image est en niveau de gris
 	{
 		color = false;
-		lire_nb_lignes_colonnes_image_pgm(filename, &height, &width);
+		img_pgm.lire_nb_lignes_colonnes_image_p(filename, &height, &width);
 		nbPixel = height * width;
 
 		nTaille = nbPixel;
 		allocation_tableau(data, OCTET, nTaille);
-		lire_image_pgm(filename, data, nbPixel);
+		img_pgm.lire_image_p(filename, data, nbPixel);
 	}
 	else if (strcmp(filename + l - 3, "ppm") == 0) // L'image est en couleur
 	{
 		color = true;
-		lire_nb_lignes_colonnes_image_ppm(filename, &height, &width);
+		img_ppm.lire_nb_lignes_colonnes_image_p(filename, &height, &width);
 		nbPixel = height * width;
 
 		nTaille = nbPixel * 3;
 		allocation_tableau(data, OCTET, nTaille);
-		lire_image_ppm(filename, data, nbPixel);
+		img_ppm.lire_image_p(filename, data, nbPixel);
 	}
 	else
 	{
@@ -150,9 +146,9 @@ bool ImageBase::save(char *filename)
 	}
 
 	if (color)
-		ecrire_image_ppm(filename, data, height, width);
+		img_ppm.ecrire_image_p(filename, data, height, width);
 	else
-		ecrire_image_pgm(filename, data, height, width);
+		img_pgm.ecrire_image_p(filename, data, height, width);
 
 	return true;
 }
@@ -167,13 +163,13 @@ ImageBase *ImageBase::getPlan(PLAN plan)
 	switch (plan)
 	{
 	case PLAN_R:
-		planR(greyIm->data, data, height * width);
+		img_ppm.planR(greyIm->data, data, height * width);
 		break;
 	case PLAN_G:
-		planV(greyIm->data, data, height * width);
+		img_ppm.planV(greyIm->data, data, height * width);
 		break;
 	case PLAN_B:
-		planB(greyIm->data, data, height * width);
+		img_ppm.planB(greyIm->data, data, height * width);
 		break;
 	default:
 		printf("Il n'y a que 3 plans, les valeurs possibles ne sont donc que 'PLAN_R', 'PLAN_G', et 'PLAN_B'");

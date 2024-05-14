@@ -16,8 +16,6 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
-#include "../../../include/image/image.h"
-#include "../../../include/image/image_ppm.h"
 #include "../../../include/image/image_pgm.h"
 
 #ifndef PAILLIER_CRYPTOSYSTEM
@@ -27,7 +25,6 @@ class Paillier
 {
     public:
         Paillier();
-        bool isPrime(int n, int i);
         uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n);
         uint64_t gcd_64t(uint64_t a, uint64_t b);
         std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n);

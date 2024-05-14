@@ -1,6 +1,6 @@
-#include "../../include/image/image.h"
+#include "../../include/image/image_portable.hpp"
 
-void ignorer_commentaires(FILE *f)
+void image_portable::ignorer_commentaires(FILE *f)
 {
 	unsigned char c;
 	while ((c = fgetc(f)) == '#')

@@ -26,7 +26,25 @@ using namespace std;
 
 /* Vérification d'arguments */
 
+/**
+ *  @brief Vérifier si n est un nombre premier.
+ *  @details
+ *  @param int n 
+ *  @param int i
+ *  @authors Katia Auxilien
+ *  @date 30/04/2024 
+ */
+bool isPrime(int n, int i = 2)
+{
+	if (n <= 2)
+		return (n == 2) ? true : false;
+	if (n % i == 0)
+		return false;
+	if (i * i > n)
+		return true;
 
+	return isPrime(n, i + 1);
+}
 
 /**
  *  @brief
@@ -38,7 +56,6 @@ using namespace std;
  */
 uint8_t checkNumbersArgument(string pos, char *arg)
 {
-	Paillier paillier;
 
 	for (size_t i = 0; i < strlen(arg); i++)
 	{
@@ -49,7 +66,7 @@ uint8_t checkNumbersArgument(string pos, char *arg)
 		}
 	}
 	int p = atoi(arg);
-	if (!paillier.isPrime(p, 2))
+	if (!isPrime(p, 2))
 	{
 		fprintf(stderr, "The %s argument must be a prime number.\n", pos.c_str());
 		return 1;
@@ -75,8 +92,6 @@ bool endsWith(const std::string &str, const std::string &suffix)
 
 int main(int argc, char **argv)
 {
-	Paillier paillier;
-
 	/*======================== Check arguments ========================*/
 	if (argc < 4)
 	{
@@ -144,9 +159,12 @@ int main(int argc, char **argv)
 	}
 
 	/*======================== Generate keys ========================*/
-
+	Paillier paillier;
+	paillier = Paillier();
 	PaillierPrivateKey pk;
 	PaillierPublicKey pubk;
+
+	image_pgm img_pgm;
 
 	if (!useKeys && isEncryption)
 	{
@@ -275,7 +293,7 @@ int main(int argc, char **argv)
 		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 
 		OCTET *ImgIn;
-		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		img_pgm.lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
 
 		if (distributeOnTwo)
 		{
@@ -283,7 +301,7 @@ int main(int argc, char **argv)
 			nTaille = nH * nW;
 
 			allocation_tableau(ImgIn, OCTET, nTaille);
-			lire_image_pgm(cNomImgLue, ImgIn, nTaille);
+			img_pgm.lire_image_pgm(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutEnc, OCTET, nH * (2*nW));
 			uint64_t x = 0, y = 1;
 			for (int i = 0; i < nTaille; i++)
@@ -307,7 +325,7 @@ int main(int argc, char **argv)
 				y = y + 2;
 			}
 
-			ecrire_image_pgm_variable_size_8t(cNomImgEcriteEnc, ImgOutEnc, nH, nW*2, n);
+			img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW*2, n);
 
 			free(ImgIn);
 			free(ImgOutEnc);
@@ -318,7 +336,7 @@ int main(int argc, char **argv)
 			nTaille = nH * nW;
 
 			allocation_tableau(ImgIn, OCTET, nTaille);
-			lire_image_pgm(cNomImgLue, ImgIn, nTaille);
+			img_pgm.lire_image_pgm(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutEnc, uint16_t, nTaille);
 
 			for (int i = 0; i < nTaille; i++)
@@ -339,7 +357,7 @@ int main(int argc, char **argv)
 				ImgOutEnc[i] = pixel_enc;
 			}
 
-			ecrire_image_pgm_variable_size_16t(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+			img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
 
 			free(ImgIn);
 			free(ImgOutEnc);
@@ -366,7 +384,7 @@ int main(int argc, char **argv)
 		mu = pk.getMu();
 
 		OCTET *ImgOutDec;
-		lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
+		img_pgm.lire_nb_lignes_colonnes_image_pgm(cNomImgLue, &nH, &nW);
 		nTaille = nH * nW;
 
 		if (distributeOnTwo)
@@ -374,7 +392,7 @@ int main(int argc, char **argv)
 			uint8_t *ImgIn;
 
 			allocation_tableau(ImgIn, uint8_t, nTaille);
-			n = lire_image_pgm_and_get_maxgrey_8t(cNomImgLue, ImgIn, nTaille);
+			n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutDec, OCTET, nH*(nW/2));
 
 			int x = 0, y = 1;
@@ -389,7 +407,7 @@ int main(int argc, char **argv)
 				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
 				ImgOutDec[i] = static_cast<OCTET>(c);
 			}
-			ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
+			img_pgm.ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
 			free(ImgIn);
 			free(ImgOutDec);
 		}
@@ -397,7 +415,7 @@ int main(int argc, char **argv)
 		{
 			uint16_t *ImgIn;
 			allocation_tableau(ImgIn, uint16_t, nTaille);
-			n = lire_image_pgm_and_get_maxgrey_16t(cNomImgLue, ImgIn, nTaille);
+			n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
 			allocation_tableau(ImgOutDec, OCTET, nTaille);
 
 			for (int i = 0; i < nTaille; i++)
@@ -407,7 +425,7 @@ int main(int argc, char **argv)
 				ImgOutDec[i] = static_cast<OCTET>(c);
 				
 			}
-			ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW);
+			img_pgm.ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW);
 			free(ImgIn);
 			free(ImgOutDec);
 		}
