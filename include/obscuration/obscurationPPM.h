@@ -13,8 +13,8 @@
  *
  *******************************************************************************/
 
-#include "ImageBase.h"
-#include "obscurationCommon.h"
+#include "../image/ImageBase.h"
+#include "../obscuration/obscurationCommon.h"
 
 #include <iostream>
 #include <vector>

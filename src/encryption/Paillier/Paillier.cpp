@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../include/Paillier.hpp"
+#include "../../include/encryption/Paillier/Paillier.hpp"
 #include <numeric>
 #include <climits>
 #include <random>

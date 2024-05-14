@@ -12,8 +12,8 @@
  * Date :
  *
  *******************************************************************************/
-#include "../include/image.h"
-#include "../include/image_pgm.h"
+#include "../../include/image/image.h"
+#include "../../include/image/image_pgm.h"
 
 void ecrire_image_pgm(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
 {

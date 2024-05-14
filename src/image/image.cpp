@@ -1,4 +1,4 @@
-#include "../include/image.h"
+#include "../../include/image/image.h"
 
 void ignorer_commentaires(FILE *f)
 {

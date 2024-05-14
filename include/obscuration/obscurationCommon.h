@@ -13,7 +13,7 @@
  *
  *******************************************************************************/
 
-#include "ImageBase.h"
+#include "../image/ImageBase.h"
 #include <iostream>
 #include <vector>
 #include <random>

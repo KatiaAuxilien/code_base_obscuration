@@ -12,8 +12,8 @@
  * Date :
  *
  *******************************************************************************/
-#include "../include/image.h"
-#include "../include/image_ppm.h"
+#include "../../include/image/image.h"
+#include "../../include/image/image_ppm.h"
 
 void planR(OCTET *pt_image, OCTET *src, int taille_image)
 {

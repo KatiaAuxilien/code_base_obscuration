@@ -13,7 +13,7 @@
  *
  *******************************************************************************/
 
-#include "../include/AES.h"
+#include "../../../include/encryption/AES.h"
 
 AES::AES(const AESKeyLength keyLength)
 {
