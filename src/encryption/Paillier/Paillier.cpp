@@ -24,15 +24,6 @@ using namespace std;
 
 Paillier::Paillier(){};
 
-/**
- *  @brief Calcul de l'exponentiation modulaire rapide.
- *  @details Calcul de l'exponentiation modulaire rapide.
- *  @param uint64_t x 
- *  @param uint64_t i
- * 	@param uint64_t n
- *  @authors Katia Auxilien
- *  @date 30/04/2024 
- */
 uint64_t Paillier::fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
 {
 	uint64_t c = 1;
@@ -48,14 +39,6 @@ uint64_t Paillier::fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
 	return c;
 }
 
-/**
- *  @brief Calcul du PGCD en récursif.
- *  @details Calcul du PGCD en récursif, de a et b sur 64 bit.
- *  @param uint64_t a
- * 	@param uint64_t b
- *  @authors Katia Auxilien
- *  @date 30/04/2024
- */
 uint64_t Paillier::gcd_64t(uint64_t a, uint64_t b)
 {
 	if (b == 0)
@@ -65,13 +48,6 @@ uint64_t Paillier::gcd_64t(uint64_t a, uint64_t b)
 	return gcd_64t(b, a % b);
 }
 
-/**
- *  @brief
- *  @details Calcul de l'ensemble des éléments de  g ∈ (Z/n2Z)*
- *  @param
- *  @authors Katia Auxilien
- *  @date 30/04/2024 15:51:00
- */
 std::vector<uint64_t> Paillier::calc_set_same_remainder_divide_euclide_64t(uint64_t n)
 {
 	std::vector<uint64_t> result;
@@ -85,13 +61,6 @@ std::vector<uint64_t> Paillier::calc_set_same_remainder_divide_euclide_64t(uint6
 	return result;
 }
 
-/**
- *  @brief
- *  @details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
- *  @param
- *  @authors Katia Auxilien
- *  @date 02/05/2024
- */
 uint64_t Paillier::choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
 {
 	uint64_t x;
@@ -108,41 +77,16 @@ uint64_t Paillier::choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_
 	return g;
 }
 
-
-/**
- *  @brief Calcul de L(x).
- *  @details Calcul de L(x) nécessaire dans la génération de Mu et le déchiffrement par Paillier.
- *  @param uint64_t x
- * 	@param uint64_t n
- *  @authors Bianca Jansen Van Rensburg
- *  @date ?
- */
 uint64_t Paillier::L_64t(uint64_t x, uint64_t n)
 {
 	return (x - 1) / n;
 }
 
-/**
- *  @brief Calcul du plus petit diviseur commun.
- *  @details Calcul du plus petit diviseur commun de a et b.
- *  @param uint64_t a
- * 	@param uint64_t b
- *  @authors Bianca Jansen Van Rensburg
- *  @date ?
- */
 uint64_t Paillier::lcm_64t(uint64_t a, uint64_t b)
 {
 	return a * b / gcd_64t(a, b);
 }
 
-/**
- *  @brief Calcul de l'inverse modulaire de a modulo n.
- *  @details Calcul de l'inverse modulaire de a modulo n sur 64 bit.
- *  @param uint64_t a
- * 	@param uint64_t n
- *  @authors Bianca Jansen Van Rensburg
- *  @date ?
- */
 uint64_t Paillier::modInverse_64t(uint64_t a, uint64_t n)
 {
 	a = a % n;
@@ -155,14 +99,6 @@ uint64_t Paillier::modInverse_64t(uint64_t a, uint64_t n)
 	return 0;
 }
 
-/**
- *  @brief Calcul de la puissance de n de x 
- *  @details Calcul de la puissance de n de x en récursif.
- *  @param uint64_t x
- * 	@param uint64_t n
- *  @authors Katia Auxilien
- *  @date 30/04/2024
- */
 uint64_t Paillier::pow_uint64_t(uint64_t x, uint64_t n)
 {
 	if (n == 0)
@@ -172,16 +108,6 @@ uint64_t Paillier::pow_uint64_t(uint64_t x, uint64_t n)
 	return x * pow_uint64_t(x, n - 1);
 }
 
-/**
- *  @brief Génération du My.
- *  @details Génération du paramètre Mu nécessaire à la clé privée du chiffrement par Paillier.
- *  @param uint64_t &mu 
- * 	@param const uint64_t &g 
- *  @param const uint64_t &lambda
- *  @param const uint64_t &n
- *  @authors Bianca Jansen Van Rensburg
- *  @date ?
- */
 void Paillier::generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
 {
 	uint64_t u = fastMod_64t(g, lambda, n * n);
@@ -189,18 +115,6 @@ void Paillier::generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &l
 	mu = modInverse_64t(l, n);
 }
 
-/**
- *  @brief Génération de la clé privée du chiffrement par Paillier.
- *  @details Génération de la clé privée du chiffrement par Paillier avec des paramètres sur 64 bit.
- *  @param uint64_t &lambda
- * 	@param uint64_t &mu
- *  @param const uint64_t &p
- *  @param const uint64_t &q
- *  @param const uint64_t &n
- *  @param const uint64_t &g
- *  @authors Bianca Jansen Van Rensburg
- *  @date ?
- */
 void Paillier::generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
 {
 	lambda = lcm_64t(p - 1, q - 1);
@@ -208,17 +122,6 @@ void Paillier::generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint
 	generateMu_64t(mu, g, lambda, n);
 }
 
-/**
- *  @brief Chiffrement par paillier.
- *  @details Chiffrement par paillier d'un message m sur 8 bit.
- *  @param uint64_t n valeur p*q.
- * 	@param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*.
- *  @param uint8_t m message en clair sur 8bit.
- *  @return static_cast<uint16_t>(c) : Le message m chiffré, dont le chiffré est sur 16 bit.
- *  @retval uint16_t 
- *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
- *  @date 13/05/2024
- */
 uint16_t Paillier::paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
     uint64_t c;
     uint64_t r = rand() % n;
@@ -239,20 +142,7 @@ uint16_t Paillier::paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
     return static_cast<uint16_t>(c);
 }
 
-
-/**
- *  @brief Chiffrement par paillier.
- *  @details Chiffrement par paillier d'un message m sur 8 bit.
- *  @param uint64_t n valeur p*q, fait partie de la clé publique.
- * 	@param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*, fait partie de la clé publique.
- *  @param uint64_t r élément aléatoire appartenant à l'ensemble r ∈ (Z/nZ)*.
- *  @param uint8_t m message en clair sur 8bit.
- *  @return static_cast<uint16_t>(c) : Le message m chiffré, dont le chiffré est sur 16 bit.
- *  @retval uint16_t 
- *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
- *  @date 13/05/2024
- */
-uint16_t Paillier::paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
+uint16_t Paillier::paillierEncryption_8tr(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
 {
     uint64_t c;
 
@@ -268,18 +158,6 @@ uint16_t Paillier::paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uin
     return static_cast<uint16_t>(c);
 }
 
-/**
- *  @brief Déchiffrement par paillier.
- *  @details Déchiffrement par paillier d'un chiffré sur 16 bit.
- *  @param uint64_t n valeur p*q.
- * 	@param uint64_t lambda correspond au lcm(p-1,q-1), fait partie de la clé privée.
- *  @param uint64_t mu généré par la fonction generateMu_64t(...), fait partie de la clé privée.
- *  @param uint8_t c message chiffré sur 16bits.
- *  @return static_cast<uint8_t>(result) : Le message clair, déchiffré de c, sur 8 bit.
- *  @retval uint8_t 
- *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
- *  @date 13/05/2024
- */
 uint8_t Paillier::paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t mu, uint16_t c)
 {
     uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
@@ -292,18 +170,6 @@ uint8_t Paillier::paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t m
     return static_cast<uint8_t>(result);
 }
 
-/**
- *  @brief Déchiffrement par paillier.
- *  @details Déchiffrement par paillier d'un chiffré sur 8 bit.
- *  @param uint64_t n valeur p*q.
- * 	@param uint64_t lambda correspond au lcm(p-1,q-1), fait partie de la clé privée.
- *  @param uint64_t mu généré par la fonction generateMu_64t(...), fait partie de la clé privée.
- *  @param uint8_t c message chiffré sur 16 bit.
- *  @return static_cast<uint8_t>(result) : Le message clair, déchiffré de c, sur 8 bit.
- *  @retval uint8_t 
- *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
- *  @date 13/05/2024
- */
 uint8_t Paillier::paillierDecryption_8t(uint64_t n, uint64_t lambda, uint64_t mu, uint8_t c)
 {
     uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
