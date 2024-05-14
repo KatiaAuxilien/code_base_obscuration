@@ -24,15 +24,15 @@
 #include <string_view>
 using namespace std;
 
-/* Vérification d'arguments */
+/*********************** Méthodes de vérification d'arguments ***********************/
 
 /**
  *  @brief Vérifier si n est un nombre premier.
  *  @details
- *  @param int n 
+ *  @param int n
  *  @param int i
  *  @authors Katia Auxilien
- *  @date 30/04/2024 
+ *  @date 30/04/2024
  */
 bool isPrime(int n, int i = 2)
 {
@@ -89,10 +89,173 @@ bool endsWith(const std::string &str, const std::string &suffix)
 		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
+/*********************** Chiffrement/Déchiffrement ***********************/
+
+void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels)
+{
+	Paillier paillier;
+	paillier = Paillier();
+	image_pgm img_pgm;
+
+	char cNomImgLue[250];
+	strcpy(cNomImgLue, s_file.c_str());
+
+	string toErase = ".pgm";
+	size_t pos = s_file.find(".pgm");
+	s_file.erase(pos, toErase.length());
+	string s_fileNew = s_file + "_E.pgm";
+	char cNomImgEcriteEnc[250];
+	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
+
+	int nH, nW, nTaille;
+	uint64_t n = pubk.getN();
+	uint64_t g = pubk.getG();
+	printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+	printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+
+	OCTET *ImgIn;
+	img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
+
+	if (distributeOnTwo)
+	{
+		uint8_t *ImgOutEnc;
+		nTaille = nH * nW;
+
+		allocation_tableau(ImgIn, OCTET, nTaille);
+		img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
+		allocation_tableau(ImgOutEnc, OCTET, nH * (2 * nW));
+		uint64_t x = 0, y = 1;
+		for (int i = 0; i < nTaille; i++)
+		{
+			uint8_t pixel;
+			if (recropPixels)
+			{
+				pixel = (ImgIn[i] * n) / 256;
+			}
+			else
+			{
+				pixel = ImgIn[i];
+			}
+
+			uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
+			uint8_t pixel_enc_dec_x = pixel_enc / n;
+			uint8_t pixel_enc_dec_y = pixel_enc % n;
+			ImgOutEnc[x] = pixel_enc_dec_x;
+			ImgOutEnc[y] = pixel_enc_dec_y;
+			x = x + 2;
+			y = y + 2;
+		}
+
+		img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, n);
+
+		free(ImgIn);
+		free(ImgOutEnc);
+	}
+	else
+	{
+		uint16_t *ImgOutEnc;
+		nTaille = nH * nW;
+
+		allocation_tableau(ImgIn, OCTET, nTaille);
+		img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
+		allocation_tableau(ImgOutEnc, uint16_t, nTaille);
+
+		for (int i = 0; i < nTaille; i++)
+		{
+			uint8_t pixel;
+			if (recropPixels)
+			{
+
+				pixel = (ImgIn[i] * n) / 256;
+			}
+			else
+			{
+				pixel = ImgIn[i];
+			}
+
+			uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
+
+			ImgOutEnc[i] = pixel_enc;
+		}
+
+		img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+
+		free(ImgIn);
+		free(ImgOutEnc);
+		nTaille = nH * nW;
+	}
+}
+
+void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
+{
+	Paillier paillier = Paillier();
+	image_pgm img_pgm;
+	
+	char cNomImgLue[250];
+	strcpy(cNomImgLue, s_file.c_str());
+
+	string toErase = ".pgm";
+	size_t pos = s_file.find(".pgm");
+	s_file.erase(pos, toErase.length());
+	string s_fileNew = s_file + "_D.pgm";
+	char cNomImgEcriteDec[250];
+	strcpy(cNomImgEcriteDec, s_fileNew.c_str());
+
+	int nH, nW, nTaille;
+	uint64_t n, lambda, mu;
+	lambda = pk.getLambda();
+	mu = pk.getMu();
+
+	OCTET *ImgOutDec;
+	img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
+	nTaille = nH * nW;
+
+	if (distributeOnTwo)
+	{
+		uint8_t *ImgIn;
+
+		allocation_tableau(ImgIn, uint8_t, nTaille);
+		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
+		allocation_tableau(ImgOutDec, OCTET, nH * (nW / 2));
+
+		int x = 0, y = 1;
+		for (int i = 0; i < nH * (nW / 2); i++)
+		{
+			uint16_t pixel;
+			uint8_t pixel_enc_dec_x = ImgIn[x];
+			uint8_t pixel_enc_dec_y = ImgIn[y];
+			pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
+			x = x + 2;
+			y = y + 2;
+			uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
+			ImgOutDec[i] = static_cast<OCTET>(c);
+		}
+		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW / 2);
+		free(ImgIn);
+		free(ImgOutDec);
+	}
+	else
+	{
+		uint16_t *ImgIn;
+		allocation_tableau(ImgIn, uint16_t, nTaille);
+		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
+		allocation_tableau(ImgOutDec, OCTET, nTaille);
+
+		for (int i = 0; i < nTaille; i++)
+		{
+			uint16_t pixel = ImgIn[i];
+			uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
+			ImgOutDec[i] = static_cast<OCTET>(c);
+		}
+		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);
+		free(ImgIn);
+		free(ImgOutDec);
+	}
+}
 
 int main(int argc, char **argv)
 {
-	/*======================== Check arguments ========================*/
+	/*********************** Vérification d'arguments ***********************/
 	if (argc < 4)
 	{
 		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
@@ -158,17 +321,13 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	/*======================== Generate keys ========================*/
-	Paillier paillier;
-	paillier = Paillier();
+	/*********************** Traitement de clé ***********************/
+	Paillier paillier = Paillier();
 	PaillierPrivateKey pk;
 	PaillierPublicKey pubk;
 
-	image_pgm img_pgm;
-
 	if (!useKeys && isEncryption)
 	{
-
 		uint64_t p = checkNumbersArgument("second", argv[2]);
 		if (p == 1)
 		{
@@ -272,164 +431,14 @@ int main(int argc, char **argv)
 			fclose(f_public_key);
 		}
 	}
-
-	/*======================== Encryption ========================*/
+	/*********************** Chiffrement ***********************/
 	if (isEncryption)
 	{
-		char cNomImgLue[250];
-		strcpy(cNomImgLue, s_file.c_str());
-
-		string toErase = ".pgm";
-		size_t pos = s_file.find(".pgm");
-		s_file.erase(pos, toErase.length());
-		string s_fileNew = s_file + "_E.pgm";
-		char cNomImgEcriteEnc[250];
-		strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
-
-		int nH, nW, nTaille;
-		uint64_t n = pubk.getN();
-		uint64_t g = pubk.getG();
-		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
-		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
-
-		OCTET *ImgIn;
-		img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
-
-		if (distributeOnTwo)
-		{
-			uint8_t *ImgOutEnc;
-			nTaille = nH * nW;
-
-			allocation_tableau(ImgIn, OCTET, nTaille);
-			img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutEnc, OCTET, nH * (2*nW));
-			uint64_t x = 0, y = 1;
-			for (int i = 0; i < nTaille; i++)
-			{
-				uint8_t pixel;
-				if (recropPixels)
-				{
-					pixel = (ImgIn[i] * n) / 256;
-				}
-				else
-				{
-					pixel = ImgIn[i];
-				}
-
-				uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
-				uint8_t pixel_enc_dec_x = pixel_enc / n;
-				uint8_t pixel_enc_dec_y = pixel_enc % n;
-				ImgOutEnc[x] = pixel_enc_dec_x;
-				ImgOutEnc[y] = pixel_enc_dec_y;
-				x = x + 2;
-				y = y + 2;
-			}
-
-			img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW*2, n);
-
-			free(ImgIn);
-			free(ImgOutEnc);
-		}
-		else
-		{
-			uint16_t *ImgOutEnc;
-			nTaille = nH * nW;
-
-			allocation_tableau(ImgIn, OCTET, nTaille);
-			img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutEnc, uint16_t, nTaille);
-
-			for (int i = 0; i < nTaille; i++)
-			{
-				uint8_t pixel;
-				if (recropPixels)
-				{
-
-					pixel = (ImgIn[i] * n) / 256;
-				}
-				else
-				{
-					pixel = ImgIn[i];
-				}
-
-				uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
-
-				ImgOutEnc[i] = pixel_enc;
-			}
-
-			img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
-
-			free(ImgIn);
-			free(ImgOutEnc);
-			nTaille = nH *nW;
-		}
-
+		encrypt(s_file, pubk, distributeOnTwo, recropPixels);
 	}
-	/*======================== Decryption ========================*/
+	/*********************** Déchiffrement ***********************/
 	else
 	{
-		char cNomImgLue[250];
-		strcpy(cNomImgLue, s_file.c_str());
-
-		string toErase = ".pgm";
-		size_t pos = s_file.find(".pgm");
-		s_file.erase(pos, toErase.length());
-		string s_fileNew = s_file + "_D.pgm";
-		char cNomImgEcriteDec[250];
-		strcpy(cNomImgEcriteDec, s_fileNew.c_str());
-
-		int nH, nW, nTaille;
-		uint64_t n, lambda, mu;
-		lambda = pk.getLambda();
-		mu = pk.getMu();
-
-		OCTET *ImgOutDec;
-		img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
-		nTaille = nH * nW;
-
-		if (distributeOnTwo)
-		{
-			uint8_t *ImgIn;
-
-			allocation_tableau(ImgIn, uint8_t, nTaille);
-			n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutDec, OCTET, nH*(nW/2));
-
-			int x = 0, y = 1;
-			for (int i = 0; i < nH*(nW/2); i++)
-			{
-				uint16_t pixel;
-				uint8_t pixel_enc_dec_x = ImgIn[x];
-				uint8_t pixel_enc_dec_y = ImgIn[y];
-				pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
-				x = x + 2;
-				y = y + 2;
-				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
-				ImgOutDec[i] = static_cast<OCTET>(c);
-			}
-			img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
-			free(ImgIn);
-			free(ImgOutDec);
-		}
-		else
-		{
-			uint16_t *ImgIn;
-			allocation_tableau(ImgIn, uint16_t, nTaille);
-			n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
-			allocation_tableau(ImgOutDec, OCTET, nTaille);
-
-			for (int i = 0; i < nTaille; i++)
-			{	
-				uint16_t pixel = ImgIn[i];
-				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
-				ImgOutDec[i] = static_cast<OCTET>(c);
-				
-			}
-			img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);
-			free(ImgIn);
-			free(ImgOutDec);
-		}
-
-
+		decrypt(s_file, pk, distributeOnTwo);
 	}
 }
