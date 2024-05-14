@@ -13,11 +13,11 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../../include/Paillier.hpp"
-#include "../../../include/filesystemCommon.h"
-#include "../../../include/filesystemPGM.h"
-#include "../../../include/Paillier_private_key.hpp"
-#include "../../../include/Paillier_public_key.hpp"
+#include "../../../include/encryption/Paillier/Paillier.hpp"
+#include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
+#include "../../../include/filesystem/filesystemCommon.h"
+#include "../../../include/filesystem/filesystemPGM.h"
 #include <cctype>
 #include <fstream>
 #include <string>

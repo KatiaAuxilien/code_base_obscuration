@@ -1,8 +1,8 @@
-#include "../../../include/ImageBase.h"
-#include "../../../include/image_ppm.h"
-#include "../../../include/obscurationPPM.h"
-#include "../../../include/obscurationCommon.h"
-#include "../../../include/filesystemCommon.h"
+#include "../../../include/image/ImageBase.h"
+#include "../../../include/image/image_ppm.h"
+#include "../../../include/obscuration/obscurationPPM.h"
+#include "../../../include/obscuration/obscurationCommon.h"
+#include "../../../include/filesystem/filesystemCommon.h"
 
 #include <cstdio>
 #include <cstring>

@@ -1,14 +1,14 @@
 extern "C"
 {
-#include "../../../include/image.h"
+#include "../../../include/image/image.h"
 }
-#include "../../../include/image_pgm.h"
-#include "../../../include/ImageBase.h"
-#include "../../../include/obscurationCommon.h"
-#include "../../../include/obscurationPGM.h"
-#include "../../../include/filesystemPGM.h"
-#include "../../../include/filesystemCommon.h"
-#include "../../../include/AES.h"
+#include "../../../include/image/image_pgm.h"
+#include "../../../include/image/ImageBase.h"
+#include "../../../include/obscuration/obscurationCommon.h"
+#include "../../../include/obscuration/obscurationPGM.h"
+#include "../../../include/filesystem/filesystemPGM.h"
+#include "../../../include/filesystem/filesystemCommon.h"
+#include "../../../include/encryption/AES/AES.h"
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
