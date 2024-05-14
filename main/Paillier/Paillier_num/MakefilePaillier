@@ -3,8 +3,8 @@ CXXFLAGS = -Wall -Wextra -g -O3
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = Paillier_num_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/Paillier.cpp
-OBJ = $(SRC:../../src/%.cpp=../../obj/%.o)
+SRC = Paillier_num_main.cpp ../../../src/image.cpp ../../../src/image_pgm.cpp ../../../src/Paillier.cpp
+OBJ = $(SRC:../../../src/%.cpp=../../../obj/%.o)
 EXEC = Paillier_num_main.out
 
 all: $(EXEC)
@@ -12,7 +12,7 @@ all: $(EXEC)
 $(EXEC): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDLIBS)
 
-../../obj/%.o: ../../src/%.cpp
+../../../obj/%.o: ../../../src/%.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 clean:

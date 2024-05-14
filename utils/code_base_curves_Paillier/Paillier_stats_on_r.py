@@ -42,9 +42,9 @@ def main() :
             print(f"t_pix_enc: {row}")
 
     t_k = [2,4,8,16,32,64,128,256]
-    color_main_curve = ["deepskyblue","royalblue"]
-    color_avg_curve = ["turquoise","midnightblue"]
-    color_ecart_type_curve = ["dodgerblue","darkblue"]
+    color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
+    color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet"]
+    color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid"]
 
     for k in range(len(t_k)):
         mod = t_k[k]
@@ -80,14 +80,14 @@ def main() :
         x = vector_r_values
         y = t_pix_avg
 
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+"",color=color_main_curve[k])
+        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
         plt.axhline(y = avg_pix, color = color_avg_curve[k])
         plt.axhline(y = avg_pix + ecart_type_pix /2, color = color_ecart_type_curve[k])
         plt.axhline(y = avg_pix - ecart_type_pix /2, color = color_ecart_type_curve[k])
 
         plt.xlabel('Valeur de r')
-        plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
-        plt.title('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' en fonction de r, pour p = 13 et q = 19.')
+        plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+' = 0')
+        plt.title('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' = 0 en fonction de r, pour p = 3 et q = 83.')
         plt.grid()
         plt.legend()
         plt.show()

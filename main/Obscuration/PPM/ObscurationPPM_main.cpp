@@ -1,7 +1,8 @@
-#include "../../include/ImageBase.h"
-#include "../../include/obscurationPPM.h"
-#include "../../include/obscurationCommon.h"
-#include "../../include/filesystemCommon.h"
+#include "../../../include/ImageBase.h"
+#include "../../../include/image_ppm.h"
+#include "../../../include/obscurationPPM.h"
+#include "../../../include/obscurationCommon.h"
+#include "../../../include/filesystemCommon.h"
 
 #include <cstdio>
 #include <cstring>
@@ -56,7 +57,7 @@ int main(int argc, char **argv)
     std::strcpy(imagePath, folderpath.c_str());
     newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/blurring/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
-    for (int img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
+    for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
         ImageBase imInOriginal;
         std::cout << "Image " << img_cpt + 1 << " sur " << imagePaths.size() << "\n";
@@ -86,7 +87,7 @@ int main(int argc, char **argv)
     std::strcpy(imagePath, folderpath.c_str());
     newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/scrambling/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
-    for (int img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
+    for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
         ImageBase imInOriginal;
         std::cout << "Image " << img_cpt + 1 << " sur " << imagePaths.size() << "\n";
@@ -117,7 +118,7 @@ int main(int argc, char **argv)
     std::strcpy(imagePath, folderpath.c_str());
     newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/pixelizer/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
-    for (int img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
+    for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
         ImageBase imInOriginal;
         std::cout << "Image " << img_cpt + 1 << " sur " << imagePaths.size() << "\n";
@@ -148,7 +149,7 @@ int main(int argc, char **argv)
     newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/encryption/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
     std::string imgNewFolderPath;
-    for (int img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
+    for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
         ImageBase imInOriginal;
         std::cout << "Image " << img_cpt + 1 << " sur " << imagePaths.size() << "\n";
@@ -226,7 +227,7 @@ int main(int argc, char **argv)
         {
             std::vector<std::vector<int>> groups;
             genBitsGroups(groups, gsize);
-            for (int i = 0; i < groups.size(); ++i)
+            for (size_t i = 0; i < groups.size(); ++i)
             {
                 int group[8];
                 intVec2intArray(groups[i], group);

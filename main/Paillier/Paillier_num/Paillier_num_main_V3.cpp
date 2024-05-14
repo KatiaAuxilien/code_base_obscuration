@@ -13,11 +13,11 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/Paillier.hpp"
-#include "../../include/filesystemCommon.h"
-#include "../../include/filesystemPGM.h"
-#include "../../include/Paillier_private_key.hpp"
-#include "../../include/Paillier_public_key.hpp"
+#include "../../../include/Paillier.hpp"
+#include "../../../include/filesystemCommon.h"
+#include "../../../include/filesystemPGM.h"
+#include "../../../include/Paillier_private_key.hpp"
+#include "../../../include/Paillier_public_key.hpp"
 #include <cctype>
 #include <fstream>
 #include <string>
@@ -26,15 +26,11 @@ using namespace std;
 
 /**
  *  @brief
+ *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
  *  @param string pos
  * 	@param char *arg
  *  @authors Katia Auxilien
  *  @date 30/04/2024
- *
- *  Vérification de l'argument en paramètre, afin de voir si
- * 	c'est bel et bien un nombre et qu'il est premier.
- *
- *  @details
  */
 uint64_t checkNumbersArgument(string pos, char *arg)
 {
@@ -58,15 +54,11 @@ uint64_t checkNumbersArgument(string pos, char *arg)
 
 /**
  *  @brief
+ *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
  *  @param const std::string &str
  * 	@param const std::string &suffix
  *  @authors Katia Auxilien
  *  @date 30/04/2024
- *
- *  Vérification de l'argument en paramètre, afin de voir si c'est bel et bien
- * 	un nom de fichier terminant par .pgm.
- *
- *  @details
  */
 bool endsWith(const std::string &str, const std::string &suffix)
 {

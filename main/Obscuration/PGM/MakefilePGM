@@ -3,8 +3,8 @@ CXXFLAGS = -Wall -Wextra -g
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = ObscurationPGM_main.cpp ../../src/image.cpp ../../src/image_pgm.cpp ../../src/image_ppm.cpp ../../src/ImageBase.cpp ../../src/AES.cpp
-OBJ = $(SRC:../../src/%.cpp=../../obj/%.o)
+SRC = ObscurationPGM_main.cpp ../../../src/image.cpp ../../../src/image_pgm.cpp ../../../src/image_ppm.cpp ../../../src/ImageBase.cpp ../../../src/AES.cpp
+OBJ = $(SRC:../../../src/%.cpp=../../../obj/%.o)
 EXEC = ObscurationPGM_main.out
 
 all: $(EXEC)
@@ -12,7 +12,7 @@ all: $(EXEC)
 $(EXEC): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDLIBS)
 
-../../obj/%.o: ../../src/%.cpp
+../../../obj/%.o: ../../../src/%.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 clean:
