@@ -22,6 +22,9 @@
 
 using namespace std;
 
+Paillier::Paillier(){
+}
+
 /**
  *  @brief Vérifier si n est un nombre premier.
  *  @details
@@ -30,7 +33,7 @@ using namespace std;
  *  @authors Katia Auxilien
  *  @date 30/04/2024 
  */
-bool isPrime(int n, int i = 2)
+bool Paillier::isPrime(int n, int i = 2)
 {
 	if (n <= 2)
 		return (n == 2) ? true : false;
@@ -52,7 +55,7 @@ bool isPrime(int n, int i = 2)
  *  @authors Katia Auxilien
  *  @date 30/04/2024 
  */
-uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
+uint64_t Paillier::fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
 {
 	uint64_t c = 1;
 	bitset<BITSETSIZE> bits = bitset<BITSETSIZE>(e);
@@ -75,7 +78,7 @@ uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
  *  @authors Katia Auxilien
  *  @date 30/04/2024
  */
-uint64_t gcd_64t(uint64_t a, uint64_t b)
+uint64_t Paillier::gcd_64t(uint64_t a, uint64_t b)
 {
 	if (b == 0)
 	{
@@ -91,7 +94,7 @@ uint64_t gcd_64t(uint64_t a, uint64_t b)
  *  @authors Katia Auxilien
  *  @date 30/04/2024 15:51:00
  */
-std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n)
+std::vector<uint64_t> Paillier::calc_set_same_remainder_divide_euclide_64t(uint64_t n)
 {
 	std::vector<uint64_t> result;
 	for (uint64_t i = 0; i < n; i++)
@@ -111,7 +114,7 @@ std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n)
  *  @authors Katia Auxilien
  *  @date 02/05/2024
  */
-uint64_t choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
+uint64_t Paillier::choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
 {
 	uint64_t x;
 	int i_position = 0;
@@ -136,7 +139,7 @@ uint64_t choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, cons
  *  @authors Bianca Jansen Van Rensburg
  *  @date ?
  */
-uint64_t L_64t(uint64_t x, uint64_t n)
+uint64_t Paillier::L_64t(uint64_t x, uint64_t n)
 {
 	return (x - 1) / n;
 }
@@ -149,7 +152,7 @@ uint64_t L_64t(uint64_t x, uint64_t n)
  *  @authors Bianca Jansen Van Rensburg
  *  @date ?
  */
-uint64_t lcm_64t(uint64_t a, uint64_t b)
+uint64_t Paillier::lcm_64t(uint64_t a, uint64_t b)
 {
 	return a * b / gcd_64t(a, b);
 }
@@ -162,7 +165,7 @@ uint64_t lcm_64t(uint64_t a, uint64_t b)
  *  @authors Bianca Jansen Van Rensburg
  *  @date ?
  */
-uint64_t modInverse_64t(uint64_t a, uint64_t n)
+uint64_t Paillier::modInverse_64t(uint64_t a, uint64_t n)
 {
 	a = a % n;
 	for (uint64_t x = 1; x < n; x++)
@@ -182,7 +185,7 @@ uint64_t modInverse_64t(uint64_t a, uint64_t n)
  *  @authors Katia Auxilien
  *  @date 30/04/2024
  */
-uint64_t pow_uint64_t(uint64_t x, uint64_t n)
+uint64_t Paillier::pow_uint64_t(uint64_t x, uint64_t n)
 {
 	if (n == 0)
 	{
@@ -201,7 +204,7 @@ uint64_t pow_uint64_t(uint64_t x, uint64_t n)
  *  @authors Bianca Jansen Van Rensburg
  *  @date ?
  */
-void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
+void Paillier::generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
 {
 	uint64_t u = fastMod_64t(g, lambda, n * n);
 	uint64_t l = (u - 1) / n;
@@ -220,7 +223,7 @@ void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, con
  *  @authors Bianca Jansen Van Rensburg
  *  @date ?
  */
-void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
+void Paillier::generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
 {
 	lambda = lcm_64t(p - 1, q - 1);
 
@@ -238,7 +241,7 @@ void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, c
  *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
  *  @date 13/05/2024
  */
-uint16_t paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
+uint16_t Paillier::paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
     uint64_t c;
     uint64_t r = rand() % n;
     while (gcd_64t(r, n) != 1 || r == 0)
@@ -271,7 +274,7 @@ uint16_t paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
  *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
  *  @date 13/05/2024
  */
-uint16_t paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
+uint16_t Paillier::paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
 {
     uint64_t c;
 
@@ -299,7 +302,7 @@ uint16_t paillierEncryption_8t_r(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
  *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
  *  @date 13/05/2024
  */
-uint8_t paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t mu, uint16_t c)
+uint8_t Paillier::paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t mu, uint16_t c)
 {
     uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
 
@@ -323,7 +326,7 @@ uint8_t paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t mu, uint16_
  *  @authors Bianca Jansen Van Rensburg, Katia Auxilien
  *  @date 13/05/2024
  */
-uint8_t paillierDecryption_8t(uint64_t n, uint64_t lambda, uint64_t mu, uint8_t c)
+uint8_t Paillier::paillierDecryption_8t(uint64_t n, uint64_t lambda, uint64_t mu, uint8_t c)
 {
     uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
 
@@ -334,3 +337,5 @@ uint8_t paillierDecryption_8t(uint64_t n, uint64_t lambda, uint64_t mu, uint8_t 
 
     return static_cast<uint8_t>(result);
 }
+
+Paillier::~Paillier() {}

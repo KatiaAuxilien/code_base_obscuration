@@ -26,6 +26,8 @@ using namespace std;
 
 /* Vérification d'arguments */
 
+
+
 /**
  *  @brief
  *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
@@ -36,6 +38,8 @@ using namespace std;
  */
 uint8_t checkNumbersArgument(string pos, char *arg)
 {
+	Paillier paillier;
+
 	for (size_t i = 0; i < strlen(arg); i++)
 	{
 		if (!isdigit(arg[i]))
@@ -45,7 +49,7 @@ uint8_t checkNumbersArgument(string pos, char *arg)
 		}
 	}
 	int p = atoi(arg);
-	if (!isPrime(p, 2))
+	if (!paillier.isPrime(p, 2))
 	{
 		fprintf(stderr, "The %s argument must be a prime number.\n", pos.c_str());
 		return 1;
@@ -68,8 +72,11 @@ bool endsWith(const std::string &str, const std::string &suffix)
 		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
+
 int main(int argc, char **argv)
 {
+	Paillier paillier;
+
 	/*======================== Check arguments ========================*/
 	if (argc < 4)
 	{
@@ -156,7 +163,7 @@ int main(int argc, char **argv)
 		}
 		uint64_t lambda, n, mu;
 		n = p * q;
-		uint64_t pgc_pq = gcd_64t(p * q, (p - 1) * (q - 1));
+		uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
 
 		if (pgc_pq != 1)
 		{
@@ -164,8 +171,8 @@ int main(int argc, char **argv)
 			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
 			return 1;
 		}
-		vector<uint64_t> set = calc_set_same_remainder_divide_euclide_64t(n * n);
-		uint64_t g = choose_g_in_vec_64t(set, n, lambda);
+		vector<uint64_t> set = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
+		uint64_t g = paillier.choose_g_in_vec_64t(set, n, lambda);
 
 		if (g == 0)
 		{
@@ -173,7 +180,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 
-		generatePrivateKey_64t(lambda, mu, p, q, n, g);
+		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu);
 		pubk = PaillierPublicKey(n, g);
 
@@ -291,7 +298,7 @@ int main(int argc, char **argv)
 					pixel = ImgIn[i];
 				}
 
-				uint16_t pixel_enc = paillierEncryption_8t(n, g, pixel);
+				uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
 				uint8_t pixel_enc_dec_x = pixel_enc / n;
 				uint8_t pixel_enc_dec_y = pixel_enc % n;
 				ImgOutEnc[x] = pixel_enc_dec_x;
@@ -327,7 +334,7 @@ int main(int argc, char **argv)
 					pixel = ImgIn[i];
 				}
 
-				uint16_t pixel_enc = paillierEncryption_8t(n, g, pixel);
+				uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
 
 				ImgOutEnc[i] = pixel_enc;
 			}
@@ -379,7 +386,7 @@ int main(int argc, char **argv)
 				pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
 				x = x + 2;
 				y = y + 2;
-				uint8_t c = paillierDecryption_16t(n, lambda, mu, pixel);
+				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
 				ImgOutDec[i] = static_cast<OCTET>(c);
 			}
 			ecrire_image_pgm(cNomImgEcriteDec, ImgOutDec, nH, nW/2);
@@ -396,7 +403,7 @@ int main(int argc, char **argv)
 			for (int i = 0; i < nTaille; i++)
 			{	
 				uint16_t pixel = ImgIn[i];
-				uint8_t c = paillierDecryption_16t(n, lambda, mu, pixel);
+				uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
 				ImgOutDec[i] = static_cast<OCTET>(c);
 				
 			}
