@@ -453,7 +453,7 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 		uint8_t *ImgIn;
 
 		allocation_tableau(ImgIn, uint8_t, nTaille);
-		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
+		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille); //TODO : Retirer and_get_maxgrey 
 		allocation_tableau(ImgOutDec, OCTET, nH * (nW / 2));
 
 		int x = 0, y = 1;
