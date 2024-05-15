@@ -263,7 +263,7 @@ int main(int argc, char **argv)
 		for (uint64_t i = 0; i < n; i++)
 		{
 			unsigned char msg = i;
-			uint16_t pixel_enc = paillier.paillierEncryption_8t_r(n, g, msg, vector_r_values.at(l));
+			uint16_t pixel_enc = paillier.paillierEncryption_8tr(n, g, msg, vector_r_values.at(l));
 			t_pix_enc[l][i] = pixel_enc;
 		}
 	}

@@ -47,8 +47,8 @@ def main() :
     
 
 
-    t_k = [2,4,8,16,32,64,128,256]
-
+    # t_k = [2,4,8,16,32,64,128,256]
+    t_k = [2]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
     color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet"]
     color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid"]
@@ -65,7 +65,7 @@ def main() :
                     count_mod_k+=1
             t_count_mod_k.append(count_mod_k)
             t_pix_avg.append(count_mod_k/n)
-
+            print(str(count_mod_k/n))
 
         avg_pix = 0
         ecart_type_pix = 0
