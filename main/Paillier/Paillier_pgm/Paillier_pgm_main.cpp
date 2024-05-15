@@ -65,35 +65,37 @@ void colorError()
 
 /*********************** Méthodes de traitement d'arguments ***********************/
 
-int cutCmd(char *cmd, char *cmd_cut[])
+/**
+ *  @brief
+ *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
+ *  @param const std::string &str
+ * 	@param const std::string &suffix
+ *  @authors Katia Auxilien
+ *  @date 30/04/2024
+ */
+bool endsWith(const std::string &str, const std::string &suffix)
 {
-	if (cmd == NULL || cmd_cut == NULL) // Sécurité pointeurs.
+	if (str.empty() || suffix.empty()) // Sécurité pointeurs.
 	{
 		colorError();
-		fprintf(stderr, "cutCmd : arguments null.");
+		fprintf(stderr, "endsWith : arguments null or empty.");
 		colorStandard();
-		return EXIT_FAILURE;
+		return false;
 	}
-
-	int i = 0;
-	cmd_cut[i] = strtok(cmd, " ");
-	while (cmd_cut[i] != NULL)
-	{
-		printf("\t %d => '%s'\n", i, cmd_cut[i]);
-		i++;
-		cmd_cut[i] = strtok(NULL, " "); // strtok garde en mémoire sa dernière position dans cmd_in.
-	}
-	// strtok ajoute lui même NULL à la fin.
-	return i;
+	return str.size() >= suffix.size() &&
+		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
-void convertToLower(char arg_in[][], int size_arg_in)
+void convertToLower(char *arg_in[], int size_arg_in)
 {
-	for (int j = 0; j < size_arg_in; j++)
+	for (int j = 1; j < size_arg_in; j++)
 	{
-		for (int i = 0; arg_in[j][i] != '\0'; i++)
+		if (!endsWith(arg_in[j], ".pgm") && !endsWith(arg_in[j], ".bin"))
 		{
-			arg_in[j][i] = tolower(arg_in[j][i]);
+			for (int i = 0; arg_in[j][i] != '\0'; i++)
+			{
+				arg_in[j][i] = tolower(arg_in[j][i]);
+			}
 		}
 	}
 }
@@ -121,17 +123,16 @@ bool isPrime(int n, int i = 2)
 /**
  *  @brief
  *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
- *  @param string pos
  * 	@param char *arg
  *  @authors Katia Auxilien
  *  @date 30/04/2024
  */
-uint8_t check_p_q_arg(string pos, char *arg)
+uint8_t check_p_q_arg(char *arg)
 {
-	if (pos == NULL || arg == NULL) // Sécurité pointeurs.
+	if (arg == NULL) // Sécurité pointeurs.
 	{
 		colorError();
-		fprintf(stderr, "check_p_q_arg : arguments null.");
+		fprintf(stderr, "check_p_q_arg : arguments null or empty.");
 		colorStandard();
 		return EXIT_FAILURE;
 	}
@@ -141,7 +142,7 @@ uint8_t check_p_q_arg(string pos, char *arg)
 		if (!isdigit(arg[i]))
 		{
 			colorError();
-			fprintf(stderr, "The %s argument must be an int.\n", pos.c_str());
+			fprintf(stderr, "The argument after the first argument must be an int.\n");
 			colorStandard();
 			return EXIT_FAILURE;
 		}
@@ -150,33 +151,12 @@ uint8_t check_p_q_arg(string pos, char *arg)
 	if (!isPrime(p, 2))
 	{
 		colorError();
-		fprintf(stderr, "The %s argument must be a prime number.\n", pos.c_str());
+		fprintf(stderr, "The argument after the first argument must be a prime number.\n");
 		colorStandard();
 		return EXIT_FAILURE;
 	}
 
 	return p;
-}
-
-/**
- *  @brief
- *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
- *  @param const std::string &str
- * 	@param const std::string &suffix
- *  @authors Katia Auxilien
- *  @date 30/04/2024
- */
-bool endsWith(const std::string &str, const std::string &suffix)
-{
-	if (str == NULL || suffix == NULL) // Sécurité pointeurs.
-	{
-		colorError();
-		fprintf(stderr, "endsWith : arguments null.");
-		colorStandard();
-		return EXIT_FAILURE;
-	}
-	return str.size() >= suffix.size() &&
-		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
 /**
@@ -192,15 +172,15 @@ bool endsWith(const std::string &str, const std::string &suffix)
  *  @authors Katia Auxilien
  *  @date 15/05/2024 9:00:00
  */
-void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_file)
+void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, char *&c_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda, uint64_t &g)
 {
-	if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
-	{
-		colorError();
-		fprintf(stderr, "checkParameters : arguments null.");
-		colorStandard();
-		return EXIT_FAILURE;
-	}
+	// if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
+	// {
+	// 	colorError();
+	// 	fprintf(stderr, "checkParameters : arguments null.");
+	// 	colorStandard();
+	// 	exit(EXIT_FAILURE);
+	// }
 
 	/********** Initialisation de param[] à false. *************/
 	for (int i = 0; i < 5; i++)
@@ -209,11 +189,11 @@ void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_fil
 	}
 
 	/**************** First param ******************/
-	if (!strcmp(arg_in[0], "e") || !strcmp(arg_in[0], "enc") || !strcmp(arg_in[0], "encrypt") || !strcmp(arg_in[0], "encryption"))
+	if (!strcmp(arg_in[1], "e") || !strcmp(arg_in[1], "enc") || !strcmp(arg_in[1], "encrypt") || !strcmp(arg_in[1], "encryption"))
 	{
 		param[0] = true;
 	}
-	else if (!strcmp(arg_in[0], "d") || !strcmp(arg_in[0], "dec") || !strcmp(arg_in[0], "decrypt") || !strcmp(arg_in[0], "decryption"))
+	else if (!strcmp(arg_in[1], "d") || !strcmp(arg_in[1], "dec") || !strcmp(arg_in[1], "decrypt") || !strcmp(arg_in[1], "decryption"))
 	{
 		param[0] = false;
 		param[1] = true;
@@ -223,134 +203,131 @@ void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_fil
 		colorError();
 		fprintf(stderr, "The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
 		colorStandard();
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 	/**************** ... param ******************/
 
 	bool isFilePGM = false;
 	bool isFileBIN = false;
 
-	int i = 1;
-	if (param[0] == true)
+	int i = 2;
+	if (param[0] == true && (strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
 	{
-		// arg_in[1];
-		// arg_in[2];
-		// i = ;
+		p = check_p_q_arg(arg_in[2]);
+		if (p == 1)
+		{
+			exit(EXIT_FAILURE);
+		}
+		q = check_p_q_arg(arg_in[3]);
+		if (q == 1)
+		{
+			exit(EXIT_FAILURE);
+		}
+
+		n = p * q;
+		Paillier paillier = Paillier();
+		uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
+
+		if (pgc_pq != 1)
+		{
+			colorError();
+			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
+			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
+			colorStandard();
+			exit(EXIT_FAILURE);
+		}
+		lambda = paillier.lcm_64t(p - 1, q - 1);
+		vector<uint64_t> set = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
+		g = paillier.choose_g_in_vec_64t(set, n, lambda);
+		if (g == 0)
+		{
+			colorError();
+			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
+			fprintf(stderr, "ERROR with g.\n");
+			colorStandard();
+			exit(EXIT_FAILURE);
+		}
+
+		i = 4;
+		isFileBIN = true;
 	}
 
-	for (i; i < strlen(arg_in); i++)
+	for (i; i < size_arg; i++)
 	{
-		if (arg_in[i][0] == '-') // TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
-		{
-			if (strpbrk(arg_in[i], "-k") != NULL || strpbrk(arg_in[i], "-key") != NULL || (i == 1 && param[1] == true))
-			{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
-				if(strpbrk(arg_in[i], "-k") != NULL || strpbrk(arg_in[i], "-key") != NULL){
-					c_key_file = argv[i + 1];
-					param[1] = true;
-				}
-				if((i == 1 && param[1] == true)){
-					c_key_file = argv[i];
-				}
-				/****************** Check .bin file **************************/
-				string s_key_file = c_key_file;
-				ifstream file(c_key_file);
-				if (!file || !endsWith(s_key_file, ".bin"))
-				{
-					colorError();
-					fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
-					colorStandard();
-					return EXIT_FAILURE;
-				}
+		printf("%d %s\n",i, arg_in[i]);
+
+		// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
+
+		if (!isFileBIN && !strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin") ) )
+		{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
+
+			if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
+			{
+				c_key_file = arg_in[i + 1];
+				param[1] = true;
 				i++;
-				isFileBIN = true;
 			}
-			else if (strpbrk(arg_in[i], "-d") != NULL || strpbrk(arg_in[i], "-distr") != NULL || strpbrk(arg_in[i], "-distribution") != NULL)
+			if (param[1] == true)
 			{
-				param[2] = true;
+				c_key_file = arg_in[i];
 			}
-			else if (strpbrk(arg_in[i], "-hexp") != NULL || strpbrk(arg_in[i], "-histogramexpansion"))
+			/****************** Check .bin file **************************/
+			string s_key_file = c_key_file;
+			ifstream file(c_key_file);
+			if (!file || !endsWith(s_key_file, ".bin"))
 			{
-				param[3] = true;
+				colorError();
+				fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
+				colorStandard();
+				exit(EXIT_FAILURE);
 			}
-			else if (strpbrk(arg_in[i], "-olsbr") != NULL || strpbrk(arg_in[i], "-optlsbr") != NULL)
+			printf("BIN FILE !\n");
+			isFileBIN = true;
+		}
+		else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
+		{
+			param[2] = true;
+		}
+		else if (!strcmp(arg_in[i], "-hexp") || !strcmp(arg_in[i], "-histogramexpansion"))
+		{
+			printf("ouici%d\n", i);
+
+			param[3] = true;
+		}
+		else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
+		{
+			param[4] = true;
+		}
+		else if (endsWith(arg_in[i], ".pgm") && !isFilePGM)
+		{
+			c_file = arg_in[i];
+			string s_file = c_file;
+			ifstream file(c_file);
+			if (!file)
 			{
-				param[4] = true;
+				colorError();
+				fprintf(stderr, "The arguments must have an existing .pgm file.\n");
+				colorStandard();
+				exit(EXIT_FAILURE);
 			}
-			else if ( endsWith(arg_in[i], ".pgm"))
-			{
-				c_file = arg_in[i];
-				string s_file = c_file;
-				ifstream file(c_file);
-				if (!file)
-				{
-					colorError();
-					fprintf(stderr, "The arguments must have an existing .pgm file.\n");
-					colorStandard();
-					return EXIT_FAILURE;
-				}
-				isFilePGM = true;
-			}
+			isFilePGM = true;
 		}
 	}
 
-	if(!isFilePGM){
+	if (!isFilePGM)
+	{
 		colorError();
 		fprintf(stderr, "The arguments must have a .pgm file.\n");
 		colorStandard();
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
-	if(param[1] == true && !isFileBIN){
+	if (param[1] == true && !isFileBIN)
+	{
 		colorError();
 		fprintf(stderr, "The argument after -k or dec must be a .bin file.\n");
 		colorStandard();
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
-
-	/*
-	if (tolower(argv[1][1]) == 'k')
-		{
-			useKeys = true;
-		}
-		if (tolower(argv[1][1]) == 'r' || argv[1][2] == 'r' || argv[1][3] == 'r')
-		{
-			recropPixels = true;
-		}
-
-	if (tolower(argv[1][1]) == '2' || argv[1][2] == '2' || argv[1][3] == '2')
-	{
-		distributeOnTwo = true;
-	}
-	if (tolower(argv[1][1]) == 'l' || argv[1][2] == 'l' ||argv[1][3] == 'l')
-	{
-		optimisationLSB = true;
-	}
-
-	int argImg = 4;
-	string englishArgNumb = "fourth";
-	char *c_key_file;
-	if (useKeys)
-	{
-		argImg = 3;
-		englishArgNumb = "third";
-
-		c_key_file = argv[2];
-		string s_key_file = c_key_file;
-		ifstream file(c_key_file);
-		if (!file || !endsWith(s_key_file, ".bin"))
-		{
-			cerr << "The second argument must be an existing .bin file." << endl;
-			return 1;
-		}
-	}
-	char *c_file = argv[argImg];
-	string s_file = c_file;
-	ifstream file(c_file);
-	if (!file || !endsWith(s_file, ".pgm"))
-	{
-		cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
-		return 1;
-	}
-*/
 }
 /*********************** Chiffrement/Déchiffrement ***********************/
 
@@ -516,7 +493,6 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 
 int main(int argc, char **argv)
 {
-
 	/*********************** Traitement d'arguments ***********************/
 
 	if (argc < 3)
@@ -526,18 +502,27 @@ int main(int argc, char **argv)
 	}
 
 	bool parameters[5];
-	/*
-		0	bool isEncryption;
-		1	bool useKeys = false;
-		2	bool distributeOnTwo = false;
-		3	bool recropPixels = false;
-		4	bool optimisationLSB = false;
-	*/
+	char *c_file;
+	char *c_key_file;
+	uint64_t lambda, n, mu, g, p, q;
 
-	char *cmd_line[255];
-	int size_cmd_line = cutCmd(argv, cmd_line);
+	convertToLower(argv, argc);
+	checkParameters(argv, argc, parameters, c_key_file, c_file, p, q, n, lambda, g);
 
-	convertToLower(cmd_line, size_cmd_line);
+	bool isEncryption = parameters[0];
+	bool useKeys = parameters[1];
+	bool distributeOnTwo = parameters[2];
+	bool recropPixels = parameters[3];
+	bool optimisationLSB = parameters[4];
+
+	string s_file = c_file;
+	string s_key_file;
+	if (isEncryption && useKeys)
+	{
+		s_key_file = c_key_file;
+	}
+
+	/********************************************************************/
 
 	/*********************** Traitement de clé ***********************/
 	Paillier paillier = Paillier();
@@ -546,34 +531,11 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
-		uint64_t p = check_p_q_arg("second", argv[2]);
-		if (p == 1)
-		{
-			return 1;
-		}
-		uint64_t q = check_p_q_arg("third", argv[3]);
-		if (q == 1)
-		{
-			return 1;
-		}
-		uint64_t lambda, n, mu;
-		n = p * q;
-		uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
-
-		if (pgc_pq != 1)
-		{
-			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
-			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
-			return 1;
-		}
-		vector<uint64_t> set = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
-		uint64_t g = paillier.choose_g_in_vec_64t(set, n, lambda);
-
-		if (g == 0)
-		{
-			fprintf(stderr, "ERROR with g.\n");
-			return 1;
-		}
+		printf("Pub Key G = %" PRIu64 "\n", g);
+		printf("Pub Key N = %" PRIu64 "\n", n);
+		printf("Priv Key lambda = %" PRIu64 "\n", lambda);
+		printf("p = %" PRIu64 "\n", p);
+		printf("q = %" PRIu64 "\n", q);
 
 		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu);
@@ -652,6 +614,10 @@ int main(int argc, char **argv)
 	/*********************** Chiffrement ***********************/
 	if (isEncryption)
 	{
+		printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
+		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
 		encrypt(s_file, pubk, distributeOnTwo, recropPixels);
 	}
 	/*********************** Déchiffrement ***********************/
