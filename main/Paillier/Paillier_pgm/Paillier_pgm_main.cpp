@@ -22,9 +22,81 @@
 #include <fstream>
 #include <string>
 #include <string_view>
+#include <stdio.h>
+#include <ctype.h>
+
+#include <errno.h> /* errno */ //TODO : Gestion des erreurs + propre.
+
 using namespace std;
 
-/*********************** Méthodes de vérification d'arguments ***********************/
+/**
+ encryption
+	enc
+	e
+	-k utilisation de clé
+		[public_key.bin]
+
+	de base on a p et q après enc si on a pas -k
+
+	decryption
+	dec
+	d
+	-k -key utilisation de clé déjà de base.
+		[public_key.bin]
+	[public_key.bin]
+
+-d -distr -distribution distribution sur deux pixels.
+-hexp -histogramexpansion recrop de pixel.
+-oLSBr -optlsbr optimisation LSB de r.
+
+[img.pgm] placée au début ou à la fin
+*/
+
+void colorStandard()
+{
+	printf("\e[0;36m");
+}
+
+void colorError()
+{
+	printf("\e[1;36m");
+	fprintf(stderr, "\e[1;35m");
+}
+
+/*********************** Méthodes de traitement d'arguments ***********************/
+
+int cutCmd(char *cmd, char *cmd_cut[])
+{
+	if (cmd == NULL || cmd_cut == NULL) // Sécurité pointeurs.
+	{
+		colorError();
+		fprintf(stderr, "cutCmd : arguments null.");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
+
+	int i = 0;
+	cmd_cut[i] = strtok(cmd, " ");
+	while (cmd_cut[i] != NULL)
+	{
+		printf("\t %d => '%s'\n", i, cmd_cut[i]);
+		i++;
+		cmd_cut[i] = strtok(NULL, " "); // strtok garde en mémoire sa dernière position dans cmd_in.
+	}
+	// strtok ajoute lui même NULL à la fin.
+	return i;
+}
+
+void convertToLower(char arg_in[][], int size_arg_in)
+{
+	for (int j = 0; j < size_arg_in; j++)
+	{
+		for (int i = 0; arg_in[j][i] != '\0'; i++)
+		{
+			arg_in[j][i] = tolower(arg_in[j][i]);
+		}
+	}
+}
 
 /**
  *  @brief Vérifier si n est un nombre premier.
@@ -54,22 +126,33 @@ bool isPrime(int n, int i = 2)
  *  @authors Katia Auxilien
  *  @date 30/04/2024
  */
-uint8_t checkNumbersArgument(string pos, char *arg)
+uint8_t check_p_q_arg(string pos, char *arg)
 {
+	if (pos == NULL || arg == NULL) // Sécurité pointeurs.
+	{
+		colorError();
+		fprintf(stderr, "check_p_q_arg : arguments null.");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
 
 	for (size_t i = 0; i < strlen(arg); i++)
 	{
 		if (!isdigit(arg[i]))
 		{
+			colorError();
 			fprintf(stderr, "The %s argument must be an int.\n", pos.c_str());
-			return 1;
+			colorStandard();
+			return EXIT_FAILURE;
 		}
 	}
 	int p = atoi(arg);
 	if (!isPrime(p, 2))
 	{
+		colorError();
 		fprintf(stderr, "The %s argument must be a prime number.\n", pos.c_str());
-		return 1;
+		colorStandard();
+		return EXIT_FAILURE;
 	}
 
 	return p;
@@ -85,10 +168,165 @@ uint8_t checkNumbersArgument(string pos, char *arg)
  */
 bool endsWith(const std::string &str, const std::string &suffix)
 {
+	if (str == NULL || suffix == NULL) // Sécurité pointeurs.
+	{
+		colorError();
+		fprintf(stderr, "endsWith : arguments null.");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
 	return str.size() >= suffix.size() &&
 		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
+/**
+ *  @brief
+ *  @details Vérification
+ *  @param char* arg_in[]
+ *  @param bool param[]
+ *				0	bool isEncryption = false ;
+ *				1	bool useKeys = false;
+ *				2	bool distributeOnTwo = false;
+ *				3	bool recropPixels = false;
+ *				4	bool optimisationLSB = false;
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024 9:00:00
+ */
+void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_file)
+{
+	if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
+	{
+		colorError();
+		fprintf(stderr, "checkParameters : arguments null.");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
+
+	/********** Initialisation de param[] à false. *************/
+	for (int i = 0; i < 5; i++)
+	{
+		param[i] = false;
+	}
+
+	/**************** First param ******************/
+	if (!strcmp(arg_in[0], "e") || !strcmp(arg_in[0], "enc") || !strcmp(arg_in[0], "encrypt") || !strcmp(arg_in[0], "encryption"))
+	{
+		param[0] = true;
+	}
+	else if (!strcmp(arg_in[0], "d") || !strcmp(arg_in[0], "dec") || !strcmp(arg_in[0], "decrypt") || !strcmp(arg_in[0], "decryption"))
+	{
+		param[0] = false;
+		param[1] = true;
+	}
+	else
+	{
+		colorError();
+		fprintf(stderr, "The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
+	/**************** ... param ******************/
+
+	int i = 1;
+	if (param[0] == true)
+	{
+		// arg_in[1];
+		// arg_in[2];
+		// i = ;
+	}
+
+	for (i; i < strlen(arg_in); i++)
+	{
+		if (arg_in[i][0] == '-')
+		{
+			if (strpbrk(arg_in[i], "-k") != NULL || strpbrk(arg_in[i], "-key") != NULL || (i == 1 && param[1] == true))
+			{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
+				param[1] = true;
+				/****************** Check .bin file **************************/
+				c_key_file = argv[i + 1];
+				string s_key_file = c_key_file;
+				ifstream file(c_key_file);
+				if (!file || !endsWith(s_key_file, ".bin"))
+				{
+					colorError();
+					fprintf(stderr, "The argument after -k must be an existing .bin file.\n");
+					colorStandard();
+					return EXIT_FAILURE;
+				}
+				i++;
+				// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
+			}
+			else if (strpbrk(arg_in[i], "-d") != NULL || strpbrk(arg_in[i], "-distr") != NULL || strpbrk(arg_in[i], "-distribution") != NULL)
+			{
+				param[2] = true;
+			}
+			else if (strpbrk(arg_in[i], "-hexp") != NULL || strpbrk(arg_in[i], "-histogramexpansion"))
+			{
+				param[3] = true;
+			}
+			else if (strpbrk(arg_in[i], "-olsbr") != NULL || strpbrk(arg_in[i], "-optlsbr") != NULL)
+			{
+				param[4] = true;
+			}
+			else if ()
+			{ // TODO : .pgm
+				// string s_file = c_file;
+				// ifstream file(c_file);
+				// if (!file || !endsWith(s_file, ".pgm"))
+				// {
+				// 	cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
+				// 	return 1;
+				// }
+			}
+		}
+	}
+
+	/*
+	if (tolower(argv[1][1]) == 'k')
+		{
+			useKeys = true;
+		}
+		if (tolower(argv[1][1]) == 'r' || argv[1][2] == 'r' || argv[1][3] == 'r')
+		{
+			recropPixels = true;
+		}
+
+	if (tolower(argv[1][1]) == '2' || argv[1][2] == '2' || argv[1][3] == '2')
+	{
+		distributeOnTwo = true;
+	}
+	if (tolower(argv[1][1]) == 'l' || argv[1][2] == 'l' ||argv[1][3] == 'l')
+	{
+		optimisationLSB = true;
+	}
+
+	int argImg = 4;
+	string englishArgNumb = "fourth";
+	char *c_key_file;
+	if (useKeys)
+	{
+		argImg = 3;
+		englishArgNumb = "third";
+
+		c_key_file = argv[2];
+		string s_key_file = c_key_file;
+		ifstream file(c_key_file);
+		if (!file || !endsWith(s_key_file, ".bin"))
+		{
+			cerr << "The second argument must be an existing .bin file." << endl;
+			return 1;
+		}
+	}
+	char *c_file = argv[argImg];
+	string s_file = c_file;
+	ifstream file(c_file);
+	if (!file || !endsWith(s_file, ".pgm"))
+	{
+		cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
+		return 1;
+	}
+*/
+}
 /*********************** Chiffrement/Déchiffrement ***********************/
 
 void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels)
@@ -110,8 +348,6 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 	int nH, nW, nTaille;
 	uint64_t n = pubk.getN();
 	uint64_t g = pubk.getG();
-	printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
-	printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 
 	OCTET *ImgIn;
 	img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -190,7 +426,7 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 {
 	Paillier paillier = Paillier();
 	image_pgm img_pgm;
-	
+
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -255,71 +491,28 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 
 int main(int argc, char **argv)
 {
-	/*********************** Vérification d'arguments ***********************/
-	if (argc < 4)
+
+	/*********************** Traitement d'arguments ***********************/
+
+	if (argc < 3)
 	{
 		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
 		return 1;
 	}
 
-	bool isEncryption;
-	bool useKeys = false;
-	bool distributeOnTwo = false;
-	bool recropPixels = false;
+	bool parameters[5];
+	/*
+		0	bool isEncryption;
+		1	bool useKeys = false;
+		2	bool distributeOnTwo = false;
+		3	bool recropPixels = false;
+		4	bool optimisationLSB = false;
+	*/
 
-	if (tolower(argv[1][0]) == 'e')
-	{
-		isEncryption = true;
-		if (tolower(argv[1][1]) == 'k')
-		{
-			useKeys = true;
-		}
-		if (tolower(argv[1][1]) == 'r' || argv[1][2] == 'r' || argv[1][3] == 'r')
-		{
-			recropPixels = true;
-		}
-	}
-	else if (tolower(argv[1][0]) == 'd' && tolower(argv[1][1]) == 'k')
-	{
-		isEncryption = false;
-		useKeys = true;
-	}
-	else
-	{
-		fprintf(stderr, "The first argument must be e, ek or dk, e2, ek2 or dk2. (the case don't matter)\n");
-		return 1;
-	}
+	char *cmd_line[255];
+	int size_cmd_line = cutCmd(argv, cmd_line);
 
-	if (tolower(argv[1][1]) == '2' || argv[1][2] == '2')
-	{
-		distributeOnTwo = true;
-	}
-
-	int argImg = 4;
-	string englishArgNumb = "fourth";
-	char *c_key_file;
-	if (useKeys)
-	{
-		argImg = 3;
-		englishArgNumb = "third";
-
-		c_key_file = argv[2];
-		string s_key_file = c_key_file;
-		ifstream file(c_key_file);
-		if (!file || !endsWith(s_key_file, ".bin"))
-		{
-			cerr << "The second argument must be an existing .bin file." << endl;
-			return 1;
-		}
-	}
-	char *c_file = argv[argImg];
-	string s_file = c_file;
-	ifstream file(c_file);
-	if (!file || !endsWith(s_file, ".pgm"))
-	{
-		cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
-		return 1;
-	}
+	convertToLower(cmd_line, size_cmd_line);
 
 	/*********************** Traitement de clé ***********************/
 	Paillier paillier = Paillier();
@@ -328,12 +521,12 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
-		uint64_t p = checkNumbersArgument("second", argv[2]);
+		uint64_t p = check_p_q_arg("second", argv[2]);
 		if (p == 1)
 		{
 			return 1;
 		}
-		uint64_t q = checkNumbersArgument("third", argv[3]);
+		uint64_t q = check_p_q_arg("third", argv[3]);
 		if (q == 1)
 		{
 			return 1;
