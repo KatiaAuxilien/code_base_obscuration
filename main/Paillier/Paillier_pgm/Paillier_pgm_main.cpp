@@ -227,6 +227,9 @@ void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_fil
 	}
 	/**************** ... param ******************/
 
+	bool isFilePGM = false;
+	bool isFileBIN = false;
+
 	int i = 1;
 	if (param[0] == true)
 	{
@@ -237,24 +240,29 @@ void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_fil
 
 	for (i; i < strlen(arg_in); i++)
 	{
-		if (arg_in[i][0] == '-')
+		if (arg_in[i][0] == '-') // TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
 		{
 			if (strpbrk(arg_in[i], "-k") != NULL || strpbrk(arg_in[i], "-key") != NULL || (i == 1 && param[1] == true))
 			{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
-				param[1] = true;
+				if(strpbrk(arg_in[i], "-k") != NULL || strpbrk(arg_in[i], "-key") != NULL){
+					c_key_file = argv[i + 1];
+					param[1] = true;
+				}
+				if((i == 1 && param[1] == true)){
+					c_key_file = argv[i];
+				}
 				/****************** Check .bin file **************************/
-				c_key_file = argv[i + 1];
 				string s_key_file = c_key_file;
 				ifstream file(c_key_file);
 				if (!file || !endsWith(s_key_file, ".bin"))
 				{
 					colorError();
-					fprintf(stderr, "The argument after -k must be an existing .bin file.\n");
+					fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
 					colorStandard();
 					return EXIT_FAILURE;
 				}
 				i++;
-				// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
+				isFileBIN = true;
 			}
 			else if (strpbrk(arg_in[i], "-d") != NULL || strpbrk(arg_in[i], "-distr") != NULL || strpbrk(arg_in[i], "-distribution") != NULL)
 			{
@@ -268,17 +276,34 @@ void checkParameters(char *arg_in[], bool param[], char *c_key_file, char *c_fil
 			{
 				param[4] = true;
 			}
-			else if ()
-			{ // TODO : .pgm
-				// string s_file = c_file;
-				// ifstream file(c_file);
-				// if (!file || !endsWith(s_file, ".pgm"))
-				// {
-				// 	cerr << "The " + englishArgNumb + " argument must be an existing .pgm file." << endl;
-				// 	return 1;
-				// }
+			else if ( endsWith(arg_in[i], ".pgm"))
+			{
+				c_file = arg_in[i];
+				string s_file = c_file;
+				ifstream file(c_file);
+				if (!file)
+				{
+					colorError();
+					fprintf(stderr, "The arguments must have an existing .pgm file.\n");
+					colorStandard();
+					return EXIT_FAILURE;
+				}
+				isFilePGM = true;
 			}
 		}
+	}
+
+	if(!isFilePGM){
+		colorError();
+		fprintf(stderr, "The arguments must have a .pgm file.\n");
+		colorStandard();
+		return EXIT_FAILURE;
+	}
+	if(param[1] == true && !isFileBIN){
+		colorError();
+		fprintf(stderr, "The argument after -k or dec must be a .bin file.\n");
+		colorStandard();
+		return EXIT_FAILURE;
 	}
 
 	/*
