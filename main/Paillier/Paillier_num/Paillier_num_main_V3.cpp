@@ -294,49 +294,4 @@ int main(int argc, char **argv)
 
 	fclose(file_enc_pix);
 
-
-	/////////////////////////////// Enregistrement des résultats : x
-/*
-	FILE *file_x = NULL;
-	file_x = fopen("results_x.txt", "w+");
-
-	if (file_x == NULL)
-	{
-		printf("Error!");
-		exit(1);
-	}
-
-
-	for (size_t l = 0; l < size_vec_r; l++)
-	{
-		fprintf(file_x, "%" PRIu64 "", vector_r_values.at(l));
-		fprintf(file_x, "\n");
-		fprintf(file_x, "%lf", t_x_avg[l]);
-		fprintf(file_x, "\n");
-	}
-
-	fclose(file_x);
-*/
-	/////////////////////////////// Enregistrement des résultats : y
-/*
-	FILE *file_y = NULL;
-	file_y = fopen("results_y.txt", "w+");
-
-	if (file_y == NULL)
-	{
-		printf("Error!");
-		exit(1);
-	}
-
-
-	for (size_t l = 0; l < size_vec_r; l++)
-	{
-		fprintf(file_y, "%" PRIu64 "", vector_r_values.at(l));
-		fprintf(file_y, "\n");
-		fprintf(file_y, "%lf", t_y_avg[l]);
-		fprintf(file_y, "\n");
-	}
-
-	fclose(file_y);
-*/
 }
