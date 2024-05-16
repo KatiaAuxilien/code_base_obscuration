@@ -122,64 +122,42 @@ void Paillier::generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint
 	generateMu_64t(mu, g, lambda, n);
 }
 
-uint16_t Paillier::paillierEncryption_8t(uint64_t n, uint64_t g, uint8_t m){
-    uint64_t c;
-    uint64_t r = rand() % n;
-    while (gcd_64t(r, n) != 1 || r == 0)
-    {
-        r = rand() % n;
-    }
+template <typename uintN_t>
 
-    uint64_t fm1 = fastMod_64t(g, m, n * n);
-    uint64_t fm2 = fastMod_64t(r, n, n * n);
-    c = (fm1 * fm2) % (n * n);
+uint64_t Paillier::paillierEncryption(uint64_t n, uint64_t g, uintN_t m)
+{
+	uint64_t c;
+	uint64_t r = rand() % n;
+	while (gcd_64t(r, n) != 1 || r == 0)
+	{
+		r = rand() % n;
+	}
 
-    // Vérifier que le résultat peut être stocké dans un uint16_t
-    if (c >= std::numeric_limits<uint16_t>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 16 bits.");
-    }
+	uint64_t fm1 = fastMod_64t(g, m, n * n);
+	uint64_t fm2 = fastMod_64t(r, n, n * n);
+	c = (fm1 * fm2) % (n * n);
 
-    return static_cast<uint16_t>(c);
+	return c;
 }
 
-uint16_t Paillier::paillierEncryption_8tr(uint64_t n,uint64_t g, uint8_t m, uint64_t r)
+template <typename uintN_t>
+uint64_t Paillier::paillierEncryption(uint64_t n, uint64_t g, uintN_t m, uint64_t r)
 {
-    uint64_t c;
+	uint64_t c;
 
-    uint64_t fm1 = fastMod_64t(g, m, n * n);
-    uint64_t fm2 = fastMod_64t(r, n, n * n);
-    c = (fm1 * fm2) % (n * n);
+	uint64_t fm1 = fastMod_64t(g, m, n * n);
+	uint64_t fm2 = fastMod_64t(r, n, n * n);
+	c = (fm1 * fm2) % (n * n);
 
-    // Vérifier que le résultat peut être stocké dans un uint16_t
-    if (c >= std::numeric_limits<uint16_t>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 16 bits.");
-    }
-
-    return static_cast<uint16_t>(c);
+	return c;
 }
 
-uint8_t Paillier::paillierDecryption_16t(uint64_t n, uint64_t lambda, uint64_t mu, uint16_t c)
+template <typename uintN_t>
+uint64_t Paillier::paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, uintN_t c)
 {
-    uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
+	uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
 
-    // Vérifier que le résultat peut être stocké dans un uint8_t
-    if (result >= std::numeric_limits<uint8_t>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 8 bits.");
-    }
-
-    return static_cast<uint8_t>(result);
-}
-
-uint8_t Paillier::paillierDecryption_8t(uint64_t n, uint64_t lambda, uint64_t mu, uint8_t c)
-{
-    uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
-
-    // Vérifier que le résultat peut être stocké dans un uint8_t
-    if (result >= std::numeric_limits<uint8_t>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 8 bits.");
-    }
-
-    return static_cast<uint8_t>(result);
+	return result;
 }
 
 Paillier::~Paillier() {}

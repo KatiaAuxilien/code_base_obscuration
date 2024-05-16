@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -Wextra -g -O3
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = Paillier_pgm_main.cpp ../../../src/image/image.cpp ../../../src/image/image_pgm.cpp ../../../src/encryption/Paillier/Paillier.cpp
+SRC = Paillier_pgm_main.cpp ../../../src/image/image.cpp ../../../src/image/image_pgm.cpp ../../../src/encryption/Paillier/Paillier.cpp ../../../src/encryption/Paillier/Paillier_nbit/Paillier_8bit.cpp ../../../src/encryption/Paillier/Paillier_nbit/Paillier_16bit.cpp
 OBJ = $(SRC:../../../src/%.cpp=../../../obj/%.o)
 EXEC = Paillier_pgm_main.out
 

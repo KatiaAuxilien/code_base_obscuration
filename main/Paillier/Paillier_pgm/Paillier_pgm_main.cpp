@@ -29,7 +29,7 @@
 
 using namespace std;
 
-/**
+/** Manuel
  encryption
 	enc
 	e
@@ -52,12 +52,24 @@ using namespace std;
 [img.pgm] placée au début ou à la fin
 */
 
-void colorStandard()
+/**
+ *  @brief
+ *  @details 
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024
+ */
+void cmd_colorStandard()
 {
 	printf("\e[0;36m");
 }
 
-void colorError()
+/**
+ *  @brief
+ *  @details 
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024
+ */
+void cmd_colorError()
 {
 	printf("\e[1;36m");
 	fprintf(stderr, "\e[1;35m");
@@ -77,15 +89,23 @@ bool endsWith(const std::string &str, const std::string &suffix)
 {
 	if (str.empty() || suffix.empty()) // Sécurité pointeurs.
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "endsWith : arguments null or empty.");
-		colorStandard();
+		cmd_colorStandard();
 		return false;
 	}
 	return str.size() >= suffix.size() &&
 		   str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
+/**
+ *  @brief 
+ *  @details
+ *  @param char *arg_in[]
+ *  @param int size_arg_in
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024
+ */
 void convertToLower(char *arg_in[], int size_arg_in)
 {
 	for (int j = 1; j < size_arg_in; j++)
@@ -131,9 +151,9 @@ uint8_t check_p_q_arg(char *arg)
 {
 	if (arg == NULL) // Sécurité pointeurs.
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "check_p_q_arg : arguments null or empty.");
-		colorStandard();
+		cmd_colorStandard();
 		return EXIT_FAILURE;
 	}
 
@@ -141,18 +161,18 @@ uint8_t check_p_q_arg(char *arg)
 	{
 		if (!isdigit(arg[i]))
 		{
-			colorError();
+			cmd_colorError();
 			fprintf(stderr, "The argument after the first argument must be an int.\n");
-			colorStandard();
+			cmd_colorStandard();
 			return EXIT_FAILURE;
 		}
 	}
 	int p = atoi(arg);
 	if (!isPrime(p, 2))
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "The argument after the first argument must be a prime number.\n");
-		colorStandard();
+		cmd_colorStandard();
 		return EXIT_FAILURE;
 	}
 
@@ -176,9 +196,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 {
 	// if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
 	// {
-	// 	colorError();
+	// 	cmd_colorError();
 	// 	fprintf(stderr, "checkParameters : arguments null.");
-	// 	colorStandard();
+	// 	cmd_colorStandard();
 	// 	exit(EXIT_FAILURE);
 	// }
 
@@ -200,9 +220,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 	}
 	else
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
-		colorStandard();
+		cmd_colorStandard();
 		exit(EXIT_FAILURE);
 	}
 	/**************** ... param ******************/
@@ -230,10 +250,10 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
 		if (pgc_pq != 1)
 		{
-			colorError();
+			cmd_colorError();
 			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
 			fprintf(stderr, "p & q arguments must have a gcd = 1. Please retry with others p and q.\n");
-			colorStandard();
+			cmd_colorStandard();
 			exit(EXIT_FAILURE);
 		}
 		lambda = paillier.lcm_64t(p - 1, q - 1);
@@ -241,10 +261,10 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 		g = paillier.choose_g_in_vec_64t(set, n, lambda);
 		if (g == 0)
 		{
-			colorError();
+			cmd_colorError();
 			printf("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\n", pgc_pq);
 			fprintf(stderr, "ERROR with g.\n");
-			colorStandard();
+			cmd_colorStandard();
 			exit(EXIT_FAILURE);
 		}
 
@@ -254,11 +274,11 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
 	for (i; i < size_arg; i++)
 	{
-		printf("%d %s\n",i, arg_in[i]);
+		printf("%d %s\n", i, arg_in[i]);
 
 		// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
 
-		if (!isFileBIN && !strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin") ) )
+		if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin")))
 		{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
 
 			if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
@@ -276,9 +296,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 			ifstream file(c_key_file);
 			if (!file || !endsWith(s_key_file, ".bin"))
 			{
-				colorError();
+				cmd_colorError();
 				fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
-				colorStandard();
+				cmd_colorStandard();
 				exit(EXIT_FAILURE);
 			}
 			printf("BIN FILE !\n");
@@ -305,9 +325,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 			ifstream file(c_file);
 			if (!file)
 			{
-				colorError();
+				cmd_colorError();
 				fprintf(stderr, "The arguments must have an existing .pgm file.\n");
-				colorStandard();
+				cmd_colorStandard();
 				exit(EXIT_FAILURE);
 			}
 			isFilePGM = true;
@@ -316,21 +336,30 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
 	if (!isFilePGM)
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "The arguments must have a .pgm file.\n");
-		colorStandard();
+		cmd_colorStandard();
 		exit(EXIT_FAILURE);
 	}
 	if (param[1] == true && !isFileBIN)
 	{
-		colorError();
+		cmd_colorError();
 		fprintf(stderr, "The argument after -k or dec must be a .bin file.\n");
-		colorStandard();
+		cmd_colorStandard();
 		exit(EXIT_FAILURE);
 	}
 }
 /*********************** Chiffrement/Déchiffrement ***********************/
-
+/**
+ *  @brief 
+ *  @details
+ *  @param string s_file
+ *  @param PaillierPublicKey pubk
+ *  @param bool distributeOnTwo
+ *  @param bool recropPixels
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024
+ */
 void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels)
 {
 	Paillier paillier;
@@ -375,7 +404,7 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 				pixel = ImgIn[i];
 			}
 
-			uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
+			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			uint8_t pixel_enc_dec_x = pixel_enc / n;
 			uint8_t pixel_enc_dec_y = pixel_enc % n;
 			ImgOutEnc[x] = pixel_enc_dec_x;
@@ -411,7 +440,7 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 				pixel = ImgIn[i];
 			}
 
-			uint16_t pixel_enc = paillier.paillierEncryption_8t(n, g, pixel);
+			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 
 			ImgOutEnc[i] = pixel_enc;
 		}
@@ -424,6 +453,15 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 	}
 }
 
+/**
+ *  @brief 
+ *  @details
+ *  @param string s_file
+ *  @param PaillierPrivateKey pk
+ *  @param bool distributeOnTwo
+ *  @authors Katia Auxilien
+ *  @date 15/05/2024
+ */
 void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 {
 	Paillier paillier = Paillier();
@@ -453,7 +491,7 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 		uint8_t *ImgIn;
 
 		allocation_tableau(ImgIn, uint8_t, nTaille);
-		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille); //TODO : Retirer and_get_maxgrey 
+		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille); // TODO : Retirer and_get_maxgrey
 		allocation_tableau(ImgOutDec, OCTET, nH * (nW / 2));
 
 		int x = 0, y = 1;
@@ -465,7 +503,7 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 			pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
 			x = x + 2;
 			y = y + 2;
-			uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
+			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
 			ImgOutDec[i] = static_cast<OCTET>(c);
 		}
 		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW / 2);
@@ -482,7 +520,7 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 		for (int i = 0; i < nTaille; i++)
 		{
 			uint16_t pixel = ImgIn[i];
-			uint8_t c = paillier.paillierDecryption_16t(n, lambda, mu, pixel);
+			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
 			ImgOutDec[i] = static_cast<OCTET>(c);
 		}
 		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);

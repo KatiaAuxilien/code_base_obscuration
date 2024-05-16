@@ -10,7 +10,7 @@ import pickle
 def main() :
 
 ############### Initialisation, récupération des données.
-    f_pix = open("results_pix_p3q83nbR164.txt", "r")
+    f_pix = open("results_pix_p13q19nbr216.txt", "r")
     lines_pix = f_pix.readlines()
 
     t_pix_avg = []
@@ -19,8 +19,8 @@ def main() :
     n = int(lines_pix[0]) 
     size_vec_r = int(lines_pix[1])
 
-    p = 3
-    q = 83
+    p = 13
+    q = 19
     vector_r_values = []
     t_pix_enc = []
 
@@ -125,20 +125,27 @@ def main() :
             t_count_mod_k_0.append(count_mod_k_0)
             t_pix_avg_0.append(count_mod_k_0/size_vec_r)
             t_count_mod_k_1.append(count_mod_k_1)
-            t_pix_avg_1.append((count_mod_k_1/size_vec_r) * 2)
+            t_pix_avg_1.append((count_mod_k_1/size_vec_r))
 
         x = np.arange(0, n)
-        y = t_pix_avg_0
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
+        # plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
 
-        y = t_pix_avg_1
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 1",color=color_main_curve[k])
+        # plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 1",color=color_main_curve[k])
 
-        plt.xlabel('Valeur du pixel clair')
-        plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
-        plt.title('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-        plt.grid()
-        plt.legend()
+        fig, (ax1, ax2) = plt.subplots(2)
+        fig.suptitle('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+        
+        ax1.plot(x, t_pix_avg_0,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
+        ax1.set_ylabel('Moyenne des chiffrés modulo '+str(mod)+' = 0')
+        ax1.grid()
+        # ax1.legend()
+        
+        ax2.plot(x, t_pix_avg_1,label="average pixel encrypted modulo "+str(mod)+" = 1",color=color_main_curve[k])
+        ax2.set_xlabel('Valeur du pixel clair')
+        ax2.set_ylabel('Moyenne des chiffrés modulo '+str(mod)+' = 1')
+        ax2.grid()
+        # ax2.legend()
+
         plt.show()
 
 
@@ -183,20 +190,39 @@ def main() :
 
         x = np.arange(0, n)
         y = t_pix_avg_0
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
 
-        y = t_pix_avg_1
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 1",color=color_main_curve[k+1])
-        y = t_pix_avg_2
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 2",color=color_main_curve[k+2])
-        y = t_pix_avg_3
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 3",color=color_main_curve[k+3])
 
-        plt.xlabel('Valeur du pixel clair')
-        plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
-        plt.title('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-        plt.grid()
-        plt.legend()
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+        fig.suptitle('Courbe de la moyenne des chiffrés, par paillier, modulo '+str(mod)+' en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+
+        # plt.xlabel('Valeur du pixel clair')
+        # plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
+
+
+        ax1.plot(x, t_pix_avg_0,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
+        ax1.legend()
+        ax1.set_ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
+        ax1.grid()
+
+        ax2.plot(x, t_pix_avg_1,label="average pixel encrypted modulo "+str(mod)+" = 1",color=color_main_curve[k+1])
+        ax2.legend()
+        ax2.grid()
+
+        ax3.plot(x, t_pix_avg_2,label="average pixel encrypted modulo "+str(mod)+" = 2",color=color_main_curve[k+2])
+        ax3.legend()
+        ax3.grid()
+        ax3.set_ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
+        ax3.set_xlabel('Valeur du pixel clair')
+
+        ax4.plot(x, t_pix_avg_3,label="average pixel encrypted modulo "+str(mod)+" = 3",color=color_main_curve[k+3])
+        ax4.legend()
+        ax4.grid()
+        ax4.set_xlabel('Valeur du pixel clair')
+        ax4.set_ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
+
+        # for ax in fig.get_axes():
+        #     ax.label_outer()
+
         plt.show()
 
 
