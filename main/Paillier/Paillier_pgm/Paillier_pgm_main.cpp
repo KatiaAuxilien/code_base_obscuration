@@ -14,6 +14,8 @@
  *
  *******************************************************************************/
 #include "../../../include/encryption/Paillier/Paillier.hpp"
+#include "../../../include/encryption/Paillier/Paillier_nbit/Paillier_8bit.hpp"
+// #include "../../../include/encryption/Paillier/Paillier_nbit/Paillier_16bit.hpp"
 #include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
 #include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
 #include "../../../include/filesystem/filesystemCommon.h"
@@ -362,8 +364,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
  */
 void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels)
 {
-	Paillier paillier;
-	paillier = Paillier();
+	Paillier cryptosystem;
+	cryptosystem = Paillier();
+	Paillier_8bit paillier = Paillier_8bit(cryptosystem);
 	image_pgm img_pgm;
 
 	char cNomImgLue[250];
@@ -464,7 +467,9 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
  */
 void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 {
-	Paillier paillier = Paillier();
+	Paillier cryptosystem;
+	cryptosystem = Paillier();
+	Paillier_8bit paillier = Paillier_8bit(cryptosystem);
 	image_pgm img_pgm;
 
 	char cNomImgLue[250];
@@ -562,8 +567,11 @@ int main(int argc, char **argv)
 
 	/********************************************************************/
 
+	Paillier paillier;
+
+
 	/*********************** Traitement de clé ***********************/
-	Paillier paillier = Paillier();
+
 	PaillierPrivateKey pk;
 	PaillierPublicKey pubk;
 
@@ -656,11 +664,25 @@ int main(int argc, char **argv)
 		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
 		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
-		encrypt(s_file, pubk, distributeOnTwo, recropPixels);
+		if(n <= 256)
+		{
+			encrypt(s_file, pubk, distributeOnTwo, recropPixels);
+		}
+		if(n > 256 && n <= 65535)
+		{
+			printf("Not implemented.");
+		}
 	}
 	/*********************** Déchiffrement ***********************/
 	else
 	{
-		decrypt(s_file, pk, distributeOnTwo);
+		if(n <= 256)
+		{
+			decrypt(s_file, pk, distributeOnTwo);
+		}
+		if(n > 256 && n <= 65535)
+		{
+			printf("Not implemented.");
+		}
 	}
 }
