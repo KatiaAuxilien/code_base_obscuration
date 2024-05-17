@@ -298,12 +298,12 @@ def avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
 def main() :
 
 ############### Initialisation, récupération des données.
-    # f_pix = open("results_pix_p3q83nbR164.txt", "r")
-    # p = 3
-    # q = 83
-    f_pix = open("results_pix_p13q19nbr216.txt", "r")
-    p = 13
-    q = 19
+    f_pix = open("results_pix_p3q83nbR164.txt", "r")
+    p = 3
+    q = 83
+    # f_pix = open("results_pix_p13q19nbr216.txt", "r")
+    # p = 13
+    # q = 19
 
 
     lines_pix = f_pix.readlines()
