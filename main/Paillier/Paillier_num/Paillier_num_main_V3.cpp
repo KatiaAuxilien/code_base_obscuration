@@ -267,7 +267,7 @@ int main(int argc, char **argv)
 			t_pix_enc[l][i] = pixel_enc;
 		}
 	}
-
+	/*======================== Enregistrement fichier ========================*/
 	FILE *file_enc_pix = NULL;
 	file_enc_pix = fopen("results_pix.txt", "w+");
 
@@ -293,5 +293,6 @@ int main(int argc, char **argv)
 	}
 
 	fclose(file_enc_pix);
+
 
 }
