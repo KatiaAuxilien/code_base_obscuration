@@ -14,8 +14,6 @@
  *
  *******************************************************************************/
 #include "../../../include/encryption/Paillier/Paillier.hpp"
-#include "../../../include/encryption/Paillier/Paillier_nbit/Paillier_8bit.hpp"
-// #include "../../../include/encryption/Paillier/Paillier_nbit/Paillier_16bit.hpp"
 #include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
 #include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
 #include "../../../include/filesystem/filesystemCommon.h"
@@ -32,31 +30,31 @@
 using namespace std;
 
 /** Manuel
- encryption
-	enc
-	e
-	-k utilisation de clé
+	 encryption
+		enc
+		e
+		-k utilisation de clé
+			[public_key.bin]
+
+		de base on a p et q après enc si on a pas -k
+
+		decryption
+		dec
+		d
+		-k -key utilisation de clé déjà de base.
+			[public_key.bin]
 		[public_key.bin]
 
-	de base on a p et q après enc si on a pas -k
+	-d -distr -distribution distribution sur deux pixels.
+	-hexp -histogramexpansion recrop de pixel.
+	-oLSBr -optlsbr optimisation LSB de r.
 
-	decryption
-	dec
-	d
-	-k -key utilisation de clé déjà de base.
-		[public_key.bin]
-	[public_key.bin]
-
--d -distr -distribution distribution sur deux pixels.
--hexp -histogramexpansion recrop de pixel.
--oLSBr -optlsbr optimisation LSB de r.
-
-[img.pgm] placée au début ou à la fin
+	[img.pgm] placée au début ou à la fin
 */
 
 /**
  *  @brief
- *  @details 
+ *  @details
  *  @authors Katia Auxilien
  *  @date 15/05/2024
  */
@@ -67,7 +65,7 @@ void cmd_colorStandard()
 
 /**
  *  @brief
- *  @details 
+ *  @details
  *  @authors Katia Auxilien
  *  @date 15/05/2024
  */
@@ -101,7 +99,7 @@ bool endsWith(const std::string &str, const std::string &suffix)
 }
 
 /**
- *  @brief 
+ *  @brief
  *  @details
  *  @param char *arg_in[]
  *  @param int size_arg_in
@@ -247,7 +245,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 		}
 
 		n = p * q;
-		Paillier paillier = Paillier();
+		Paillier<uint64_t, uint64_t> paillier;
 		uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
 
 		if (pgc_pq != 1)
@@ -351,9 +349,10 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 		exit(EXIT_FAILURE);
 	}
 }
+
 /*********************** Chiffrement/Déchiffrement ***********************/
 /**
- *  @brief 
+ *  @brief
  *  @details
  *  @param string s_file
  *  @param PaillierPublicKey pubk
@@ -362,11 +361,9 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
  *  @authors Katia Auxilien
  *  @date 15/05/2024
  */
-void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels)
+template <typename T_in, typename T_out>
+void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
 {
-	Paillier cryptosystem;
-	cryptosystem = Paillier();
-	Paillier_8bit paillier = Paillier_8bit(cryptosystem);
 	image_pgm img_pgm;
 
 	char cNomImgLue[250];
@@ -388,7 +385,8 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 
 	if (distributeOnTwo)
 	{
-		uint8_t *ImgOutEnc;
+		// uint8_t *ImgOutEnc;
+		T_in *ImgOutEnc;
 		nTaille = nH * nW;
 
 		allocation_tableau(ImgIn, OCTET, nTaille);
@@ -397,7 +395,8 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 		uint64_t x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel;
+			T_in pixel;
+			// uint8_t pixel;
 			if (recropPixels)
 			{
 				pixel = (ImgIn[i] * n) / 256;
@@ -407,9 +406,9 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 				pixel = ImgIn[i];
 			}
 
-			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
-			uint8_t pixel_enc_dec_x = pixel_enc / n;
-			uint8_t pixel_enc_dec_y = pixel_enc % n;
+			T_out pixel_enc = paillier.paillierEncryption(n, g, pixel);
+			T_in pixel_enc_dec_x = pixel_enc / n;
+			T_in pixel_enc_dec_y = pixel_enc % n;
 			ImgOutEnc[x] = pixel_enc_dec_x;
 			ImgOutEnc[y] = pixel_enc_dec_y;
 			x = x + 2;
@@ -423,16 +422,17 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 	}
 	else
 	{
-		uint16_t *ImgOutEnc;
+		T_out *ImgOutEnc;
 		nTaille = nH * nW;
 
 		allocation_tableau(ImgIn, OCTET, nTaille);
 		img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutEnc, uint16_t, nTaille);
+		allocation_tableau(ImgOutEnc, T_out, nTaille);
 
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel;
+			T_in pixel;
+			// uint8_t pixel;
 			if (recropPixels)
 			{
 
@@ -443,7 +443,7 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 				pixel = ImgIn[i];
 			}
 
-			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
+			T_out pixel_enc = paillier.paillierEncryption(n, g, pixel);
 
 			ImgOutEnc[i] = pixel_enc;
 		}
@@ -457,7 +457,7 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
 }
 
 /**
- *  @brief 
+ *  @brief
  *  @details
  *  @param string s_file
  *  @param PaillierPrivateKey pk
@@ -465,11 +465,9 @@ void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool r
  *  @authors Katia Auxilien
  *  @date 15/05/2024
  */
-void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
+template <typename T_in, typename T_out>
+void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 {
-	Paillier cryptosystem;
-	cryptosystem = Paillier();
-	Paillier_8bit paillier = Paillier_8bit(cryptosystem);
 	image_pgm img_pgm;
 
 	char cNomImgLue[250];
@@ -493,22 +491,22 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 
 	if (distributeOnTwo)
 	{
-		uint8_t *ImgIn;
+		T_in *ImgIn;
 
-		allocation_tableau(ImgIn, uint8_t, nTaille);
+		allocation_tableau(ImgIn, T_in, nTaille);
 		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille); // TODO : Retirer and_get_maxgrey
 		allocation_tableau(ImgOutDec, OCTET, nH * (nW / 2));
 
 		int x = 0, y = 1;
 		for (int i = 0; i < nH * (nW / 2); i++)
 		{
-			uint16_t pixel;
-			uint8_t pixel_enc_dec_x = ImgIn[x];
-			uint8_t pixel_enc_dec_y = ImgIn[y];
+			T_out pixel;
+			T_in pixel_enc_dec_x = ImgIn[x];
+			T_in pixel_enc_dec_y = ImgIn[y];
 			pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
 			x = x + 2;
 			y = y + 2;
-			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
+			T_in c = paillier.paillierDecryption(n, lambda, mu, pixel);
 			ImgOutDec[i] = static_cast<OCTET>(c);
 		}
 		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW / 2);
@@ -517,15 +515,15 @@ void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo)
 	}
 	else
 	{
-		uint16_t *ImgIn;
-		allocation_tableau(ImgIn, uint16_t, nTaille);
+		T_out *ImgIn;
+		allocation_tableau(ImgIn, T_out, nTaille);
 		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutDec, OCTET, nTaille);
 
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint16_t pixel = ImgIn[i];
-			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
+			T_out pixel = ImgIn[i];
+			T_in c = paillier.paillierDecryption(n, lambda, mu, pixel);
 			ImgOutDec[i] = static_cast<OCTET>(c);
 		}
 		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);
@@ -567,9 +565,6 @@ int main(int argc, char **argv)
 
 	/********************************************************************/
 
-	Paillier paillier;
-
-
 	/*********************** Traitement de clé ***********************/
 
 	PaillierPrivateKey pk;
@@ -577,6 +572,8 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
+		Paillier<uint64_t, uint64_t> paillier;
+
 		printf("Pub Key G = %" PRIu64 "\n", g);
 		printf("Pub Key N = %" PRIu64 "\n", n);
 		printf("Priv Key lambda = %" PRIu64 "\n", lambda);
@@ -584,7 +581,7 @@ int main(int argc, char **argv)
 		printf("q = %" PRIu64 "\n", q);
 
 		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
-		pk = PaillierPrivateKey(lambda, mu);
+		pk = PaillierPrivateKey(lambda, mu, n);
 		pubk = PaillierPublicKey(n, g);
 
 		FILE *f_private_key = NULL;
@@ -657,6 +654,9 @@ int main(int argc, char **argv)
 			fclose(f_public_key);
 		}
 	}
+
+	/*********************** Instanciations de Paillier en fonction de n ***********************/
+
 	/*********************** Chiffrement ***********************/
 	if (isEncryption)
 	{
@@ -664,25 +664,45 @@ int main(int argc, char **argv)
 		printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 		printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
 		printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
-		if(n <= 256)
+		if (n <= 256)
 		{
-			encrypt(s_file, pubk, distributeOnTwo, recropPixels);
+			Paillier<uint8_t, uint16_t> paillier;
+			encrypt(s_file, pubk, distributeOnTwo, recropPixels, paillier);
 		}
-		if(n > 256 && n <= 65535)
+		else if (n > 256 && n <= 65535)
 		{
-			printf("Not implemented.");
+
+			Paillier<uint16_t, uint32_t> paillier;
+			encrypt(s_file, pubk, distributeOnTwo, recropPixels, paillier);
+		}
+		else
+		{
+			cmd_colorError();
+			fprintf(stderr, "n value not supported.");
+			cmd_colorStandard();
+			exit(EXIT_FAILURE);
 		}
 	}
 	/*********************** Déchiffrement ***********************/
 	else
 	{
-		if(n <= 256)
+		n = pk.getN();
+		if (n <= 256)
 		{
-			decrypt(s_file, pk, distributeOnTwo);
+			Paillier<uint8_t, uint16_t> paillier;
+			decrypt(s_file, pk, distributeOnTwo,paillier);
 		}
-		if(n > 256 && n <= 65535)
+		else if (n > 256 && n <= 65535)
 		{
-			printf("Not implemented.");
+			Paillier<uint16_t, uint32_t> paillier;
+			decrypt(s_file, pk, distributeOnTwo,paillier);
+		}
+		else
+		{
+			cmd_colorError();
+			fprintf(stderr, "n value not supported.");
+			cmd_colorStandard();
+			exit(EXIT_FAILURE);
 		}
 	}
 }
