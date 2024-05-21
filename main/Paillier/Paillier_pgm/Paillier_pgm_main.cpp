@@ -18,6 +18,8 @@
 #include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
 #include "../../../include/filesystem/filesystemCommon.h"
 #include "../../../include/filesystem/filesystemPGM.h"
+#include "../../../include/interface/cmd/interface_cmd.hpp"
+
 #include <cctype>
 #include <fstream>
 #include <string>
@@ -52,28 +54,6 @@ using namespace std;
 	[img.pgm] placée au début ou à la fin
 */
 
-/**
- *  @brief
- *  @details
- *  @authors Katia Auxilien
- *  @date 15/05/2024
- */
-void cmd_colorStandard()
-{
-	printf("\e[0;36m");
-}
-
-/**
- *  @brief
- *  @details
- *  @authors Katia Auxilien
- *  @date 15/05/2024
- */
-void cmd_colorError()
-{
-	printf("\e[1;36m");
-	fprintf(stderr, "\e[1;35m");
-}
 
 /*********************** Méthodes de traitement d'arguments ***********************/
 
