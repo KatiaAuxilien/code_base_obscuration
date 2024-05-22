@@ -34,189 +34,6 @@
 
 using namespace std;
 
-/*********************** Chiffrement/Déchiffrement ***********************/
-/************** 8bits **************/
-/**
- *  @brief
- *  @details
- *  @param string s_file
- *  @param PaillierPublicKey pubk
- *  @param bool distributeOnTwo
- *  @param bool recropPixels
- *  @authors Katia Auxilien
- *  @date 15/05/2024
- */
-template <typename T_in, typename T_out>
-void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
-{
-	image_pgm img_pgm;
-
-	char cNomImgLue[250];
-	strcpy(cNomImgLue, s_file.c_str());
-
-	string toErase = ".pgm";
-	size_t pos = s_file.find(".pgm");
-	s_file.erase(pos, toErase.length());
-	string s_fileNew = s_file + "_E.pgm";
-	char cNomImgEcriteEnc[250];
-	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
-
-	int nH, nW, nTaille;
-	uint64_t n = pubk.getN();
-	uint64_t g = pubk.getG();
-
-	OCTET *ImgIn;
-	img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
-
-	if (distributeOnTwo)
-	{
-		uint8_t *ImgOutEnc;
-		// T_in *ImgOutEnc;
-		nTaille = nH * nW;
-
-		allocation_tableau(ImgIn, OCTET, nTaille);
-		img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutEnc, OCTET, nH * (2 * nW));
-		uint64_t x = 0, y = 1;
-		for (int i = 0; i < nTaille; i++)
-		{
-			// T_in pixel;
-			uint8_t pixel;
-			if (recropPixels)
-			{
-				pixel = (ImgIn[i] * n) / 256;
-			}
-			else
-			{
-				pixel = ImgIn[i];
-			}
-
-			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
-			uint8_t pixel_enc_dec_x = pixel_enc / n;
-			uint8_t pixel_enc_dec_y = pixel_enc % n;
-			ImgOutEnc[x] = pixel_enc_dec_x;
-			ImgOutEnc[y] = pixel_enc_dec_y;
-			x = x + 2;
-			y = y + 2;
-		}
-
-		img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, n);
-
-		free(ImgIn);
-		free(ImgOutEnc);
-	}
-	else
-	{
-		uint16_t *ImgOutEnc;
-		nTaille = nH * nW;
-
-		allocation_tableau(ImgIn, OCTET, nTaille);
-		img_pgm.lire_image_p(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutEnc, uint16_t, nTaille);
-
-		for (int i = 0; i < nTaille; i++)
-		{
-			uint8_t pixel;
-			if (recropPixels)
-			{
-
-				pixel = (ImgIn[i] * n) / 256;
-			}
-			else
-			{
-				pixel = ImgIn[i];
-			}
-
-			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
-
-			ImgOutEnc[i] = pixel_enc;
-		}
-
-		img_pgm.ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
-
-		free(ImgIn);
-		free(ImgOutEnc);
-		nTaille = nH * nW;
-	}
-}
-
-/**
- *  @brief
- *  @details
- *  @param string s_file
- *  @param PaillierPrivateKey pk
- *  @param bool distributeOnTwo
- *  @authors Katia Auxilien
- *  @date 15/05/2024
- */
-template <typename T_in, typename T_out>
-void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo, Paillier<T_in, T_out> paillier)
-{
-	image_pgm img_pgm;
-
-	char cNomImgLue[250];
-	strcpy(cNomImgLue, s_file.c_str());
-
-	string toErase = ".pgm";
-	size_t pos = s_file.find(".pgm");
-	s_file.erase(pos, toErase.length());
-	string s_fileNew = s_file + "_D.pgm";
-	char cNomImgEcriteDec[250];
-	strcpy(cNomImgEcriteDec, s_fileNew.c_str());
-
-	int nH, nW, nTaille;
-	uint64_t n, lambda, mu;
-	lambda = pk.getLambda();
-	mu = pk.getMu();
-
-	OCTET *ImgOutDec;
-	img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
-	nTaille = nH * nW;
-
-	if (distributeOnTwo)
-	{
-		uint8_t *ImgIn;
-
-		allocation_tableau(ImgIn, uint8_t, nTaille);
-		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille); // TODO : Retirer and_get_maxgrey
-		allocation_tableau(ImgOutDec, OCTET, nH * (nW / 2));
-
-		int x = 0, y = 1;
-		for (int i = 0; i < nH * (nW / 2); i++)
-		{
-			uint16_t pixel;
-			uint8_t pixel_enc_dec_x = ImgIn[x];
-			uint8_t pixel_enc_dec_y = ImgIn[y];
-			pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
-			x = x + 2;
-			y = y + 2;
-			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
-			ImgOutDec[i] = static_cast<OCTET>(c);
-		}
-		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW / 2);
-		free(ImgIn);
-		free(ImgOutDec);
-	}
-	else
-	{
-		uint16_t *ImgIn;
-		allocation_tableau(ImgIn, uint16_t, nTaille);
-		n = img_pgm.lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
-		allocation_tableau(ImgOutDec, OCTET, nTaille);
-
-		for (int i = 0; i < nTaille; i++)
-		{
-			uint16_t pixel = ImgIn[i];
-			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
-			ImgOutDec[i] = static_cast<OCTET>(c);
-		}
-		img_pgm.ecrire_image_p(cNomImgEcriteDec, ImgOutDec, nH, nW);
-		free(ImgIn);
-		free(ImgOutDec);
-	}
-}
-
-
 int main(int argc, char **argv)
 {
 
@@ -239,9 +56,9 @@ int main(int argc, char **argv)
 
 	bool isEncryption = parameters[0];
 	bool useKeys = parameters[1];
-	bool distributeOnTwo = parameters[2];
-	bool recropPixels = parameters[3];
-	bool optimisationLSB = parameters[4];
+	// bool distributeOnTwo = parameters[2];
+	// bool recropPixels = parameters[3];
+	// bool optimisationLSB = parameters[4];
 
 	string s_file = c_file;
 	string s_key_file;
@@ -261,26 +78,23 @@ int main(int argc, char **argv)
 	{
 		Paillier<uint64_t, uint64_t> paillier;
 
-		vector<uint64_t> vector_g = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
-		std::set<uint64_t> set_already_test;
-		uint64_t count_g_already_test = 0;
+		vector<uint64_t> vector_g = paillier.calc_set_same_remainder_divide_euclide_64t_v2(n * n, lambda);
 		mu = 0;
-		while(mu == 0 || count_g_already_test != vector_g.size()){
-			g = paillier.choose_g_in_vec_64t(vector_g, n, lambda);
-			if(set_already_test.count(g) > 0){
-				count_g_already_test++;
-			}else{
-				paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
-				set_already_test.insert(g);
-			}
-		}
-		if (mu == 0)
-		{
+		if(vector_g.size() == 0){
 			cmd_colorError();
 			fprintf(stderr, "ERROR with g, no value found for g where mu exist.\n");
 			cmd_colorStandard();
 			exit(EXIT_FAILURE);
 		}
+		g = paillier.choose_g_in_vec_64t_v2(vector_g);
+		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
+		// if (mu == 0)
+		// {
+		// 	cmd_colorError();
+		// 	fprintf(stderr, "ERROR with g, no value found for g where mu exist.\n");
+		// 	cmd_colorStandard();
+		// 	exit(EXIT_FAILURE);
+		// }
 
 		pk = PaillierPrivateKey(lambda, mu, n);
 		pubk = PaillierPublicKey(n, g);
@@ -345,13 +159,21 @@ int main(int argc, char **argv)
 
 			if (f_private_key == NULL)
 			{
+				cmd_colorError();
 				fprintf(stderr, "Error ! Opening %s \n", c_key_file);
-				return 1;
+				cmd_colorStandard();
+				exit(EXIT_FAILURE);
 			}
 
 			size = sizeof(PaillierPrivateKey);
-			fread(&pk, size, 1, f_private_key);
-			// if (result != size) {fputs ("Reading error",stderr); return 1;}
+			size_t items_read = fread(&pk, size, 1, f_private_key);
+			if(items_read != 1)
+			{
+				cmd_colorError();
+				fprintf(stderr, "Error ! Opening %s \n", c_key_file);
+				cmd_colorStandard();
+				exit(EXIT_FAILURE);
+			}
 
 			fclose(f_private_key);
 		}
@@ -363,12 +185,20 @@ int main(int argc, char **argv)
 
 			if (f_public_key == NULL)
 			{
+				cmd_colorError();
 				fprintf(stderr, "Error ! Opening %s \n", c_key_file);
-				return 1;
+				cmd_colorStandard();
+				exit(EXIT_FAILURE);
 			}
 			size = sizeof(PaillierPublicKey);
-			fread(&pubk, size, 1, f_public_key);
-			// if (result != size) {fputs ("Reading error",stderr); return 1;}
+			size_t items_read = fread(&pubk, size, 1, f_public_key);
+			if(items_read != 1)
+			{
+				cmd_colorError();
+				fprintf(stderr, "Error ! Opening %s \n", c_key_file);
+				cmd_colorStandard();
+				exit(EXIT_FAILURE);
+			}
 
 			fclose(f_public_key);
 		}
@@ -417,29 +247,29 @@ int main(int argc, char **argv)
 	else
 	{
 		uint64_t n, lambda, mu;
-		n = pk.getN();
+		n = pk.getN();	
+		lambda = pk.getLambda();
+		mu = pk.getMu();
+			printf("Pub Key N = %" PRIu64 "\n", pk.getN());
+			printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+			printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
+
 		if (n <= 256)
 		{
 			Paillier<uint8_t, uint16_t> paillier;
-			
-			lambda = pk.getLambda();
-			mu = pk.getMu();
 
-			uint16_t msg_enc = 14671;
+			uint16_t msg_enc = 50189;
 			fprintf(stdout, "Enc : %" PRIu16 "\n", msg_enc);			
 			uint8_t c = paillier.paillierDecryption(n, lambda, mu, msg_enc);
 			fprintf(stdout, "Dec : %" PRIu8 "\n", c);
 		}
 		else if (n > 256 && n <= 65535)
 		{
-			Paillier<uint16_t, uint32_t> paillier;
+			Paillier<uint8_t, uint32_t> paillier;
 
-			lambda = pk.getLambda();
-			mu = pk.getMu();
-
-			uint32_t msg_enc = 57043;
+			uint32_t msg_enc = 51643;
 			fprintf(stdout, "Enc : %" PRIu32 "\n", msg_enc);			
-			uint16_t c = paillier.paillierDecryption(n, lambda, mu, msg_enc);
+			uint8_t c = paillier.paillierDecryption(n, lambda, mu, msg_enc);
 			fprintf(stdout, "Dec : %" PRIu16 "\n", c);
 		}
 		else

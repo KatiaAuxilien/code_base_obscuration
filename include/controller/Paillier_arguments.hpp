@@ -209,7 +209,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 		isFileBIN = true;
 	}
 
-	for (i; i < size_arg; i++)
+	for (i = i; i < size_arg; i++)
 	{
 		// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
 

@@ -35,9 +35,9 @@ public:
     /**
      *  @brief Calcul de l'exponentiation modulaire rapide.
      *  @details Calcul de l'exponentiation modulaire rapide.
-     *  @param uint64_t x
-     *  @param uint64_t i
-     * 	@param uint64_t n
+     *  @param uint64_t x 
+     *  @param uint64_t i puissance
+     * 	@param uint64_t n modulo
      *  @authors Katia Auxilien
      *  @date 30/04/2024
      */
@@ -75,7 +75,7 @@ public:
 
     /**
      *  @brief
-     *  @details Calcul de l'ensemble des éléments de  g ∈ (Z/n2Z)*
+     *  @details Calcul de l'ensemble des éléments de  g ∈ (Z/n²Z)*
      *  @param
      *  @authors Katia Auxilien
      *  @date 30/04/2024 15:51:00
@@ -104,18 +104,64 @@ public:
     {
         uint64_t x;
         int i_position = 0;
-        uint64_t g = 0, r = 1, r2 = 1;
-        while (r != 0 && r2 != 0)
+        uint64_t g = 0, r = 1, r2 = 1, mu = 0;
+        while (r != 0 && r2 != 0 && mu == 0)
         {
             i_position = rand() % set.size();
             g = set.at(i_position);
             x = fastMod_64t(g, lambda, n * n);
-            r = (x - 1) % n;
-            r2 = (x - 1) / n;
+            r = (x - 1) % n; //Vérifier si L(x) est entier.
+            r2 = (x - 1) / n; //Vérifier si L(x) est entier.
+            mu = modInverse_64t(r2, n); // Calculer μ en utilisant la formule donnée et la fonction modular_inverse pour calculer l'inverse modulaire
         }
         return g;
     };
 
+    /**
+     *  @brief
+     *  @details Génération de l'ensemble des éléments de  g ∈ (Z/n²Z)* ET respectant : L(x) = (x-1)/n dont x  ∈ N* ET il existe mu.
+     *  @param uint64_t n
+     *  @param const uint64_t &lambda
+     *  @authors Katia Auxilien
+     *  @date 22/05/2024 14:45:00
+     */
+    std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t_v2(uint64_t n, const uint64_t &lambda)
+    {
+        std::vector<uint64_t> result;
+
+        uint64_t x, g = 0, r = 1, l = 1, mu = 0;
+        for (uint64_t i = 0; i < n; i++)
+        {
+            if(gcd_64t(i, n) == 1){
+                x = fastMod_64t(g, lambda, n * n);
+                r = (x - 1) % n; //Vérifier si x est entier.
+                if(r != 0 && x!= 0) {
+                    l = (x - 1) / n;
+                    mu = modInverse_64t(l, n); 
+                    if (mu != 0)
+                    {
+                        result.push_back(i);
+                    }
+                }
+            }
+        }
+        return result;
+    };
+
+    /**
+     *  @brief
+     *  @details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
+     *  @param
+     *  @authors Katia Auxilien
+     *  @date 22/05/2024 14:45:00
+     */
+    uint64_t choose_g_in_vec_64t_v2(std::vector<uint64_t> &set)
+    {
+        int i_position = rand() % set.size();
+        return set.at(i_position);
+    };
+
+    
     /**
      *  @brief Calcul de L(x).
      *  @details Calcul de L(x) nécessaire dans la génération de Mu et le déchiffrement par Paillier.
@@ -231,14 +277,21 @@ public:
      */
     T_out paillierEncryption(uint64_t n, uint64_t g, T_in m)
     {
+        if (m >= std::numeric_limits<uint64_t>::max())
+        {
+            throw std::runtime_error("Erreur m ne peut pas être stocké dans 64 bits.");
+        }
+        uint64_t m_64 = static_cast<uint64_t>(m);
+
         uint64_t c;
         uint64_t r = rand() % n;
         while (gcd_64t(r, n) != 1 || r == 0)
         {
             r = rand() % n;
         }
+        fprintf(stdout, "r : %" PRIu64 "\n", r);
 
-        uint64_t fm1 = fastMod_64t(g, m, n * n);
+        uint64_t fm1 = fastMod_64t(g, m_64, n * n);
         uint64_t fm2 = fastMod_64t(r, n, n * n);
         c = (fm1 * fm2) % (n * n);
 
@@ -264,9 +317,14 @@ public:
      */
     T_out paillierEncryption(uint64_t n, uint64_t g, T_in m, uint64_t r)
     {
-        uint64_t c;
+        if (m >= std::numeric_limits<uint64_t>::max())
+        {
+            throw std::runtime_error("Erreur m ne peut pas être stocké dans 64 bits.");
+        }
+        uint64_t m_64 = static_cast<uint64_t>(m);
 
-        uint64_t fm1 = fastMod_64t(g, m, n * n);
+        uint64_t c;
+        uint64_t fm1 = fastMod_64t(g, m_64, n * n);
         uint64_t fm2 = fastMod_64t(r, n, n * n);
         c = (fm1 * fm2) % (n * n);
 
@@ -292,7 +350,14 @@ public:
      */
     T_in paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, T_out c)
     {
-        uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
+        if (c >= std::numeric_limits<uint64_t>::max())
+        {
+            throw std::runtime_error("Erreur m ne peut pas être stocké dans 64 bits.");
+        }
+        uint64_t c_64 = static_cast<uint64_t>(c);
+
+        //uint64_t result = (((fastMod_64t(c_64, lambda, n * n) - 1) / n) * mu) % n;
+        uint64_t result = ((fastMod_64t(c_64, lambda, n * n) - 1) / n) * mu % n;
 
         if (result >= std::numeric_limits<T_in>::max())
         {
