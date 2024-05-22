@@ -16,6 +16,7 @@
 #ifndef INTERFACE_CMD
 #define INTERFACE_CMD
 
+#include <stdio.h>
 /**
  *  @brief
  *  @details
@@ -35,9 +36,9 @@ void cmd_colorStandard()
  */
 void cmd_colorError()
 {
-	printf("\e[1;36m");
-	fprintf(stderr, "\e[1;35m");
+	printf("\e[1;31m");
+	fprintf(stderr, "\e[1;31m");
 }
 
 
-#endif // IMAGE
+#endif // INTERFACE_CMD

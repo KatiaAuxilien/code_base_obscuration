@@ -99,7 +99,8 @@ public:
      *  @param
      *  @authors Katia Auxilien
      *  @date 02/05/2024
-     */    uint64_t choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
+     */
+    uint64_t choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
     {
         uint64_t x;
         int i_position = 0;
@@ -148,7 +149,7 @@ public:
      * 	@param uint64_t n
      *  @authors Bianca Jansen Van Rensburg
      *  @date ?
-     */    
+     */
     uint64_t modInverse_64t(uint64_t a, uint64_t n)
     {
         a = a % n;
@@ -160,7 +161,6 @@ public:
 
         return 0;
     };
-
 
     /**
      *  @brief Calcul de la puissance de n de x
@@ -178,7 +178,6 @@ public:
         }
         return x * pow_uint64_t(x, n - 1);
     };
-
 
     /**
      *  @brief Génération du Mu.
@@ -217,7 +216,7 @@ public:
     };
 
     //================ Overload and Generic programming ================//
-    
+
     /**
      *  @overload
      *  @brief Chiffrement par paillier.
@@ -243,8 +242,9 @@ public:
         uint64_t fm2 = fastMod_64t(r, n, n * n);
         c = (fm1 * fm2) % (n * n);
 
-        if (c >= std::numeric_limits<T_out>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans n*2 bits.");
+        if (c >= std::numeric_limits<T_out>::max())
+        {
+            throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans n*2 bits.");
         }
         return static_cast<T_out>(c);
     };
@@ -270,8 +270,9 @@ public:
         uint64_t fm2 = fastMod_64t(r, n, n * n);
         c = (fm1 * fm2) % (n * n);
 
-        if (c >= std::numeric_limits<T_out>::max()) {
-		    throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans n*2 bits.");
+        if (c >= std::numeric_limits<T_out>::max())
+        {
+            throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans n*2 bits.");
         }
         return static_cast<T_out>(c);
     };
@@ -293,12 +294,12 @@ public:
     {
         uint64_t result = (((fastMod_64t(c, lambda, n * n) - 1) / n) * mu) % n;
 
-        if (result >= std::numeric_limits<T_in>::max()) {
-                throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 8 bits.");
+        if (result >= std::numeric_limits<T_in>::max())
+        {
+            throw std::runtime_error("Erreur le résultat ne peut pas être stocké dans 8 bits.");
         }
         return static_cast<T_in>(result);
     };
-
 };
 
 #endif // PAILLIER_CRYPTOSYSTEM

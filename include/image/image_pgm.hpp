@@ -32,6 +32,9 @@ class image_pgm : public image_portable {
         //uint16_t
         uint16_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint16_t *pt_image, int taille_image);
         void ecrire_image_pgm_variable_size(char nom_image[], uint16_t *pt_image, int nb_lignes, int nb_colonnes, uint16_t max_value);
+        //uint32_t
+        uint32_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint32_t *pt_image, int taille_image);
+        void ecrire_image_pgm_variable_size(char nom_image[], uint32_t *pt_image, int nb_lignes, int nb_colonnes, uint32_t max_value);
         //uint64_t
         uint64_t lire_image_pgm_and_get_maxgrey(char nom_image[], uint64_t *pt_image, int taille_image);
         void ecrire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int nb_lignes, int nb_colonnes, uint64_t max_value);
