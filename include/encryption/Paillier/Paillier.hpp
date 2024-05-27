@@ -16,6 +16,7 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
+#include <random>
 #include "../../../include/image/image_pgm.hpp"
 
 #define BITSETSIZE 64
@@ -31,6 +32,33 @@ class Paillier
 public:
     Paillier(){};
     ~Paillier(){};
+
+
+
+    /**
+     *  @brief 
+     *  @details Générer une variable de type uint64_t aléatoirement
+     *  @param uint64_t min
+     *  @param uint64_t max
+     *  @authors Katia Auxilien
+     *  @date 23/05/2024
+     */
+    uint64_t random64(uint64_t min, uint64_t max) {
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+        std::uniform_int_distribution<std::uint64_t> dis(min, max);
+
+        //unsigned long long
+        //std::uniform_int_distribution<unsigned long long> dis(min, max);
+
+        // std::uniform_int_distribution<unsigned long long> dis(
+        //     std::numeric_limits<std::uint64_t>::min(),
+        //     std::numeric_limits<std::uint64_t>::max()
+        // );
+
+        return dis(gen);
+    }
+
 
     /**
      *  @brief Calcul de l'exponentiation modulaire rapide.
@@ -74,7 +102,8 @@ public:
     };
 
     /**
-     *  @brief
+     *  @deprecated Cette génération n'est pas suffisante pour paillier.
+     *  @brief 
      *  @details Calcul de l'ensemble des éléments de  g ∈ (Z/n²Z)*
      *  @param
      *  @authors Katia Auxilien
@@ -94,7 +123,38 @@ public:
     };
 
     /**
+     *  @deprecated Cette génération n'est pas suffisante pour paillier.
      *  @brief
+     *  @details Génération de l'ensemble des éléments de  g ∈ (Z/n²Z)* ET respectant : L(x) = (x-1)/n dont x  ∈ N* ET il existe mu.
+     *  @param uint64_t n
+     *  @param const uint64_t &lambda
+     *  @authors Katia Auxilien
+     *  @date 22/05/2024 14:45:00
+     */
+    std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t_v2(uint64_t n, const uint64_t &lambda)
+    {
+        std::vector<uint64_t> result;
+
+        uint64_t x, r = 0, mu = 0;
+        for (uint64_t g = 0; g < n; g++)
+        {
+            if(gcd_64t(g, n) == 1){
+                uint64_t u = fastMod_64t(g, lambda, n * n);
+                uint64_t l = (u - 1) / n;
+                r = (x - 1) % n; //Vérifier si x est entier.
+                mu = modInverse_64t(l, n);
+                if (mu != 0)
+                {
+                    result.push_back(g);
+                }
+            }
+        }
+        return result;
+    };
+
+    /** 
+     *  @deprecated Cette génération n'est pas suffisante pour paillier.
+     *  @brief 
      *  @details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
      *  @param
      *  @authors Katia Auxilien
@@ -118,37 +178,7 @@ public:
     };
 
     /**
-     *  @brief
-     *  @details Génération de l'ensemble des éléments de  g ∈ (Z/n²Z)* ET respectant : L(x) = (x-1)/n dont x  ∈ N* ET il existe mu.
-     *  @param uint64_t n
-     *  @param const uint64_t &lambda
-     *  @authors Katia Auxilien
-     *  @date 22/05/2024 14:45:00
-     */
-    std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t_v2(uint64_t n, const uint64_t &lambda)
-    {
-        std::vector<uint64_t> result;
-
-        uint64_t x, g = 0, r = 1, l = 1, mu = 0;
-        for (uint64_t i = 0; i < n; i++)
-        {
-            if(gcd_64t(i, n) == 1){
-                x = fastMod_64t(g, lambda, n * n);
-                r = (x - 1) % n; //Vérifier si x est entier.
-                if(r != 0 && x!= 0) {
-                    l = (x - 1) / n;
-                    mu = modInverse_64t(l, n); 
-                    if (mu != 0)
-                    {
-                        result.push_back(i);
-                    }
-                }
-            }
-        }
-        return result;
-    };
-
-    /**
+     *  @deprecated Cette génération n'est pas suffisante pour paillier.
      *  @brief
      *  @details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
      *  @param
@@ -161,7 +191,6 @@ public:
         return set.at(i_position);
     };
 
-    
     /**
      *  @brief Calcul de L(x).
      *  @details Calcul de L(x) nécessaire dans la génération de Mu et le déchiffrement par Paillier.
@@ -225,6 +254,63 @@ public:
         return x * pow_uint64_t(x, n - 1);
     };
 
+
+    /**
+     *  @brief Chosiir un élément de manière aléatoire dans l'ensemble Z/nZ* 
+     *  @details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
+     *  @param
+     *  @authors Katia Auxilien
+     *  @date 23/05/2024 15:00:00
+     */
+    uint64_t randomZNStar(uint64_t n){
+        uint64_t r = 0;
+        do
+        {
+            r = random64(1,n);
+        }while(r >= 1 && gcd_64t(r,n) != 1);
+        return r;
+    };
+
+
+
+    /**
+     *  @brief Retourner l'ensemble Z/nZ*  sous forme d'un vecteur.
+     *  @details 
+     *  @param
+     *  @authors Katia Auxilien
+     *  @date 23/05/2024 9:18:00
+     */
+    std::vector<uint64_t> get_set_ZNZStar(uint64_t n){
+        std::vector<uint64_t> ZNZStar;
+        for(uint64_t i = 1; i < n; i++){
+            if(gcd_64t(i,n) == 1){
+                ZNZStar.push_back(i);
+            }
+        }
+        return ZNZStar;
+    }
+
+    /**
+     *  @brief
+     *  @details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
+     *          On vérifie que la valeur de g donne gcd(L(g^lambda mod n^2), n) = 1 sachant que L(u) = (u-1)/n
+     *  @param uint64_t n
+     *  @param uint64_t lambda
+     *  @authors Katia Auxilien
+     *  @date 23/05/2024 15:00:00
+     */
+    uint64_t generate_g_64t(uint64_t n,uint64_t lambda){
+        uint64_t g,u,l;
+        do{
+            g = randomZNStar(n*n); // generate g, a random integer in Z*_{n^2}
+            u = fastMod_64t(g, lambda, n * n);
+            l = L_64t(u,n);
+        }
+        while(gcd_64t(l,n) !=1);
+        return g;
+    };
+
+
     /**
      *  @brief Génération du Mu.
      *  @details Génération du paramètre Mu nécessaire à la clé privée du chiffrement par Paillier.
@@ -284,12 +370,14 @@ public:
         uint64_t m_64 = static_cast<uint64_t>(m);
 
         uint64_t c;
-        uint64_t r = rand() % n;
-        while (gcd_64t(r, n) != 1 || r == 0)
-        {
-            r = rand() % n;
-        }
-        fprintf(stdout, "r : %" PRIu64 "\n", r);
+        // uint64_t r = random64(0,n);
+        // while (gcd_64t(r, n) != 1 || r == 0)
+        // {
+        //     r = random64(0,n);
+        // }
+        uint64_t r = randomZNStar(n);
+
+        // fprintf(stdout, "r : %" PRIu64 "\n", r);
 
         uint64_t fm1 = fastMod_64t(g, m_64, n * n);
         uint64_t fm2 = fastMod_64t(r, n, n * n);
@@ -308,8 +396,8 @@ public:
      *  @details Chiffrement par paillier d'un message m sur n bit.
      *  @param uint64_t n valeur p*q, fait partie de la clé publique.
      * 	@param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*, fait partie de la clé publique.
+     *  @param T_in m message en clair sur nbit. 
      *  @param uint64_t r élément aléatoire appartenant à l'ensemble r ∈ (Z/nZ)*.
-     *  @param T_in m message en clair sur nbit.
      *  @return static_cast<T_out>(c) : Le message m chiffré, dont le chiffré est sur 2*n bit.
      *  @retval T_out
      *  @authors Bianca Jansen Van Rensburg, Katia Auxilien

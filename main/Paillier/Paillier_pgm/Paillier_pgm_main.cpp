@@ -440,20 +440,10 @@ int main(int argc, char **argv)
 	if (!useKeys && isEncryption)
 	{
 		Paillier<uint64_t, uint64_t> paillier;
-
-		vector<uint64_t> vector_g = paillier.calc_set_same_remainder_divide_euclide_64t(n * n);
-		std::set<uint64_t> set_already_test;
-		uint64_t count_g_already_test = 0;
 		mu = 0;
-		while(mu == 0 || count_g_already_test != vector_g.size()){
-			g = paillier.choose_g_in_vec_64t(vector_g, n, lambda);
-			if(set_already_test.count(g) > 0){
-				count_g_already_test++;
-			}else{
-				paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
-				set_already_test.insert(g);
-			}
-		}
+		g = paillier.generate_g_64t(n,lambda);
+		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
+
 		if (mu == 0)
 		{
 			cmd_colorError();
@@ -462,10 +452,8 @@ int main(int argc, char **argv)
 			exit(EXIT_FAILURE);
 		}
 
-		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
 		pk = PaillierPrivateKey(lambda, mu, n);
 		pubk = PaillierPublicKey(n, g);
-
 		if(lambda == 0 || mu == 0 || p == 0 || q == 0 || n == 0 || g == 0){
 			cmd_colorError();			
 			fprintf(stderr, "Error in generation of private key.\n");
@@ -561,6 +549,8 @@ int main(int argc, char **argv)
 		n = pubk.getN();
 		if (n <= 256)
 		{
+			printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
+			printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
 			Paillier<uint8_t, uint16_t> paillier;
 			encrypt(s_file, pubk, distributeOnTwo, recropPixels, paillier);
 		}
@@ -584,6 +574,8 @@ int main(int argc, char **argv)
 		n = pk.getN();
 		if (n <= 256)
 		{
+			printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
+			printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
 			Paillier<uint8_t, uint16_t> paillier;
 			decrypt(s_file, pk, distributeOnTwo,paillier);
 		}

@@ -114,10 +114,10 @@ def avg_curve_mod_k_by_r_value_inv(t_pix_enc, vector_r_values,n,size_vec_r, p,q)
 
 #En fonction de la valeur du pixel clair.
 def avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, inverse):
-    t_k = [2,4,8,16,32,64,128,256]
-    color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
-    color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet"]
-    color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid"]
+    t_k = [2,4,8,16,32,64,128,256, 512]
+    color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid","purple"]
+    color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet","indigo"]
+    color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid","blueviolet"]
 
     for k in range(len(t_k)):
         mod = t_k[k]
@@ -152,10 +152,10 @@ def avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p,
         x = np.arange(0, n)
         y = t_pix_avg
 
-        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k])
-        plt.axhline(y = avg_pix, color = color_avg_curve[k])
-        plt.axhline(y = avg_pix + ecart_type_pix /2, color = color_ecart_type_curve[k])
-        plt.axhline(y = avg_pix - ecart_type_pix /2, color = color_ecart_type_curve[k])
+        plt.plot(x, y,label="average pixel encrypted modulo "+str(mod)+" = 0",color=color_main_curve[k], marker='x')
+        plt.axhline(y = avg_pix, color = color_avg_curve[k],linestyle = 'dotted')
+        plt.axhline(y = avg_pix + ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
+        plt.axhline(y = avg_pix - ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
 
         plt.xlabel('Valeur du pixel clair')
         plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+' = 0')
@@ -294,6 +294,118 @@ def avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
         plt.show()
 
 
+#En fonction de la valeur du pixel clair, différent modulo, valeurs commune où il n'y a pas de r existant pour modulo k = 0
+def avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_inv_enc, vector_r_values, n, size_vec_r, p, q):
+    t_k = [2,4,8,16,32,64,128,256, 512, 1024]
+    color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid","purple", "deeppink"]
+    color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet","indigo","pink"]
+    color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid","blueviolet","hotpink"]
+    color_main_curve_inv = list(reversed(color_main_curve))
+    color_avg_curve_inv = list(reversed(color_avg_curve))
+    color_ecart_type_curve_inv = list(reversed(color_ecart_type_curve))
+
+    for k in range(len(t_k)):
+        mod = t_k[k]
+        #E(x)
+        t_pix_avg = []
+        t_count_mod_k = []
+        for i in range(n):
+            count_mod_k= 0
+            for j in range(size_vec_r):
+                val = t_pix_enc[j][i]
+                if(val % mod==0):
+                    count_mod_k+=1
+            t_count_mod_k.append(count_mod_k)
+            t_pix_avg.append(count_mod_k/size_vec_r)
+
+        avg_pix = 0
+        ecart_type_pix = 0
+        sum = 0
+        sum_pow = 0
+        pow_avg = 0
+        var = 0
+        for i in range(n) :
+            sum += t_pix_avg[i]
+            sum_pow += pow(t_pix_avg[i], 2)
+        avg_pix = sum/n
+        pow_avg = sum_pow/n
+        var = pow_avg - pow(avg_pix,2)
+        ecart_type_pix = math.sqrt(var)
+
+        # print("AVG mod "+str(mod)+ " : " + str(avg_pix))
+        # print("Ecart type mod "+str(mod)+ " : " +str(ecart_type_pix))
+
+        x = np.arange(0, n)
+        y = t_pix_avg
+
+        #!E(x)
+        t_pix_avg_inv = []
+        t_count_mod_k_inv = []
+        for i in range(n):
+            count_mod_k= 0
+            for j in range(size_vec_r):
+                val = t_pix_inv_enc[j][i]
+                if(val % mod==0):
+                    count_mod_k+=1
+            t_count_mod_k_inv.append(count_mod_k)
+            t_pix_avg_inv.append(count_mod_k/size_vec_r)
+
+        avg_pix_inv = 0
+        ecart_type_pix_inv = 0
+        sum = 0
+        sum_pow = 0
+        pow_avg = 0
+        var = 0
+        for i in range(n) :
+            sum += t_pix_avg[i]
+            sum_pow += pow(t_pix_avg[i], 2)
+        avg_pix_inv = sum/n
+        pow_avg = sum_pow/n
+        var = pow_avg - pow(avg_pix,2)
+        ecart_type_pix_inv = math.sqrt(var)
+
+        # print("AVG mod "+str(mod)+ " : " + str(avg_pix_inv))
+        # print("Ecart type mod "+str(mod)+ " : " +str(ecart_type_pix_inv))
+
+        x_inv = np.arange(0, n)
+        y_inv = t_pix_avg_inv
+
+        plt.plot(x, y,label="average E(x) modulo "+str(mod)+" = 0",color=color_main_curve[k], linestyle = 'solid')
+        plt.axhline(y = avg_pix, color = color_avg_curve[k], linestyle = 'dotted')
+        plt.axhline(y = avg_pix + ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
+        plt.axhline(y = avg_pix - ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
+
+
+        plt.plot(x_inv, y_inv,label="average !E(x) modulo "+str(mod)+" = 0",color=color_main_curve_inv[k], linestyle = 'solid')
+        plt.axhline(y = avg_pix_inv, color = color_avg_curve_inv[k], linestyle = 'dotted')
+        plt.axhline(y = avg_pix_inv + ecart_type_pix_inv /2, color = color_ecart_type_curve_inv[k], linestyle = 'dashed')
+        plt.axhline(y = avg_pix_inv - ecart_type_pix_inv /2, color = color_ecart_type_curve_inv[k], linestyle = 'dashed')
+
+        print('Niveaux gris pb %'+str(mod)+' = 0 à 0%')
+        t_common= []
+        common = []
+        for i in range(n) :
+            if(t_pix_avg[i] == 0 and t_pix_avg_inv[i] == 0):
+                print(str(i))
+                t_common.append(i)
+                common.append(0)
+            
+        x_common = t_common;
+        y_common = common;
+        plt.scatter(x_common,y_common, color = 'black', marker = 'x')
+
+        plt.xlabel('Valeur du pixel clair')
+        plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+' = 0')
+        
+        plt.title('Courbe de la moyenne des E(x) et !E(x) , par paillier, modulo '+str(mod)+' = 0 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+        plt.grid()
+        plt.legend()
+        
+        plt.show()
+
+            
+
+
 
 def main() :
 
@@ -319,6 +431,7 @@ def main() :
     t_pix_enc = []
 
     line_index = 2 
+    # Pixels chiffrés 
     for _ in range(size_vec_r):
         r_value = np.uint64(lines_pix[line_index].strip())
         vector_r_values.append(r_value)
@@ -341,10 +454,11 @@ def main() :
 ############### Courbes
 
     # Pixels chiffrés
-    # avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier, modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    # avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier, modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier, modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier, modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
+
     # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
-    # avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
 
 
     # Pixels chiffrés inversés.
@@ -354,14 +468,22 @@ def main() :
         for j in range(n):
             x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
             t_pix_enc_inv_row.append(x)
-            print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
+            # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
 
         t_pix_enc_inv.append(t_pix_enc_inv_row)
 
     avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier, modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
     avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier, modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
     avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True)
+
     # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
+
+
+    # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
+    avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q)
+
+
+
 
 if __name__ == "__main__":
     main()

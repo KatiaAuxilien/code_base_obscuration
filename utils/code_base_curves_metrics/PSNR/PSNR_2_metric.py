@@ -88,12 +88,46 @@ def main() :
     # print(fichier+" : "+ str(psnr))
 
 
+
     fichier = "4754.pgm"
     dossier_images = "origin\\"
     file_tab_alt = dossier_images+"\\"+fichier
     cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
+        
+        # Essais
+    fichier = "4754_E_13_19_vanilla.pgm"
+    dossier_images = "img\\"
+    file_tab_alt = dossier_images+"\\"+fichier
 
-    fichier = "4754_E_D_247_distr.pgm"
+    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
+
+    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
+    print(fichier+" : "+ str(psnr))
+
+    # 4754_E_D_13_19_vanilla
+    # 4754_E_D_distr_13_19_
+    # 4754_E_D_hexp_13_19_
+    # 4754_E_D_distr_hexp_13_19_
+
+    fichier = "4754_E_D_13_19_vanilla.pgm"
+    dossier_images = "img\\"
+    file_tab_alt = dossier_images+"\\"+fichier
+
+    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
+
+    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
+    print(fichier+" : "+ str(psnr))
+
+    fichier = "4754_E_D_distr_13_19_.pgm"
+    dossier_images = "img\\"
+    file_tab_alt = dossier_images+"\\"+fichier
+
+    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
+
+    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
+    print(fichier+" : "+ str(psnr))
+
+    fichier = "4754_E_D_hexp_13_19_.pgm"
     dossier_images = "img\\"
     file_tab_alt = dossier_images+"\\"+fichier
 
@@ -103,12 +137,7 @@ def main() :
     print(fichier+" : "+ str(psnr))
 
 
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_247_hexp_distr.pgm"
+    fichier = "4754_E_D_distr_hexp_13_19_.pgm"
     dossier_images = "img\\"
     file_tab_alt = dossier_images+"\\"+fichier
 
@@ -118,12 +147,26 @@ def main() :
     print(fichier+" : "+ str(psnr))
 
 
-    fichier = "4754.pgm"
+    fichier = "6959.pgm"
     dossier_images = "origin\\"
     file_tab_alt = dossier_images+"\\"+fichier
     cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
 
-    fichier = "4754_E_D_247_hexp.pgm"
+    # 6959_E_D_vanilla_3_83
+    # 6959_E_D_distr_3_83
+    # 6959_E_D_hexp_3_83
+    # 6959_E_D_hexp_distr_3_83    
+
+    fichier = "6959_E_D_vanilla_3_83.pgm"
+    dossier_images = "img\\"
+    file_tab_alt = dossier_images+"\\"+fichier
+
+    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
+
+    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
+    print(fichier+" : "+ str(psnr))
+
+    fichier = "6959_E_D_distr_3_83.pgm"
     dossier_images = "img\\"
     file_tab_alt = dossier_images+"\\"+fichier
 
@@ -133,12 +176,7 @@ def main() :
     print(fichier+" : "+ str(psnr))
 
 
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_247_vanilla.pgm"
+    fichier = "6959_E_D_hexp_3_83.pgm"
     dossier_images = "img\\"
     file_tab_alt = dossier_images+"\\"+fichier
 
@@ -148,13 +186,7 @@ def main() :
     print(fichier+" : "+ str(psnr))
 
 
-
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_249_distr.pgm"
+    fichier = "6959_E_D_hexp_distr_3_83.pgm"
     dossier_images = "img\\"
     file_tab_alt = dossier_images+"\\"+fichier
 
@@ -162,54 +194,6 @@ def main() :
 
     psnr = cv2.PSNR(cv_img_original,cv_img_alt)
     print(fichier+" : "+ str(psnr))
-
-
-
-
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_249_hexp_distr.pgm"
-    dossier_images = "img\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-
-    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
-    print(fichier+" : "+ str(psnr))
-
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_249_hexp.pgm"
-    dossier_images = "img\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-
-    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
-    print(fichier+" : "+ str(psnr))
-
-
-    fichier = "4754.pgm"
-    dossier_images = "origin\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-    cv_img_original = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    fichier = "4754_E_D_249.pgm"
-    dossier_images = "img\\"
-    file_tab_alt = dossier_images+"\\"+fichier
-
-    cv_img_alt = cv2.imread(file_tab_alt, cv2.IMREAD_GRAYSCALE)
-
-    psnr = cv2.PSNR(cv_img_original,cv_img_alt)
-    print(fichier+" : "+ str(psnr))
-
-
 
 if __name__ == "__main__":
     main()
