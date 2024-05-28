@@ -1,20 +1,19 @@
-#ifndef PAILLIER_PRIVATE_KEY
-#define PAILLIER_PRIVATE_KEY
-
-class PaillierPrivateKey
-{
-    public:
-        PaillierPrivateKey();
-        PaillierPrivateKey(uint64_t l, uint64_t m);
-        PaillierPrivateKey(uint64_t l, uint64_t m, uint64_t n);
-        uint64_t getLambda();
-        uint64_t getMu();
-        uint64_t getN();
-        ~PaillierPrivateKey();
-
-    private:
-        uint64_t lambda, mu, n;
-};
+/******************************************************************************
+ * ICAR_Interns_Library
+ *
+ * Fichier : Paillier_private_key.cpp
+ *
+ * Description : 
+ *
+ *
+ * Auteur : Katia Auxilien
+ *
+ * Mail : katia.auxilien@mail.fr
+ *
+ * Date : 28 Mai 2024, 13:55:00
+ *
+ *******************************************************************************/
+#include "../../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
 
 PaillierPrivateKey::PaillierPrivateKey()
 {
@@ -50,5 +49,3 @@ uint64_t PaillierPrivateKey::getN()
 }
 
 PaillierPrivateKey::~PaillierPrivateKey() {}
-
-#endif // PAILLIER_PRIVATE_KEY

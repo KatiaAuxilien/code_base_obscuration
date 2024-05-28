@@ -77,17 +77,24 @@ int main(int argc, char **argv)
 	if (!useKeys && isEncryption)
 	{
 		Paillier<uint64_t, uint64_t> paillier;
-		mu = 0;
-		g = paillier.generate_g_64t(n,lambda);
-		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
 
-		if (mu == 0)
-		{
+		vector<uint64_t> vector_g = paillier.calc_set_same_remainder_divide_euclide_64t_v2(n * n, lambda);
+		mu = 0;
+		if(vector_g.size() == 0){
 			cmd_colorError();
 			fprintf(stderr, "ERROR with g, no value found for g where mu exist.\n");
 			cmd_colorStandard();
 			exit(EXIT_FAILURE);
 		}
+		g = paillier.choose_g_in_vec_64t_v2(vector_g);
+		paillier.generatePrivateKey_64t(lambda, mu, p, q, n, g);
+		// if (mu == 0)
+		// {
+		// 	cmd_colorError();
+		// 	fprintf(stderr, "ERROR with g, no value found for g where mu exist.\n");
+		// 	cmd_colorStandard();
+		// 	exit(EXIT_FAILURE);
+		// }
 
 		pk = PaillierPrivateKey(lambda, mu, n);
 		pubk = PaillierPublicKey(n, g);
@@ -212,7 +219,7 @@ int main(int argc, char **argv)
 			uint64_t n = pubk.getN();
 			uint64_t g = pubk.getG();
 
-			unsigned char msg = 0;
+			unsigned char msg = 18;
 			fprintf(stdout, "Msg : %" PRIu8 "\n", msg);
 			uint16_t msg_enc = paillier.paillierEncryption(n, g, msg);
 			fprintf(stdout, "Enc : %" PRIu16 "\n", msg_enc);
@@ -251,7 +258,7 @@ int main(int argc, char **argv)
 		{
 			Paillier<uint8_t, uint16_t> paillier;
 
-			uint16_t msg_enc = 14327;
+			uint16_t msg_enc = 50189;
 			fprintf(stdout, "Enc : %" PRIu16 "\n", msg_enc);			
 			uint8_t c = paillier.paillierDecryption(n, lambda, mu, msg_enc);
 			fprintf(stdout, "Dec : %" PRIu8 "\n", c);
@@ -266,7 +273,7 @@ int main(int argc, char **argv)
 			fprintf(stdout, "Dec : %" PRIu16 "\n", c);
 		}
 		else
-		{ 
+		{
 			cmd_colorError();
 			fprintf(stderr, "n value not supported.");
 			cmd_colorStandard();

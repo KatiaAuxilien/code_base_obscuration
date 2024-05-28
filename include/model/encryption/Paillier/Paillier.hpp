@@ -18,6 +18,8 @@
 #include <vector>
 #include <random>
 #include "../../../include/image/image_pgm.hpp"
+#include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
 
 #define BITSETSIZE 64
 
@@ -29,11 +31,12 @@ using namespace std;
 template <typename T_in, typename T_out>
 class Paillier
 {
-public:
+
+    private:
+
+    public:
     Paillier(){};
     ~Paillier(){};
-
-
 
     /**
      *  @brief 
@@ -58,7 +61,6 @@ public:
 
         return dis(gen);
     }
-
 
     /**
      *  @brief Calcul de l'exponentiation modulaire rapide.
@@ -254,7 +256,6 @@ public:
         return x * pow_uint64_t(x, n - 1);
     };
 
-
     /**
      *  @brief Chosiir un élément de manière aléatoire dans l'ensemble Z/nZ* 
      *  @details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
@@ -271,8 +272,6 @@ public:
         return r;
     };
 
-
-
     /**
      *  @brief Retourner l'ensemble Z/nZ*  sous forme d'un vecteur.
      *  @details 
@@ -288,6 +287,26 @@ public:
             }
         }
         return ZNZStar;
+    }
+
+    /**
+     *  @brief Retourner toutes les valeurs possible de g, dans l'ensemble Z/n²Z* et qui respectent gcd_64t(l,n) !=1,  sous forme d'un vecteur.
+     *  @details 
+     *  @param
+     *  @authors Katia Auxilien
+     *  @date 27/05/2024 15:00:00
+     */
+    std::vector<uint64_t> get_set_ZN2ZStar(uint64_t n,uint64_t lambda){
+        std::vector<uint64_t> ZN2ZStar;
+        for(uint64_t g = 1; g < n*n; g++){
+            uint64_t g,u,l;
+            u = fastMod_64t(g, lambda, n * n);
+            l = L_64t(u,n);
+            if(gcd_64t(l,n) !=1){
+                ZN2ZStar.push_back(g);
+            }
+        }
+        return ZN2ZStar;
     }
 
     /**
@@ -309,7 +328,6 @@ public:
         while(gcd_64t(l,n) !=1);
         return g;
     };
-
 
     /**
      *  @brief Génération du Mu.
