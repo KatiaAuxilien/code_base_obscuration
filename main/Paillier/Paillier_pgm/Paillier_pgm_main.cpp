@@ -13,13 +13,12 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../../include/encryption/Paillier/Paillier.hpp"
-#include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
-#include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
-#include "../../../include/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
-#include "../../../include/filesystem/filesystemPGM.h" 
-#include "../../../include/interface/cmd/interface_cmd.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
-#include "../../../include/controller/Paillier_arguments.hpp" //Traitement des arguments.
+#include "../../../include/model/encryption/Paillier/Paillier.hpp"
+#include "../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
+#include "../../../include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
+#include "../../../include/model/filesystem/filesystemPGM.h" 
+#include "../../../include/model/image/image_pgm.hpp" 
 
 #include <cctype>
 #include <fstream>

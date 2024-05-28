@@ -14,8 +14,8 @@
  *
  *******************************************************************************/
 
-#include "../../../include/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
-#include "../../../include/filesystem/filesystemPGM.h"
+#include "../../../include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
+#include "../../../include/model/filesystem/filesystemPGM.h"
 
 #include <iostream>
 #include <set>

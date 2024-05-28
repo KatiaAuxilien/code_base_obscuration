@@ -22,7 +22,7 @@ bool PaillierController::endsWith(const std::string &str, const std::string &suf
     if (str.empty() || suffix.empty()) // Sécurité pointeurs.
     {
 
-        this->interface.error_warning("endsWith : arguments null or empty.");
+        this->view.error_warning("endsWith : arguments null or empty.");
         return false;
     }
     return str.size() >= suffix.size() &&
@@ -43,7 +43,7 @@ void PaillierController::convertToLower(char *arg_in[], int size_arg_in)
     }
 }
 
-bool PaillierController::isPrime(int n, int i = 2)
+bool PaillierController::isPrime(uint64_t n, int i = 2)
 {
     if (n <= 2)
         return (n == 2) ? true : false;
@@ -55,11 +55,11 @@ bool PaillierController::isPrime(int n, int i = 2)
     return isPrime(n, i + 1);
 }
 
-uint8_t PaillierController::check_p_q_arg(char *arg)
+uint64_t PaillierController::check_p_q_arg(char *arg)
 {
     if (arg == NULL) // Sécurité pointeurs.
     {
-        this->interface.error_failure("check_p_q_arg : arguments null or empty.");
+        this->view.error_failure("check_p_q_arg : arguments null or empty.");
         exit(EXIT_FAILURE);
     }
 
@@ -67,14 +67,14 @@ uint8_t PaillierController::check_p_q_arg(char *arg)
     {
         if (!isdigit(arg[i]))
         {
-            this->interface.error_failure("The argument after the first argument must be an int.\n");
+            this->view.error_failure("The argument after the first argument must be an int.\n");
             exit(EXIT_FAILURE);
         }
     }
-    int p = atoi(arg);
+    uint64_t p = atoi(arg);
     if (!isPrime(p, 2))
     {
-        this->interface.error_failure("The argument after the first argument must be a prime number.\n");
+        this->view.error_failure("The argument after the first argument must be a prime number.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -85,7 +85,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 {
     // if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
     // {
-    // this->interface.error_failure("checkParameters : arguments null.");
+    // this->view.error_failure("checkParameters : arguments null.");
     // exit(EXIT_FAILURE);
     // }
 
@@ -107,7 +107,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
     }
     else
     {
-        this->interface.error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
+        this->view.error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
         exit(EXIT_FAILURE);
     }
     /**************** ... param ******************/
@@ -135,7 +135,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 
         if (pgc_pq != 1)
         {
-            this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
+            this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
             exit(EXIT_FAILURE);
         }
         lambda = paillier.lcm_64t(p - 1, q - 1);
@@ -166,7 +166,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
             ifstream file(c_key_file);
             if (!file || !endsWith(s_key_file, ".bin"))
             {
-                this->interface.error_failure("The argument after -k or dec must be an existing .bin file.\n");
+                this->view.error_failure("The argument after -k or dec must be an existing .bin file.\n");
                 exit(EXIT_FAILURE);
             }
             isFileBIN = true;
@@ -190,7 +190,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
             ifstream file(c_file);
             if (!file)
             {
-                this->interface.error_failure("The arguments must have an existing .pgm file.\n");
+                this->view.error_failure("The arguments must have an existing .pgm file.\n");
                 exit(EXIT_FAILURE);
             }
             isFilePGM = true;
@@ -199,12 +199,12 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 
     if (!isFilePGM)
     {
-        this->interface.error_failure("The arguments must have a .pgm file.\n");
+        this->view.error_failure("The arguments must have a .pgm file.\n");
         exit(EXIT_FAILURE);
     }
     if (param[1] == true && !isFileBIN)
     {
-        this->interface.error_failure("The argument after -k or dec must be a .bin file.\n");
+        this->view.error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -225,13 +225,13 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
         p = check_p_q_arg(arg_in[1]);
         if (p == 1)
         {
-            this->interface.error_failure("checkParameters : p == 1");
+            this->view.error_failure("checkParameters : p == 1");
             exit(EXIT_FAILURE);
         }
         q = check_p_q_arg(arg_in[2]);
         if (q == 1)
         {
-            this->interface.error_failure("checkParameters : q == 1");
+            this->view.error_failure("checkParameters : q == 1");
             exit(EXIT_FAILURE);
         }
 
@@ -241,7 +241,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 
         if (pgc_pq != 1)
         {
-            this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
+            this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
             exit(EXIT_FAILURE);
         }
         lambda = paillier.lcm_64t(p - 1, q - 1);
@@ -269,7 +269,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
             ifstream file(c_key_file);
             if (!file || !endsWith(s_key_file, ".bin"))
             {
-                this->interface.error_failure("The argument after -k or dec must be an existing .bin file.\n");
+                this->view.error_failure("The argument after -k or dec must be an existing .bin file.\n");
                 exit(EXIT_FAILURE);
             }
             isFileBIN = true;
@@ -286,7 +286,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 
     if (param[0] == true && !isFileBIN)
     {
-        this->interface.error_failure("The argument after -k or dec must be a .bin file.\n");
+        this->view.error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -304,13 +304,13 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
     p = check_p_q_arg(arg_in[1]);
     if (p == 1)
     {
-        this->interface.error_failure("checkParameters : p == 1");
+        this->view.error_failure("checkParameters : p == 1");
         exit(EXIT_FAILURE);
     }
     q = check_p_q_arg(arg_in[2]);
     if (q == 1)
     {
-        this->interface.error_failure("checkParameters : q == 1");
+        this->view.error_failure("checkParameters : q == 1");
         exit(EXIT_FAILURE);
     }
 
@@ -320,7 +320,7 @@ void PaillierController::checkParameters(char *arg_in[], int size_arg, bool para
 
     if (pgc_pq != 1)
     {
-        this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
+        this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
         exit(EXIT_FAILURE);
     }
     lambda = paillier.lcm_64t(p - 1, q - 1);

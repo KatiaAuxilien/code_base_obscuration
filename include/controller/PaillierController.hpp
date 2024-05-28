@@ -18,14 +18,13 @@
 
 #include <stdio.h>
 #include "include/model/Paillier_model.hpp"
-#include "include/view/commandLineInterface/Paillier_arguments.hpp" //Traitement des arguments.
 #include "include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
 
 class PaillierController
 {
 private:
     const PaillierModel *model = PaillierModel::getInstance();
-    commandLineInterface interface;
+    commandLineInterface view;
 public:
     PaillierController();
     ~PaillierController();
@@ -69,8 +68,9 @@ public:
      *  @authors Katia Auxilien
      *  @date 30/04/2024
      */
-    uint8_t check_p_q_arg(char *arg);
+    uint64_t check_p_q_arg(char *arg);
 
+//Overload
     /**
      *  @brief
      *  @details Vérification

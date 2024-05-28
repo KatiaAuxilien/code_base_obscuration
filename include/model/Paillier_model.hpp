@@ -43,7 +43,7 @@ public:
 
     static PaillierModel *getInstance();
 
-    PaillierModel *PaillierModel ::instancePtr = NULL;
+    PaillierModel *PaillierModel::instancePtr = NULL;
 
     // Getters
     uint64_t getLambda() const;
