@@ -6,8 +6,8 @@ class PaillierPublicKey
 public:
     PaillierPublicKey();
     PaillierPublicKey(uint64_t n, uint64_t g);
-    uint64_t getN();
-    uint64_t getG();
+    uint64_t getN() const;
+    uint64_t getG() const;
     ~PaillierPublicKey();
 
 private:

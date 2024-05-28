@@ -13,39 +13,39 @@
  * Date : 28 Mai 2024, 13:55:00
  *
  *******************************************************************************/
-#include "../../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
 
 PaillierPrivateKey::PaillierPrivateKey()
 {
-    lambda = mu = 0;
+    this->lambda = this->mu = 0;
 }
 
 PaillierPrivateKey::PaillierPrivateKey(uint64_t l, uint64_t m)
 {
-    lambda = l;
-    mu = m;
+    this->lambda = l;
+    this->mu = m;
 }
 
 PaillierPrivateKey::PaillierPrivateKey(uint64_t l, uint64_t m, uint64_t nn)
 {
-    lambda = l;
-    mu = m;
-    n = nn;
+    this->lambda = l;
+    this->mu = m;
+    this->n = nn;
 }
 
-uint64_t PaillierPrivateKey::getLambda()
+uint64_t PaillierPrivateKey::getLambda() const
 {
-    return lambda;
+    return this->lambda;
 }
 
-uint64_t PaillierPrivateKey::getMu()
+uint64_t PaillierPrivateKey::getMu() const
 {
-    return mu;
+    return this->mu;
 }
 
-uint64_t PaillierPrivateKey::getN()
+uint64_t PaillierPrivateKey::getN() const
 {
-    return n;
+    return this->n;
 }
 
 PaillierPrivateKey::~PaillierPrivateKey() {}

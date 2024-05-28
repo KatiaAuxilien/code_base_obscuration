@@ -7,9 +7,9 @@ class PaillierPrivateKey
         PaillierPrivateKey();
         PaillierPrivateKey(uint64_t l, uint64_t m);
         PaillierPrivateKey(uint64_t l, uint64_t m, uint64_t n);
-        uint64_t getLambda();
-        uint64_t getMu();
-        uint64_t getN();
+        uint64_t getLambda() const;
+        uint64_t getMu() const;
+        uint64_t getN() const;
         ~PaillierPrivateKey();
 
     private:

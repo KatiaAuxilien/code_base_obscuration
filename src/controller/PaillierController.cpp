@@ -1,34 +1,35 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_arguments.cpp
+ * Fichier : PaillierController.cpp
  *
- * Description : Implémentation des vérification des arguments au programme Paillier_main
+ * Description :
  *
  *
  * Auteur : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
- * Date : 28 Mai 2024, 13:27:00
+ * Date : 28 Mai 2024, 15:10:00
  *
  *******************************************************************************/
-#include "../../include/interface/cmd/Paillier_arguments.hpp"
+#include "../../include/controller/PaillierController.hpp"
 
-bool endsWith(const std::string &str, const std::string &suffix)
+PaillierController::Paillier_controller(){};
+
+bool PaillierController::endsWith(const std::string &str, const std::string &suffix)
 {
     if (str.empty() || suffix.empty()) // Sécurité pointeurs.
     {
-        cmd_colorError();
-        fprintf(stderr, "endsWith : arguments null or empty.");
-        cmd_colorStandard();
+
+        this->interface.error_warning("endsWith : arguments null or empty.");
         return false;
     }
     return str.size() >= suffix.size() &&
            str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
-void convertToLower(char *arg_in[], int size_arg_in)
+void PaillierController::convertToLower(char *arg_in[], int size_arg_in)
 {
     for (int j = 1; j < size_arg_in; j++)
     {
@@ -42,7 +43,7 @@ void convertToLower(char *arg_in[], int size_arg_in)
     }
 }
 
-bool isPrime(int n, int i = 2)
+bool PaillierController::isPrime(int n, int i = 2)
 {
     if (n <= 2)
         return (n == 2) ? true : false;
@@ -54,46 +55,38 @@ bool isPrime(int n, int i = 2)
     return isPrime(n, i + 1);
 }
 
-uint8_t check_p_q_arg(char *arg)
+uint8_t PaillierController::check_p_q_arg(char *arg)
 {
     if (arg == NULL) // Sécurité pointeurs.
     {
-        cmd_colorError();
-        fprintf(stderr, "check_p_q_arg : arguments null or empty.");
-        cmd_colorStandard();
-        return EXIT_FAILURE;
+        this->interface.error_failure("check_p_q_arg : arguments null or empty.");
+        exit(EXIT_FAILURE);
     }
 
     for (size_t i = 0; i < strlen(arg); i++)
     {
         if (!isdigit(arg[i]))
         {
-            cmd_colorError();
-            fprintf(stderr, "The argument after the first argument must be an int.\n");
-            cmd_colorStandard();
-            return EXIT_FAILURE;
+            this->interface.error_failure("The argument after the first argument must be an int.\n");
+            exit(EXIT_FAILURE);
         }
     }
     int p = atoi(arg);
     if (!isPrime(p, 2))
     {
-        cmd_colorError();
-        fprintf(stderr, "The argument after the first argument must be a prime number.\n");
-        cmd_colorStandard();
-        return EXIT_FAILURE;
+        this->interface.error_failure("The argument after the first argument must be a prime number.\n");
+        exit(EXIT_FAILURE);
     }
 
     return p;
 }
 
-void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, char *&c_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
+void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, char *&c_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
 {
     // if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
     // {
-    // 	cmd_colorError();
-    // 	fprintf(stderr, "checkParameters : arguments null.");
-    // 	cmd_colorStandard();
-    // 	exit(EXIT_FAILURE);
+    // this->interface.error_failure("checkParameters : arguments null.");
+    // exit(EXIT_FAILURE);
     // }
 
     /********** Initialisation de param[] à false. *************/
@@ -114,9 +107,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
     }
     else
     {
-        cmd_colorError();
-        fprintf(stderr, "The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
-        cmd_colorStandard();
+        this->interface.error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
         exit(EXIT_FAILURE);
     }
     /**************** ... param ******************/
@@ -144,9 +135,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
         if (pgc_pq != 1)
         {
-            cmd_colorError();
-            fprintf(stderr, "pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-            cmd_colorStandard();
+            this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
             exit(EXIT_FAILURE);
         }
         lambda = paillier.lcm_64t(p - 1, q - 1);
@@ -177,9 +166,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
             ifstream file(c_key_file);
             if (!file || !endsWith(s_key_file, ".bin"))
             {
-                cmd_colorError();
-                fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
-                cmd_colorStandard();
+                this->interface.error_failure("The argument after -k or dec must be an existing .bin file.\n");
                 exit(EXIT_FAILURE);
             }
             isFileBIN = true;
@@ -203,9 +190,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
             ifstream file(c_file);
             if (!file)
             {
-                cmd_colorError();
-                fprintf(stderr, "The arguments must have an existing .pgm file.\n");
-                cmd_colorStandard();
+                this->interface.error_failure("The arguments must have an existing .pgm file.\n");
                 exit(EXIT_FAILURE);
             }
             isFilePGM = true;
@@ -214,21 +199,17 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
     if (!isFilePGM)
     {
-        cmd_colorError();
-        fprintf(stderr, "The arguments must have a .pgm file.\n");
-        cmd_colorStandard();
+        this->interface.error_failure("The arguments must have a .pgm file.\n");
         exit(EXIT_FAILURE);
     }
     if (param[1] == true && !isFileBIN)
     {
-        cmd_colorError();
-        fprintf(stderr, "The argument after -k or dec must be a .bin file.\n");
-        cmd_colorStandard();
+        this->interface.error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
+void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
 {
     /********** Initialisation de param[] à false. *************/
     for (int i = 0; i < 3; i++)
@@ -244,11 +225,13 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
         p = check_p_q_arg(arg_in[1]);
         if (p == 1)
         {
+            this->interface.error_failure("checkParameters : p == 1");
             exit(EXIT_FAILURE);
         }
         q = check_p_q_arg(arg_in[2]);
         if (q == 1)
         {
+            this->interface.error_failure("checkParameters : q == 1");
             exit(EXIT_FAILURE);
         }
 
@@ -258,9 +241,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
         if (pgc_pq != 1)
         {
-            cmd_colorError();
-            fprintf(stderr, "pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-            cmd_colorStandard();
+            this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
             exit(EXIT_FAILURE);
         }
         lambda = paillier.lcm_64t(p - 1, q - 1);
@@ -288,9 +269,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
             ifstream file(c_key_file);
             if (!file || !endsWith(s_key_file, ".bin"))
             {
-                cmd_colorError();
-                fprintf(stderr, "The argument after -k or dec must be an existing .bin file.\n");
-                cmd_colorStandard();
+                this->interface.error_failure("The argument after -k or dec must be an existing .bin file.\n");
                 exit(EXIT_FAILURE);
             }
             isFileBIN = true;
@@ -307,14 +286,12 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_fi
 
     if (param[0] == true && !isFileBIN)
     {
-        cmd_colorError();
-        fprintf(stderr, "The argument after -k or dec must be a .bin file.\n");
-        cmd_colorStandard();
+        this->interface.error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
+void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
 {
     /********** Initialisation de param[] à false. *************/
     for (int i = 0; i < 5; i++)
@@ -327,11 +304,13 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, ui
     p = check_p_q_arg(arg_in[1]);
     if (p == 1)
     {
+        this->interface.error_failure("checkParameters : p == 1");
         exit(EXIT_FAILURE);
     }
     q = check_p_q_arg(arg_in[2]);
     if (q == 1)
     {
+        this->interface.error_failure("checkParameters : q == 1");
         exit(EXIT_FAILURE);
     }
 
@@ -341,9 +320,7 @@ void checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, ui
 
     if (pgc_pq != 1)
     {
-        cmd_colorError();
-        fprintf(stderr, "pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-        cmd_colorStandard();
+        this->interface.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
         exit(EXIT_FAILURE);
     }
     lambda = paillier.lcm_64t(p - 1, q - 1);

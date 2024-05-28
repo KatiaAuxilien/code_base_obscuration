@@ -13,27 +13,27 @@
  * Date : 28 Mai 2024, 13:55:00
  *
  *******************************************************************************/
-#include "../../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
+#include "../../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
 
 PaillierPublicKey::PaillierPublicKey()
 {
-    n = g = 0;
+    this->n = this->g = 0;
 }
 
 PaillierPublicKey::PaillierPublicKey(uint64_t N, uint64_t G)
 {
-    n = N;
-    g = G;
+    this->n = N;
+    this->g = G;
 }
 
-uint64_t PaillierPublicKey::getN()
+uint64_t PaillierPublicKey::getN () const
 {
-    return n;
+    return this->n;
 }
 
-uint64_t PaillierPublicKey::getG()
+uint64_t PaillierPublicKey::getG () const
 {
-    return g;
+    return this->g;
 }
 
 PaillierPublicKey::~PaillierPublicKey() {}
