@@ -17,19 +17,22 @@
 #define PAILLIERCONTROLLER
 
 #include <stdio.h>
+#include <cctype>
+#include <fstream>
+#include <string>
+#include <string_view>
+#include <ctype.h>
+
 #include "include/model/Paillier_model.hpp"
 #include "include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
 
 class PaillierController
 {
-private:
-    const PaillierModel *model = PaillierModel::getInstance();
-    commandLineInterface view;
-public:
-    PaillierController();
-    ~PaillierController();
+protected:
+	char *c_key_file;
 
-    void init();
+    const PaillierModel *model = PaillierModel::getInstance();
+    commandLineInterface view = commandLineInterface::getInstance();
 
     /**
      *  @brief
@@ -70,46 +73,17 @@ public:
      */
     uint64_t check_p_q_arg(char *arg);
 
-//Overload
-    /**
-     *  @brief
-     *  @details Vérification
-     *  @param char* arg_in[]
-     *  @param bool param[]
-     *				0	bool isEncryption = false ;
-     *				1	bool useKeys = false;
-     *				2	bool distributeOnTwo = false;
-     *				3	bool recropPixels = false;
-     *				4	bool optimisationLSB = false;
-     *  @authors Katia Auxilien
-     *  @date 15/05/2024 9:00:00
-     */
-    void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, char *&c_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda);
+public:
+    PaillierController();
+    ~PaillierController();
+    virtual void init();
 
-    /**
-     *  @brief
-     *  @details Vérification pour le programme effectuant des calculs statistiques sur r.
-     *  @param char* arg_in[]
-     *  @param bool param[]
-     *				0	bool useKeys = false;
-     *				1	bool distributeOnTwo = false;
-     *				2	bool optimisationLSB = false;
-     *  @authors Katia Auxilien
-     *  @date 27/05/2024 11:52:00
-     */
-    void checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda);
+    const char* getCKeyFile() const;
+    void setCKeyFile(char* newCKeyFile);
 
-    /**
-     *  @brief
-     *  @details Vérification pour le programme effectuant des calculs statistiques sur g.
-     *  @param char* arg_in[]
-     *  @param bool param[]
-     *				0	bool distributeOnTwo = false;
-     *				1	bool optimisationLSB = false;
-     *  @authors Katia Auxilien
-     *  @date 27/05/2024 11:52:00
-     */
-    void checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda);
+    void generateAndSaveKeyPair();
+
+    void readKeyFile(bool isEncryption);
 }
 
 #endif // PAILLIERCONTROLLER

@@ -49,5 +49,16 @@ void PaillierModel::setG(uint64_t value) { this->g = value; }
 void PaillierModel::setP(uint64_t value) { this->p = value; }
 void PaillierModel::setQ(uint64_t value) { this->q = value; }
 void PaillierModel::setPaillier(Paillier value) { this->paillier = value; }
-void PaillierModel::setPrivateKey(PaillierPrivateKey value) { this->privateKey = value; }
-void PaillierModel::setPublicKey(PaillierPublicKey value) { this->publicKey = value; }
+void PaillierModel::setPrivateKey(PaillierPrivateKey value) 
+{ 
+    this->privateKey = value;
+    this->setLambda(value.getLambda());
+    this->setN(value.getN());
+    this->setMu(value.getMu()); 
+}
+void PaillierModel::setPublicKey(PaillierPublicKey value) 
+{
+    this->publicKey = value;
+    this->setN(value.getN);
+    this->setG(value.getG);    
+}

@@ -17,6 +17,18 @@
 
 PaillierController::Paillier_controller(){};
 
+const char *PaillierController::getCKeyFile() const
+{
+    return c_key_file;
+}
+
+void PaillierController::setCKeyFile(char *newCKeyFile)
+{
+    delete[] c_key_file;
+    c_key_file = new char[strlen(newCKeyFile) + 1];
+    strcpy(c_key_file, newCKeyFile);
+}
+
 bool PaillierController::endsWith(const std::string &str, const std::string &suffix)
 {
     if (str.empty() || suffix.empty()) // Sécurité pointeurs.
@@ -81,260 +93,134 @@ uint64_t PaillierController::check_p_q_arg(char *arg)
     return p;
 }
 
-void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, char *&c_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
+void PaillierController::generateAndSaveKeyPair()
 {
-    // if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
-    // {
-    // this->view.error_failure("checkParameters : arguments null.");
-    // exit(EXIT_FAILURE);
-    // }
+    uint64_t mu = 0;
+    uint64_t g = this->model.getPaillier().generate_g_64t(this->model.getN(), this->model.getLambda());
 
-    /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 5; i++)
-    {
-        param[i] = false;
-    }
+    this->model.getPaillier().generatePrivateKey_64t(this->model.getLambda(),
+                                                     mu,
+                                                     this->model.getP(),
+                                                     this->model.getQ(),
+                                                     this->model.getN(),
+                                                     g);
 
-    /**************** First param ******************/
-    if (!strcmp(arg_in[1], "e") || !strcmp(arg_in[1], "enc") || !strcmp(arg_in[1], "encrypt") || !strcmp(arg_in[1], "encryption"))
+    if (mu == 0)
     {
-        param[0] = true;
-    }
-    else if (!strcmp(arg_in[1], "d") || !strcmp(arg_in[1], "dec") || !strcmp(arg_in[1], "decrypt") || !strcmp(arg_in[1], "decryption"))
-    {
-        param[0] = false;
-        param[1] = true;
-    }
-    else
-    {
-        this->view.error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
+        this->view.error_failure("ERROR with g, no value found for g where mu exist.\n");
         exit(EXIT_FAILURE);
     }
-    /**************** ... param ******************/
 
-    bool isFilePGM = false;
-    bool isFileBIN = false;
+    this->model.setPrivateKey(PaillierPrivateKey(this->model.getLambda(),
+                                                 this->model.getMu(),
+                                                 this->model.getN()));
 
-    int i = 2;
-    if (param[0] == true && (strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
+    this->model.setPublicKey(PaillierPublicKey(this->model.getN(),
+                                               this->model.getG()));
+
+    if (this->model->getLambda() == 0 ||
+        this->model->getMu() == 0 ||
+        this->model->getP() == 0 ||
+        this->model->getQ() == 0 ||
+        this->model->getN() == 0 ||
+        this->model->getG() == 0)
     {
-        p = check_p_q_arg(arg_in[2]);
-        if (p == 1)
-        {
-            exit(EXIT_FAILURE);
-        }
-        q = check_p_q_arg(arg_in[3]);
-        if (q == 1)
-        {
-            exit(EXIT_FAILURE);
-        }
-
-        n = p * q;
-        Paillier<uint64_t, uint64_t> paillier;
-        uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
-
-        if (pgc_pq != 1)
-        {
-            this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-            exit(EXIT_FAILURE);
-        }
-        lambda = paillier.lcm_64t(p - 1, q - 1);
-
-        i = 4;
-        isFileBIN = true;
-    }
-
-    for (i = i; i < size_arg; i++)
-    {
-        // TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
-
-        if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin")))
-        { // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
-
-            if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
-            {
-                c_key_file = arg_in[i + 1];
-                param[1] = true;
-                i++;
-            }
-            if (param[1] == true)
-            {
-                c_key_file = arg_in[i];
-            }
-            /****************** Check .bin file **************************/
-            string s_key_file = c_key_file;
-            ifstream file(c_key_file);
-            if (!file || !endsWith(s_key_file, ".bin"))
-            {
-                this->view.error_failure("The argument after -k or dec must be an existing .bin file.\n");
-                exit(EXIT_FAILURE);
-            }
-            isFileBIN = true;
-        }
-        else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
-        {
-            param[2] = true;
-        }
-        else if (!strcmp(arg_in[i], "-hexp") || !strcmp(arg_in[i], "-histogramexpansion"))
-        {
-            param[3] = true;
-        }
-        else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-        {
-            param[4] = true;
-        }
-        else if (endsWith(arg_in[i], ".pgm") && !isFilePGM)
-        {
-            c_file = arg_in[i];
-            string s_file = c_file;
-            ifstream file(c_file);
-            if (!file)
-            {
-                this->view.error_failure("The arguments must have an existing .pgm file.\n");
-                exit(EXIT_FAILURE);
-            }
-            isFilePGM = true;
-        }
-    }
-
-    if (!isFilePGM)
-    {
-        this->view.error_failure("The arguments must have a .pgm file.\n");
+        this->view.error_failure("Error in generation of private key.\n");
+        printf("p = %" PRIu64 "\n", this->model->getP());
+        printf("q = %" PRIu64 "\n", this->model->getQ());
+        printf("Pub Key G = %" PRIu64 "\n", this->model->getPublicKey().getG());
+        printf("Pub Key N = %" PRIu64 "\n", this->model->getPublicKey().getN());
+        printf("Priv Key lambda = %" PRIu64 "\n", this->model->getPrivateKey().getLambda());
+        printf("Priv Key mu = %" PRIu64 "\n", this->model->getPrivateKey().getMu());
         exit(EXIT_FAILURE);
     }
-    if (param[1] == true && !isFileBIN)
+
+    FILE *f_private_key = NULL;
+
+    f_private_key = fopen("Paillier_private_key.bin", "w+b");
+
+    if (f_private_key == NULL)
     {
-        this->view.error_failure("The argument after -k or dec must be a .bin file.\n");
+        cmd_colorError();
+        fprintf(stderr, "Error ! Opening Paillier_private_key.bin\n");
+        cmd_colorStandard();
         exit(EXIT_FAILURE);
     }
+    PaillierPublicKey pk = this->model->getPublicKey();
+    fwrite(&pk, sizeof(PaillierPrivateKey), 1, f_private_key);
+
+    fclose(f_private_key);
+
+    FILE *f_public_key = NULL;
+    f_public_key = fopen("Paillier_public_key.bin", "w+b");
+
+    if (f_public_key == NULL)
+    {
+        cmd_colorError();
+        fprintf(stderr, "Error ! Opening Paillier_public_key.bin\n");
+        cmd_colorStandard();
+        exit(EXIT_FAILURE);
+    }
+
+    PaillierPrivateKey pubk = this->model->getPrivateKey();
+    fwrite(&pubk, sizeof(PaillierPublicKey), 1, f_public_key);
+
+    fclose(f_public_key);
 }
 
-void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], char *&c_key_file, uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
+void PaillierController::readKeyFile(bool isEncryption)
 {
-    /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 3; i++)
+
+    if (this->getCKeyFile() == NULL)
     {
-        param[i] = false;
+        this->view.error_failure("readKeyFile : error failure, c_key_file is not declared.");
+        exit(EXIT_FAILURE);
     }
 
-    bool isFileBIN = false;
-
-    int i = 0;
-    if ((strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
+    if (!isEncryption)
     {
-        p = check_p_q_arg(arg_in[1]);
-        if (p == 1)
+        PaillierPrivateKey privKey;
+        size_t size;
+        FILE *f_private_key = NULL;
+
+        f_private_key = fopen(this->getCKeyFile(), "rb");
+
+        if (f_private_key == NULL)
         {
-            this->view.error_failure("checkParameters : p == 1");
+            cmd_colorError();
+            fprintf(stderr, "Error ! Opening %s \n", this->getCKeyFile());
+            cmd_colorStandard();
             exit(EXIT_FAILURE);
         }
-        q = check_p_q_arg(arg_in[2]);
-        if (q == 1)
+
+        size = sizeof(PaillierPrivateKey);
+        fread(&privKey, size, 1, f_private_key);
+        // if (result != size) {fputs ("Reading error",stderr); return 1;}
+
+        fclose(f_private_key);
+
+        this->model.setPrivateKey(privKey);
+    }
+    if (isEncryption)
+    {
+        PaillierPublicKey pubkey;
+        size_t size;
+        FILE *f_public_key = NULL;
+        f_public_key = fopen(this->getCKeyFile(), "rb");
+
+        if (f_public_key == NULL)
         {
-            this->view.error_failure("checkParameters : q == 1");
+            cmd_colorError();
+            fprintf(stderr, "Error ! Opening %s \n", this->getCKeyFile());
+            cmd_colorStandard();
             exit(EXIT_FAILURE);
         }
+        size = sizeof(PaillierPublicKey);
+        fread(&pubkey, size, 1, f_public_key);
+        // if (result != size) {fputs ("Reading error",stderr); return 1;}
 
-        n = p * q;
-        Paillier<uint64_t, uint64_t> paillier;
-        uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
+        fclose(f_public_key);
 
-        if (pgc_pq != 1)
-        {
-            this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-            exit(EXIT_FAILURE);
-        }
-        lambda = paillier.lcm_64t(p - 1, q - 1);
-
-        i = 3;
-        isFileBIN = true;
-    }
-
-    for (i = i; i < size_arg; i++)
-    {
-        if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (endsWith(arg_in[i], ".bin")))
-        {
-            if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
-            {
-                c_key_file = arg_in[i + 1];
-                param[0] = true;
-                i++;
-            }
-            if (param[0] == true)
-            {
-                c_key_file = arg_in[i];
-            }
-            /****************** Check .bin file **************************/
-            string s_key_file = c_key_file;
-            ifstream file(c_key_file);
-            if (!file || !endsWith(s_key_file, ".bin"))
-            {
-                this->view.error_failure("The argument after -k or dec must be an existing .bin file.\n");
-                exit(EXIT_FAILURE);
-            }
-            isFileBIN = true;
-        }
-        else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
-        {
-            param[1] = true;
-        }
-        else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-        {
-            param[2] = true;
-        }
-    }
-
-    if (param[0] == true && !isFileBIN)
-    {
-        this->view.error_failure("The argument after -k or dec must be a .bin file.\n");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void PaillierController::checkParameters(char *arg_in[], int size_arg, bool param[], uint64_t &p, uint64_t &q, uint64_t &n, uint64_t &lambda)
-{
-    /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 5; i++)
-    {
-        param[i] = false;
-    }
-
-    int i;
-
-    p = check_p_q_arg(arg_in[1]);
-    if (p == 1)
-    {
-        this->view.error_failure("checkParameters : p == 1");
-        exit(EXIT_FAILURE);
-    }
-    q = check_p_q_arg(arg_in[2]);
-    if (q == 1)
-    {
-        this->view.error_failure("checkParameters : q == 1");
-        exit(EXIT_FAILURE);
-    }
-
-    n = p * q;
-    Paillier<uint64_t, uint64_t> paillier;
-    uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
-
-    if (pgc_pq != 1)
-    {
-        this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
-        exit(EXIT_FAILURE);
-    }
-    lambda = paillier.lcm_64t(p - 1, q - 1);
-    i = 3;
-
-    for (i = i; i < size_arg; i++)
-    {
-        if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
-        {
-            param[0] = true;
-        }
-        else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-        {
-            param[1] = true;
-        }
+        this->model.setPublicKey(pubkey);
     }
 }

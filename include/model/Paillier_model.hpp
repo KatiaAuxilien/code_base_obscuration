@@ -33,9 +33,6 @@ private:
 
     static PaillierModel *instancePtr;
 
-    /**
-     *
-     */
     PaillierModel();
 
 public:

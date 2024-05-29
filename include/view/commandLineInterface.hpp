@@ -14,7 +14,7 @@
  *
  *******************************************************************************/
 #ifndef CMD_LINE_INTERFACE
-#define CMD_LINE_INTERFACE
+#define CMD_LINE_INTERFACE 
 
 #include <stdio.h>
 #include <string>
@@ -22,9 +22,18 @@
 
 class commandLineInterface
 {
-public:
+private :
+	static commandLineInterface *instancePtr;
 	commandLineInterface();
 
+public:
+	commandLineInterface(const commandLineInterface &obj) = delete;
+	static commandLineInterface *getInstance();
+
+	commandLineInterface *commandLineInterface::instancePtr = NULL;
+	
+	~commandLineInterface();
+	
 	/**
 	 *  @brief
 	 *  @details
