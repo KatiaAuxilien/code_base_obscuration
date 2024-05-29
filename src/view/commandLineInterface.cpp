@@ -17,14 +17,16 @@
 
 commandLineInterface::commandLineInterface(){};
 
-void commandLineInterface::error_failure(string msg){
+commandLineInterface::~commandLineInterface(){};
+
+void commandLineInterface::error_failure(char* msg){
     this->cmd_colorError();
-    fprintf(stderr,msg);
+    fprintf(stderr,"%s",msg);
     this->cmd_colorStandard();
 }
-void commandLineInterface::error_warning(string msg){
+void commandLineInterface::error_warning(char* msg){
     this->cmd_colorWarning();
-    fprintf(stderr,msg);
+    fprintf(stderr,"%s",msg);
     this->cmd_colorStandard();
 }
 

@@ -17,9 +17,9 @@
 #include <bitset>
 #include <vector>
 #include <random>
-#include "../../../include/image/image_pgm.hpp"
-#include "../../../include/encryption/Paillier/keys/Paillier_private_key.hpp"
-#include "../../../include/encryption/Paillier/keys/Paillier_public_key.hpp"
+#include "../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
+#include "../../../../include/model/image/image_pgm.hpp"
 
 #define BITSETSIZE 64
 
@@ -299,7 +299,7 @@ class Paillier
     std::vector<uint64_t> get_set_ZN2ZStar(uint64_t n,uint64_t lambda){
         std::vector<uint64_t> ZN2ZStar;
         for(uint64_t g = 1; g < n*n; g++){
-            uint64_t g,u,l;
+            uint64_t u,l;
             u = fastMod_64t(g, lambda, n * n);
             l = L_64t(u,n);
             if(gcd_64t(l,n) !=1){

@@ -15,6 +15,9 @@
  *******************************************************************************/
 
 #include "../../../include/model/image/image_pgm.hpp"
+// #include "../../../include/model/encryption/Paillier/Paillier.hpp"
+// #include "../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
+// #include "../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
 #include "../../../include/controller/PaillierControllerPGM.hpp"
 
 #include <cctype>

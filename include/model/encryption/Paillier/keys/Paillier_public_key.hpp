@@ -1,6 +1,8 @@
 #ifndef PAILLIER_PUBLIC_KEY
 #define PAILLIER_PUBLIC_KEY
 
+#include <cstdint>
+
 class PaillierPublicKey
 {
 public:

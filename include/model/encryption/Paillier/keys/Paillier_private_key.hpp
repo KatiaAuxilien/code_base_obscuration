@@ -1,6 +1,8 @@
 #ifndef PAILLIER_PRIVATE_KEY
 #define PAILLIER_PRIVATE_KEY
 
+#include <cstdint>
+
 class PaillierPrivateKey
 {
     public:

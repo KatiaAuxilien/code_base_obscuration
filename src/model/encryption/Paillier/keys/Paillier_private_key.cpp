@@ -13,7 +13,7 @@
  * Date : 28 Mai 2024, 13:55:00
  *
  *******************************************************************************/
-#include "../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
+#include "../../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
 
 PaillierPrivateKey::PaillierPrivateKey()
 {

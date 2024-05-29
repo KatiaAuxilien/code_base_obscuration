@@ -23,8 +23,8 @@
 #include <string_view>
 #include <ctype.h>
 
-#include "include/model/Paillier_model.hpp"
-#include "include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
+#include "../include/model/Paillier_model.hpp"
+#include "../include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
 
 class PaillierController
 {
@@ -32,7 +32,7 @@ protected:
 	char *c_key_file;
 
     const PaillierModel *model = PaillierModel::getInstance();
-    commandLineInterface view = commandLineInterface::getInstance();
+    const commandLineInterface *view = commandLineInterface::getInstance();
 
     /**
      *  @brief

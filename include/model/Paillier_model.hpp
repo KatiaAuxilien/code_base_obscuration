@@ -39,9 +39,6 @@ public:
     PaillierModel(const PaillierModel &obj) = delete;
 
     static PaillierModel *getInstance();
-
-    PaillierModel *PaillierModel::instancePtr = NULL;
-
     // Getters
     uint64_t getLambda() const;
     uint64_t getN() const;
