@@ -176,8 +176,10 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 /************** 8bits **************/
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::encrypt(string s_file, bool distributeOnTwo, bool recropPixels)
+void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels)
 {
+	string s_file = this->getCFile();
+
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -270,15 +272,14 @@ void PaillierControllerPGM::encrypt(string s_file, bool distributeOnTwo, bool re
 /**
  *  @brief
  *  @details
- *  @param string s_file
- *  @param PaillierPrivateKey pk
  *  @param bool distributeOnTwo
  *  @authors Katia Auxilien
  *  @date 15/05/2024
  */
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo, Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::decrypt(bool distributeOnTwo)
 {
+	string s_file = this->getCFile();
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -344,8 +345,9 @@ void PaillierControllerPGM::decrypt(string s_file, PaillierPrivateKey pk, bool d
 
 /************** n > 8bits**************/
 template <typename T_in, typename T_out>
-void encrypt2(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
+void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
 {
+	string s_file = this->getCFile();
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -435,8 +437,10 @@ void encrypt2(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool 
 }
 
 template <typename T_in, typename T_out>
-void decrypt2(string s_file, PaillierPrivateKey pk, bool distributeOnTwo, Paillier<T_in, T_out> paillier)
+void decrypt2(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 {
+	string s_file = this->getCFile();
+	
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 

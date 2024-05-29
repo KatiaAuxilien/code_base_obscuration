@@ -17,6 +17,13 @@
 #define PAILLIERCONTROLLER_PGM
 
 #include <stdio.h>
+#include <cctype>
+#include <fstream>
+#include <string>
+#include <string_view>
+#include <stdio.h>
+#include <ctype.h>
+
 #include "include/controller/PaillierController.hpp"
 #include "include/model/image/image_pgm.hpp"
 #include "include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
@@ -59,26 +66,48 @@ public:
     /**
      *  \brief
      *  \details
-     *  \param string s_file
-     *  \param PaillierPublicKey pubk
      *  \param bool distributeOnTwo
      *  \param bool recropPixels
      *  \authors Katia Auxilien
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void encrypt(string s_file, PaillierPublicKey pubk, bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier);
+    void encrypt(bool distributeOnTwo, bool recropPixels);
 
     /**
      *  \brief
      *  \details
-     *  \param string s_file
-     *  \param PaillierPrivateKey pk
      *  \param bool distributeOnTwo
      *  \authors Katia Auxilien
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void decrypt(string s_file, PaillierPrivateKey pk, bool distributeOnTwo, Paillier<T_in, T_out> paillier);
+    void decrypt(bool distributeOnTwo);
+
+    /************** n > 8bits**************/
+    
+    /**
+     *  \brief
+     *  \details
+     *  \param bool distributeOnTwo
+     *  \param bool recropPixels
+     *  \param Paillier<T_in, T_out> paillier
+     *  \authors Katia Auxilien
+     *  \date 15/05/2024
+     */
+    template <typename T_in, typename T_out>
+    void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier);
+
+    /**
+     *  \brief
+     *  \details
+     *  \param bool distributeOnTwo
+     *  \param bool recropPixels
+     *  \param Paillier<T_in, T_out> paillier
+     *  \authors Katia Auxilien
+     *  \date 15/05/2024
+     */
+    template <typename T_in, typename T_out>
+    void decrypt2(bool distributeOnTwo, Paillier<T_in, T_out> paillier);
 }
 #endif // PAILLIERCONTROLLER_PGM

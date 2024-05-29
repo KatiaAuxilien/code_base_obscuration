@@ -14,9 +14,8 @@
  *
  *******************************************************************************/
 
-#include "../../../include/model/image/image_pgm.hpp" 
+#include "../../../include/model/image/image_pgm.hpp"
 #include "../../../include/controller/PaillierControllerPGM.hpp"
-
 
 #include <cctype>
 #include <fstream>
@@ -50,13 +49,6 @@ int main(int argc, char **argv)
 	bool recropPixels = parameters[3];
 	bool optimisationLSB = parameters[4];
 
-	// string s_file = c_file;
-	// string s_key_file;
-	// if (isEncryption && useKeys)
-	// {
-	// 	s_key_file = c_key_file;
-	// }
-
 	/*********************** Traitement de clé ***********************/
 
 	if (!useKeys && isEncryption)
@@ -70,24 +62,22 @@ int main(int argc, char **argv)
 
 	/*********************** Instanciations de Paillier en fonction de n ***********************/
 
-
 	uint64_t n = controller.model.getN();
 	/*********************** Chiffrement ***********************/
+
 	if (isEncryption)
 	{
-		
+		printf("Pub Key G = %" PRIu64 "\n", controller.model->getPublicKey().getG());
+		printf("Pub Key N = %" PRIu64 "\n", controller.model->getPublicKey().getN());
 		if (n <= 256)
 		{
-			printf("Pub Key G = %" PRIu64 "\n", pubk.getG());
-			printf("Pub Key N = %" PRIu64 "\n", pubk.getN());
-			Paillier<uint8_t, uint16_t> paillier;
-			encrypt(s_file, pubk, distributeOnTwo, recropPixels, paillier);
+			controller.model->setPaillier(Paillier<uint8_t, uint16_t> paillier);
+			controller.encrypt(distributeOnTwo, recropPixels);
 		}
 		else if (n > 256 && n <= 65535)
 		{
-
-			Paillier<uint16_t, uint32_t> paillier;
-			encrypt2(s_file, pubk, distributeOnTwo, recropPixels, paillier);
+			controller.model->setPaillier(Paillier<uint16_t, uint32_t> paillier);
+			controller.encrypt2(distributeOnTwo, recropPixels);
 		}
 		else
 		{
@@ -98,17 +88,17 @@ int main(int argc, char **argv)
 	/*********************** Déchiffrement ***********************/
 	else
 	{
+		printf("Priv Key lambda = %" PRIu64 "\n", controller.model->getPrivateKey().getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", controller.model->getPrivateKey().getMu());
 		if (n <= 256)
 		{
-			printf("Priv Key lambda = %" PRIu64 "\n", pk.getLambda());
-			printf("Priv Key mu = %" PRIu64 "\n", pk.getMu());
-			Paillier<uint8_t, uint16_t> paillier;
-			decrypt(s_file, pk, distributeOnTwo,paillier);
+			controller.model->setPaillier(Paillier<uint8_t, uint16_t> paillier);
+			controller.decrypt(distributeOnTwo);
 		}
 		else if (n > 256 && n <= 65535)
 		{
-			Paillier<uint16_t, uint32_t> paillier;
-			decrypt2(s_file, pk, distributeOnTwo,paillier);
+			controller.model->setPaillier(Paillier<uint16_t, uint32_t> paillier);
+			controller.decrypt2(distributeOnTwo);
 		}
 		else
 		{
