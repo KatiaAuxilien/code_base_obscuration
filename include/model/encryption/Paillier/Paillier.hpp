@@ -14,7 +14,6 @@
  *
  *******************************************************************************/
 
-
 #define BITSETSIZE 64
 
 #ifndef PAILLIER_CRYPTOSYSTEM
@@ -34,27 +33,27 @@ template <typename T_in, typename T_out>
 class Paillier
 {
 
-    private:
-
-    public:
+private:
+public:
     Paillier(){};
     ~Paillier(){};
 
     /**
-     *  \brief 
+     *  \brief
      *  \details Générer une variable de type uint64_t aléatoirement
      *  \param uint64_t min
      *  \param uint64_t max
      *  \authors Katia Auxilien
      *  \date 23/05/2024
      */
-    uint64_t random64(uint64_t min, uint64_t max) {
+    uint64_t random64(uint64_t min, uint64_t max)
+    {
         static std::random_device rd;
         static std::mt19937 gen(rd());
         std::uniform_int_distribution<std::uint64_t> dis(min, max);
 
-        //unsigned long long
-        //std::uniform_int_distribution<unsigned long long> dis(min, max);
+        // unsigned long long
+        // std::uniform_int_distribution<unsigned long long> dis(min, max);
 
         // std::uniform_int_distribution<unsigned long long> dis(
         //     std::numeric_limits<std::uint64_t>::min(),
@@ -67,7 +66,7 @@ class Paillier
     /**
      *  \brief Calcul de l'exponentiation modulaire rapide.
      *  \details Calcul de l'exponentiation modulaire rapide.
-     *  \param uint64_t x 
+     *  \param uint64_t x
      *  \param uint64_t i puissance
      * 	\param uint64_t n modulo
      *  \authors Katia Auxilien
@@ -107,7 +106,7 @@ class Paillier
 
     /**
      *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief 
+     *  \brief
      *  \details Calcul de l'ensemble des éléments de  g ∈ (Z/n²Z)*
      *  \param
      *  \authors Katia Auxilien
@@ -142,10 +141,11 @@ class Paillier
         uint64_t x, r = 0, mu = 0;
         for (uint64_t g = 0; g < n; g++)
         {
-            if(gcd_64t(g, n) == 1){
+            if (gcd_64t(g, n) == 1)
+            {
                 uint64_t u = fastMod_64t(g, lambda, n * n);
                 uint64_t l = (u - 1) / n;
-                r = (x - 1) % n; //Vérifier si x est entier.
+                r = (x - 1) % n; // Vérifier si x est entier.
                 mu = modInverse_64t(l, n);
                 if (mu != 0)
                 {
@@ -156,9 +156,9 @@ class Paillier
         return result;
     };
 
-    /** 
+    /**
      *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief 
+     *  \brief
      *  \details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
      *  \param
      *  \authors Katia Auxilien
@@ -174,8 +174,8 @@ class Paillier
             i_position = rand() % set.size();
             g = set.at(i_position);
             x = fastMod_64t(g, lambda, n * n);
-            r = (x - 1) % n; //Vérifier si L(x) est entier.
-            r2 = (x - 1) / n; //Vérifier si L(x) est entier.
+            r = (x - 1) % n;            // Vérifier si L(x) est entier.
+            r2 = (x - 1) / n;           // Vérifier si L(x) est entier.
             mu = modInverse_64t(r2, n); // Calculer μ en utilisant la formule donnée et la fonction modular_inverse pour calculer l'inverse modulaire
         }
         return g;
@@ -259,32 +259,36 @@ class Paillier
     };
 
     /**
-     *  \brief Chosiir un élément de manière aléatoire dans l'ensemble Z/nZ* 
+     *  \brief Chosiir un élément de manière aléatoire dans l'ensemble Z/nZ*
      *  \details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
      *  \param
      *  \authors Katia Auxilien
      *  \date 23/05/2024 15:00:00
      */
-    uint64_t randomZNStar(uint64_t n){
+    uint64_t randomZNStar(uint64_t n)
+    {
         uint64_t r = 0;
         do
         {
-            r = random64(1,n);
-        }while(r >= 1 && gcd_64t(r,n) != 1);
+            r = random64(1, n);
+        } while (r >= 1 && gcd_64t(r, n) != 1);
         return r;
     };
 
     /**
      *  \brief Retourner l'ensemble Z/nZ*  sous forme d'un vecteur.
-     *  \details 
+     *  \details
      *  \param
      *  \authors Katia Auxilien
      *  \date 23/05/2024 9:18:00
      */
-    std::vector<uint64_t> get_set_ZNZStar(uint64_t n){
+    std::vector<uint64_t> get_set_ZNZStar(uint64_t n)
+    {
         std::vector<uint64_t> ZNZStar;
-        for(uint64_t i = 1; i < n; i++){
-            if(gcd_64t(i,n) == 1){
+        for (uint64_t i = 1; i < n; i++)
+        {
+            if (gcd_64t(i, n) == 1)
+            {
                 ZNZStar.push_back(i);
             }
         }
@@ -293,18 +297,21 @@ class Paillier
 
     /**
      *  \brief Retourner toutes les valeurs possible de g, dans l'ensemble Z/n²Z* et qui respectent gcd_64t(l,n) !=1,  sous forme d'un vecteur.
-     *  \details 
+     *  \details
      *  \param
      *  \authors Katia Auxilien
      *  \date 27/05/2024 15:00:00
      */
-    std::vector<uint64_t> get_set_ZN2ZStar(uint64_t n,uint64_t lambda){
+    std::vector<uint64_t> get_set_ZN2ZStar(uint64_t n, uint64_t lambda)
+    {
         std::vector<uint64_t> ZN2ZStar;
-        for(uint64_t g = 1; g < n*n; g++){
-            uint64_t u,l;
+        for (uint64_t g = 1; g < n * n; g++)
+        {
+            uint64_t u, l;
             u = fastMod_64t(g, lambda, n * n);
-            l = L_64t(u,n);
-            if(gcd_64t(l,n) !=1){
+            l = L_64t(u, n);
+            if (gcd_64t(l, n) != 1)
+            {
                 ZN2ZStar.push_back(g);
             }
         }
@@ -320,14 +327,15 @@ class Paillier
      *  \authors Katia Auxilien
      *  \date 23/05/2024 15:00:00
      */
-    uint64_t generate_g_64t(uint64_t n,uint64_t lambda){
-        uint64_t g,u,l;
-        do{
-            g = randomZNStar(n*n); // generate g, a random integer in Z*_{n^2}
+    uint64_t generate_g_64t(uint64_t n, uint64_t lambda)
+    {
+        uint64_t g, u, l;
+        do
+        {
+            g = randomZNStar(n * n); // generate g, a random integer in Z*_{n^2}
             u = fastMod_64t(g, lambda, n * n);
-            l = L_64t(u,n);
-        }
-        while(gcd_64t(l,n) !=1);
+            l = L_64t(u, n);
+        } while (gcd_64t(l, n) != 1);
         return g;
     };
 
@@ -416,7 +424,7 @@ class Paillier
      *  \details Chiffrement par paillier d'un message m sur n bit.
      *  \param uint64_t n valeur p*q, fait partie de la clé publique.
      * 	\param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*, fait partie de la clé publique.
-     *  \param T_in m message en clair sur nbit. 
+     *  \param T_in m message en clair sur nbit.
      *  \param uint64_t r élément aléatoire appartenant à l'ensemble r ∈ (Z/nZ)*.
      *  \return static_cast<T_out>(c) : Le message m chiffré, dont le chiffré est sur 2*n bit.
      *  \retval T_out
@@ -464,7 +472,7 @@ class Paillier
         }
         uint64_t c_64 = static_cast<uint64_t>(c);
 
-        //uint64_t result = (((fastMod_64t(c_64, lambda, n * n) - 1) / n) * mu) % n;
+        // uint64_t result = (((fastMod_64t(c_64, lambda, n * n) - 1) / n) * mu) % n;
         uint64_t result = ((fastMod_64t(c_64, lambda, n * n) - 1) / n) * mu % n;
 
         if (result >= std::numeric_limits<T_in>::max())

@@ -33,7 +33,6 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	PaillierControllerPGM* controller = new PaillierControllerPGM();
-	controller->init();
 
 	/*********************** Traitement d'arguments ***********************/
 

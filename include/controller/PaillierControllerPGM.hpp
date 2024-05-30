@@ -28,6 +28,7 @@
 #include "../../include/controller/PaillierController.hpp"
 #include "../../include/model/image/image_portable.hpp"
 #include "../../include/model/image/image_pgm.hpp"
+#include "../../include/model/filesystem/filesystemPGM.h"
 
 class PaillierControllerPGM : public PaillierController
 {
@@ -36,6 +37,8 @@ private:
     char *c_file;
 
 public:
+	PaillierControllerPGM();
+	~PaillierControllerPGM();
 	void init();
 
     const char *getCFile() const;

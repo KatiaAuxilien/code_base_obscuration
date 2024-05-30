@@ -15,6 +15,12 @@
  *******************************************************************************/
 #include "../../include/controller/PaillierControllerPGM.hpp"
 
+PaillierControllerPGM::PaillierControllerPGM(){
+		init();
+};
+PaillierControllerPGM::~PaillierControllerPGM(){};
+
+
 void PaillierControllerPGM::init(){
     this->c_file = NULL;
 	this->c_key_file = NULL;

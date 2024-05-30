@@ -44,7 +44,7 @@ public:
 	};
 	
 	~commandLineInterface();
-	
+
 	/**
 	 *  @brief
 	 *  @details

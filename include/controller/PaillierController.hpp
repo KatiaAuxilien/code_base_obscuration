@@ -25,7 +25,6 @@
 #include <cinttypes>
 #include <cstring>
 
-#include "../../include/model/filesystem/filesystemPGM.h"
 #include "../../include/model/Paillier_model.hpp"
 #include "../../include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
 // #include "../../include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
@@ -40,7 +39,7 @@ protected:
 
     /**
      *  @brief
-     *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
+     *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .?.
      *  @param const std::string &str
      * 	@param const std::string &suffix
      *  @authors Katia Auxilien
@@ -76,11 +75,12 @@ protected:
      *  @date 30/04/2024
      */
     uint64_t check_p_q_arg(char *arg);
+   
+    virtual void init(){}
 
-public:
     PaillierController();
     ~PaillierController();
-
+public :
     const PaillierModel* getModel() const {
         // model = PaillierModel::getInstance();
         return model;
@@ -97,8 +97,6 @@ public:
     void generateAndSaveKeyPair();
 
     void readKeyFile(bool isEncryption);
-    
-    virtual void init(){}
 };
 
 #endif // PAILLIERCONTROLLER
