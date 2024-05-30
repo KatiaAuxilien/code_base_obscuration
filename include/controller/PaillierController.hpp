@@ -80,7 +80,6 @@ protected:
 public:
     PaillierController();
     ~PaillierController();
-    virtual void init();
 
     const PaillierModel* getModel() const {
         // model = PaillierModel::getInstance();
@@ -98,6 +97,8 @@ public:
     void generateAndSaveKeyPair();
 
     void readKeyFile(bool isEncryption);
+    
+    virtual void init(){}
 };
 
 #endif // PAILLIERCONTROLLER

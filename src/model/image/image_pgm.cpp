@@ -302,7 +302,7 @@ void image_pgm::ecrire_image_pgm_variable_size(char nom_image[], uint64_t *pt_im
 	}
 }
 
-void  image_pgm::lire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int taille_image)
+void image_pgm::lire_image_pgm_variable_size(char nom_image[], uint64_t *pt_image, int taille_image)
 {
 	FILE *f_image;
 	int nb_colonnes, nb_lignes;
@@ -328,3 +328,4 @@ void  image_pgm::lire_image_pgm_variable_size(char nom_image[], uint64_t *pt_ima
 		fclose(f_image);
 	}
 }
+
