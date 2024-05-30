@@ -23,11 +23,13 @@
 #include <string_view>
 #include <ctype.h>
 #include <cinttypes>
+#include <cstring>
 
+#include "../../include/model/filesystem/filesystemPGM.h"
 #include "../../include/model/Paillier_model.hpp"
 #include "../../include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
 // #include "../../include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
-// #include "../../include/model/filesystem/filesystemPGM.h"
+
 class PaillierController
 {
 protected:

@@ -13,6 +13,7 @@
  * Date : 29 mai 2024, 13:55:00
  *
  *******************************************************************************/
+
 #ifndef PAILLIERCONTROLLER_Stat
 #define PAILLIERCONTROLLER_Stat
 

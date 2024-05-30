@@ -13,6 +13,9 @@
  * Date : Avril 2024
  *
  *******************************************************************************/
+
+#ifndef FILESYSTEM_PGM_LIBRARY
+#define FILESYSTEM_PGM_LIBRARY
 #include <iostream>
 #include <vector>
 #include <random>
@@ -22,9 +25,6 @@
 #include <cstdio>
 #include <filesystem>
 #include <string>
-
-#ifndef FILESYSTEM_PGM_LIBRARY
-#define FILESYSTEM_PGM_LIBRARY
 
 /**
  *  @brief

@@ -13,6 +13,13 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
+
+
+#define BITSETSIZE 64
+
+#ifndef PAILLIER_CRYPTOSYSTEM
+#define PAILLIER_CRYPTOSYSTEM
+
 #include <iostream>
 #include <bitset>
 #include <vector>
@@ -20,11 +27,6 @@
 // #include "../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
 // #include "../../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
 // #include "../../../../include/model/image/image_pgm.hpp"
-
-#define BITSETSIZE 64
-
-#ifndef PAILLIER_CRYPTOSYSTEM
-#define PAILLIER_CRYPTOSYSTEM
 
 using namespace std;
 

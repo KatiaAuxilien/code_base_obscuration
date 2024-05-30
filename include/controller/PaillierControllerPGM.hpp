@@ -13,6 +13,7 @@
  * Date : 29 mai 2024, 13:55:00
  *
  *******************************************************************************/
+
 #ifndef PAILLIERCONTROLLER_PGM
 #define PAILLIERCONTROLLER_PGM
 
@@ -25,6 +26,7 @@
 #include <ctype.h>
 
 #include "../../include/controller/PaillierController.hpp"
+#include "../../include/model/image/image_portable.hpp"
 #include "../../include/model/image/image_pgm.hpp"
 
 class PaillierControllerPGM : public PaillierController
@@ -84,28 +86,28 @@ public:
 
     /************** n > 8bits**************/
     
-    /**
-     *  \brief
-     *  \details
-     *  \param bool distributeOnTwo
-     *  \param bool recropPixels
-     *  \param Paillier<T_in, T_out> paillier
-     *  \authors Katia Auxilien
-     *  \date 15/05/2024
-     */
-    template <typename T_in, typename T_out>
-    void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier);
+    // /**
+    //  *  \brief
+    //  *  \details
+    //  *  \param bool distributeOnTwo
+    //  *  \param bool recropPixels
+    //  *  \param Paillier<T_in, T_out> paillier
+    //  *  \authors Katia Auxilien
+    //  *  \date 15/05/2024
+    //  */
+    // template <typename T_in, typename T_out>
+    // void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier);
 
-    /**
-     *  \brief
-     *  \details
-     *  \param bool distributeOnTwo
-     *  \param bool recropPixels
-     *  \param Paillier<T_in, T_out> paillier
-     *  \authors Katia Auxilien
-     *  \date 15/05/2024
-     */
-    template <typename T_in, typename T_out>
-    void decrypt2(bool distributeOnTwo, Paillier<T_in,T_out> paillier);
+    // /**
+    //  *  \brief
+    //  *  \details
+    //  *  \param bool distributeOnTwo
+    //  *  \param bool recropPixels
+    //  *  \param Paillier<T_in, T_out> paillier
+    //  *  \authors Katia Auxilien
+    //  *  \date 15/05/2024
+    //  */
+    // template <typename T_in, typename T_out>
+    // void decrypt2(bool distributeOnTwo, Paillier<T_in,T_out> paillier);
 };
 #endif // PAILLIERCONTROLLER_PGM
