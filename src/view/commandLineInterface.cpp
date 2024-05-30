@@ -19,28 +19,31 @@ commandLineInterface::commandLineInterface(){};
 
 commandLineInterface::~commandLineInterface(){};
 
-void commandLineInterface::error_failure(char* msg){
-    this->cmd_colorError();
-    fprintf(stderr,"%s",msg);
-    this->cmd_colorStandard();
+commandLineInterface *commandLineInterface ::instancePtr = NULL;
+
+
+void commandLineInterface::error_failure(string msg) const{
+    cmd_colorError();
+    fprintf(stderr,"%s",msg.c_str());
+    cmd_colorStandard();
 }
-void commandLineInterface::error_warning(char* msg){
-    this->cmd_colorWarning();
-    fprintf(stderr,"%s",msg);
-    this->cmd_colorStandard();
+void commandLineInterface::error_warning(std::string msg) const{
+    cmd_colorWarning();
+    fprintf(stderr,"%s",msg.c_str());
+    cmd_colorStandard();
 }
 
-void commandLineInterface::cmd_colorStandard()
+void commandLineInterface::cmd_colorStandard() const
 {
     printf(COLOR_RESET);
 }
 
-void commandLineInterface::cmd_colorError()
+void commandLineInterface::cmd_colorError() const
 {
     fprintf(stderr,BRED);
 }
 
-void commandLineInterface::cmd_colorWarning()
+void commandLineInterface::cmd_colorWarning() const
 {
     fprintf(stderr, BYEL);
 }

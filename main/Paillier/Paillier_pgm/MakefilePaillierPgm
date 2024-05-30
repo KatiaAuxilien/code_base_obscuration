@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -Wextra -g -O3
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = Paillier_pgm_main.cpp ../../../src/model/image/image.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/encryption/Paillier/keys/Paillier_private_key.cpp ../../../src/model/encryption/Paillier/keys/Paillier_public_key.cpp ../../../src/view/commandLineInterface.cpp ../../../src/model/Paillier_model.cpp ../../../src/controller/PaillierController.cpp ../../../src/controller/PaillierControllerPGM.cpp  
+SRC = Paillier_pgm_main.cpp ../../../src/model/image/image_portable.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/encryption/Paillier/keys/Paillier_private_key.cpp ../../../src/model/encryption/Paillier/keys/Paillier_public_key.cpp ../../../src/view/commandLineInterface.cpp ../../../src/model/Paillier_model.cpp ../../../src/controller/PaillierController.cpp ../../../src/controller/PaillierControllerPGM.cpp  
 OBJ = $(SRC:../../../src/%.cpp=../../../obj/%.o)
 EXEC = Paillier_pgm_main.out
 

@@ -15,7 +15,8 @@
  *******************************************************************************/
 #include "../../include/controller/PaillierController.hpp"
 
-PaillierController::Paillier_controller(){};
+PaillierController::PaillierController(){};
+PaillierController::~PaillierController(){};
 
 const char *PaillierController::getCKeyFile() const
 {
@@ -34,7 +35,7 @@ bool PaillierController::endsWith(const std::string &str, const std::string &suf
     if (str.empty() || suffix.empty()) // Sécurité pointeurs.
     {
 
-        this->view.error_warning("endsWith : arguments null or empty.");
+        this->view->getInstance()->error_failure("endsWith : arguments null or empty.");
         return false;
     }
     return str.size() >= suffix.size() &&
@@ -55,7 +56,7 @@ void PaillierController::convertToLower(char *arg_in[], int size_arg_in)
     }
 }
 
-bool PaillierController::isPrime(uint64_t n, int i = 2)
+bool PaillierController::isPrime(uint64_t n, uint64_t i)
 {
     if (n <= 2)
         return (n == 2) ? true : false;
@@ -71,7 +72,7 @@ uint64_t PaillierController::check_p_q_arg(char *arg)
 {
     if (arg == NULL) // Sécurité pointeurs.
     {
-        this->view.error_failure("check_p_q_arg : arguments null or empty.");
+        this->view->getInstance()->error_failure("check_p_q_arg : arguments null or empty.");
         exit(EXIT_FAILURE);
     }
 
@@ -79,14 +80,14 @@ uint64_t PaillierController::check_p_q_arg(char *arg)
     {
         if (!isdigit(arg[i]))
         {
-            this->view.error_failure("The argument after the first argument must be an int.\n");
+            this->view->getInstance()->error_failure("The argument after the first argument must be an int.\n");
             exit(EXIT_FAILURE);
         }
     }
     uint64_t p = atoi(arg);
     if (!isPrime(p, 2))
     {
-        this->view.error_failure("The argument after the first argument must be a prime number.\n");
+        this->view->getInstance()->error_failure("The argument after the first argument must be a prime number.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -96,42 +97,45 @@ uint64_t PaillierController::check_p_q_arg(char *arg)
 void PaillierController::generateAndSaveKeyPair()
 {
     uint64_t mu = 0;
-    uint64_t g = this->model.getPaillier().generate_g_64t(this->model.getN(), this->model.getLambda());
+    uint64_t g = this->model->getInstance()->getPaillierGenerationKey().generate_g_64t(this->model->getInstance()->getN(), this->model->getInstance()->getLambda());
 
-    this->model.getPaillier().generatePrivateKey_64t(this->model.getLambda(),
+
+    uint64_t lambda = this->model->getInstance()->getLambda();
+    this->model->getInstance()->getPaillierGenerationKey().generatePrivateKey_64t(lambda,
                                                      mu,
-                                                     this->model.getP(),
-                                                     this->model.getQ(),
-                                                     this->model.getN(),
+                                                      this->model->getInstance()->getP(),
+                                                      this->model->getInstance()->getQ(),
+                                                     this->model->getInstance()->getN(),
                                                      g);
+
+    this->model->getInstance()->setLambda(lambda);
 
     if (mu == 0)
     {
-        this->view.error_failure("ERROR with g, no value found for g where mu exist.\n");
+        this->view->getInstance()->error_failure("ERROR with g, no value found for g where mu exist.\n");
         exit(EXIT_FAILURE);
     }
 
-    this->model.setPrivateKey(PaillierPrivateKey(this->model.getLambda(),
-                                                 this->model.getMu(),
-                                                 this->model.getN()));
+    this->model->getInstance()->setPrivateKey(PaillierPrivateKey(this->model->getInstance()->getLambda(), 
+                                                                 this->model->getInstance()->getMu()));
 
-    this->model.setPublicKey(PaillierPublicKey(this->model.getN(),
-                                               this->model.getG()));
+    this->model->getInstance()->setPublicKey(PaillierPublicKey(this->model->getInstance()->getN(),
+                                                                this->model->getInstance()->getG()));
 
-    if (this->model->getLambda() == 0 ||
-        this->model->getMu() == 0 ||
-        this->model->getP() == 0 ||
-        this->model->getQ() == 0 ||
-        this->model->getN() == 0 ||
-        this->model->getG() == 0)
+    if (this->model->getInstance()->getLambda() == 0 ||
+        this->model->getInstance()->getMu() == 0 ||
+        this->model->getInstance()->getP() == 0 ||
+        this->model->getInstance()->getQ() == 0 ||
+        this->model->getInstance()->getN() == 0 ||
+        this->model->getInstance()->getG() == 0)
     {
-        this->view.error_failure("Error in generation of private key.\n");
-        printf("p = %" PRIu64 "\n", this->model->getP());
-        printf("q = %" PRIu64 "\n", this->model->getQ());
-        printf("Pub Key G = %" PRIu64 "\n", this->model->getPublicKey().getG());
-        printf("Pub Key N = %" PRIu64 "\n", this->model->getPublicKey().getN());
-        printf("Priv Key lambda = %" PRIu64 "\n", this->model->getPrivateKey().getLambda());
-        printf("Priv Key mu = %" PRIu64 "\n", this->model->getPrivateKey().getMu());
+        this->view->getInstance()->error_failure("Error in generation of private key.\n");
+        printf("p = %" PRIu64 "\n", this->model->getInstance()->getP());
+        printf("q = %" PRIu64 "\n", this->model->getInstance()->getQ());
+        printf("Pub Key G = %" PRIu64 "\n", this->model->getInstance()->getPublicKey().getG());
+        printf("Pub Key N = %" PRIu64 "\n", this->model->getInstance()->getPublicKey().getN());
+        printf("Priv Key lambda = %" PRIu64 "\n", this->model->getInstance()->getPrivateKey().getLambda());
+        printf("Priv Key mu = %" PRIu64 "\n", this->model->getInstance()->getPrivateKey().getMu());
         exit(EXIT_FAILURE);
     }
 
@@ -141,12 +145,10 @@ void PaillierController::generateAndSaveKeyPair()
 
     if (f_private_key == NULL)
     {
-        cmd_colorError();
-        fprintf(stderr, "Error ! Opening Paillier_private_key.bin\n");
-        cmd_colorStandard();
+        this->view->getInstance()->error_failure( "Error ! Opening Paillier_private_key.bin\n");
         exit(EXIT_FAILURE);
     }
-    PaillierPublicKey pk = this->model->getPublicKey();
+    PaillierPublicKey pk = this->model->getInstance()->getPublicKey();
     fwrite(&pk, sizeof(PaillierPrivateKey), 1, f_private_key);
 
     fclose(f_private_key);
@@ -156,13 +158,11 @@ void PaillierController::generateAndSaveKeyPair()
 
     if (f_public_key == NULL)
     {
-        cmd_colorError();
-        fprintf(stderr, "Error ! Opening Paillier_public_key.bin\n");
-        cmd_colorStandard();
+        this->view->getInstance()->error_failure("Error ! Opening Paillier_public_key.bin\n");
         exit(EXIT_FAILURE);
     }
 
-    PaillierPrivateKey pubk = this->model->getPrivateKey();
+    PaillierPrivateKey pubk = this->model->getInstance()->getPrivateKey();
     fwrite(&pubk, sizeof(PaillierPublicKey), 1, f_public_key);
 
     fclose(f_public_key);
@@ -173,7 +173,7 @@ void PaillierController::readKeyFile(bool isEncryption)
 
     if (this->getCKeyFile() == NULL)
     {
-        this->view.error_failure("readKeyFile : error failure, c_key_file is not declared.");
+        this->view->getInstance()->error_failure("readKeyFile : error failure, c_key_file is not declared.");
         exit(EXIT_FAILURE);
     }
 
@@ -187,9 +187,8 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         if (f_private_key == NULL)
         {
-            cmd_colorError();
-            fprintf(stderr, "Error ! Opening %s \n", this->getCKeyFile());
-            cmd_colorStandard();
+            string msg = "Error ! Opening "+std::string (this->getCKeyFile())+" \n";
+            this->view->getInstance()->error_failure(msg);
             exit(EXIT_FAILURE);
         }
 
@@ -199,7 +198,7 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         fclose(f_private_key);
 
-        this->model.setPrivateKey(privKey);
+        this->model->getInstance()->setPrivateKey(privKey);
     }
     if (isEncryption)
     {
@@ -210,9 +209,8 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         if (f_public_key == NULL)
         {
-            cmd_colorError();
-            fprintf(stderr, "Error ! Opening %s \n", this->getCKeyFile());
-            cmd_colorStandard();
+            string msg = "Error ! Opening "+std::string (this->getCKeyFile())+" \n";
+            this->view->getInstance()->error_failure(msg);
             exit(EXIT_FAILURE);
         }
         size = sizeof(PaillierPublicKey);
@@ -221,6 +219,6 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         fclose(f_public_key);
 
-        this->model.setPublicKey(pubkey);
+        this->model->getInstance()->setPublicKey(pubkey);
     }
 }

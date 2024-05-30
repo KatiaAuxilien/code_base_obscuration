@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/image/image_portable.hpp"
+#include "../../../include/model/image/image_portable.hpp"
 
 void image_portable::ignorer_commentaires(FILE *f)
 {

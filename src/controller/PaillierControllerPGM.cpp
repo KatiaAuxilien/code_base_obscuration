@@ -16,7 +16,7 @@
 #include "../../include/controller/PaillierControllerPGM.hpp"
 
 void PaillierControllerPGM::init(){
-	this->img_pgm = NULL;
+	this->img_pgm = image_pgm();
     this->c_file = NULL;
 	this->c_key_file = NULL;
 	this->model = PaillierModel::getInstance();
@@ -38,7 +38,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 {
     // if (arg_in == NULL || param == NULL) // Sécurité pointeurs.
     // {
-    // this->view.error_failure("checkParameters : arguments null.");
+    // this->view->getInstance()->error_failure("checkParameters : arguments null.");
     // exit(EXIT_FAILURE);
     // }
 
@@ -62,7 +62,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
     }
     else
     {
-        this->view.error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
+        this->view->getInstance()->error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
         exit(EXIT_FAILURE);
     }
     /**************** ... param ******************/
@@ -78,30 +78,31 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
         {
             exit(EXIT_FAILURE);
         }
-		this->model.setP(p);
+		this->model->getInstance()->setP(p);
 
         uint64_t q = this->check_p_q_arg(arg_in[3]);
         if (q == 1)
         {
             exit(EXIT_FAILURE);
         }
-		this->model.setQ(q);
+		this->model->getInstance()->setQ(q);
 
         uint64_t n = p * q;
-		this->model.setN(n);
-		
-		this->model.setPaillier(Paillier<uint64_t, uint64_t> paillier);
+		this->model->getInstance()->setN(n);
+		Paillier<uint64_t, uint64_t> tempPaillier;
+		this->model->getInstance()->setPaillierGenerationKey(tempPaillier);
 
-        uint64_t pgc_pq = this->model.getPaillier().gcd_64t(p * q, (p - 1) * (q - 1));
+        uint64_t pgc_pq = this->model->getInstance()->getPaillierGenerationKey().gcd_64t(p * q, (p - 1) * (q - 1));
 
         if (pgc_pq != 1)
         {
-            this->view.error_failure("pgcd(p * q, (p - 1) * (q - 1))= %" PRIu64 "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n", pgc_pq);
+			string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
+            this->view->getInstance()->error_failure(msg);
             exit(EXIT_FAILURE);
         }
-        uint64_t lambda = this->model.getPaillier().lcm_64t(p - 1, q - 1);
+        uint64_t lambda = this->model->getInstance()->getPaillierGenerationKey().lcm_64t(p - 1, q - 1);
 
-		this->model.setLambda(lambda);
+		this->model->getInstance()->setLambda(lambda);
 
         i = 4;
         isFileBIN = true;
@@ -129,7 +130,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
             ifstream file(this->getCKeyFile());
             if (!file || !this->endsWith(s_key_file, ".bin"))
             {
-                this->view.error_failure("The argument after -k or dec must be an existing .bin file.\n");
+                this->view->getInstance()->error_failure("The argument after -k or dec must be an existing .bin file.\n");
                 exit(EXIT_FAILURE);
             }
             isFileBIN = true;
@@ -153,7 +154,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
             ifstream file(this->getCFile()); 
             if (!file)
             {
-                this->view.error_failure("The arguments must have an existing .pgm file.\n");
+                this->view->getInstance()->error_failure("The arguments must have an existing .pgm file.\n");
                 exit(EXIT_FAILURE);
             }
             isFilePGM = true;
@@ -162,12 +163,12 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 
     if (!isFilePGM)
     {
-        this->view.error_failure("The arguments must have a .pgm file.\n");
+        this->view->getInstance()->error_failure("The arguments must have a .pgm file.\n");
         exit(EXIT_FAILURE);
     }
     if (param[1] == true && !isFileBIN)
     {
-        this->view.error_failure("The argument after -k or dec must be a .bin file.\n");
+        this->view->getInstance()->error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -176,7 +177,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 /************** 8bits **************/
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels)
+void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier)
 {
 	string s_file = this->getCFile();
 
@@ -191,8 +192,8 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels)
 	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
 	int nH, nW, nTaille;
-	uint64_t n = pubk.getN();
-	uint64_t g = pubk.getG();
+	uint64_t n = this->model->getInstance()->getPublicKey().getN();
+	uint64_t g = this->model->getInstance()->getPublicKey().getG();
 
 	OCTET *ImgIn;
 	this->img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -277,7 +278,7 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels)
  *  @date 15/05/2024
  */
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::decrypt(bool distributeOnTwo)
+void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in,T_out> paillier)
 {
 	string s_file = this->getCFile();
 	char cNomImgLue[250];
@@ -292,8 +293,8 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo)
 
 	int nH, nW, nTaille;
 	uint64_t n, lambda, mu;
-	lambda = pk.getLambda();
-	mu = pk.getMu();
+	lambda = this->model->getInstance()->getPrivateKey().getLambda();
+	mu = this->model->getInstance()->getPrivateKey().getMu();
 
 	OCTET *ImgOutDec;
 	this->img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -344,6 +345,7 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo)
 
 
 /************** n > 8bits**************/
+/*
 template <typename T_in, typename T_out>
 void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
 {
@@ -359,8 +361,8 @@ void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> pai
 	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
 	int nH, nW, nTaille;
-	uint64_t n = pubk.getN();
-	uint64_t g = pubk.getG();
+	uint64_t n = this->model->getInstance()->getPublicKey().getN();
+	uint64_t g = this->model->getInstance()->getPublicKey().getG();
 
 	OCTET *ImgIn;
 	this->img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -453,8 +455,8 @@ void decrypt2(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 
 	int nH, nW, nTaille;
 	uint64_t n, lambda, mu;
-	lambda = pk.getLambda();
-	mu = pk.getMu();
+	lambda = this->model->getInstance()->getPrivateKey().getLambda();
+	mu = this->model->getInstance()->getPrivateKey().getMu();
 
 	OCTET *ImgOutDec;
 	this->img_pgm.lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -502,4 +504,4 @@ void decrypt2(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 		free(ImgOutDec);
 	}
 }
-
+*/

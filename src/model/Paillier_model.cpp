@@ -18,18 +18,7 @@
 
 PaillierModel::PaillierModel(){};
 
-static PaillierModel PaillierModel::*getInstance()
-{
-    if (this->instancePtr == NULL)
-    {
-        this->instancePtr = new PaillierModel();
-        return this->instancePtr;
-    }
-    else
-    {
-        return this->instancePtr;
-    }
-};
+PaillierModel *PaillierModel ::instancePtr = NULL;
 
 uint64_t PaillierModel::getLambda() const { return this->lambda; }
 uint64_t PaillierModel::getN() const { return this->n; }
@@ -37,7 +26,7 @@ uint64_t PaillierModel::getMu() const { return this->mu; }
 uint64_t PaillierModel::getG() const { return this->g; }
 uint64_t PaillierModel::getP() const { return this->p; }
 uint64_t PaillierModel::getQ() const { return this->q; }
-Paillier PaillierModel::getPaillier() const { return this->paillier; }
+Paillier<uint64_t,uint64_t> PaillierModel::getPaillierGenerationKey() const { return this->paillier_generation_key; }
 PaillierPrivateKey PaillierModel::getPrivateKey() const { return this->privateKey; }
 PaillierPublicKey PaillierModel::getPublicKey() const { return this->publicKey; }
 
@@ -48,7 +37,10 @@ void PaillierModel::setMu(uint64_t value) { this->mu = value; }
 void PaillierModel::setG(uint64_t value) { this->g = value; }
 void PaillierModel::setP(uint64_t value) { this->p = value; }
 void PaillierModel::setQ(uint64_t value) { this->q = value; }
-void PaillierModel::setPaillier(Paillier value) { this->paillier = value; }
+
+void PaillierModel::setPaillierGenerationKey(Paillier<uint64_t,uint64_t> value) 
+{ this->paillier_generation_key = value; }
+
 void PaillierModel::setPrivateKey(PaillierPrivateKey value) 
 { 
     this->privateKey = value;
@@ -59,6 +51,6 @@ void PaillierModel::setPrivateKey(PaillierPrivateKey value)
 void PaillierModel::setPublicKey(PaillierPublicKey value) 
 {
     this->publicKey = value;
-    this->setN(value.getN);
-    this->setG(value.getG);    
+    this->setN(value.getN());
+    this->setG(value.getG());    
 }

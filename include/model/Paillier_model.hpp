@@ -27,9 +27,9 @@ class PaillierModel
 
 private:
     uint64_t lambda, n, mu, g, p, q;
-    Paillier paillier;
     PaillierPrivateKey privateKey;
     PaillierPublicKey publicKey;
+    Paillier<uint64_t,uint64_t> paillier_generation_key;
 
     static PaillierModel *instancePtr;
 
@@ -38,7 +38,19 @@ private:
 public:
     PaillierModel(const PaillierModel &obj) = delete;
 
-    static PaillierModel *getInstance();
+    static PaillierModel *getInstance(){
+    if (instancePtr == NULL)
+    {
+        instancePtr = new PaillierModel();
+        return instancePtr;
+    }
+    else
+    {
+        return instancePtr;
+    }
+    };
+
+
     // Getters
     uint64_t getLambda() const;
     uint64_t getN() const;
@@ -46,7 +58,8 @@ public:
     uint64_t getG() const;
     uint64_t getP() const;
     uint64_t getQ() const;
-    Paillier getPaillier() const;
+
+    Paillier<uint64_t,uint64_t> getPaillierGenerationKey() const;
     PaillierPrivateKey getPrivateKey() const;
     PaillierPublicKey getPublicKey() const;
 
@@ -57,11 +70,12 @@ public:
     void setG(uint64_t value);
     void setP(uint64_t value);
     void setQ(uint64_t value);
-    void setPaillier(Paillier value);
+
+    void setPaillierGenerationKey(Paillier<uint64_t,uint64_t> value);
     void setPrivateKey(PaillierPrivateKey value);
     void setPublicKey(PaillierPublicKey value);
 
     ~PaillierModel();
-}
+};
 
 #endif // PAILLIER_MODEL

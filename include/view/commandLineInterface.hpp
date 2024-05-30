@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string>
 #include "ANSI-color-codes.h"
+
 using namespace std;
 
 class commandLineInterface
@@ -29,6 +30,7 @@ private :
 
 public:
 	commandLineInterface(const commandLineInterface &obj) = delete;
+	
 	static commandLineInterface *getInstance(){
     if (instancePtr == NULL)
     {
@@ -49,7 +51,7 @@ public:
 	 *  @authors Katia Auxilien
 	 *  @date 28/05/2024 15:33:00
 	 */
-	void error_failure(char* msg);
+	void error_failure(string msg) const;
 
 	/**
 	 *  @brief
@@ -57,7 +59,7 @@ public:
 	 *  @authors Katia Auxilien
 	 *  @date 28/05/2024 15:33:00
 	 */
-	void error_warning(char* msg);
+	void error_warning(string msg) const;
 private:
 	/**
 	 *  @brief
@@ -65,7 +67,7 @@ private:
 	 *  @authors Katia Auxilien
 	 *  @date 15/05/2024
 	 */
-	void cmd_colorStandard();
+	void cmd_colorStandard() const;
 
 	/**
 	 *  @brief
@@ -73,7 +75,7 @@ private:
 	 *  @authors Katia Auxilien
 	 *  @date 15/05/2024
 	 */
-	void cmd_colorError();
+	void cmd_colorError() const;
 
 	/**
 	 *  @brief
@@ -81,7 +83,7 @@ private:
 	 *  @authors Katia Auxilien
 	 *  @date 28/05/2024 15:33:00
 	 */
-	void cmd_colorWarning();
+	void cmd_colorWarning() const;
 };
 
 #endif // CMD_LINE_INTERFACE

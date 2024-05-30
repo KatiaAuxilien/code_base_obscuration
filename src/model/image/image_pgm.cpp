@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/image/image_pgm.hpp"
+#include "../../../include/model/image/image_pgm.hpp"
 
 void image_pgm::ecrire_image_p(char nom_image[], OCTET *pt_image, int nb_lignes, int nb_colonnes)
 {
@@ -211,7 +211,8 @@ uint32_t image_pgm::lire_image_pgm_and_get_maxgrey(char nom_image[], uint32_t *p
 	{
 		fscanf(f_image, "P5 ");
 		ignorer_commentaires(f_image);
-		fscanf(f_image, "%d %d %" SCNd16 "%" SCNu32, &nb_colonnes, &nb_lignes, &max_grey_val); /*lecture entete*/
+		fscanf(f_image, "%d %d %" SCNd32 "%*c",
+			   &nb_colonnes, &nb_lignes, &max_grey_val); /*lecture entete*/
 
 		if ((fread((uint32_t *)pt_image, sizeof(uint32_t), taille_image, f_image)) != (size_t)taille_image)
 		{

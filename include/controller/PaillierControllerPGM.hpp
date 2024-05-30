@@ -24,10 +24,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "include/controller/PaillierController.hpp"
-#include "include/model/image/image_pgm.hpp"
-#include "include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
-#include "include/model/filesystem/filesystemPGM.h"
+#include "../../include/controller/PaillierController.hpp"
+#include "../../include/model/image/image_pgm.hpp"
 
 class PaillierControllerPGM : public PaillierController
 {
@@ -72,7 +70,7 @@ public:
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void encrypt(bool distributeOnTwo, bool recropPixels);
+    void encrypt(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier);
 
     /**
      *  \brief
@@ -82,7 +80,7 @@ public:
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void decrypt(bool distributeOnTwo);
+    void decrypt(bool distributeOnTwo,Paillier<T_in,T_out> paillier);
 
     /************** n > 8bits**************/
     
@@ -96,7 +94,7 @@ public:
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier);
+    void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier);
 
     /**
      *  \brief
@@ -108,6 +106,6 @@ public:
      *  \date 15/05/2024
      */
     template <typename T_in, typename T_out>
-    void decrypt2(bool distributeOnTwo, Paillier<T_in, T_out> paillier);
-}
+    void decrypt2(bool distributeOnTwo, Paillier<T_in,T_out> paillier);
+};
 #endif // PAILLIERCONTROLLER_PGM

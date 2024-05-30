@@ -22,10 +22,12 @@
 #include <string>
 #include <string_view>
 #include <ctype.h>
+#include <cinttypes>
 
-#include "../include/model/Paillier_model.hpp"
-#include "../include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
-
+#include "../../include/model/Paillier_model.hpp"
+#include "../../include/view/commandLineInterface.hpp" // Gestion de l'affichage dans le terminal (couleurs, ...)
+// #include "../../include/model/filesystem/filesystemCommon.h" //Navigation dans le système de fichier
+// #include "../../include/model/filesystem/filesystemPGM.h"
 class PaillierController
 {
 protected:
@@ -57,12 +59,12 @@ protected:
     /**
      *  @brief Vérifier si n est un nombre premier.
      *  @details
-     *  @param int n
-     *  @param int i
+     *  @param uint64_t n
+     *  @param uint64_t i
      *  @authors Katia Auxilien
      *  @date 30/04/2024
      */
-    bool isPrime(int n, int i = 2);
+    bool isPrime(uint64_t n, uint64_t i = 2);
 
     /**
      *  @brief
@@ -78,12 +80,22 @@ public:
     ~PaillierController();
     virtual void init();
 
+    const PaillierModel* getModel() const {
+        // model = PaillierModel::getInstance();
+        return model;
+    }
+
+    const commandLineInterface* getView() const {
+        // view = commandLineInterface::getInstance();
+        return view;
+    }
+
     const char* getCKeyFile() const;
     void setCKeyFile(char* newCKeyFile);
 
     void generateAndSaveKeyPair();
 
     void readKeyFile(bool isEncryption);
-}
+};
 
 #endif // PAILLIERCONTROLLER

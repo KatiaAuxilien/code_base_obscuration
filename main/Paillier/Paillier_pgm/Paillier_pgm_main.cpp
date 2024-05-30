@@ -14,7 +14,7 @@
  *
  *******************************************************************************/
 
-#include "../../../include/model/image/image_pgm.hpp"
+// #include "../../../include/model/image/image_pgm.hpp"
 // #include "../../../include/model/encryption/Paillier/Paillier.hpp"
 // #include "../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
 // #include "../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
@@ -32,8 +32,8 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	PaillierControllerPGM controller = new PaillierControllerPGM();
-	controller.init();
+	PaillierControllerPGM* controller = new PaillierControllerPGM();
+	controller->init();
 
 	/*********************** Traitement d'arguments ***********************/
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 	}
 
 	bool parameters[5];
-	controller.checkParameters(argv, argc, parameters);
+	controller->checkParameters(argv, argc, parameters);
 
 	bool isEncryption = parameters[0];
 	bool useKeys = parameters[1];
@@ -56,57 +56,59 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
-		controller.generateAndSaveKeyPair();
+		controller->generateAndSaveKeyPair();
 	}
 	else
 	{
-		controller.readKeyFile(isEncryption);
+		controller->readKeyFile(isEncryption);
 	}
 
 	/*********************** Instanciations de Paillier en fonction de n ***********************/
 
-	uint64_t n = controller.model.getN();
+	uint64_t n = controller->getModel()->getN();
 	/*********************** Chiffrement ***********************/
 
 	if (isEncryption)
 	{
-		printf("Pub Key G = %" PRIu64 "\n", controller.model->getPublicKey().getG());
-		printf("Pub Key N = %" PRIu64 "\n", controller.model->getPublicKey().getN());
+		printf("Pub Key G = %" PRIu64 "\n", controller->getModel()->getPublicKey().getG());
+		printf("Pub Key N = %" PRIu64 "\n", controller->getModel()->getPublicKey().getN());
 		if (n <= 256)
 		{
-			controller.model->setPaillier(Paillier<uint8_t, uint16_t> paillier);
-			controller.encrypt(distributeOnTwo, recropPixels);
+			Paillier<uint8_t, uint16_t> paillier;
+			controller->encrypt(distributeOnTwo, recropPixels,paillier);
 		}
-		else if (n > 256 && n <= 65535)
-		{
-			controller.model->setPaillier(Paillier<uint16_t, uint32_t> paillier);
-			controller.encrypt2(distributeOnTwo, recropPixels);
-		}
+		// else if (n > 256 && n <= 65535)
+		// {
+		// 	Paillier<uint16_t, uint32_t> paillier;
+		// 	controller->encrypt2(distributeOnTwo, recropPixels,paillier);
+		// }
 		else
 		{
-			controller.view.error_failure("n value not supported.");
+			controller->getView()->error_failure("n value not supported.");
 			exit(EXIT_FAILURE);
 		}
 	}
 	/*********************** Déchiffrement ***********************/
 	else
 	{
-		printf("Priv Key lambda = %" PRIu64 "\n", controller.model->getPrivateKey().getLambda());
-		printf("Priv Key mu = %" PRIu64 "\n", controller.model->getPrivateKey().getMu());
+		printf("Priv Key lambda = %" PRIu64 "\n", controller->getModel()->getPrivateKey().getLambda());
+		printf("Priv Key mu = %" PRIu64 "\n", controller->getModel()->getPrivateKey().getMu());
 		if (n <= 256)
 		{
-			controller.model->setPaillier(Paillier<uint8_t, uint16_t> paillier);
-			controller.decrypt(distributeOnTwo);
+			Paillier<uint8_t, uint16_t> paillier;
+			controller->decrypt(distributeOnTwo,paillier);
 		}
-		else if (n > 256 && n <= 65535)
-		{
-			controller.model->setPaillier(Paillier<uint16_t, uint32_t> paillier);
-			controller.decrypt2(distributeOnTwo);
-		}
+		// else if (n > 256 && n <= 65535)
+		// {
+		// 	Paillier<uint16_t, uint32_t> paillier;
+		// 	controller->decrypt2(distributeOnTwo,paillier);
+		// }
 		else
 		{
-			controller.view.error_failure("n value not supported.");
+			controller->getView()->error_failure("n value not supported.");
 			exit(EXIT_FAILURE);
 		}
 	}
+
+	delete controller;
 }
