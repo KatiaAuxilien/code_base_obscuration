@@ -31,7 +31,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	PaillierControllerStatG controller = new PaillierControllerStatG();
+	PaillierControllerStatG* controller = new PaillierControllerStatG();
 	/*********************** Traitement d'arguments ***********************/
 	if (argc < 2)
 	{
@@ -39,13 +39,13 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	bool parameters[2];
-	controller.checkParameters(argv, argc, parameters, p, q, n, lambda);
+	controller->checkParameters(argv, argc, parameters);
 	bool distributeOnTwo = parameters[0];
 	bool optimisationLSB = parameters[1];
+//TODO : Implémente la prise en charge des paramtères
 
 	/********************************************************************/
 	/*********************** Calculs ***********************/
-	controller.calc_encrypt();
+	controller->calc_encrypt();
 	/*======================== Enregistrement fichier ========================*/
-	controller.saveResults();
 }

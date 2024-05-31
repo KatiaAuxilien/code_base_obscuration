@@ -102,7 +102,7 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
         if (pgc_pq != 1)
         {
 			string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
-            this->view->getInstance()->error_failure(msg);
+            this->getView()->error_failure(msg);
             exit(EXIT_FAILURE);
         }
         uint64_t lambda = this->model->getInstance()->getPaillierGenerationKey().lcm_64t(p - 1, q - 1);

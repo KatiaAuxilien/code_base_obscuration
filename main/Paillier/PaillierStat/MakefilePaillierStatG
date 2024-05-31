@@ -1,0 +1,19 @@
+CXX = g++
+CXXFLAGS = -Wall -Wextra -g -O3
+INCLUDES = -I./include/
+LDLIBS = 
+
+SRC = PaillierStatG.cpp  ../../../src/model/encryption/Paillier/keys/Paillier_private_key.cpp ../../../src/model/encryption/Paillier/keys/Paillier_public_key.cpp ../../../src/view/commandLineInterface.cpp ../../../src/model/Paillier_model.cpp ../../../src/controller/PaillierController.cpp ../../../src/controller/PaillierControllerStatG.cpp  
+OBJ = $(SRC:../../../src/%.cpp=../../../obj/%.o)
+EXEC = PaillierStatG.out
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDLIBS)
+
+../../../obj/%.o: ../../../src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+
+clean:
+	rm -f $(OBJ) $(EXEC)

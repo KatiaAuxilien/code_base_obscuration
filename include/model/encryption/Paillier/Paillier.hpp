@@ -310,7 +310,7 @@ public:
             uint64_t u, l;
             u = fastMod_64t(g, lambda, n * n);
             l = L_64t(u, n);
-            if (gcd_64t(l, n) != 1)
+            if (gcd_64t(l, n) == 1)
             {
                 ZN2ZStar.push_back(g);
             }
@@ -354,6 +354,7 @@ public:
         uint64_t u = fastMod_64t(g, lambda, n * n);
         uint64_t l = (u - 1) / n;
         mu = modInverse_64t(l, n);
+        printf("Priv Key mu = %" PRIu64 "\n", mu);
     };
 
     /**

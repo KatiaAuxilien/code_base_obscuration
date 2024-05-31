@@ -34,8 +34,8 @@ class PaillierController
 protected:
 	char *c_key_file;
 
-    const PaillierModel *model = PaillierModel::getInstance();
-    const commandLineInterface *view = commandLineInterface::getInstance();
+    PaillierModel *model = PaillierModel::getInstance();
+    commandLineInterface *view = commandLineInterface::getInstance();
 
     /**
      *  @brief
@@ -81,12 +81,12 @@ protected:
     PaillierController();
     ~PaillierController();
 public :
-    const PaillierModel* getModel() const {
+    PaillierModel* getModel() {
         // model = PaillierModel::getInstance();
         return model;
     }
 
-    const commandLineInterface* getView() const {
+    commandLineInterface* getView() {
         // view = commandLineInterface::getInstance();
         return view;
     }

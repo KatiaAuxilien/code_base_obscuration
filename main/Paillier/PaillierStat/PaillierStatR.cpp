@@ -30,7 +30,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	PaillierControllerStatR controller = new PaillierControllerStatR();
+	PaillierControllerStatR* controller = new PaillierControllerStatR();
 	/*********************** Traitement d'arguments ***********************/
 
 	if (argc < 2)
@@ -40,11 +40,11 @@ int main(int argc, char **argv)
 	}
 
 	bool parameters[3];
-	controller.checkParameters(argv, argc, parameters);
+	controller->checkParameters(argv, argc, parameters);
 	bool useKeys = parameters[0];
 	bool distributeOnTwo = parameters[1];
 	bool optimisationLSB = parameters[2];
- 
+
 	/********************************************************************/
 
 	if (!useKeys)
@@ -57,20 +57,14 @@ int main(int argc, char **argv)
 	}
 
 	/*********************** Instanciations de Paillier en fonction de n ***********************/
-
-	/*********************** Chiffrement ***********************/
-
-		if (n <= 256)
-		{
-
-			/*======================== Enregistrement fichier ========================*/
-
-		}
-		else
-		{
-			cmd_colorError();
-			fprintf(stderr, "n value not supported.");
-			cmd_colorStandard();
-			exit(EXIT_FAILURE);
-		}
+	/*********************** Chiffrement et enregistrement de résultats ***********************/
+	if (controller->getModel()->getPublicKey().getN() <= 256)
+	{
+		controller->calc_encrypt();
+	}
+	else
+	{
+		controller->getView()->error_failure("n value not supported.");
+		exit(EXIT_FAILURE);
+	}
 }
