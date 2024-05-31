@@ -33,7 +33,7 @@ void PaillierControllerStatG::checkParameters(char *arg_in[], int size_arg, bool
     convertToLower(arg_in, size_arg);
 
     /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         param[i] = false;
     }
@@ -296,8 +296,14 @@ void PaillierControllerStatG::calc_encrypt_10_g()
             }
 
             /*********************** Instanciations de Paillier en fonction de n ***********************/
-            uint16_t t_pix_enc[size_vec_r][getModel()->getN()];
+            uint16_t t_pix_enc[size_vec_r][getModel()->getPublicKey().getN()];
 
+                printf("size_vec_r = %" PRIu64 "\n", size_vec_r);
+                printf("size_vec_r = %" PRIu64 "\n", set_ZNZStar.size());
+
+                printf("n = %" PRIu64 "\n", getModel()->getPublicKey().getN());
+                printf("n = %" PRIu64 "\n", getModel()->getN());
+    
             /*********************** Chiffrement ***********************/
 
             for (size_t k = 0; k < size_vec_r; k++)
@@ -327,7 +333,7 @@ void PaillierControllerStatG::calc_encrypt_10_g()
             fprintf(file_enc_pix, "\n");
             fprintf(file_enc_pix, "%ld", set_ZNZStar.size());
 
-            for (size_t l = 0; l < set_ZNZStar.size(); l++)
+            for (size_t l = 0; l < size_vec_r; l++)
             {
                 fprintf(file_enc_pix, "\n");
                 fprintf(file_enc_pix, "%" PRIu64 "", set_ZNZStar.at(l));
@@ -339,7 +345,7 @@ void PaillierControllerStatG::calc_encrypt_10_g()
             }
 
             fclose(file_enc_pix);
-            delete[] t_pix_enc;
+            // delete[] t_pix_enc;
         }
     }
     else
