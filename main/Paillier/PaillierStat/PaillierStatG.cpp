@@ -46,6 +46,6 @@ int main(int argc, char **argv)
 
 	/********************************************************************/
 	/*********************** Calculs ***********************/
-	controller->calc_encrypt();
+	controller->calc_encrypt_10_g();
 	/*======================== Enregistrement fichier ========================*/
 }

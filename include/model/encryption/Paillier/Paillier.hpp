@@ -354,7 +354,6 @@ public:
         uint64_t u = fastMod_64t(g, lambda, n * n);
         uint64_t l = (u - 1) / n;
         mu = modInverse_64t(l, n);
-        printf("Priv Key mu = %" PRIu64 "\n", mu);
     };
 
     /**

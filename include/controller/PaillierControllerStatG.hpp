@@ -39,7 +39,7 @@ public:
 	 */
 	void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
-	/*********************** Chiffrement/Déchiffrement ***********************/
+	/*********************** Chiffrement ***********************/
 
 	/************** 8bits **************/
 	/**
@@ -49,6 +49,11 @@ public:
 	 *  \authors Katia Auxilien
 	 *  \date 30/05/2024
 	 */
-	void calc_encrypt();
+	void calc_encrypt_all_g();
+
+
+	void calc_encrypt_10_g();
+
+
 };
 #endif // PAILLIERCONTROLLER_Stat_G
