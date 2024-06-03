@@ -329,6 +329,8 @@ void PaillierControllerStatG::calc_encrypt_10_g()
                 exit(1);
             }
 
+            fprintf(file_enc_pix,"%" PRIu64 "", getModel()->getPublicKey().getG());
+            fprintf(file_enc_pix, "\n");
             fprintf(file_enc_pix, "%" PRIu64 "", getModel()->getPublicKey().getN());
             fprintf(file_enc_pix, "\n");
             fprintf(file_enc_pix, "%ld", set_ZNZStar.size());
