@@ -61,18 +61,15 @@ public:
 	void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
 	/*********************** Chiffrement/Déchiffrement ***********************/
-
 	/**
 	 *  \brief
 	 *  \details
 	 *  \param OCTET ImgPixel
 	 * 	\param bool recropPixels
-	 *	\param Paillier<T_in, T_out> paillier
 	 *  \authors Katia Auxilien
 	 *  \date 03/06/2024
 	 */
-	template <typename T_in, typename T_out>
-	uint8_t histogramExpansion(OCTET ImgPixel, bool recropPixels, Paillier<T_in, T_out> paillier);
+	uint8_t histogramExpansion(OCTET ImgPixel, bool recropPixels);
 
 	/************** 8bits **************/
 	/**
@@ -106,7 +103,7 @@ public:
 	 *  \date 03/06/2024
 	 */
 	template <typename T_in, typename T_out>
-	void encryptCompression(Paillier<T_in, T_out> paillier);
+	void encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier);
 
 	/**
 	 *  \brief
@@ -117,7 +114,7 @@ public:
 	 *  \date 03/06/2024
 	 */
 	template <typename T_in, typename T_out>
-	void decryptCompression(Paillier<T_in, T_out> paillier);
+	void decryptCompression(bool distributeOnTwo, Paillier<T_in, T_out> paillier);
 
 	/************** n > 8bits**************/
 
@@ -149,24 +146,9 @@ public:
 /************** 8bits **************/
 
 template <typename T_in, typename T_out>
-uint8_t histogramExpansion(OCTET ImgPixel, bool recropPixels, Paillier<T_in, T_out> paillier)
-{
-	uint8_t pixel;
-	if (recropPixels)
-	{
-		pixel = (ImgPixel * this->model->getInstance()->getPublicKey().getN()) / 256;
-	}
-	else
-	{
-		pixel = ImgPixel;
-	}
-	return pixel;
-}
-
-template <typename T_in, typename T_out>
 void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Paillier<T_in, T_out> paillier)
 {
-	string s_file = this->getCFile();
+	string s_file = getCFile();
 
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
@@ -179,8 +161,8 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
 	int nH, nW, nTaille;
-	uint64_t n = this->model->getInstance()->getPublicKey().getN();
-	uint64_t g = this->model->getInstance()->getPublicKey().getG();
+	uint64_t n = model->getInstance()->getPublicKey().getN();
+	uint64_t g = model->getInstance()->getPublicKey().getG();
 
 	OCTET *ImgIn;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -197,7 +179,7 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 		uint64_t x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel = encrypt_pixel(recropPixels, ImgIn[i], paillier);
+			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
 
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			uint8_t pixel_enc_dec_x = pixel_enc / n;
@@ -224,7 +206,7 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel = encrypt_pixel(recropPixels, ImgIn[i], paillier);
+			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			ImgOutEnc[i] = pixel_enc;
 		}
@@ -240,7 +222,7 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 template <typename T_in, typename T_out>
 void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 {
-	string s_file = this->getCFile();
+	string s_file = getCFile();
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -253,9 +235,9 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 
 	int nH, nW, nTaille;
 	uint64_t n, lambda, mu;
-	lambda = this->model->getInstance()->getPrivateKey().getLambda();
-	mu = this->model->getInstance()->getPrivateKey().getMu();
-	n = this->model->getInstance()->getPrivateKey().getN();
+	lambda = model->getInstance()->getPrivateKey().getLambda();
+	mu = model->getInstance()->getPrivateKey().getMu();
+	n = model->getInstance()->getPrivateKey().getN();
 
 	OCTET *ImgOutDec;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -305,9 +287,9 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 }
 
 template <typename T_in, typename T_out>
-void encryptCompression(Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier)
 {
-	string s_file = this->getCFile();
+	string s_file = getCFile();
 
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
@@ -320,8 +302,8 @@ void encryptCompression(Paillier<T_in, T_out> paillier)
 	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
 	int nH, nW, nTaille;
-	uint64_t n = this->model->getInstance()->getPublicKey().getN();
-	uint64_t g = this->model->getInstance()->getPublicKey().getG();
+	uint64_t n = model->getInstance()->getPublicKey().getN();
+	uint64_t g = model->getInstance()->getPublicKey().getG();
 
 	OCTET *ImgIn;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -338,7 +320,7 @@ void encryptCompression(Paillier<T_in, T_out> paillier)
 		uint64_t x = 0, y = 1;
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel = encrypt_pixel(recropPixels, ImgIn[i], paillier);
+			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
 
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			uint8_t pixel_enc_dec_x = pixel_enc / n;
@@ -365,7 +347,7 @@ void encryptCompression(Paillier<T_in, T_out> paillier)
 
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint8_t pixel = encrypt_pixel(recropPixels, ImgIn[i], paillier);
+			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			ImgOutEnc[i] = pixel_enc;
 		}
@@ -379,10 +361,10 @@ void encryptCompression(Paillier<T_in, T_out> paillier)
 }
 
 template <typename T_in, typename T_out>
-void decryptCompression(Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::decryptCompression(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 {
-	
-	string s_file = this->getCFile();
+
+	string s_file = getCFile();
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());
 
@@ -395,9 +377,9 @@ void decryptCompression(Paillier<T_in, T_out> paillier)
 
 	int nH, nW, nTaille;
 	uint64_t n, lambda, mu;
-	lambda = this->model->getInstance()->getPrivateKey().getLambda();
-	mu = this->model->getInstance()->getPrivateKey().getMu();
-	n = this->model->getInstance()->getPrivateKey().getN();
+	lambda = model->getInstance()->getPrivateKey().getLambda();
+	mu = model->getInstance()->getPrivateKey().getMu();
+	n = model->getInstance()->getPrivateKey().getN();
 
 	OCTET *ImgOutDec;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
@@ -444,7 +426,6 @@ void decryptCompression(Paillier<T_in, T_out> paillier)
 		free(ImgIn);
 		free(ImgOutDec);
 	}
-
 }
 
 #endif // PAILLIERCONTROLLER_PGM

@@ -451,47 +451,47 @@ def traiterResultats(f_pix, p,q) :
 ############### Courbes
 
     # Pixels chiffrés
-    avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
     avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False,g)
 
     # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
 
 
-    # Pixels chiffrés inversés.
-    t_pix_enc_inv= []
-    for i in range(size_vec_r):
-        t_pix_enc_inv_row= []
-        for j in range(n):
-            x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
-            t_pix_enc_inv_row.append(x)
-            # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
+    # # Pixels chiffrés inversés.
+    # t_pix_enc_inv= []
+    # for i in range(size_vec_r):
+    #     t_pix_enc_inv_row= []
+    #     for j in range(n):
+    #         x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
+    #         t_pix_enc_inv_row.append(x)
+    #         # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
 
-        t_pix_enc_inv.append(t_pix_enc_inv_row)
+    #     t_pix_enc_inv.append(t_pix_enc_inv_row)
 
-    avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True,g)
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    # avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True,g)
 
     # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
 
     # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
-    avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, g)
+    # avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, g)
 
 
 def main() :
     
-    dossier_images = "StatG3_83\\"
-    file_tab = []
-    for fichier in os.listdir(dossier_images):
-        if fichier.endswith(".txt") :
-            file_tab.append(dossier_images+fichier)
+    # dossier_images = "StatG3_83\\"
+    # file_tab = []
+    # for fichier in os.listdir(dossier_images):
+    #     if fichier.endswith(".txt") :
+    #         file_tab.append(dossier_images+fichier)
 
-    p = 3
-    q = 83
+    # p = 3
+    # q = 83
 
-    for i in range(len(file_tab)): 
-        traiterResultats(file_tab[i], p, q)
+    # for i in range(len(file_tab)): 
+    #     traiterResultats(file_tab[i], p, q)
 
 
 

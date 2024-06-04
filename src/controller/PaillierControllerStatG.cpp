@@ -249,6 +249,7 @@ void PaillierControllerStatG::calc_encrypt_10_g()
         {
 
             uint64_t g = paillier.generate_g_64t(getModel()->getN(), getModel()->getLambda());
+            printf("Pub Key N = %" PRIu64 "\n", getModel()->getPublicKey().getN());
 
             getModel()->setG(g);
             mu = 0;

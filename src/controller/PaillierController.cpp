@@ -115,12 +115,16 @@ void PaillierController::generateAndSaveKeyPair()
         this->view->getInstance()->error_failure("ERROR with g, no value found for g where mu exist.\n");
         exit(EXIT_FAILURE);
     }
+    this->model->getInstance()->setMu(mu);
+    this->model->getInstance()->setG(g);
 
-    this->model->getInstance()->setPrivateKey(PaillierPrivateKey(this->model->getInstance()->getLambda(), 
-                                                                 this->model->getInstance()->getMu()));
+    PaillierPrivateKey tempPK = PaillierPrivateKey(this->model->getInstance()->getLambda(), 
+                                                this->model->getInstance()->getMu());
+    PaillierPublicKey tempPubK = PaillierPublicKey(this->model->getInstance()->getN(),
+                                                                this->model->getInstance()->getG());
 
-    this->model->getInstance()->setPublicKey(PaillierPublicKey(this->model->getInstance()->getN(),
-                                                                this->model->getInstance()->getG()));
+    this->model->getInstance()->setPrivateKey(tempPK);
+    this->model->getInstance()->setPublicKey(tempPubK);
 
     if (this->model->getInstance()->getLambda() == 0 ||
         this->model->getInstance()->getMu() == 0 ||
