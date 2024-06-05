@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Image obscuration 👋</h1>
+<h1 align="center">Welcome to Code base obscuration (for images) 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1-blue.svg?cacheSeconds=2592000" />
 </p>
@@ -37,6 +37,7 @@ $ make -f [makefile]
 
 ### Cryptosystem Paillier : Stat
 
+*In progress...*
 
 ### Cryptosystem Paillier : PGM
 #### Encryption
