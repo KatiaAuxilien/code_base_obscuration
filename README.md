@@ -27,6 +27,17 @@ $ make -f [makefile]
 
 ## Usage
 
+### Obscuration 
+
+*In progress...*
+
+### AES
+
+*In progress...*
+
+### Cryptosystem Paillier : Stat
+
+
 ### Cryptosystem Paillier : PGM
 #### Encryption
 ```sh
