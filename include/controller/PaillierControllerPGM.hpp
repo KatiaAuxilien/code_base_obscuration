@@ -23,7 +23,8 @@
 #include <string>
 #include <string_view>
 #include <stdio.h>
-#include <ctype.h>
+#include <ctype.h> //uintN_t
+#include <bitset> //Bitwise operators
 
 #include "../../include/controller/PaillierController.hpp"
 #include "../../include/model/image/image_portable.hpp"
@@ -104,6 +105,17 @@ public:
 	 */
 	template <typename T_in, typename T_out>
 	void encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier);
+
+	/**
+	 *  \brief
+	 *  \details
+	 *  \param uint16_t *pt_image
+	 *	\param int nb_lignes
+	 	\param int nb_colonnes
+	 *  \authors Katia Auxilien
+	 *  \date 05/06/2024
+	 */
+	void manipulateBits(uint16_t *pt_image, int nb_lignes, int nb_colonnes);
 
 	/**
 	 *  \brief
@@ -289,6 +301,7 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 template <typename T_in, typename T_out>
 void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier)
 {
+
 	string s_file = getCFile();
 
 	char cNomImgLue[250];
@@ -308,6 +321,8 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 	OCTET *ImgIn;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
 
+	// vector<uint64_t> setZNZStar = paillier.get_set_ZNZStar(n);
+
 	if (distributeOnTwo)
 	{
 		uint8_t *ImgOutEnc;
@@ -318,10 +333,12 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 		image_pgm::lire_image_p(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutEnc, OCTET, nH * (2 * nW));
 		uint64_t x = 0, y = 1;
+
+		
 		for (int i = 0; i < nTaille; i++)
 		{
 			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
-
+	//TODO : 
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 			uint8_t pixel_enc_dec_x = pixel_enc / n;
 			uint8_t pixel_enc_dec_y = pixel_enc % n;
@@ -349,8 +366,16 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 		{
 			uint8_t pixel = histogramExpansion(ImgIn[i],recropPixels);
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
+
+			while(pixel_enc % 32 != 0){
+				pixel_enc = paillier.paillierEncryption(n, g, pixel);
+	
+			}
+			
 			ImgOutEnc[i] = pixel_enc;
 		}
+
+
 
 		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
 
@@ -363,7 +388,6 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 template <typename T_in, typename T_out>
 void PaillierControllerPGM::decryptCompression(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
 {
-
 	string s_file = getCFile();
 	char cNomImgLue[250];
 	strcpy(cNomImgLue, s_file.c_str());

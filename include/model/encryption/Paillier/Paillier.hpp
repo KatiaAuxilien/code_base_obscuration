@@ -22,10 +22,7 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
-#include <random>
-// #include "../../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
-// #include "../../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
-// #include "../../../../include/model/image/image_pgm.hpp"
+#include <random> //Randomdevice and mt19937
 
 using namespace std;
 
@@ -67,7 +64,7 @@ public:
      *  \brief Calcul de l'exponentiation modulaire rapide.
      *  \details Calcul de l'exponentiation modulaire rapide.
      *  \param uint64_t x
-     *  \param uint64_t i puissance
+     *  \param uint64_t e puissance
      * 	\param uint64_t n modulo
      *  \authors Katia Auxilien
      *  \date 30/04/2024

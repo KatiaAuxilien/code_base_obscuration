@@ -196,6 +196,33 @@ uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPix
 }
 /*********************** Chiffrement/Déchiffrement ***********************/
 
+void manipulateBits(uint16_t * ImgInEnc, int nb_lignes, int nb_colonnes){
+	int nbPixel = nb_colonnes * nb_lignes;
+
+	int bits_used = 11;
+	int bits_to_take = 5;
+
+	int j = 0; //
+	for(int i = 1; i < nbPixel -1; i++){
+
+		uint16_t new_bits = ImgInEnc[i] >> 16 - bits_to_take ;
+
+		ImgInEnc[j] = ImgInEnc[j] | new_bits;
+
+		ImgInEnc[i] = ImgInEnc[i] << bits_to_take;
+
+		if(bits_to_take <= 11){
+			j++;
+		}
+		
+		bits_used = bits_used - bits_to_take;
+		bits_to_take = 16 - bits_used;
+
+	}
+
+}
+
+
 /************** n > 8bits**************/
 /*
 template <typename T_in, typename T_out>

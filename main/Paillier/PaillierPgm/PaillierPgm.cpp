@@ -32,7 +32,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	PaillierControllerPGM* controller = new PaillierControllerPGM();
+	PaillierControllerPGM *controller = new PaillierControllerPGM();
 
 	/*********************** Traitement d'arguments ***********************/
 
@@ -73,8 +73,16 @@ int main(int argc, char **argv)
 		printf("Pub Key N = %" PRIu64 "\n", controller->getModel()->getPublicKey().getN());
 		if (n <= 256)
 		{
-			Paillier<uint8_t, uint16_t> paillier;
-			controller->encrypt(distributeOnTwo, recropPixels,paillier);
+			if (!optimisationLSB)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->encrypt(distributeOnTwo, recropPixels, paillier);
+			}
+			if (optimisationLSB)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->encryptCompression(distributeOnTwo, recropPixels, paillier);
+			}
 		}
 		// else if (n > 256 && n <= 65535)
 		// {
@@ -94,8 +102,16 @@ int main(int argc, char **argv)
 		printf("Priv Key mu = %" PRIu64 "\n", controller->getModel()->getPrivateKey().getMu());
 		if (n <= 256)
 		{
-			Paillier<uint8_t, uint16_t> paillier;
-			controller->decrypt(distributeOnTwo,paillier);
+			if (!optimisationLSB)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->decrypt(distributeOnTwo, paillier);
+			}
+			if (optimisationLSB)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->decryptCompression(distributeOnTwo, paillier);
+			}
 		}
 		// else if (n > 256 && n <= 65535)
 		// {
