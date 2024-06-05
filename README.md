@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-1-blue.svg?cacheSeconds=2592000" />
 </p>
 
->  Repository dedicated to an internship in the ICAR team at LIRMM. 
+>  Repository dedicated to an internship in the ICAR team at LIRMM. It implements different obscuration methods on portable images (.pgm and .ppm).
 
 
 ## Installation
