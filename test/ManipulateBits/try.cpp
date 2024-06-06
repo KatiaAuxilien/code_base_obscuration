@@ -3,6 +3,11 @@
 #include <random>
 #include <iostream>
 
+/**
+ * @brief 
+ * 
+ * @return uint16_t 
+ */
 uint16_t randomBits(){
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -65,21 +70,21 @@ int main(int argc, char const *argv[])
             i++;
 		}
          bits_to_take = (bits_to_take + 5) % 16;
-            bits_used = 16 - bits_to_take;
+        bits_used = 16 - bits_to_take;
 
 	}
     // ImgInEnc[nbPixel - 1] = ImgInEnc[nbPixel - 1] << bits_used;
 
 
     
-    // for(int i = 0; i < nbPixel; i++)
-    // {
-    //     std::cout << "["<< i <<"] : " << std::bitset<16>(ImgInEnc[i]) << "\n";
-    // }
+    for(int i = 0; i < nbPixel; i++)
+    {
+        std::cout << "["<< i <<"] : " << std::bitset<16>(ImgInEnc[i]) << "\n";
+    }
 
 
-	bits_used = 11;
-	bits_to_take = 5;
+    bits_used = 11;
+    bits_to_take = 5;
 
     uint16_t ImgOutEnc[nbPixel];
     j = nbPixel - 1;
@@ -87,34 +92,32 @@ int main(int argc, char const *argv[])
 
     while(i >= 0){
 
-        ImgOutEnc[i] = ImgInEnc[i] >> bits_to_take;
-        ImgOutEnc[i] = ImgInEnc[i] | (ImgInEnc[j] << (16 - bits_to_take));
-        
+        // ImgOutEnc[j] = ImgInEnc[j] << bits_used;
+        // ImgOutEnc[j] = ImgOutEnc[j] | (ImgInEnc[i] >> bits_to_take);
 
-		uint16_t new_bits;
-        new_bits = ImgInEnc[j] >> bits_to_take;
-        ImgOutEnc[j] = new_bits << bits_to_take;
+        // ImgOutEnc[i] = ImgInEnc[i] >> bits_to_take;
 
-        if(bits_to_take <= 11){
-            j--;
-            i--;
-        }
-        bits_to_take = (bits_to_take + 5) % 16;
-        bits_used = 16 - bits_to_take;
+        // if(bits_to_take <= 11){
+        //     j--;
+        //     i--;
+        // }
+        // bits_to_take = (bits_to_take + 5) % 16;
+        // bits_used = 16 - bits_to_take;
     }
 
-    ImgOutEnc[0] = ImgInEnc[0] >> bits_used;
+    // ImgOutEnc[0] = ImgInEnc[0] >> bits_used;
 
-    for(int i = 0; i < nbPixel; i++)
-    {
-        std::cout << "["<< i <<"] : " << std::bitset<16>(ImgOutEnc[i]) << "\n";
-    }
+    // for(int i = 0; i < nbPixel; i++)
+    // {
+    //     std::cout << "["<< i <<"] : " << std::bitset<16>(ImgOutEnc[i]) << "\n";
+    // }
 
     for(int i = 0; i < nbPixel ; i++){
         if(test[i] != ImgOutEnc[i]){
-            std::cout << "Echec " << "\n";
+            std::cout << "Echec " << i << "\n";
         }
     }
+
 
     return 0;
 }

@@ -12,7 +12,7 @@ uint16_t randomBits(){
 
 int main(int argc, char const *argv[])
 {
-    int nbPixel = 512*512;
+    int nbPixel = 3*5;
 
     uint16_t ImgInEnc[nbPixel];
 
