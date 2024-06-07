@@ -113,9 +113,21 @@ public:
 	 *	\param int nb_lignes
 	 	\param int nb_colonnes
 	 *  \authors Katia Auxilien
-	 *  \date 05/06/2024
+	 *  \date 07/07/2024
 	 */
-	void manipulateBits(uint16_t *pt_image, int nb_lignes, int nb_colonnes);
+	uint16_t * compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes);
+
+	/**
+	 *  \brief
+	 *  \details
+	 *  \param uint16_t *pt_image
+	 *	\param int nb_lignes
+	 	\param int nb_colonnes
+	 *  \authors Katia Auxilien
+	 *  \date 07/07/2024
+	 */
+	uint16_t * decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes);
+
 
 	/**
 	 *  \brief
