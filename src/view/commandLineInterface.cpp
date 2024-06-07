@@ -21,7 +21,6 @@ commandLineInterface::~commandLineInterface(){};
 
 commandLineInterface *commandLineInterface ::instancePtr = NULL;
 
-
 void commandLineInterface::error_failure(string msg) const{
     cmd_colorError();
     fprintf(stderr,"%s",msg.c_str());
@@ -46,4 +45,15 @@ void commandLineInterface::cmd_colorError() const
 void commandLineInterface::cmd_colorWarning() const
 {
     fprintf(stderr, BYEL);
+}
+
+void commandLineInterface::cmd_colorHelping() const{
+    fprintf(stderr, BHCYN);
+}
+
+
+void commandLineInterface::help(string msg) const {
+    cmd_colorHelping();
+    printf("%s",msg.c_str());
+    cmd_colorStandard();
 }

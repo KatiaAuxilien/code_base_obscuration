@@ -52,133 +52,220 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 	this->convertToLower(arg_in, size_arg);
 
 	/********** Initialisation de param[] à false. *************/
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		param[i] = false;
 	}
 
-	/**************** First param ******************/
-	if (!strcmp(arg_in[1], "e") || !strcmp(arg_in[1], "enc") || !strcmp(arg_in[1], "encrypt") || !strcmp(arg_in[1], "encryption"))
+	/********** Initialisation de param[] à false. *************/
+	for (int i = 0; i < size_arg; i++)
 	{
-		param[0] = true;
-	}
-	else if (!strcmp(arg_in[1], "d") || !strcmp(arg_in[1], "dec") || !strcmp(arg_in[1], "decrypt") || !strcmp(arg_in[1], "decryption"))
-	{
-		param[0] = false;
-		param[1] = true;
-	}
-	else
-	{
-		this->view->getInstance()->error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
-		exit(EXIT_FAILURE);
-	}
-	/**************** ... param ******************/
-
-	bool isFilePGM = false;
-	bool isFileBIN = false;
-
-	int i = 2;
-	if (param[0] == true && (strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
-	{
-		uint64_t p = this->check_p_q_arg(arg_in[2]);
-		if (p == 1)
+		if (strcmp(arg_in[i], "-h") == 0 || strcmp(arg_in[i], "-help") == 0)
 		{
+			param[5] = true;
+		}
+	}
+	if (!param[5])
+	{
+		/**************** First param ******************/
+		if (!strcmp(arg_in[1], "e") || !strcmp(arg_in[1], "enc") || !strcmp(arg_in[1], "encrypt") || !strcmp(arg_in[1], "encryption"))
+		{
+			param[0] = true;
+		}
+		else if (!strcmp(arg_in[1], "d") || !strcmp(arg_in[1], "dec") || !strcmp(arg_in[1], "decrypt") || !strcmp(arg_in[1], "decryption"))
+		{
+			param[0] = false;
+			param[1] = true;
+		}
+		else
+		{
+			this->view->getInstance()->error_failure("The first argument must be e, enc, encrypt, encryption or d, dec, decrypt, decryption (the case don't matter)\n");
 			exit(EXIT_FAILURE);
 		}
-		this->model->getInstance()->setP(p);
+		/**************** ... param ******************/
 
-		uint64_t q = this->check_p_q_arg(arg_in[3]);
-		if (q == 1)
+		bool isFilePGM = false;
+		bool isFileBIN = false;
+
+		int i = 2;
+		if (param[0] == true && (strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
 		{
-			exit(EXIT_FAILURE);
-		}
-		this->model->getInstance()->setQ(q);
-
-		uint64_t n = p * q;
-		this->model->getInstance()->setN(n);
-		Paillier<uint64_t, uint64_t> tempPaillier;
-		this->model->getInstance()->setPaillierGenerationKey(tempPaillier);
-
-		uint64_t pgc_pq = this->model->getInstance()->getPaillierGenerationKey().gcd_64t(p * q, (p - 1) * (q - 1));
-
-		if (pgc_pq != 1)
-		{
-			string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
-			this->getView()->error_failure(msg);
-			exit(EXIT_FAILURE);
-		}
-		uint64_t lambda = this->model->getInstance()->getPaillierGenerationKey().lcm_64t(p - 1, q - 1);
-
-		this->model->getInstance()->setLambda(lambda);
-
-		i = 4;
-		isFileBIN = true;
-	}
-
-	for (i = i; i < size_arg; i++)
-	{
-		// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
-
-		if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin")))
-		{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
-
-			if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
+			uint64_t p = this->check_p_q_arg(arg_in[2]);
+			if (p == 1)
 			{
-				this->setCKeyFile(arg_in[i + 1]);
-				param[1] = true;
-				i++;
-			}
-			if (param[1] == true)
-			{
-				this->setCKeyFile(arg_in[i]);
-			}
-			/****************** Check .bin file **************************/
-			string s_key_file = this->getCKeyFile();
-			ifstream file(this->getCKeyFile());
-			if (!file || !this->endsWith(s_key_file, ".bin"))
-			{
-				this->view->getInstance()->error_failure("The argument after -k or dec must be an existing .bin file.\n");
 				exit(EXIT_FAILURE);
 			}
+			this->model->getInstance()->setP(p);
+
+			uint64_t q = this->check_p_q_arg(arg_in[3]);
+			if (q == 1)
+			{
+				exit(EXIT_FAILURE);
+			}
+			this->model->getInstance()->setQ(q);
+
+			uint64_t n = p * q;
+			this->model->getInstance()->setN(n);
+			Paillier<uint64_t, uint64_t> tempPaillier;
+			this->model->getInstance()->setPaillierGenerationKey(tempPaillier);
+
+			uint64_t pgc_pq = this->model->getInstance()->getPaillierGenerationKey().gcd_64t(p * q, (p - 1) * (q - 1));
+
+			if (pgc_pq != 1)
+			{
+				string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
+				this->getView()->error_failure(msg);
+				exit(EXIT_FAILURE);
+			}
+			uint64_t lambda = this->model->getInstance()->getPaillierGenerationKey().lcm_64t(p - 1, q - 1);
+
+			this->model->getInstance()->setLambda(lambda);
+
+			i = 4;
 			isFileBIN = true;
 		}
-		else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
-		{
-			param[2] = true;
-		}
-		else if (!strcmp(arg_in[i], "-hexp") || !strcmp(arg_in[i], "-histogramexpansion"))
-		{
-			param[3] = true;
-		}
-		else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-		{
-			param[4] = true;
-		}
-		else if (this->endsWith(arg_in[i], ".pgm") && !isFilePGM)
-		{
-			this->setCFile(arg_in[i]);
-			string s_file = this->getCFile();
-			ifstream file(this->getCFile());
-			if (!file)
-			{
-				this->view->getInstance()->error_failure("The arguments must have an existing .pgm file.\n");
-				exit(EXIT_FAILURE);
-			}
-			isFilePGM = true;
-		}
-	}
 
-	if (!isFilePGM)
-	{
-		this->view->getInstance()->error_failure("The arguments must have a .pgm file.\n");
-		exit(EXIT_FAILURE);
-	}
-	if (param[1] == true && !isFileBIN)
-	{
-		this->view->getInstance()->error_failure("The argument after -k or dec must be a .bin file.\n");
-		exit(EXIT_FAILURE);
+		for (i = i; i < size_arg; i++)
+		{
+			// TODO : Gérer les cas où il y a deux fois -k ou -? ... dans la ligne de commande. pour éviter les erreurs.
+
+			if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (param[1] == true && endsWith(arg_in[i], ".bin")))
+			{ // TODO : 2 cas où on veut check si il y a un argument .bin après le -k OU après le premier argument d
+
+				if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
+				{
+					this->setCKeyFile(arg_in[i + 1]);
+					param[1] = true;
+					i++;
+				}
+				if (param[1] == true)
+				{
+					this->setCKeyFile(arg_in[i]);
+				}
+				/****************** Check .bin file **************************/
+				string s_key_file = this->getCKeyFile();
+				ifstream file(this->getCKeyFile());
+				if (!file || !this->endsWith(s_key_file, ".bin"))
+				{
+					this->view->getInstance()->error_failure("The argument after -k or dec must be an existing .bin file.\n");
+					exit(EXIT_FAILURE);
+				}
+				isFileBIN = true;
+			}
+			else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
+			{
+				param[2] = true;
+			}
+			else if (!strcmp(arg_in[i], "-hexp") || !strcmp(arg_in[i], "-histogramexpansion"))
+			{
+				param[3] = true;
+			}
+			else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
+			{
+				param[4] = true;
+			}
+			else if (this->endsWith(arg_in[i], ".pgm") && !isFilePGM)
+			{
+				this->setCFile(arg_in[i]);
+				string s_file = this->getCFile();
+				ifstream file(this->getCFile());
+				if (!file)
+				{
+					this->view->getInstance()->error_failure("The arguments must have an existing .pgm file.\n");
+					exit(EXIT_FAILURE);
+				}
+				isFilePGM = true;
+			}
+		}
+
+		if (!isFilePGM)
+		{
+			this->view->getInstance()->error_failure("The arguments must have a .pgm file.\n");
+			exit(EXIT_FAILURE);
+		}
+		if (param[1] == true && !isFileBIN)
+		{
+			this->view->getInstance()->error_failure("The argument after -k or dec must be a .bin file.\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 }
+
+void PaillierControllerPGM::printHelp()
+{
+	//TODO : FINIR LA PAGE MAN
+	this->view->getInstance()->help("./PaillierPgm.out\nNAME\n \t./PaillierPgm.out - Encrypt or decrypt .pgm file\nSYNOPSIS\n\t./PaillierPgm.out [MODE]... [OPTIONS]... [FILE]...\nDESCRIPTION");
+}
+
+/*
+#### Encryption
+```sh
+$ ./Paillier_pgm_main.out encryption [ARGUMENTS] [FILE.PGM]
+```
+```sh
+$ ./Paillier_pgm_main.out encrypt [ARGUMENTS] [FILE.PGM]
+```
+```sh
+$ ./Paillier_pgm_main.out enc [ARGUMENTS] [FILE.PGM]
+```
+```sh
+$ ./Paillier_pgm_main.out e [ARGUMENTS] [FILE.PGM]
+```
+
+#### Decryption
+
+```sh
+$ ./Paillier_pgm_main.out decryption [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
+```
+
+```sh
+$ ./Paillier_pgm_main.out decrypt [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
+```
+
+```sh
+$ ./Paillier_pgm_main.out dec [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
+```
+```sh
+$ ./Paillier_pgm_main.out d [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
+```
+
+The image to encrypt or to decrypt can be specify after the key or the options, or at the end.
+
+#### Options
+##### P and Q
+
+```sh
+$ ./Paillier_pgm_main.out encryption [p] [q] [FILE.PGM]
+```
+
+Encryption mode where you specify p and q arguments. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.
+
+##### Keys
+`-k` or `-key` to specify usage of private or public key, followed by `file.bin`, your key file.
+
+Encryption mode where you specify your public key file with format `.bin`.
+```sh
+$ ./Paillier_pgm_main.out encryption -k [PUBLIC KEY FILE .BIN] [FILE.PGM]
+```
+```sh
+$ ./Paillier_pgm_main.out encryption -key [PUBLIC KEY FILE .BIN] [FILE.PGM]
+```
+
+Decryption mode where you specify your private key with format `.bin`.
+The option ``-k` is optional, because it's obligatory to specify private key at decryption.
+```sh
+$ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
+```
+
+##### Others
+
+`-distribution` or `-distr` ou `-d` to split encrypted pixel on two pixel.
+
+`-histogramexpansion` ou `-hexp` to specify during **encryption** that we want to transform the histogram befor image encryption.
+
+`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation.
+
+*/
 
 uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPixels)
 {
@@ -196,92 +283,95 @@ uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPix
 }
 /*********************** Chiffrement/Déchiffrement ***********************/
 
-uint16_t * PaillierControllerPGM::compressBits(uint16_t * ImgInEnc, int nb_lignes, int nb_colonnes){
-	
+uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes)
+{
+
 	int nbPixel = nb_colonnes * nb_lignes;
-	if(nbPixel > 132710400)
+	if (nbPixel > 132710400)
 	{
 		this->view->getInstance()->error_failure("Maximum image size is 132 710 400 pixels.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	//Taille max image 15360*8640l
-    std::bitset<2123366400> finalSet;
-    int j = 0;
-    std::bitset<16> tempSet;
+	// Taille max image 15360*8640l
+	std::bitset<2123366400> finalSet;
+	int j = 0;
+	std::bitset<16> tempSet;
 
-    for (int i = 0; i < nbPixel; i++) {
-        tempSet = ImgInEnc[i];
-        for(int k = 15; k >=  5; k--)
-        {
-            finalSet.set(j, tempSet[k]);
-            j++;
-        }
-        std::cout << i << ' '<< tempSet << std::endl;
+	for (int i = 0; i < nbPixel; i++)
+	{
+		tempSet = ImgInEnc[i];
+		for (int k = 15; k >= 5; k--)
+		{
+			finalSet.set(j, tempSet[k]);
+			j++;
+		}
+		std::cout << i << ' ' << tempSet << std::endl;
+	}
 
-    }
+	int size_ImgIn11bits = nbPixel * 11;
 
-	int size_ImgIn11bits= nbPixel * 11;
-
-    for (int i = 0; i < size_ImgIn11bits; i++) {
-        std::cout << finalSet[i];
-        if ((i + 1) % 11 == 0) { // afficher un saut de ligne tous les 11 bits
-            std::cout << std::endl;
-        }
-    }
+	for (int i = 0; i < size_ImgIn11bits; i++)
+	{
+		std::cout << finalSet[i];
+		if ((i + 1) % 11 == 0)
+		{ // afficher un saut de ligne tous les 11 bits
+			std::cout << std::endl;
+		}
+	}
 
 	uint16_t ImgOutEnc16bits[12];
 
-    int k = 0;
-    for(int i = 0; i < 11; i++)
-    {
-        std::bitset<16> SetImgOutEnc16bits; 
-        for(int l = 0; l < 16 ; l++)
-        {
-            SetImgOutEnc16bits.set(l,finalSet[k]);
-            k++;
-        }
+	int k = 0;
+	for (int i = 0; i < 11; i++)
+	{
+		std::bitset<16> SetImgOutEnc16bits;
+		for (int l = 0; l < 16; l++)
+		{
+			SetImgOutEnc16bits.set(l, finalSet[k]);
+			k++;
+		}
 
-        ImgOutEnc16bits[i] = (uint16_t) SetImgOutEnc16bits.to_ulong();
+		ImgOutEnc16bits[i] = (uint16_t)SetImgOutEnc16bits.to_ulong();
 
-        std::bitset<16> setTest = ImgOutEnc16bits[i];
-    }
+		// std::bitset<16> setTest = ImgOutEnc16bits[i];
+	}
 
 	return ImgOutEnc16bits;
 }
 
-uint16_t * PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes){
-//TODO : Trouver une solution pour les valeurs comme 12, 192, 15, etc.
-    std::bitset<192> setTemp;
-    int j = 0;
-    for(int i = 0; i < 12; i++)
-    {
-        std::bitset<16> setImg = ImgInEnc[i];
-        for(int k = 0; k < 16 ; k ++){
-            setTemp.set(j,setImg[k]); 
-            j++;
-        }
-    }
+uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes)
+{
+	// TODO : Trouver une solution pour les valeurs comme 12, 192, 15, etc.
+	std::bitset<192> setTemp;
+	int j = 0;
+	for (int i = 0; i < 12; i++)
+	{
+		std::bitset<16> setImg = ImgInEnc[i];
+		for (int k = 0; k < 16; k++)
+		{
+			setTemp.set(j, setImg[k]);
+			j++;
+		}
+	}
 
-    std::cout << setTemp << std::endl;
+	std::cout << setTemp << std::endl;
 
-    //step 2 : On écrit ce bitset dans le tableau originalImg
-    uint16_t originalImg[15];
-    j=0;
-    for(int i = 0; i < 15 ; i ++)
-    {
-        std::bitset<16> setImg;
-        for(int k = 15; k >= 5; k--)
-        {
-            setImg.set(k,setTemp[j]);
-            j++;
-        }
-        originalImg[i] = (uint16_t) setImg.to_ulong();
-        std::cout << setImg << std::endl;
-    }
-
+	// step 2 : On écrit ce bitset dans le tableau originalImg
+	uint16_t originalImg[15];
+	j = 0;
+	for (int i = 0; i < 15; i++)
+	{
+		std::bitset<16> setImg;
+		for (int k = 15; k >= 5; k--)
+		{
+			setImg.set(k, setTemp[j]);
+			j++;
+		}
+		originalImg[i] = (uint16_t)setImg.to_ulong();
+		std::cout << setImg << std::endl;
+	}
 }
-
 
 /************** n > 8bits**************/
 /*

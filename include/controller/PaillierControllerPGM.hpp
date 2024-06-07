@@ -61,6 +61,13 @@ public:
 	 */
 	void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
+	/**
+	 * \brief Afficher le manuel du programme.
+	 * \author Katia Auxilien
+	 * \date 07/06/2024 16:41:00
+	 */
+	void printHelp();
+
 	/*********************** Chiffrement/Déchiffrement ***********************/
 	/**
 	 *  \brief

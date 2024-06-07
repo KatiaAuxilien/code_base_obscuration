@@ -14,10 +14,7 @@
  *
  *******************************************************************************/
 
-// #include "../../../include/model/image/image_pgm.hpp"
-// #include "../../../include/model/encryption/Paillier/Paillier.hpp"
-// #include "../../../include/model/encryption/Paillier/keys/Paillier_private_key.hpp"
-// #include "../../../include/model/encryption/Paillier/keys/Paillier_public_key.hpp"
+
 #include "../../../include/controller/PaillierControllerPGM.hpp"
 
 #include <cctype>
@@ -36,13 +33,13 @@ int main(int argc, char **argv)
 
 	/*********************** Traitement d'arguments ***********************/
 
-	if (argc < 3)
+	if (argc < 3 && argc != 2)
 	{
 		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
 		return 1;
 	}
 
-	bool parameters[5];
+	bool parameters[6];
 	controller->checkParameters(argv, argc, parameters);
 
 	bool isEncryption = parameters[0];
@@ -50,6 +47,13 @@ int main(int argc, char **argv)
 	bool distributeOnTwo = parameters[2];
 	bool recropPixels = parameters[3];
 	bool optimisationLSB = parameters[4];
+	bool needHelp = parameters[5];
+
+	if(needHelp)
+	{
+		controller->printHelp();
+		exit(EXIT_SUCCESS);
+	}
 
 	/*********************** Traitement de clé ***********************/
 
@@ -126,4 +130,6 @@ int main(int argc, char **argv)
 	}
 
 	// delete controller;
+	exit(EXIT_SUCCESS);
+
 }

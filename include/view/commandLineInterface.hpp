@@ -46,6 +46,13 @@ public:
 	~commandLineInterface();
 
 	/**
+	 * @brief 
+	 * @author Katia Auxilien
+	 * @date 07/06/2024 16:47:00
+	 */
+	void help(string msg) const;
+
+	/**
 	 *  @brief
 	 *  @details
 	 *  @authors Katia Auxilien
@@ -84,6 +91,13 @@ private:
 	 *  @date 28/05/2024 15:33:00
 	 */
 	void cmd_colorWarning() const;
+
+	/**
+	 * @brief 
+	 * @author Katia Auxilien
+	 * @date 07/06/2024 16:47:00
+	 */
+	void cmd_colorHelping() const;
 };
 
 #endif // CMD_LINE_INTERFACE
