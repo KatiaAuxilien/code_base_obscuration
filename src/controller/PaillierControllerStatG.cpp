@@ -33,57 +33,72 @@ void PaillierControllerStatG::checkParameters(char *arg_in[], int size_arg, bool
     convertToLower(arg_in, size_arg);
 
     /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         param[i] = false;
     }
 
-    int i;
-
-    uint64_t p = check_p_q_arg(arg_in[1]);
-    if (p == 1)
+    for (int i = 0; i < size_arg; i++)
     {
-        getView()->error_failure("checkParameters : p == 1");
-        exit(EXIT_FAILURE);
-    }
-    getModel()->setP(p);
-
-    uint64_t q = check_p_q_arg(arg_in[2]);
-    if (q == 1)
-    {
-        getView()->error_failure("checkParameters : q == 1");
-        exit(EXIT_FAILURE);
-    }
-    getModel()->setQ(q);
-
-    Paillier<uint64_t, uint64_t> paillier;
-    uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
-
-    if (pgc_pq != 1)
-    {
-        string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
-        this->getView()->error_failure(msg);
-        exit(EXIT_FAILURE);
-    }
-    getModel()->setN(p * q);
-    getModel()->setPaillierGenerationKey(paillier);
-    uint64_t lambda = paillier.lcm_64t(p - 1, q - 1);
-
-    getModel()->setLambda(lambda);
-
-    i = 3;
-
-    for (i = i; i < size_arg; i++)
-    {
-        if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
+        if (strcmp(arg_in[i], "-h") == 0 || strcmp(arg_in[i], "-help") == 0)
         {
-            param[0] = true;
-        }
-        else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-        {
-            param[1] = true;
+            param[2] = true;
         }
     }
+    if (!param[2])
+    {
+        int i;
+
+        uint64_t p = check_p_q_arg(arg_in[1]);
+        if (p == 1)
+        {
+            getView()->error_failure("checkParameters : p == 1");
+            exit(EXIT_FAILURE);
+        }
+        getModel()->setP(p);
+
+        uint64_t q = check_p_q_arg(arg_in[2]);
+        if (q == 1)
+        {
+            getView()->error_failure("checkParameters : q == 1");
+            exit(EXIT_FAILURE);
+        }
+        getModel()->setQ(q);
+
+        Paillier<uint64_t, uint64_t> paillier;
+        uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
+
+        if (pgc_pq != 1)
+        {
+            string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
+            this->getView()->error_failure(msg);
+            exit(EXIT_FAILURE);
+        }
+        getModel()->setN(p * q);
+        getModel()->setPaillierGenerationKey(paillier);
+        uint64_t lambda = paillier.lcm_64t(p - 1, q - 1);
+
+        getModel()->setLambda(lambda);
+
+        i = 3;
+
+        for (i = i; i < size_arg; i++)
+        {
+            if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
+            {
+                param[0] = true;
+            }
+            else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
+            {
+                param[1] = true;
+            }
+        }
+    }
+}
+
+void PaillierControllerStatG::printHelp()
+{
+	this->view->getInstance()->help("./PaillierStatG.out\nNAME\n \t./PaillierStatG.out - Encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files.\n\nSYNOPSIS\n\t./PaillierStatG.out [p] [q] \n\nDESCRIPTION\n	Program to encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.\n\n");
 }
 
 void PaillierControllerStatG::calc_encrypt_all_g()
@@ -244,7 +259,6 @@ void PaillierControllerStatG::calc_encrypt_10_g()
 
         printf("sizevecg = %zu\n", size_vec_g);
 
-
         for (size_t j = 0; j < size_vec_g; j++)
         {
 
@@ -260,7 +274,6 @@ void PaillierControllerStatG::calc_encrypt_10_g()
                                             getModel()->getQ(),
                                             getModel()->getN(),
                                             getModel()->getG());
-
 
             if (mu == 0)
             {
@@ -299,12 +312,12 @@ void PaillierControllerStatG::calc_encrypt_10_g()
             /*********************** Instanciations de Paillier en fonction de n ***********************/
             uint16_t t_pix_enc[size_vec_r][getModel()->getPublicKey().getN()];
 
-                printf("size_vec_r = %" PRIu64 "\n", size_vec_r);
-                printf("size_vec_r = %" PRIu64 "\n", set_ZNZStar.size());
+            printf("size_vec_r = %" PRIu64 "\n", size_vec_r);
+            printf("size_vec_r = %" PRIu64 "\n", set_ZNZStar.size());
 
-                printf("n = %" PRIu64 "\n", getModel()->getPublicKey().getN());
-                printf("n = %" PRIu64 "\n", getModel()->getN());
-    
+            printf("n = %" PRIu64 "\n", getModel()->getPublicKey().getN());
+            printf("n = %" PRIu64 "\n", getModel()->getN());
+
             /*********************** Chiffrement ***********************/
 
             for (size_t k = 0; k < size_vec_r; k++)
@@ -321,7 +334,7 @@ void PaillierControllerStatG::calc_encrypt_10_g()
             }
 
             FILE *file_enc_pix = NULL;
-            string titre = "results_pix_"+std::to_string(getModel()->getPublicKey().getG())+".txt";
+            string titre = "results_pix_" + std::to_string(getModel()->getPublicKey().getG()) + ".txt";
             file_enc_pix = fopen(titre.c_str(), "w+");
 
             if (file_enc_pix == NULL)
@@ -330,7 +343,7 @@ void PaillierControllerStatG::calc_encrypt_10_g()
                 exit(1);
             }
 
-            fprintf(file_enc_pix,"%" PRIu64 "", getModel()->getPublicKey().getG());
+            fprintf(file_enc_pix, "%" PRIu64 "", getModel()->getPublicKey().getG());
             fprintf(file_enc_pix, "\n");
             fprintf(file_enc_pix, "%" PRIu64 "", getModel()->getPublicKey().getN());
             fprintf(file_enc_pix, "\n");

@@ -193,79 +193,8 @@ void PaillierControllerPGM::checkParameters(char *arg_in[], int size_arg, bool p
 
 void PaillierControllerPGM::printHelp()
 {
-	//TODO : FINIR LA PAGE MAN
-	this->view->getInstance()->help("./PaillierPgm.out\nNAME\n \t./PaillierPgm.out - Encrypt or decrypt .pgm file\nSYNOPSIS\n\t./PaillierPgm.out [MODE]... [OPTIONS]... [FILE]...\nDESCRIPTION");
+	this->view->getInstance()->help("./PaillierPgm.out\nNAME\n \t./PaillierPgm.out - Encrypt or decrypt .pgm file\n\nSYNOPSIS\n\t./PaillierPgm.out [MODE]... [OPTIONS]... [FILE]...	\n\nDESCRIPTION\n	Program to encrypt or decrypt portable graymap file format.	\n\nOPTIONS	\n\t./Paillier_pgm_main.out encryption [ARGUMENTS] [FILE.PGM]	\n\t./Paillier_pgm_main.out encrypt [ARGUMENTS] [FILE.PGM]	\n\t./Paillier_pgm_main.out enc [ARGUMENTS] [FILE.PGM]	\n\t./Paillier_pgm_main.out e [ARGUMENTS] [FILE.PGM]\n\t\t encrypt file.\n	\n\t./Paillier_pgm_main.out decryption [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]	\n\t./Paillier_pgm_main.out decrypt [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]	\n\t./Paillier_pgm_main.out dec [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]	\n\t./Paillier_pgm_main.out d [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]*\n\t\tdecrypt file.	\n\t\tThe image to encrypt or to decrypt can be specify after the key or the options, or at the end.	\n	\n\t./Paillier_pgm_main.out encryption [p] [q] [FILE.PGM]	\n\t\t Encryption mode where you specify p and q arguments. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.	\n\n\t-k, -key	\n\t\t specify usage of private or public key, followed by file.bin, your key file. Encryption mode where you specify your public key file with format .bin.	\n\n\t./Paillier_pgm_main.out encryption -k [PUBLIC KEY FILE .BIN] [FILE.PGM]	\n\t./Paillier_pgm_main.out encryption -key [PUBLIC KEY FILE .BIN] [FILE.PGM]	\n\t./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]	\n\t\tdecryption mode where you specify your private key with format .bin. The option -k is optional, because it\'s obligatory to specify private key at decryption.\n\n\t-distribution, -distr, -d	\n\t\tto split encrypted pixel on two pixel.\n	\n\t-histogramexpansion,-hexp	\n\t\tto specify during **encryption** that we want to transform the histogram befor image encryption.\n	\n\t-optlsbr, -olsbr\n\tto specify that we want to use bit compression with encrypted through optimized r generation.\n\n");
 }
-
-/*
-#### Encryption
-```sh
-$ ./Paillier_pgm_main.out encryption [ARGUMENTS] [FILE.PGM]
-```
-```sh
-$ ./Paillier_pgm_main.out encrypt [ARGUMENTS] [FILE.PGM]
-```
-```sh
-$ ./Paillier_pgm_main.out enc [ARGUMENTS] [FILE.PGM]
-```
-```sh
-$ ./Paillier_pgm_main.out e [ARGUMENTS] [FILE.PGM]
-```
-
-#### Decryption
-
-```sh
-$ ./Paillier_pgm_main.out decryption [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
-```
-
-```sh
-$ ./Paillier_pgm_main.out decrypt [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
-```
-
-```sh
-$ ./Paillier_pgm_main.out dec [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
-```
-```sh
-$ ./Paillier_pgm_main.out d [PRIVATE KEY FILE .BIN] [FILE.PGM] [ARGUMENTS]
-```
-
-The image to encrypt or to decrypt can be specify after the key or the options, or at the end.
-
-#### Options
-##### P and Q
-
-```sh
-$ ./Paillier_pgm_main.out encryption [p] [q] [FILE.PGM]
-```
-
-Encryption mode where you specify p and q arguments. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.
-
-##### Keys
-`-k` or `-key` to specify usage of private or public key, followed by `file.bin`, your key file.
-
-Encryption mode where you specify your public key file with format `.bin`.
-```sh
-$ ./Paillier_pgm_main.out encryption -k [PUBLIC KEY FILE .BIN] [FILE.PGM]
-```
-```sh
-$ ./Paillier_pgm_main.out encryption -key [PUBLIC KEY FILE .BIN] [FILE.PGM]
-```
-
-Decryption mode where you specify your private key with format `.bin`.
-The option ``-k` is optional, because it's obligatory to specify private key at decryption.
-```sh
-$ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
-```
-
-##### Others
-
-`-distribution` or `-distr` ou `-d` to split encrypted pixel on two pixel.
-
-`-histogramexpansion` ou `-hexp` to specify during **encryption** that we want to transform the histogram befor image encryption.
-
-`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation.
-
-*/
 
 uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPixels)
 {

@@ -35,13 +35,20 @@ int main(int argc, char **argv)
 	/*********************** Traitement d'arguments ***********************/
 	if (argc < 2)
 	{
-		printf("Usage : p q\n-k public_key.bin\n");
-		return 1;
+		printf("Usage : p q\n");
+		exit(EXIT_FAILURE);
 	}
-	bool parameters[2];
+	bool parameters[3];
 	controller->checkParameters(argv, argc, parameters);
 	bool distributeOnTwo = parameters[0];
 	bool optimisationLSB = parameters[1];
+	bool needHelp = parameters[2];
+
+	if(needHelp)
+	{
+		controller->printHelp();
+		exit(EXIT_SUCCESS);
+	}
 //TODO : Implémente la prise en charge des paramtères
 
 	/********************************************************************/

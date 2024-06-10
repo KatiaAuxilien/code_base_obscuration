@@ -36,14 +36,21 @@ int main(int argc, char **argv)
 	if (argc < 2)
 	{
 		printf("Usage : p q\n-k public_key.bin\n");
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 
-	bool parameters[3];
+	bool parameters[4];
 	controller->checkParameters(argv, argc, parameters);
 	bool useKeys = parameters[0];
 	bool distributeOnTwo = parameters[1];
 	bool optimisationLSB = parameters[2];
+	bool needHelp = parameters[3];
+
+	if(needHelp)
+	{
+		controller->printHelp();
+		exit(EXIT_SUCCESS);
+	}
 
 	/********************************************************************/
 

@@ -32,13 +32,22 @@ void PaillierControllerStatR::checkParameters(char *arg_in[], int size_arg, bool
 {
     convertToLower(arg_in, size_arg);
     /********** Initialisation de param[] à false. *************/
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         param[i] = false;
     }
 
     bool isFileBIN = false;
 
+    for (int i = 0; i < size_arg; i++)
+    {
+        if (strcmp(arg_in[i], "-h") == 0 || strcmp(arg_in[i], "-help") == 0)
+        {
+            param[3] = true;
+        }
+    }
+    if (!param[3])
+    {
     int i = 0;
     if ((strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
     {
@@ -117,6 +126,11 @@ void PaillierControllerStatR::checkParameters(char *arg_in[], int size_arg, bool
         getView()->error_failure("The argument after -k or dec must be a .bin file.\n");
         exit(EXIT_FAILURE);
     }
+    }
+}
+
+void PaillierControllerStatR::printHelp(){
+    this->view->getInstance()->help("./PaillierStatR.out\nNAME\n \t./PaillierStatR.out - Encrypt message from 0 to n with all possible valeus or r and return results with .bin file.\n\nSYNOPSIS\n\t./PaillierStatR.out [OPTIONS] \n\nDESCRIPTION\n	Program to encrypt message from 0 to n with all possible valeus or r and return results with .bin file.\n     \n\t./PaillierStatR.out p q    \n\t\tspecify p and q arguments. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.   \n \n\t./PaillierStatR.out -k [PUBLIC KEY FILE]    \n\t./PaillierStatR.out -key [PUBLIC KEY FILE]    \n\t\tspecify usage of public key, followed by file.bin, your key file.    \n\n");
 }
 
 void PaillierControllerStatR::calc_encrypt()
