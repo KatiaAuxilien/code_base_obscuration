@@ -73,8 +73,6 @@ int main(int argc, char **argv)
 
 	if (isEncryption)
 	{
-		printf("Pub Key G = %" PRIu64 "\n", controller->getModel()->getPublicKey().getG());
-		printf("Pub Key N = %" PRIu64 "\n", controller->getModel()->getPublicKey().getN());
 		if (n <= 256)
 		{
 			if (!optimisationLSB)
@@ -102,8 +100,6 @@ int main(int argc, char **argv)
 	/*********************** Déchiffrement ***********************/
 	else
 	{
-		printf("Priv Key lambda = %" PRIu64 "\n", controller->getModel()->getPrivateKey().getLambda());
-		printf("Priv Key mu = %" PRIu64 "\n", controller->getModel()->getPrivateKey().getMu());
 		if (n <= 256)
 		{
 			if (!optimisationLSB)
@@ -129,7 +125,5 @@ int main(int argc, char **argv)
 		}
 	}
 
-	// delete controller;
 	exit(EXIT_SUCCESS);
-
 }
