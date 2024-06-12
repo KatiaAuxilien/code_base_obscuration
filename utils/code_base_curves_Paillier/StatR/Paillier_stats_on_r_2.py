@@ -9,14 +9,14 @@ import pickle
 
 ############### En fonction de r
 
-    ""
-    @param t_pix_enc
-    @param vector_r_values
-    @param n
-    @param size_vec_r
-    @param p
-    @param q
-    ""
+    # ""
+    # @param t_pix_enc
+    # @param vector_r_values
+    # @param n
+    # @param size_vec_r
+    # @param p
+    # @param q
+    # ""
 def avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n,size_vec_r, p, q):
     t_k = [2,4,8,16,32,64,128,256]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
