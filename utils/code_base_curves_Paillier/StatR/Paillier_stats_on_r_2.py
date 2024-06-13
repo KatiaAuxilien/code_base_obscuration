@@ -9,14 +9,14 @@ import pickle
 
 ############### En fonction de r
 
-    # ""
-    # @param t_pix_enc
-    # @param vector_r_values
-    # @param n
-    # @param size_vec_r
-    # @param p
-    # @param q
-    # ""
+####
+# @param t_pix_enc
+# @param vector_r_values
+# @param n
+# @param size_vec_r
+# @param p
+# @param q
+###
 def avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n,size_vec_r, p, q):
     t_k = [2,4,8,16,32,64,128,256]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
@@ -213,13 +213,17 @@ def avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
         fig.suptitle(title)
         
         ax1.plot(x, t_pix_avg_0,label="Average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 0",color=color_main_curve[k])
-        ax1.set_ylabel('Average number of encrypted pixel by Paillier where E(x) modulo '+str(mod)+' = 0')
+        # ax1.set_ylabel('Average number of encrypted pixel by Paillier where E(x) modulo '+str(mod)+' = 0')
+        ax1.set_ylabel('E(x) modulo '+str(mod)+' = 0')
+
         ax1.grid()
         # ax1.legend()
         
-        ax2.plot(x, t_pix_avg_1,label="average encrypted pixel modulo "+str(mod)+" = 1",color=color_main_curve[k])
+        ax2.plot(x, t_pix_avg_1,label="Average encrypted pixel modulo "+str(mod)+" = 1",color=color_main_curve[k])
         ax2.set_xlabel('Init pixel value')
-        ax2.set_ylabel('Average number of Moyenne des chiffrés modulo '+str(mod)+' = 1')
+        # ax2.set_ylabel('Average number of Moyenne des chiffrés modulo '+str(mod)+' = 1')
+        ax2.set_ylabel('E(x) modulo '+str(mod)+' = 1')
+
         ax2.grid()
         # ax2.legend()
 
@@ -276,26 +280,33 @@ def avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
         # plt.ylabel('Moyenne des chiffrés modulo '+str(mod)+'')
 
 
-        ax1.plot(x, t_pix_avg_0,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 0",color=color_main_curve[k])
-        ax1.legend()
-        ax1.set_ylabel('Average number of encrypted pixel where E(x) modulo '+str(mod)+'= 0')
+        # ax1.plot(x, t_pix_avg_0,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 0",color=color_main_curve[k])
+        ax1.plot(x, t_pix_avg_0,color=color_main_curve[k])
+        # ax1.legend()
+        # ax1.set_ylabel('Average number of encrypted pixel where E(x) modulo '+str(mod)+'= 0')
+        ax1.set_ylabel('E(x) modulo '+str(mod)+'= 0')
         ax1.grid()
 
-        ax2.plot(x, t_pix_avg_1,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 1",color=color_main_curve[k+1])
-        ax2.legend()
+        # ax2.plot(x, t_pix_avg_1,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 1",color=color_main_curve[k+1])
+        ax2.plot(x, t_pix_avg_1,color=color_main_curve[k+1])
+        # ax2.legend()
         ax2.grid()
-
-        ax3.plot(x, t_pix_avg_2,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 2",color=color_main_curve[k+2])
-        ax3.legend()
+        ax2.set_ylabel('E(x) modulo '+str(mod)+'= 1')
+        # ax3.plot(x, t_pix_avg_2,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 2",color=color_main_curve[k+2])
+        ax3.plot(x, t_pix_avg_2,color=color_main_curve[k+2])
+        # ax3.legend()
         ax3.grid()
-        ax3.set_ylabel('Average number of encrypted pixel where E(x) modulo '+str(mod)+'= 0')
+        # ax3.set_ylabel('Average number of encrypted pixel where E(x) modulo '+str(mod)+'= 0')
+        ax3.set_ylabel('E(x) modulo '+str(mod)+'= 2')
         ax3.set_xlabel('Init pixel value')
 
-        ax4.plot(x, t_pix_avg_3,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 3",color=color_main_curve[k+3])
-        ax4.legend()
+        # ax4.plot(x, t_pix_avg_3,label="average number of encrypted pixel by Paillier where E(x) modulo "+str(mod)+" = 3",color=color_main_curve[k+3])
+        ax4.plot(x, t_pix_avg_3,color=color_main_curve[k+3])
+        # ax4.legend()
         ax4.grid()
         ax4.set_xlabel('Init pixel value')
-        ax4.set_ylabel('Average number of encrypted pixel by Paillier where E(x) modulo '+str(mod)+' = 0')
+        # ax4.set_ylabel('Average number of encrypted pixel by Paillier where E(x) modulo '+str(mod)+' = 0')
+        ax4.set_ylabel('E(x) modulo '+str(mod)+' = 3')
 
         # for ax in fig.get_axes():
         #     ax.label_outer()
