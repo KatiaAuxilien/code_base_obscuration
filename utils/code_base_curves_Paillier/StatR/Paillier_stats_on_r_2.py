@@ -424,6 +424,57 @@ def avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_inv_enc, vector_r_
         plt.show()
 
             
+def avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, m):
+    t_k = [2,4,8,16,32,64,128,256, 512]
+    color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid","purple"]
+    color_avg_curve = ["darkred","orange","lightyellow","lightgreen","seagreen","turquoise","lightsteelblue","violet","indigo"]
+    color_ecart_type_curve = ["red","wheat","yellow","palegreen","darkgreen","dodgerblue","darkblue","mediumorchid","blueviolet"]
+
+    for k in range(len(t_k)):
+        mod = t_k[k]
+        t_pix_avg = []
+        t_count_mod_k = []
+        for i in range(n):
+            count_mod_k= 0
+            for j in range(size_vec_r):
+                val = t_pix_enc[j][i]
+                if(val % mod==0 and val < pow(2,m)):
+                    count_mod_k+=1
+            t_count_mod_k.append(count_mod_k)
+            t_pix_avg.append(count_mod_k/size_vec_r)
+
+        avg_pix = 0
+        ecart_type_pix = 0
+        sum = 0
+        sum_pow = 0
+        pow_avg = 0
+        var = 0
+        for i in range(n) :
+            sum += t_pix_avg[i]
+            sum_pow += pow(t_pix_avg[i], 2)
+        avg_pix = sum/n
+        pow_avg = sum_pow/n
+        var = pow_avg - pow(avg_pix,2)
+        ecart_type_pix = math.sqrt(var)
+
+        print("AVG mod "+str(mod)+ " : " + str(avg_pix))
+        print("Ecart type mod "+str(mod)+ " : " +str(ecart_type_pix))
+
+        x = np.arange(0, n)
+        y = t_pix_avg
+
+        plt.plot(x, y,label="average number of encrypted pixel where E(x) modulo "+str(mod)+" = 0 and E(x) < 2^"+str(m)+"",color=color_main_curve[k], marker='x')
+        plt.axhline(y = avg_pix, color = color_avg_curve[k],linestyle = 'dotted')
+        plt.axhline(y = avg_pix + ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
+        plt.axhline(y = avg_pix - ecart_type_pix /2, color = color_ecart_type_curve[k],linestyle = 'dashed')
+
+        plt.xlabel('Init pixel value')
+        plt.ylabel('Average number of encrypted pixel where E(x) modulo '+str(mod)+' = 0 and E(x) < 2^'+str(m)+'')
+        plt.title('Curve of the average number of encrypted pixel by paillier where E(x) modulo '+str(mod)+' = 0 and E(x) < 2^'+str(m)+' according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+        plt.grid()
+        plt.legend()
+        plt.show()
+
 
 
 
@@ -469,34 +520,39 @@ def main() :
 
 ############### Courbes
 
-    # Pixels chiffrés
-    avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
+    # # Pixels chiffrés
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
 
-    # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
+    # # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
+
+    #Pixels chiffrés % k et < 2^m
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 15)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 14)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 13)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 12)
+
+    # # Pixels chiffrés inversés.
+    # t_pix_enc_inv= []
+    # for i in range(size_vec_r):
+    #     t_pix_enc_inv_row= []
+    #     for j in range(n):
+    #         x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
+    #         t_pix_enc_inv_row.append(x)
+    #         # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
+
+    #     t_pix_enc_inv.append(t_pix_enc_inv_row)
+
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True)
+
+    # # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
 
 
-    # Pixels chiffrés inversés.
-    t_pix_enc_inv= []
-    for i in range(size_vec_r):
-        t_pix_enc_inv_row= []
-        for j in range(n):
-            x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
-            t_pix_enc_inv_row.append(x)
-            # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
-
-        t_pix_enc_inv.append(t_pix_enc_inv_row)
-
-    avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True)
-
-    # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
-
-
-    # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
-    avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q)
+    # # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
+    # avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q)
 
 
 ############### Initialisation, récupération des données.
@@ -543,34 +599,39 @@ def main() :
 
 ############### Courbes
 
-    # Pixels chiffrés
-    avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
+    # # Pixels chiffrés
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Curve of average number of encrypted pixel by Paillier, where E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False)
 
-    # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
+    # # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
+
+    #Pixels chiffrés % k et < 2^m
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 15)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 14)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 13)
+    avg_curve_mod_k_by_pixel_value_and_lessthan_m(t_pix_enc, vector_r_values, n, size_vec_r, p, q, 12)
+
+    # # Pixels chiffrés inversés.
+    # t_pix_enc_inv= []
+    # for i in range(size_vec_r):
+    #     t_pix_enc_inv_row= []
+    #     for j in range(n):
+    #         x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
+    #         t_pix_enc_inv_row.append(x)
+    #         # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
+
+    #     t_pix_enc_inv.append(t_pix_enc_inv_row)
+
+    # avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
+    # avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True)
+
+    # # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
 
 
-    # Pixels chiffrés inversés.
-    t_pix_enc_inv= []
-    for i in range(size_vec_r):
-        t_pix_enc_inv_row= []
-        for j in range(n):
-            x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
-            t_pix_enc_inv_row.append(x)
-            # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
-
-        t_pix_enc_inv.append(t_pix_enc_inv_row)
-
-    avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 2 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Curve of average number of bitwise complement of encrypted pixel by Paillier, where !E(x) modulo 4 = k, according to init pixel value, with p = '+str(p)+' and q = '+str(q)+'.')
-    avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True)
-
-    # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
-
-
-    # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
-    avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q)
+    # # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
+    # avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q)
 
 
 
