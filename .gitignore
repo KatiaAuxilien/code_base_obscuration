@@ -17,3 +17,6 @@ main/Paillier/Paillier_num/Paillier_num_main.out
 main/Paillier/Paillier_pgm/Paillier_public_key.bin
 main/Paillier/Paillier_num/Paillier_num_main.out
 main/Paillier/Paillier_pgm/Paillier_pgm_main.out
+main/Paillier/PaillierPgm/Paillier_private_key.bin
+main/Paillier/PaillierPgm/Paillier_public_key.bin
+obj/controller/PaillierControllerPGM.o

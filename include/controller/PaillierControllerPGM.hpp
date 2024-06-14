@@ -351,6 +351,7 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 		allocation_tableau(ImgIn, OCTET, nTaille);
 		image_pgm::lire_image_p(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutEnc, OCTET, nH * (2 * nW));
+
 		uint64_t x = 0, y = 1;
 
 		
@@ -367,14 +368,17 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 			y = y + 2;
 		}
 
+		// uint8_t *ImgOutEncComp = compressBits(ImgOutEnc,nH,nW);
 		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW * 2, n);
 
 		free(ImgIn);
 		free(ImgOutEnc);
+		// free(ImgOutEncComp);
 	}
 	else
 	{
 		uint16_t *ImgOutEnc;
+
 		nTaille = nH * nW;
 
 		allocation_tableau(ImgIn, OCTET, nTaille);
@@ -395,11 +399,14 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 		}
 
 
+		uint16_t *ImgOutEncComp = compressBits(ImgOutEnc,nH,nW);
 
-		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEncComp, nH, nW, n);
 
 		free(ImgIn);
 		free(ImgOutEnc);
+		delete[] ImgOutEncComp;
+
 		nTaille = nH * nW;
 	}
 }

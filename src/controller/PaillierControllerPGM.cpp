@@ -239,6 +239,7 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 	}
 
 	int size_ImgIn11bits = nbPixel * 11;
+	int size_ImgOutEnc16bits = ceil((double)size_ImgIn11bits/16);
 
 	for (int i = 0; i < size_ImgIn11bits; i++)
 	{
@@ -249,10 +250,10 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 		}
 	}
 
-	uint16_t ImgOutEnc16bits[12];
+	uint16_t * ImgOutEnc16bits = new uint16_t[size_ImgOutEnc16bits];
 
 	int k = 0;
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < size_ImgOutEnc16bits; i++)
 	{
 		std::bitset<16> SetImgOutEnc16bits;
 		for (int l = 0; l < 16; l++)
@@ -287,9 +288,11 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 	std::cout << setTemp << std::endl;
 
 	// step 2 : On écrit ce bitset dans le tableau originalImg
-	uint16_t originalImg[15];
+	int sizeOriginal = nb_lignes * nb_colonnes * 16;
+
+	uint16_t originalImg[sizeOriginal];
 	j = 0;
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < sizeOriginal; i++)
 	{
 		std::bitset<16> setImg;
 		for (int k = 15; k >= 5; k--)
@@ -301,6 +304,7 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 		std::cout << setImg << std::endl;
 	}
 }
+
 
 /************** n > 8bits**************/
 /*
