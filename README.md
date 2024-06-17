@@ -107,6 +107,13 @@ $ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
 
 `-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation.
 
+## Progression
+
+- [X] Add a -help -h option to print user's guide.
+- [ ] Implement LSB compression.
+- [ ] Implement new solution for size encryption. (to make program usable with n > 256)
+
+
 ## Author
 
 👤 **Katia Auxilien**
@@ -119,9 +126,17 @@ $ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
 
 * Website: https://www.lirmm.fr/~wpuech/
 
+**Based on Norman HUTTE's and Bianca JANSEN VAN RENSBURG's code**
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+
+## 📝 License
+
+Copyright © 2024 Katia Auxilien.
+This project is MIT licensed.
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
