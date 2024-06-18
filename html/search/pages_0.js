@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deprecated_20list_0',['Deprecated List',['../deprecated.html',1,'']]]
+  ['base_20obscuration_20for_20images_0',['Code base obscuration (for images)',['../index.html',1,'']]]
 ];

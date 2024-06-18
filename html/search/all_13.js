@@ -22,7 +22,7 @@ var searchData=
   ['setpublickey_19',['setPublicKey',['../class_paillier_model.html#a31d3f2336e31ea8ca437adb43625a855',1,'PaillierModel']]],
   ['setq_20',['setQ',['../class_paillier_model.html#ac50c67c3f1de25bd3a06cb3097bedfc2',1,'PaillierModel']]],
   ['setvalues_21',['setValues',['../class_singleton.html#a98592713fcd23ccacbd095e965144e8c',1,'Singleton']]],
-  ['show_20your_20support_22',['Show your support',['../md__c_1_2_users_2_katia_2_documents_2_git_hub_2code__base__obscuration_2_r_e_a_d_m_e.html#autotoc_md14',1,'']]],
+  ['show_20your_20support_22',['Show your support',['../index.html#autotoc_md14',1,'']]],
   ['singleton_23',['Singleton',['../class_singleton.html',1,'Singleton'],['../class_singleton.html#a53e90c44674f10be4668b63cb3814056',1,'Singleton::Singleton()']]],
   ['singleton_2ecpp_24',['singleton.cpp',['../singleton_8cpp.html',1,'']]],
   ['size_5fvec_5fr_25',['size_vec_r',['../namespace_paillier__stats__on__g.html#a4431f0075833ef847d5277c6b10f2401',1,'Paillier_stats_on_g.size_vec_r'],['../namespace_paillier__stats__on__r.html#a87d4f1a2ab1f593a65ccb1b997de4b08',1,'Paillier_stats_on_r.size_vec_r'],['../namespace_paillier__stats__on__r__2.html#a68c460489d727e6e91b602bcf649ad6c',1,'Paillier_stats_on_r_2.size_vec_r']]],
@@ -35,9 +35,9 @@ var searchData=
   ['ssim_5fmetric_32',['SSIM_metric',['../namespace_s_s_i_m__metric.html',1,'']]],
   ['ssim_5fmetric_2epy_33',['SSIM_metric.py',['../_s_s_i_m__metric_8py.html',1,'']]],
   ['stage_5fimage_5ffunctions_5fh_34',['STAGE_IMAGE_FUNCTIONS_H',['../obscuration_p_p_m_8h.html#a8e4767bd6ebaac9f80da665df8bbafe3',1,'obscurationPPM.h']]],
-  ['stat_35',['Cryptosystem Paillier : Stat',['../md__c_1_2_users_2_katia_2_documents_2_git_hub_2code__base__obscuration_2_r_e_a_d_m_e.html#autotoc_md4',1,'']]],
+  ['stat_35',['Cryptosystem Paillier : Stat',['../index.html#autotoc_md4',1,'']]],
   ['string2char_36',['string2char',['../_obscuration_p_p_m__main_8cpp.html#a38b8f9c71bd0f17144ef69ef74d593f8',1,'ObscurationPPM_main.cpp']]],
   ['sum_37',['sum',['../namespace_e_d_r__2__curve.html#ad677df7ed72eba282b53d1f1c51b853c',1,'EDR_2_curve']]],
   ['sum_5fpow_38',['sum_pow',['../namespace_e_d_r__2__curve.html#aee73da445353e52b4492a0fb73b19cc5',1,'EDR_2_curve']]],
-  ['support_39',['Show your support',['../md__c_1_2_users_2_katia_2_documents_2_git_hub_2code__base__obscuration_2_r_e_a_d_m_e.html#autotoc_md14',1,'']]]
+  ['support_39',['Show your support',['../index.html#autotoc_md14',1,'']]]
 ];

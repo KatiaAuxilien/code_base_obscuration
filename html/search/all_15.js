@@ -14,7 +14,7 @@ var searchData=
   ['ugrn_11',['UGRN',['../_a_n_s_i-color-codes_8h.html#a883c26c4df71bdfbd17da690397dcd78',1,'ANSI-color-codes.h']]],
   ['umag_12',['UMAG',['../_a_n_s_i-color-codes_8h.html#a78189961ae9153aae760057d0d9cd8c1',1,'ANSI-color-codes.h']]],
   ['ured_13',['URED',['../_a_n_s_i-color-codes_8h.html#aba3f692c7c1eaca01388c4f6abf2c32d',1,'ANSI-color-codes.h']]],
-  ['usage_14',['Usage',['../md__c_1_2_users_2_katia_2_documents_2_git_hub_2code__base__obscuration_2_r_e_a_d_m_e.html#autotoc_md1',1,'']]],
+  ['usage_14',['Usage',['../index.html#autotoc_md1',1,'']]],
   ['uwht_15',['UWHT',['../_a_n_s_i-color-codes_8h.html#a17f899635892fd90fed3c4fdc18ff9c5',1,'ANSI-color-codes.h']]],
   ['uyel_16',['UYEL',['../_a_n_s_i-color-codes_8h.html#a724077571b3286c4f8ca7e659ed13253',1,'ANSI-color-codes.h']]]
 ];
