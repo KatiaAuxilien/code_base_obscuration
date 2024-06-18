@@ -39,8 +39,11 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	printf("Controller pointer : %p\n", &controller);
+
 	bool parameters[6];
 	controller->checkParameters(argv, argc, parameters);
+	printf("Controller pointer : %p\n", &controller);
 
 	bool isEncryption = parameters[0];
 	bool useKeys = parameters[1];
@@ -48,6 +51,8 @@ int main(int argc, char **argv)
 	bool recropPixels = parameters[3];
 	bool optimisationLSB = parameters[4];
 	bool needHelp = parameters[5];
+
+	printf("Controller pointer : %p\n", &controller);
 
 	if(needHelp)
 	{
@@ -59,6 +64,7 @@ int main(int argc, char **argv)
 
 	if (!useKeys && isEncryption)
 	{
+		printf("Controller pointer : %p\n", &controller); //PRINT
 		controller->generateAndSaveKeyPair();
 	}
 	else
@@ -82,6 +88,7 @@ int main(int argc, char **argv)
 			}
 			if (optimisationLSB)
 			{
+				printf("Controller pointer : %p\n", &controller); //PRINT
 				Paillier<uint8_t, uint16_t> paillier;
 				controller->encryptCompression(distributeOnTwo, recropPixels, paillier);
 			}

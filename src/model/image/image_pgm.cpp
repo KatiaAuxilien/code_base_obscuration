@@ -195,6 +195,33 @@ void image_pgm::ecrire_image_pgm_variable_size(char nom_image[], uint16_t *pt_im
 }
 
 
+// void image_pgm::ecrire_image_pgm_variable_size(char nom_image[], uint16_t *pt_image, int nb_lignes, int nb_colonnes, uint16_t max_value, int imgSize)
+// {
+// 	FILE *f_image;
+// 	int taille_image = imgSize;
+
+// 	if ((f_image = fopen(nom_image, "wb")) == NULL)
+// 	{
+// 		printf("\nPas d'acces en ecriture sur l'image %s \n", nom_image);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else
+// 	{
+// 		fprintf(f_image, "P5\r"); /*ecriture entete*/
+// 		fprintf(f_image, "%d %d\r%" PRIu16 "\r", nb_colonnes, nb_lignes, max_value);
+
+// 		if ((fwrite((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
+// 		{
+// 			printf("\nErreur d'écriture de l'image %s \n", nom_image);
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		fclose(f_image);
+// 	}
+// }
+
+
+
+
 //uint32_t
 uint32_t image_pgm::lire_image_pgm_and_get_maxgrey(char nom_image[], uint32_t *pt_image, int taille_image)
 {

@@ -242,7 +242,7 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 			ImgOutEnc[i] = pixel_enc;
 		}
 
-		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n);
+		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEnc, nH, nW, n*n);
 
 		free(ImgIn);
 		free(ImgOutEnc);
@@ -320,7 +320,6 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 template <typename T_in, typename T_out>
 void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier)
 {
-
 	string s_file = getCFile();
 
 	char cNomImgLue[250];
@@ -401,7 +400,11 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 
 		uint16_t *ImgOutEncComp = compressBits(ImgOutEnc,nH,nW);
 
-		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEncComp, nH, nW, n);
+		int nbPixelsComp = ceil((double)(nH * nW * 11)/16);
+		int nHComp = 256;
+		int nWComp = 704;
+
+		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEncComp, nH, nW, n*n, nbPixelsComp);
 
 		free(ImgIn);
 		free(ImgOutEnc);
@@ -461,14 +464,17 @@ void PaillierControllerPGM::decryptCompression(bool distributeOnTwo, Paillier<T_
 	}
 	else
 	{
+
 		uint16_t *ImgIn;
 		allocation_tableau(ImgIn, uint16_t, nTaille);
 		image_pgm::lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutDec, OCTET, nTaille);
 
+		uint16_t *ImgInEnc = decompressBits(ImgIn,nH,nW);
+
 		for (int i = 0; i < nTaille; i++)
 		{
-			uint16_t pixel = ImgIn[i];
+			uint16_t pixel = ImgInEnc[i];
 			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
 			ImgOutDec[i] = static_cast<OCTET>(c);
 		}
