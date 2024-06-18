@@ -1,0 +1,19 @@
+digraph "C:/Users/Katia/Documents/GitHub/code_base_obscuration/main"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_5775863d9c7d3ed38b43629c0c08d8a8 {
+    graph [ bgcolor="#efedf7", pencolor="grey50", label="code_base_obscuration", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_5775863d9c7d3ed38b43629c0c08d8a8.html",tooltip=""]
+  dir_22d02f5bb5fe1487c74e4ebfacc28211 [label="include", fillcolor="#ada2d6", color="red", style="filled", URL="dir_22d02f5bb5fe1487c74e4ebfacc28211.html",tooltip=""];
+  subgraph clusterdir_0f7f09fd51f68cd34cce9da22157ca23 {
+    graph [ bgcolor="#efedf7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_0f7f09fd51f68cd34cce9da22157ca23.html",tooltip=""]
+    dir_0f7f09fd51f68cd34cce9da22157ca23 [shape=plaintext, label="main"];
+  dir_52ee2d411642ed27a32dc8ed1eb79840 [label="Obscuration", fillcolor="#ada2d6", color="grey25", style="filled", URL="dir_52ee2d411642ed27a32dc8ed1eb79840.html",tooltip=""];
+  dir_2d09adc426f39c32c0111e46f65933d3 [label="Paillier", fillcolor="#ada2d6", color="grey25", style="filled", URL="dir_2d09adc426f39c32c0111e46f65933d3.html",tooltip=""];
+  }
+  }
+  dir_2d09adc426f39c32c0111e46f65933d3->dir_22d02f5bb5fe1487c74e4ebfacc28211 [headlabel="3", labeldistance=1.5 headhref="dir_000036_000019.html" href="dir_000036_000019.html" color="steelblue1" fontcolor="steelblue1"];
+}

@@ -1,0 +1,17 @@
+digraph "C:/Users/Katia/Documents/GitHub/code_base_obscuration/utils/code_base_curves_Paillier"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_75a99e565e81558759e27b5c901317f4 {
+    graph [ bgcolor="#efedf7", pencolor="grey50", label="utils", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_75a99e565e81558759e27b5c901317f4.html",tooltip=""]
+  subgraph clusterdir_6b4535a14b663b1ab3c3fe7d9b26a805 {
+    graph [ bgcolor="#efedf7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_6b4535a14b663b1ab3c3fe7d9b26a805.html",tooltip=""]
+    dir_6b4535a14b663b1ab3c3fe7d9b26a805 [shape=plaintext, label="code_base_curves_Paillier"];
+  dir_d4f85a6cbbecb9e6d655e58c5376edf5 [label="StatG", fillcolor="#ada2d6", color="grey25", style="filled", URL="dir_d4f85a6cbbecb9e6d655e58c5376edf5.html",tooltip=""];
+  dir_5a6dd8a8140e7cc559344db023fdf514 [label="StatR", fillcolor="#ada2d6", color="grey25", style="filled", URL="dir_5a6dd8a8140e7cc559344db023fdf514.html",tooltip=""];
+  }
+  }
+}

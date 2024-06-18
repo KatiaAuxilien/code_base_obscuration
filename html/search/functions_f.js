@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['save_0',['save',['../class_image_base.html#a199e9c21875ea2b9adcc63c4b5fc43ff',1,'ImageBase::save(char *filename)'],['../class_image_base.html#a199e9c21875ea2b9adcc63c4b5fc43ff',1,'ImageBase::save(char *filename)']]],
+  ['scrambling_1',['scrambling',['../obscuration_p_p_m_8h.html#ad7ead8a13d31ca23c4e010b7f4fd66c5',1,'scrambling(ImageBase &amp;image, ImageBase &amp;o_image, int regionHeight, int regionWidth):&#160;obscurationPPM.h'],['../_functions_8h.html#ad7ead8a13d31ca23c4e010b7f4fd66c5',1,'scrambling(ImageBase &amp;image, ImageBase &amp;o_image, int regionHeight, int regionWidth):&#160;Functions.h']]],
+  ['scrambling_5fpgm_2',['scrambling_PGM',['../obscuration_p_g_m_8h.html#ab675f8bd03fa2ad058fc3784240298f2',1,'obscurationPGM.h']]],
+  ['selectivegroupencryption_3',['selectiveGroupEncryption',['../obscuration_p_p_m_8h.html#ad7aeb0c6246cbd1a62fadf1907b295e8',1,'selectiveGroupEncryption(ImageBase &amp;image, ImageBase &amp;o_image, int bitsGroup[8], int groupSize):&#160;obscurationPPM.h'],['../_functions_8h.html#ad7aeb0c6246cbd1a62fadf1907b295e8',1,'selectiveGroupEncryption(ImageBase &amp;image, ImageBase &amp;o_image, int bitsGroup[8], int groupSize):&#160;Functions.h']]],
+  ['selectivegroupencryption_5fpgm_4',['selectiveGroupEncryption_PGM',['../obscuration_p_g_m_8h.html#a533d98f015469fbf2e730b1cd45b2fe3',1,'obscurationPGM.h']]],
+  ['selectiveindividualencryption_5',['selectiveIndividualEncryption',['../obscuration_p_p_m_8h.html#a3fa1f82d1e9ab38cd9b9b2a296dbafbd',1,'selectiveIndividualEncryption(ImageBase &amp;image, ImageBase o_images[8]):&#160;obscurationPPM.h'],['../_functions_8h.html#a3fa1f82d1e9ab38cd9b9b2a296dbafbd',1,'selectiveIndividualEncryption(ImageBase &amp;image, ImageBase o_images[8]):&#160;Functions.h']]],
+  ['selectiveindividualencryption_5fpgm_6',['selectiveIndividualEncryption_PGM',['../obscuration_p_g_m_8h.html#a93a1e60da94fe93b3d2083107ac4e711',1,'obscurationPGM.h']]],
+  ['selectiveprogressiveencryption_7',['selectiveProgressiveEncryption',['../obscuration_p_p_m_8h.html#af672ae92f7468c42b1485cbfce92a566',1,'selectiveProgressiveEncryption(ImageBase &amp;image, ImageBase o_images[8], bool MSBtoLSB):&#160;obscurationPPM.h'],['../_functions_8h.html#af672ae92f7468c42b1485cbfce92a566',1,'selectiveProgressiveEncryption(ImageBase &amp;image, ImageBase o_images[8], bool MSBtoLSB):&#160;Functions.h']]],
+  ['selectiveprogressiveencryption_5fpgm_8',['selectiveProgressiveEncryption_PGM',['../obscuration_p_g_m_8h.html#a24856f108bc44c24f5e2be040da27322',1,'obscurationPGM.h']]],
+  ['setcfile_9',['setCFile',['../class_paillier_controller_p_g_m.html#a6a6a54136743d4b5907dad9bd7657cd2',1,'PaillierControllerPGM']]],
+  ['setckeyfile_10',['setCKeyFile',['../class_paillier_controller.html#a2ca2c2b51484acd78829f13cfa590519',1,'PaillierController']]],
+  ['setg_11',['setG',['../class_paillier_model.html#a7125e7f618a450e08e4195e6a1a25bad',1,'PaillierModel']]],
+  ['setlambda_12',['setLambda',['../class_paillier_model.html#ae7a52b3362f14d3ef36107c837e56db7',1,'PaillierModel']]],
+  ['setmu_13',['setMu',['../class_paillier_model.html#a2d5cd43714b49943f54c7cdeb92faffc',1,'PaillierModel']]],
+  ['setn_14',['setN',['../class_paillier_model.html#a177d2912add020019729f9dbb431f145',1,'PaillierModel']]],
+  ['setp_15',['setP',['../class_paillier_model.html#a92a78bb8bb1d535d5d0637d95c65f482',1,'PaillierModel']]],
+  ['setpailliergenerationkey_16',['setPaillierGenerationKey',['../class_paillier_model.html#af8a4ceca8cc10a690de124ea12d82fbe',1,'PaillierModel']]],
+  ['setprivatekey_17',['setPrivateKey',['../class_paillier_model.html#a205a6d3092f7088ec849d819425b62ea',1,'PaillierModel']]],
+  ['setpublickey_18',['setPublicKey',['../class_paillier_model.html#a31d3f2336e31ea8ca437adb43625a855',1,'PaillierModel']]],
+  ['setq_19',['setQ',['../class_paillier_model.html#ac50c67c3f1de25bd3a06cb3097bedfc2',1,'PaillierModel']]],
+  ['setvalues_20',['setValues',['../class_singleton.html#a98592713fcd23ccacbd095e965144e8c',1,'Singleton']]],
+  ['singleton_21',['Singleton',['../class_singleton.html#a53e90c44674f10be4668b63cb3814056',1,'Singleton']]],
+  ['string2char_22',['string2char',['../_obscuration_p_p_m__main_8cpp.html#a38b8f9c71bd0f17144ef69ef74d593f8',1,'ObscurationPPM_main.cpp']]]
+];
