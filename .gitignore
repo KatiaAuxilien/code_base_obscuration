@@ -20,5 +20,3 @@ main/Paillier/Paillier_pgm/Paillier_pgm_main.out
 main/Paillier/PaillierPgm/Paillier_private_key.bin
 main/Paillier/PaillierPgm/Paillier_public_key.bin
 obj/controller/PaillierControllerPGM.o
-obj/model/encryption/Paillier/keys/Paillier_public_key.o
-obj/model/encryption/Paillier/keys/Paillier_private_key.o
