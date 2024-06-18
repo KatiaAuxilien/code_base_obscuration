@@ -33,9 +33,9 @@ int main(int argc, char **argv)
 
 	/*********************** Traitement d'arguments ***********************/
 
-	if (argc < 3 && argc != 2)
+	if (argc == 1|| (argc < 3 && argv[1][1] != 'h'))
 	{
-		printf("Usage : [e or ek or dk] [params] image_file.pgm\n e p q file.pgm\n ek public_key.bin image_file.pgm\n dk private_key.bin image_file_encrypted.pgm\n");
+		controller->printHelp();
 		return 1;
 	}
 
