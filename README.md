@@ -5,6 +5,7 @@
 
 >  It implements different obscuration methods on portable images (.pgm and .ppm). Repository dedicated to an internship in the ICAR team at LIRMM. 
 
+## 📄 [Documentation](https://katiaauxilien.github.io/code_base_obscuration/html/)
 
 ## Installation
 
