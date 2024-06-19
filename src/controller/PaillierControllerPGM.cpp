@@ -239,20 +239,10 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 			finalSet->set(j, tempSet[k]);
 			j++;
 		}
-		// std::cout << i << ' ' << tempSet << std::endl;
 	}
 
 	int size_ImgIn11bits = nbPixel * 11;
 	int size_ImgOutEnc16bits = ceil((double)size_ImgIn11bits/16);
-
-	// for (int i = 0; i < size_ImgIn11bits; i++)
-	// {
-	// 	std::cout << finalSet[i];
-	// 	if ((i + 1) % 11 == 0)
-	// 	{ // afficher un saut de ligne tous les 11 bits
-	// 		std::cout << std::endl;
-	// 	}
-	// }
 
 	uint16_t * ImgOutEnc16bits = new uint16_t[size_ImgOutEnc16bits];
 
@@ -269,29 +259,23 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 		ImgOutEnc16bits[i] = (uint16_t)SetImgOutEnc16bits.to_ulong();
 	}
 
-	for(int i = 0; i < size_ImgOutEnc16bits; i++)
-	{
-		std::bitset<16> temp = ImgOutEnc16bits[i];
-		std::cout << temp;
-		std::cout << std::endl;
-
-	}
-
-
 	return ImgOutEnc16bits;
 }
 
-uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes)
+uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int nTailleOriginale)
 {
-	// TODO : Trouver une solution pour les valeurs comme 12, 192, 15, etc.
-	std::bitset<192> setTemp;
+	// TODO : Trouver une solution
+	int sizeImg = (nb_lignes * nb_colonnes * 16) /11;
+
+	std::bitset<2123366400> *setTemp = new std::bitset<2123366400>;
+
 	int j = 0;
 	for (int i = 0; i < 12; i++)
 	{
 		std::bitset<16> setImg = ImgInEnc[i];
 		for (int k = 0; k < 16; k++)
 		{
-			setTemp.set(j, setImg[k]);
+			(*setTemp).set(j, setImg[k]);
 			j++;
 		}
 	}
@@ -299,7 +283,10 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 	std::cout << setTemp << std::endl;
 
 	// step 2 : On écrit ce bitset dans le tableau originalImg
-	int sizeOriginal = nb_lignes * nb_colonnes * 16;
+	// int sizeOriginal = nb_lignes * nb_colonnes * 16;
+	int sizeOriginal = nTailleOriginale * 16;
+
+	//TODO : Ajouter l'étape pour récupérer en argument la taille originale.
 
 	uint16_t *originalImg = new uint16_t[sizeOriginal];
 
@@ -309,7 +296,7 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 		std::bitset<16> setImg;
 		for (int k = 15; k >= 5; k--)
 		{
-			setImg.set(k, setTemp[j]);
+			setImg.set(k, (*setTemp)[j]);
 			j++;
 		}
 		originalImg[i] = (uint16_t)setImg.to_ulong();
