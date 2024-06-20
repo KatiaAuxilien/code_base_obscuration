@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 			if (optimisationLSB)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->decryptCompression(distributeOnTwo, paillier);
+				controller->decryptCompression(paillier);
 			}
 		}
 		// else if (n > 256 && n <= 65535)
