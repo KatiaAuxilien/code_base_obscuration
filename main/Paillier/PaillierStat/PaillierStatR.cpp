@@ -28,6 +28,8 @@
 
 using namespace std;
 
+//TODO : Documentation
+
 int main(int argc, char **argv)
 {
 	PaillierControllerStatR* controller = new PaillierControllerStatR();

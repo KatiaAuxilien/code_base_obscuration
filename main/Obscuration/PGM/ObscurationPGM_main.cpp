@@ -28,6 +28,8 @@
 
 #define FILE_EXT ".pgm"
 
+//TODO : Documentation
+
 void afficherBarreDeChargement(size_t progress, size_t total)
 {
     int barSize = 50;

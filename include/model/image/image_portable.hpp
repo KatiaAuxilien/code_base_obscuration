@@ -21,6 +21,8 @@
 #include <cstdio>
 #include <cstring>
 
+//TODO : Documentation
+
 #define allocation_tableau(nom, type, nombre)                                     \
     if ((nom = (type *)calloc(nombre, sizeof(type))) == NULL)                     \
     {                                                                             \

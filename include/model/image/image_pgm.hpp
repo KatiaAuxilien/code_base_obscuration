@@ -26,6 +26,8 @@
 using namespace std;
 
 
+//TODO : Documentation
+
 typedef unsigned char OCTET;
 
 class image_pgm : public image_portable {

@@ -25,6 +25,8 @@
 #include <string>
 #include <vector>
 
+//TODO : Documentation
+
 bool is_ppm(const std::string &extension)
 {
     return extension == ".ppm";

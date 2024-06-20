@@ -15,6 +15,8 @@
  *******************************************************************************/
 //TODO : Separate header and source
 
+//TODO : Documentation
+
 #include <iostream>
 #include <vector>
 #include <random>

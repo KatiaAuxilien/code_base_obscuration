@@ -25,6 +25,8 @@
 #ifndef OBSCURATION_COMMON_LIBRARY
 #define OBSCURATION_COMMON_LIBRARY
 
+//TODO : Documentation
+
 //====================== Encryption utils ======================//
 
 /**

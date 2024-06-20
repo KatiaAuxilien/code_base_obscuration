@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include "../../include/controller/PaillierController.hpp"
 
+//TODO : Documentation
+
 class PaillierControllerStatG : public PaillierController
 {
 public:

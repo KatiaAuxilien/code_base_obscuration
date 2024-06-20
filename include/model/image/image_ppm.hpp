@@ -26,6 +26,8 @@
 
 typedef unsigned char OCTET;
 
+//TODO : Documentation
+
 class image_ppm : public image_portable {
 
     public:

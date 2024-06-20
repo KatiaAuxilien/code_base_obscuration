@@ -20,6 +20,8 @@
 #include "../../include/model/image/image_ppm.hpp"
 
 
+//TODO : Documentation
+
 class ImageBase
 {
 		///////////// Enumerations

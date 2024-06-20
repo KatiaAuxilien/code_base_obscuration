@@ -13,6 +13,9 @@
  *
  *******************************************************************************/
 //TODO : Separate header and source
+
+//TODO : Documentation
+
 #include "../image/ImageBase.hpp"
 #include "../obscuration/obscurationCommon.h"
 
