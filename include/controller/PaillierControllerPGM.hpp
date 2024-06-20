@@ -111,7 +111,7 @@ public:
 	 *  \date 03/06/2024
 	 */
 	template <typename T_in, typename T_out>
-	void encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier);
+	void encryptCompression(bool recropPixels,Paillier<T_in, T_out> paillier);
 
 	/**
 	 *  \brief
@@ -154,7 +154,7 @@ public:
 	 *  \date 03/06/2024
 	 */
 	template <typename T_in, typename T_out>
-	void decryptCompression(bool distributeOnTwo, Paillier<T_in, T_out> paillier);
+	void decryptCompression(Paillier<T_in, T_out> paillier);
 
 	/************** n > 8bits**************/
 
@@ -327,7 +327,7 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 }
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropPixels,Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::encryptCompression(bool recropPixels,Paillier<T_in, T_out> paillier)
 {
 	string s_file = getCFile();
 
@@ -387,7 +387,7 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 }
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::decryptCompression(bool distributeOnTwo, Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier)
 {
 	string s_file = getCFile();
 	char cNomImgLue[250];

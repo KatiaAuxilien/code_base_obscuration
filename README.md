@@ -106,7 +106,9 @@ $ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
 
 `-histogramexpansion` ou `-hexp` to specify during **encryption** that we want to transform the histogram befor image encryption.
 
-`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation.
+`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation. 
+
+WARNING : You can't combine `-distribution` and `-optlsbr`, if you do that the priority is `-optlsbr`.
 
 ## Progression
 

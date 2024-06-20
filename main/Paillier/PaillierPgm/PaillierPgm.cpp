@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 			if (optimisationLSB)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->encryptCompression(distributeOnTwo, recropPixels, paillier);
+				controller->encryptCompression(recropPixels, paillier);
 			}
 		}
 		// else if (n > 256 && n <= 65535)
