@@ -117,6 +117,7 @@ WARNING : You can't combine `-distribution` and `-optlsbr`, if you do that the p
   - [ ] Complete documentation. [*in progress*]
 - [X] Implement LSB compression.
 - [ ] Implement new solution for size encryption. (to make program usable with n > 256)
+- [ ] Fix obscuration parts.
 
 
 ## Author
