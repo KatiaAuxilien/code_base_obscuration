@@ -3,7 +3,8 @@
  *
  * Fichier : AES.cpp
  *
- * Description : AES en norme FIPS 197
+ * Description : This file contains the methods implementation of AES class, which implements the AES 
+ * encryption and decryption algorithms as specified in the FIPS 197 standard.
  *
  * Auteur : Norman HUTTE
  *
@@ -13,7 +14,7 @@
  *
  *******************************************************************************/
 
-#include "../../../include/encryption/AES/AES.h"
+#include "../../../../include/model/encryption/AES/AES.h"
 
 AES::AES(const AESKeyLength keyLength)
 {

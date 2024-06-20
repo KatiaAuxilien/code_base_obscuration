@@ -23,6 +23,11 @@
 #include <string>
 #include <vector>
 
+/**
+ * \brief
+ * \details
+ * \author Norman HUTTE
+ */
 enum class AESKeyLength
 {
     AES_128,
@@ -30,118 +35,401 @@ enum class AESKeyLength
     AES_256
 };
 
+/**
+ * \class AES
+ * \brief This class implements the AES encryption and decryption algorithms as
+ * specified in the FIPS 197 standard.
+ * \details It provides methods for encrypting and decrypting data using various
+ * modes of operation, including ECB, CBC, CFB, OFB, and CTR. It also provides
+ * methods for key expansion, sub byte substitution, shift rows, mix columns, and
+ * other internal operations required by the AES algorithm.
+ * \author Norman HUTTE
+ */
 class AES
 {
 private:
-    static constexpr unsigned int Nb = 4;
-    static constexpr unsigned int blockBytesLen = 4 * Nb * sizeof(unsigned char);
-
-    unsigned int Nk;
+    static constexpr unsigned int Nb = 4;                                         /*!< Number of columns in the state matrix */
+    static constexpr unsigned int blockBytesLen = 4 * Nb * sizeof(unsigned char); /*!< Length of a block in bytes */
+    unsigned int Nk;                                                              /*!< Number of 32-bit words in the key */
     unsigned int Nr;
 
+    /**
+     * \brief Substitute each byte in the state matrix with its corresponding value from the S-box.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void SubBytes(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Shift the rows of the state matrix to the left by a certain number of positions.
+     * \param state The state matrix to be transformed.
+     * \param i The index of the row to be shifted.
+     * \param n The number of positions to shift the row.
+     * \author Norman HUTTE
+     */
     void ShiftRow(unsigned char state[4][Nb], unsigned int i,
                   unsigned int n); // shift row i on n positions
 
+    /**
+     * \brief Shift the rows of the state matrix to the left by a certain number of positions.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void ShiftRows(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Multiply a byte with a fixed polynomial {03} and return the result.
+     * \param b The byte to be multiplied.
+     * \return The result of the multiplication.
+     * \author Norman HUTTE
+     */
     unsigned char xtime(unsigned char b); // multiply on x
 
+    /**
+     * \brief Mix the columns of the state matrix using a fixed matrix.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void MixColumns(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Add the round key to the state matrix using XOR operation.
+     * \param state The state matrix to be transformed.
+     * \param key The round key to be added.
+     * \author Norman HUTTE
+     */
     void AddRoundKey(unsigned char state[4][Nb], unsigned char *key);
 
+    /**
+     * \brief Substitute each byte in a word with its corresponding value from the S-box.
+     * \param a The word to be transformed.
+     * \author Norman HUTTE
+     */
     void SubWord(unsigned char *a);
 
+    /**
+     * \brief Rotate the bytes in a word to the left by one position.
+     * \param a The word to be transformed.
+     * \author Norman HUTTE
+     */
     void RotWord(unsigned char *a);
 
+    /**
+     * \brief XOR two words and store the result in a third word.
+     * \param a The first word to be XORed.
+     * \param b The second word to be XORed.
+     * \param c The word to store the result in.
+     * \author Norman HUTTE
+     */
     void XorWords(unsigned char *a, unsigned char *b, unsigned char *c);
 
+    /**
+     * \brief Calculate the rcon value for a given round and store it in a word.
+     * \param a The word to store the rcon value in.
+     * \param n The round number.
+     * \author Norman HUTTE
+     */
     void Rcon(unsigned char *a, unsigned int n);
 
+    /**
+     * \brief Inverse substitute each byte in the state matrix with its corresponding value from the S-box.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void InvSubBytes(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Inverse mix the columns of the state matrix using a fixed matrix.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void InvMixColumns(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Inverse shift the rows of the state matrix to the left by a certain number of positions.
+     * \param state The state matrix to be transformed.
+     * \author Norman HUTTE
+     */
     void InvShiftRows(unsigned char state[4][Nb]);
 
+    /**
+     * \brief Check if the length of the data is a multiple of the block size.
+     * \param len The length of the data.
+     * \throw std::length_error if the length is not a multiple of the block size.
+     * \author Norman HUTTE
+     */
     void CheckLength(unsigned int len);
 
+    /**
+     * \brief Expand the key into a key schedule for use in the encryption and decryption processes.
+     * \param key The key to be expanded.
+     * \param w The key schedule to store the expanded key in.
+     * \author Norman HUTTE
+     */
     void KeyExpansion(const unsigned char key[], unsigned char w[]);
 
+    /**
+     * \brief Encrypt a single block of data using the AES algorithm.
+     * \param in The input block to be encrypted.
+     * \param out The output block to store the encrypted data in.
+     * \param key The key to be used for encryption.
+     * \author Norman HUTTE
+     */
     void EncryptBlock(const unsigned char in[], unsigned char out[],
                       unsigned char key[]);
 
+    /**
+     * \brief Decrypt a single block of data using the AES algorithm.
+     * \param in The input block to be decrypted.
+     * \param out The output block to store the decrypted data in.
+     * \param key The key to be used for decryption.
+     * \author Norman HUTTE
+     */
     void DecryptBlock(const unsigned char in[], unsigned char out[],
                       unsigned char key[]);
 
+    /**
+     * \brief XOR two blocks of data and store the result in a third block.
+     * \param a The first block to be XORed.
+     * \param b The second block to be XORed.
+     * \param c The block to store the result in.
+     * \param len The length of the blocks.
+     * \author Norman HUTTE
+     */
     void XorBlocks(const unsigned char *a, const unsigned char *b,
                    unsigned char *c, unsigned int len);
 
+    /**
+     * \brief Convert an array of bytes into a vector of bytes.
+     * \param a The array of bytes to be converted.
+     * \param len The length of the array.
+     * \return The vector of bytes.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> ArrayToVector(unsigned char *a, unsigned int len);
 
+    /**
+     * \brief Convert a vector of bytes into an array of bytes.
+     * \param a The vector of bytes to be converted.
+     * \return The array of bytes.
+     * \author Norman HUTTE
+     */
     unsigned char *VectorToArray(std::vector<unsigned char> &a);
 
 public:
+    /**
+     * \brief Construct an AES object with a specified key length.
+     * \param keyLength The key length to be used.
+     * \author Norman HUTTE
+     */
     explicit AES(const AESKeyLength keyLength = AESKeyLength::AES_256);
 
+    /**
+     * \brief Encrypt data using the ECB mode of operation.
+     * \param in The input data to be encrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *EncryptECB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[]);
 
+    /**
+     * \brief Decrypt data using the ECB mode of operation.
+     * \param in The input data to be decrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *DecryptECB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[]);
 
+    /**
+     * \brief Encrypt data using the CBC mode of operation.
+     * \param in The input data to be encrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *EncryptCBC(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Decrypt data using the CBC mode of operation.
+     * \param in The input data to be decrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *DecryptCBC(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Encrypt data using the CFB mode of operation.
+     * \param in The input data to be encrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *EncryptCFB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Decrypt data using the CFB mode of operation.
+     * \param in The input data to be decrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *DecryptCFB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Encrypt data using the OFB mode of operation.
+     * \param in The input data to be encrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *EncryptOFB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Decrypt data using the OFB mode of operation.
+     * \param in The input data to be decrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *DecryptOFB(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Increment a counter used in the CTR mode of operation.
+     * \param counter The counter to be incremented.
+     * \author Norman HUTTE
+     */
     void IncrementCounter(unsigned char counter[blockBytesLen]);
 
+    /**
+     * \brief Encrypt data using the CTR mode of operation.
+     * \param in The input data to be encrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *EncryptCTR(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Decrypt data using the CTR mode of operation.
+     * \param in The input data to be decrypted.
+     * \param inLen The length of the input data.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     unsigned char *DecryptCTR(const unsigned char in[], unsigned int inLen,
                               const unsigned char key[], const unsigned char *iv);
 
+    /**
+     * \brief Encrypt data using the ECB mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be encrypted.
+     * \param key The key to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> EncryptECB(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key);
 
+    /**
+     * \brief Decrypt data using the ECB mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be decrypted.
+     * \param key The key to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> DecryptECB(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key);
 
+    /**
+     * \brief Encrypt data using the CBC mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be encrypted.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> EncryptCBC(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key,
                                           std::vector<unsigned char> iv);
 
+    /**
+     * \brief Decrypt data using the CBC mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be decrypted.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> DecryptCBC(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key,
                                           std::vector<unsigned char> iv);
 
+    /**
+     * \brief Encrypt data using the CFB mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be encrypted.
+     * \param key The key to be used for encryption.
+     * \param iv The initialization vector to be used for encryption.
+     * \return The encrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> EncryptCFB(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key,
                                           std::vector<unsigned char> iv);
 
+    /**
+     * \brief Decrypt data using the CFB mode of operation and store the result in a vector of bytes.
+     * \param in The input data to be decrypted.
+     * \param key The key to be used for decryption.
+     * \param iv The initialization vector to be used for decryption.
+     * \return The decrypted data.
+     * \author Norman HUTTE
+     */
     std::vector<unsigned char> DecryptCFB(std::vector<unsigned char> in,
                                           std::vector<unsigned char> key,
                                           std::vector<unsigned char> iv);
 
+    /**
+     * \brief Print an array of bytes in hexadecimal format.
+     * \param a The array of bytes to be printed.
+     * \param n The length of the array.
+     * \author Norman HUTTE
+     */
     void printHexArray(unsigned char a[], unsigned int n);
 
+    /**
+     * \brief Print a vector of bytes in hexadecimal format.
+     * \param a The vector of bytes to be printed.
+     * \author Norman HUTTE
+     */
     void printHexVector(std::vector<unsigned char> a);
 };
 

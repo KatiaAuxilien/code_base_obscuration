@@ -23,7 +23,21 @@
 class PaillierControllerStatR : public PaillierController
 {
 public:
+
+    /**
+    * \brief 
+    * \details
+    * \author 
+    * \date 
+    */
     PaillierControllerStatR();
+    
+    /**
+    * \brief 
+    * \details
+    * \author 
+    * \date 
+    */
     ~PaillierControllerStatR();
     void init();
 

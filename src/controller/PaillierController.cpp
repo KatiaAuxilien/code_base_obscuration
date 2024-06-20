@@ -3,7 +3,7 @@
  *
  * Fichier : PaillierController.cpp
  *
- * Description :
+ * Description : Implementation of the superclass, of Paillier main, that contain common methods between subclasses.
  *
  *
  * Auteur : Katia Auxilien

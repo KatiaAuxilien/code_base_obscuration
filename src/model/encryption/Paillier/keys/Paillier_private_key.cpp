@@ -3,7 +3,7 @@
  *
  * Fichier : Paillier_private_key.cpp
  *
- * Description : 
+ * Description : Implementation of the Private key class, in the Paillier cryptosystem.
  *
  *
  * Auteur : Katia Auxilien
