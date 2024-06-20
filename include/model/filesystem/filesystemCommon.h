@@ -28,7 +28,7 @@
 
 class filesystemCommon
 {
-
+    public:
     /**
      *  @brief
      *  @param
@@ -39,7 +39,7 @@ class filesystemCommon
      *
      *  @details
      */
-    std::string getLastDirectoryName(const std::string &path)
+    static std::string getLastDirectoryName(const std::string &path)
     {
         std::filesystem::path chemin(path);
         return chemin.filename().string();
@@ -55,7 +55,7 @@ class filesystemCommon
      *
      *  @details
      */
-    std::string getProgramFolderPath(std::string programName)
+    static std::string getProgramFolderPath(std::string programName)
     {
         return std::filesystem::canonical(std::filesystem::path(programName)).parent_path().parent_path().string();
     }
@@ -70,7 +70,7 @@ class filesystemCommon
      *
      *  @details
      */
-    void createDirectoryIfNotExists(const std::string &path)
+    static void createDirectoryIfNotExists(const std::string &path)
     {
         if (!std::filesystem::exists(path))
         {
@@ -87,7 +87,7 @@ class filesystemCommon
         {
             // printf("Le repertoire existe deja : %s \n", path.c_str());
         }
-    }
-}
+    };
+};
 
 #endif // FILESYSTEM_COMMON_LIBRARY

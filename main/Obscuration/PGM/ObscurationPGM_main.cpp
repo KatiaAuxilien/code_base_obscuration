@@ -14,12 +14,12 @@
  *
  *******************************************************************************/
 
-#include "../../../include/image/ImageBase.hpp"
-#include "../../../include/obscuration/obscurationCommon.h"
-#include "../../../include/obscuration/obscurationPGM.h"
-#include "../../../include/filesystem/filesystemPGM.h"
-#include "../../../include/filesystem/filesystemCommon.h"
-#include "../../../include/encryption/AES/AES.h"
+#include "../../../include/model/image/ImageBase.hpp"
+#include "../../../include/model/obscuration/obscurationCommon.h"
+#include "../../../include/model/obscuration/obscurationPGM.h"
+#include "../../../include/model/filesystem/filesystemPGM.h"
+#include "../../../include/model/filesystem/filesystemCommon.h"
+#include "../../../include/model/encryption/AES/AES.h"
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
     char t_cImagePath[200];
     std::string sFolderPath = argv[1];
-    std::string sImgClass = getLastDirectoryName(sFolderPath);
+    std::string sImgClass = filesystemCommon::getLastDirectoryName(sFolderPath);
     std::string sNewFolderPath;
     std::vector<std::string> v_sImagePaths;
 
@@ -89,8 +89,8 @@ int main(int argc, char **argv)
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/blurring/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/blurring/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     int nTotalImg = v_sImagePaths.size();
 
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -131,8 +131,8 @@ int main(int argc, char **argv)
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/scrambling/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/scrambling/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -171,8 +171,8 @@ int main(int argc, char **argv)
               << "\n";
 
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/pixeliser/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/pixeliser/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -185,7 +185,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -216,8 +216,8 @@ int main(int argc, char **argv)
     std::cout << "par bit individuel..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/individual/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/individual/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -231,7 +231,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -265,8 +265,8 @@ int main(int argc, char **argv)
     std::cout << "par bit consecutif MSB à LSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-MSB2LSB/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-MSB2LSB/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -279,7 +279,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -313,8 +313,8 @@ int main(int argc, char **argv)
     std::cout << "bit consecutif LSB à MSB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-LSB2MSB/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/consecutive-LSB2MSB/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -327,7 +327,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -360,8 +360,8 @@ int main(int argc, char **argv)
     std::cout << "par bits groupé..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/ranged/" + sImgClass;
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/ranged/" + sImgClass;
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -374,7 +374,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/" + std::to_string(nImg_cpt);
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
         bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
@@ -416,8 +416,8 @@ int main(int argc, char **argv)
     std::cout << "mode ECB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/ECB/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -429,7 +429,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_ECB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
@@ -464,8 +464,8 @@ int main(int argc, char **argv)
     std::cout << "mode CBC..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CBC/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -477,7 +477,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CBC_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
@@ -514,8 +514,8 @@ int main(int argc, char **argv)
     std::cout << "mode CTR..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CTR/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -527,7 +527,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CTR_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
@@ -564,8 +564,8 @@ int main(int argc, char **argv)
     std::cout << "mode CFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -578,7 +578,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
@@ -615,8 +615,8 @@ int main(int argc, char **argv)
     std::cout << "mode OFB..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/OFB/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -629,7 +629,7 @@ int main(int argc, char **argv)
         //           << "\n";
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_OFB_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());
@@ -668,8 +668,8 @@ int main(int argc, char **argv)
     std::cout << "mode CFB avec déchiffrement par clé différente..."
               << "\n";
     std::strcpy(t_cImagePath, sFolderPath.c_str());
-    sNewFolderPath = getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB_dec_bad_key/";
-    getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
+    sNewFolderPath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPGM/encryption/AES/CFB_dec_bad_key/";
+    filesystemPGM::getFilePathsOfPGMFilesFromFolder(v_sImagePaths, t_cImagePath);
 
     for (size_t nImg_cpt = 0; nImg_cpt < v_sImagePaths.size(); ++nImg_cpt)
     {
@@ -679,7 +679,7 @@ int main(int argc, char **argv)
         std::strcpy(t_cImageInPath, sImInPath.c_str());
 
         std::string sNewImgPath = sNewFolderPath + "/";
-        createDirectoryIfNotExists(sNewImgPath);
+        filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_CFB_dec_bad_key_" + std::to_string(nImg_cpt) + FILE_EXT;
         std::strcpy(t_cImageOutPath, sImOutPath.c_str());

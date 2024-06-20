@@ -13,12 +13,11 @@
  * Date : Avril 2024
  *
  *******************************************************************************/
-
-#include "../../../include/image/ImageBase.hpp"
-#include "../../../include/image/image_ppm.hpp"
-#include "../../../include/obscuration/obscurationPPM.h"
-#include "../../../include/obscuration/obscurationCommon.h"
-#include "../../../include/filesystem/filesystemCommon.h"
+#include "../../../../include/model/filesystem/filesystemCommon.h"
+#include "../../../../include/model/image/ImageBase.hpp"
+#include "../../../../include/model/image/image_ppm.hpp"
+#include "../../../../include/model/obscuration/obscurationPPM.h"
+#include "../../../../include/model/obscuration/obscurationCommon.h"
 
 #include <cstdio>
 #include <cstring>
@@ -63,7 +62,7 @@ int main(int argc, char **argv)
 
     char imagePath[200];
     std::string folderpath = argv[1];
-    std::string classString = getLastDirectoryName(folderpath);
+    std::string classString = filesystemCommon::getLastDirectoryName(folderpath);
     std::string newfolderpath;
     std::vector<std::string> imagePaths;
 
@@ -71,7 +70,7 @@ int main(int argc, char **argv)
     std::cout << "Debut floutage moyenneur..."
               << "\n";
     std::strcpy(imagePath, folderpath.c_str());
-    newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/blurring/" + classString;
+    newfolderpath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPPM/blurring/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
     for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
@@ -83,7 +82,7 @@ int main(int argc, char **argv)
         ImageBase imIn(299, 299, true);
         bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
         std::vector<ImageBase> o_images;
         newAverageBlurring(imIn, o_images);
         for (int cpt = 1; cpt <= 101; cpt += 2)
@@ -101,7 +100,7 @@ int main(int argc, char **argv)
     std::cout << "Debut melange par region..."
               << "\n";
     std::strcpy(imagePath, folderpath.c_str());
-    newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/scrambling/" + classString;
+    newfolderpath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPPM/scrambling/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
     for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
@@ -113,7 +112,7 @@ int main(int argc, char **argv)
         ImageBase imIn(299, 299, true);
         bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
         for (int cpt = 1; cpt <= 50; ++cpt)
         {
@@ -132,7 +131,7 @@ int main(int argc, char **argv)
     std::cout << "Debut moyenneur par r�gion..."
               << "\n";
     std::strcpy(imagePath, folderpath.c_str());
-    newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/pixelizer/" + classString;
+    newfolderpath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPPM/pixelizer/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
     for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
     {
@@ -144,7 +143,7 @@ int main(int argc, char **argv)
         ImageBase imIn(299, 299, true);
         bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
         for (int cpt = 1; cpt <= 50; ++cpt)
         {
             ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
@@ -162,7 +161,7 @@ int main(int argc, char **argv)
     std::cout << "Debut chiffrement selectif..."
               << "\n";
     std::strcpy(imagePath, folderpath.c_str());
-    newfolderpath = getProgramFolderPath(argv[0]) + "/obscuredPPM/encryption/" + classString;
+    newfolderpath = filesystemCommon::getProgramFolderPath(argv[0]) + "/obscuredPPM/encryption/" + classString;
     getFilePathsOfPPMFilesFromFolder(imagePaths, imagePath);
     std::string imgNewFolderPath;
     for (size_t img_cpt = 0; img_cpt < imagePaths.size(); ++img_cpt)
@@ -177,7 +176,7 @@ int main(int argc, char **argv)
 
         // Bits individuels
         imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt) + "/individual";
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
         ImageBase ind_images[8] = {ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                    ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
@@ -197,7 +196,7 @@ int main(int argc, char **argv)
 
         // Bits cons�cutifs (MSB -> LSB)
         imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt) + "/consecutive-MSB2LSB";
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
         ImageBase cons1_images[8] = {ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
@@ -217,7 +216,7 @@ int main(int argc, char **argv)
 
         // Bits cons�cutifs (LSB -> MSB)
         imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt) + "/consecutive-LSB2MSB";
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
         ImageBase cons2_images[8] = {ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
@@ -237,7 +236,7 @@ int main(int argc, char **argv)
 
         // Bits group�s
         imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt) + "/ranged";
-        createDirectoryIfNotExists(imgNewFolderPath);
+        filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
         for (int gsize = 1; gsize <= 8; ++gsize)
         {

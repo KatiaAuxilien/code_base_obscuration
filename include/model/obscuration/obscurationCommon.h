@@ -12,6 +12,7 @@
  * Date : Avril 2024
  *
  *******************************************************************************/
+//TODO : Separate header and source
 
 #include "../image/ImageBase.hpp"
 #include <iostream>

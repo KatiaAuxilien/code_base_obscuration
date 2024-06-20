@@ -13,7 +13,7 @@
  * Date : Avril 2024 - Mai 2024
  *
  *******************************************************************************/
-#include "../../include/image/image_ppm.hpp"
+#include "../../../include/model/image/image_ppm.hpp"
 
 void image_ppm::planR(OCTET *pt_image, OCTET *src, int taille_image)
 {

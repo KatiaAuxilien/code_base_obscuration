@@ -13,6 +13,8 @@
  * Date : Avril 2024
  *
  *******************************************************************************/
+//TODO : Separate header and source
+
 #include <iostream>
 #include <vector>
 #include <random>
