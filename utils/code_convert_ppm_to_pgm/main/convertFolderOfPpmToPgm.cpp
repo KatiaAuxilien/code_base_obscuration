@@ -1,9 +1,6 @@
 
-#include "../include/ImageBase.h"
 #include "../include/Functions.h"
-extern "C"{
-    #include "../include/image_ppm.h"
-}
+
 
 
 #include <cstdio>

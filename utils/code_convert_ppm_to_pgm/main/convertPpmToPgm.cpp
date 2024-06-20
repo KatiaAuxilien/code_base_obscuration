@@ -1,14 +1,6 @@
-#include "../include/ImageBase.h"
 #include "../include/Functions.h"
-extern "C"{
-    #include "../include/image_ppm.h"
-}
 
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <filesystem>
-
+typedef unsigned char OCTET;
 
 std::string getProgramFolderPath(std::string programName) {
     return std::filesystem::canonical(std::filesystem::path(programName)).parent_path().parent_path().string();

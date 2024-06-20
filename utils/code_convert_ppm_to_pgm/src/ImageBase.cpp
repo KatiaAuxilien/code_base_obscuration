@@ -14,8 +14,6 @@
 *******************************************************************************/
 
 #include "../include/ImageBase.h"
-#include "../include/image_ppm.h"
-
 
 ImageBase::ImageBase(void)
 {

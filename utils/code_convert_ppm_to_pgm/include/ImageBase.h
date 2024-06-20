@@ -3,7 +3,7 @@
 *
 * Fichier : ImageBase.h
 *
-* Description : Classe contennant quelques fonctionnalités de base
+* Description : Classe contennant quelques fonctionnalitï¿½s de base
 *
 * Auteur : Mickael Pinto
 *
@@ -14,8 +14,8 @@
 *******************************************************************************/
 
 #pragma once
-#include <cstdio>
-#include <cstdlib>
+
+#include "image_p.h"
 
 class ImageBase
 {
