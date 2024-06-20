@@ -111,8 +111,9 @@ $ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
 ## Progression
 
 - [X] Add a -help -h option to print user's guide.
-- [ ] Generate documentation with dioxygen.
-- [ ] Implement LSB compression.
+- [X] Generate documentation with dioxygen. 
+  - [ ] Complete documentation. [*in progress*]
+- [X] Implement LSB compression.
 - [ ] Implement new solution for size encryption. (to make program usable with n > 256)
 
 
