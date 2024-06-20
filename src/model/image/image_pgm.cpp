@@ -1,16 +1,19 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : image_pgm.cpp
+ * File : image_pgm.cpp
  *
- * Description :
- *   Fichier source de départ image.cpp de Bianca Jansen Van Rensburg
+ * Description : This file contains the implementation of the image_pgm class, which
+ * provides methods for reading and writing PGM (Portable Gray Map) images.
+ * The class is derived from the image_portable base class and implements
+ * its pure virtual methods.
+ *   Source file is image.cpp by Bianca Jansen Van Rensburg
  * 
  * Auteur : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
- * Date : Avril 2024 - Mai 2024
+ * Date : April 2024 - May 2024
  *
  *******************************************************************************/
 #include "../../../include/model/image/image_pgm.hpp"

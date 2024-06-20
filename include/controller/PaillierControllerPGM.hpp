@@ -1,14 +1,14 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : PaillierControllerPGM.hpp
+ * File : PaillierControllerPGM.hpp
  *
  * Description : Header file for the PaillierControllerPGM class, which is a
  * controller for the Paillier cryptosystem applied to PGM (Portable Gray Map)
  * images.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien\mail.fr
  *

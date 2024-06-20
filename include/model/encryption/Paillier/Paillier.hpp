@@ -1,12 +1,14 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier.hpp
+ * File : Paillier.hpp
  *
- * Description :
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ * Description : This file contains the Paillier cryptosystem implementation in
+ * C++. The Paillier cryptosystem is an additive homomorphic encryption scheme
+ * that allows computations to be performed on encrypted data without decrypting it.
+ * File source is Paillier_image.cpp by Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
@@ -26,50 +28,60 @@
 
 using namespace std;
 
-//TODO : Documentation
+// TODO : Documentation
 
-
+/**
+ * @class Paillier
+ *
+ * @tparam T_in
+ * @tparam T_out
+ * \author Katia Auxilien
+ * \date April 2024 - May 2024
+ */
 template <typename T_in, typename T_out>
 class Paillier
 {
-
-private:
 public:
+    /**
+     * @brief Construct a new Paillier object
+     * \author Katia Auxilien
+     * \date April 2024 - May 2024
+     */
     Paillier(){};
+
+    /**
+     * @brief Destroy the Paillier object
+     *
+     * \author Katia Auxilien
+     * \date April 2024 - May 2024
+     */
     ~Paillier(){};
 
     /**
-     *  \brief
-     *  \details Générer une variable de type uint64_t aléatoirement
-     *  \param uint64_t min
-     *  \param uint64_t max
-     *  \authors Katia Auxilien
-     *  \date 23/05/2024
+     *  \brief Generate a random 64-bit unsigned integer.
+     * \details This function generates a random 64-bit unsigned integer between a given range using the Mersenne Twister algorithm.
+     * \param uint64_t min - The minimum value of the range.
+     * \param uint64_t max - The maximum value of the range.
+     * \return uint64_t - A random 64-bit unsigned integer between min and max.
+     *  \author Katia Auxilien
+     *  \date 23 May 2024
      */
     uint64_t random64(uint64_t min, uint64_t max)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
         std::uniform_int_distribution<std::uint64_t> dis(min, max);
-
-        // unsigned long long
-        // std::uniform_int_distribution<unsigned long long> dis(min, max);
-
-        // std::uniform_int_distribution<unsigned long long> dis(
-        //     std::numeric_limits<std::uint64_t>::min(),
-        //     std::numeric_limits<std::uint64_t>::max()
-        // );
-
         return dis(gen);
     }
 
     /**
-     *  \brief Calcul de l'exponentiation modulaire rapide.
-     *  \details Calcul de l'exponentiation modulaire rapide.
-     *  \param uint64_t x
-     *  \param uint64_t e puissance
-     * 	\param uint64_t n modulo
-     *  \authors Katia Auxilien
+     *  \brief Calculate the modular exponentiation of a base raised to a power modulo a modulus.
+     * \details This function calculates the modular exponentiation of a base raised to a power modulo a modulus using the square-and-multiply algorithm.
+     * \param uint64_t x - The base value.
+     * \param uint64_t e - The exponent value.
+     * \param uint64_t n - The n parameter of public key.
+     * \return uint64_t - The result of the modular exponentiation.
+     *  \author Bianca Jansen Van Rensburg
      *  \date 30/04/2024
      */
     uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
@@ -88,12 +100,13 @@ public:
     };
 
     /**
-     *  \brief Calcul du PGCD en récursif.
-     *  \details Calcul du PGCD en récursif, de a et b sur 64 bit.
-     *  \param uint64_t a
-     * 	\param uint64_t b
-     *  \authors Katia Auxilien
-     *  \date 30/04/2024
+     *  \brief Calculate the greatest common divisor (GCD) of two 64-bit unsigned integers.
+     * \details This function calculates the greatest common divisor (GCD) of two 64-bit unsigned integers using the Euclidean algorithm.
+     * \param uint64_t a - The first integer.
+     * \param uint64_t b - The second integer.
+     * \return uint64_t - The greatest common divisor of a and b.
+     *  \authors Bianca Jansen Van Rensburg
+     *  \date 30 April 2024
      */
     uint64_t gcd_64t(uint64_t a, uint64_t b)
     {
@@ -105,10 +118,11 @@ public:
     };
 
     /**
-     *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief
-     *  \details Calcul de l'ensemble des éléments de  g ∈ (Z/n²Z)*
-     *  \param
+     *  \deprecated This function is not sufficient for Paillier cryptosystem.
+     * \brief Calculate the set of elements in (Z/n²Z)*.
+     * \details This function calculates the set of elements in (Z/n²Z)* that are coprime to n.
+     * \param uint64_t n - The n parameter of public key.
+     * \return std::vector<uint64_t> - The set of elements in (Z/n²Z)* that are coprime to n.
      *  \authors Katia Auxilien
      *  \date 30/04/2024 15:51:00
      */
@@ -126,11 +140,12 @@ public:
     };
 
     /**
-     *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief
-     *  \details Génération de l'ensemble des éléments de  g ∈ (Z/n²Z)* ET respectant : L(x) = (x-1)/n dont x  ∈ N* ET il existe mu.
-     *  \param uint64_t n
-     *  \param const uint64_t &lambda
+     *  \deprecated This function is not sufficient for Paillier cryptosystem.
+     * \brief Calculate the set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
+     * \details This function calculates the set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
+     * \param uint64_t n - The n parameter of public key.
+     * \param const uint64_t &lambda - The lambda parameter of private key.
+     * \return std::vector<uint64_t> - The set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
      *  \authors Katia Auxilien
      *  \date 22/05/2024 14:45:00
      */
@@ -157,10 +172,13 @@ public:
     };
 
     /**
-     *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief
-     *  \details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
-     *  \param
+     *  \deprecated This function is not sufficient for Paillier cryptosystem.
+     * \brief Choose g from the set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
+     * \details This function chooses g from the set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
+     * \param std::vector<uint64_t> &set - The set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
+     * \param const uint64_t &n - The n parameter of public key.
+     * \param const uint64_t &lambda - The lambda parameter of private key.
+     * \return uint64_t - The chosen value of g.
      *  \authors Katia Auxilien
      *  \date 02/05/2024
      */
@@ -182,12 +200,13 @@ public:
     };
 
     /**
-     *  \deprecated Cette génération n'est pas suffisante pour paillier.
-     *  \brief
-     *  \details Choix de g tant que (x - 1)/n ne donne pas un L(x) entier.
-     *  \param
-     *  \authors Katia Auxilien
-     *  \date 22/05/2024 14:45:00
+     * \deprecated This function is not sufficient for Paillier cryptosystem.
+     * \brief Choose g from the set of elements in (Z/n²Z)*.
+     * \details This function chooses g from the set of elements in (Z/n²Z)*.
+     * \param std::vector<uint64_t> &set - The set of elements in (Z/n²Z)*.
+     * \return uint64_t - The chosen value of g.
+     * \authors Katia Auxilien
+     * \date 22/05/2024 14:45:00
      */
     uint64_t choose_g_in_vec_64t_v2(std::vector<uint64_t> &set)
     {
@@ -196,12 +215,12 @@ public:
     };
 
     /**
-     *  \brief Calcul de L(x).
-     *  \details Calcul de L(x) nécessaire dans la génération de Mu et le déchiffrement par Paillier.
-     *  \param uint64_t x
-     * 	\param uint64_t n
-     *  \authors Bianca Jansen Van Rensburg
-     *  \date ?
+     * \brief Calculate L(x).
+     * \details This function calculates L(x) which is used in the generation of Mu and the decryption by Paillier.
+     * \param uint64_t x - The value of x.
+     * \param uint64_t n - The n parameter of public key.
+     * \return uint64_t - The value of L(x).
+     * \author Bianca Jansen Van Rensburg
      */
     uint64_t L_64t(uint64_t x, uint64_t n)
     {
@@ -209,12 +228,12 @@ public:
     };
 
     /**
-     *  \brief Calcul du plus petit diviseur commun.
-     *  \details Calcul du plus petit diviseur commun de a et b.
-     *  \param uint64_t a
-     * 	\param uint64_t b
-     *  \authors Bianca Jansen Van Rensburg
-     *  \date ?
+     *  \brief Calculate the least common multiple (LCM) of two 64-bit unsigned integers.
+     * \details This function calculates the least common multiple (LCM) of two 64-bit unsigned integers using the GCD function.
+     * \param uint64_t a - The first integer.
+     * \param uint64_t b - The second integer.
+     * \return uint64_t - The least common multiple of a and b.
+     *  \author Bianca Jansen Van Rensburg
      */
     uint64_t lcm_64t(uint64_t a, uint64_t b)
     {
@@ -222,12 +241,12 @@ public:
     };
 
     /**
-     *  \brief Calcul de l'inverse modulaire de a modulo n.
-     *  \details Calcul de l'inverse modulaire de a modulo n sur 64 bit.
-     *  \param uint64_t a
-     * 	\param uint64_t n
-     *  \authors Bianca Jansen Van Rensburg
-     *  \date ?
+     *  \brief Calculate the modular inverse of a 64-bit unsigned integer modulo a modulus.
+     * \details This function calculates the modular inverse of a 64-bit unsigned integer modulo a modulus using the extended Euclidean algorithm.
+     * \param uint64_t a - The integer to calculate the modular inverse of.
+     * \param uint64_t n - The n parameter of public key.
+     * \return uint64_t - The modular inverse of a modulo n.
+     *  \author Bianca Jansen Van Rensburg
      */
     uint64_t modInverse_64t(uint64_t a, uint64_t n)
     {
@@ -242,12 +261,13 @@ public:
     };
 
     /**
-     *  \brief Calcul de la puissance de n de x
-     *  \details Calcul de la puissance de n de x en récursif.
-     *  \param uint64_t x
-     * 	\param uint64_t n
-     *  \authors Katia Auxilien
-     *  \date 30/04/2024
+     *  \brief Calculate the power of a 64-bit unsigned integer.
+     *  \details This function calculates the power of a 64-bit unsigned integer using recursion.
+     *  \param uint64_t x - The base value.
+     *  \param uint64_t n - The exponent value.
+     *  \return uint64_t - The result of the power calculation.
+     *  \author Katia Auxilien
+     *  \date 30 April 2024
      */
     uint64_t pow_uint64_t(uint64_t x, uint64_t n)
     {
@@ -259,11 +279,14 @@ public:
     };
 
     /**
-     *  \brief Chosiir un élément de manière aléatoire dans l'ensemble Z/nZ*
-     *  \details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
+     *  \brief Choose a random element from the set Z/nZ*. 
+     *  \details This function chooses a random element from the set Z/nZ*.
+     *  From program Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) developped by Omar Hasan.
+     *  \param uint64_t n - The n parameter of public key.
+     *  \return uint64_t - The chosen random element from the set Z/nZ*.
      *  \param
-     *  \authors Katia Auxilien
-     *  \date 23/05/2024 15:00:00
+     *  \author Katia Auxilien
+     *  \date 23 May 2024 15:00:00
      */
     uint64_t randomZNStar(uint64_t n)
     {
@@ -276,11 +299,12 @@ public:
     };
 
     /**
-     *  \brief Retourner l'ensemble Z/nZ*  sous forme d'un vecteur.
-     *  \details
-     *  \param
-     *  \authors Katia Auxilien
-     *  \date 23/05/2024 9:18:00
+     *  \brief Return the set Z/nZ* as a vector.
+     *  \details This function returns the set Z/nZ* as a vector.
+     *  \param uint64_t n - The n parameter of public key.
+     *  \return std::vector<uint64_t> - The set Z/nZ* as a vector.
+     *  \author Katia Auxilien
+     *  \date 23 May 2024 9:18:00
      */
     std::vector<uint64_t> get_set_ZNZStar(uint64_t n)
     {
@@ -296,11 +320,13 @@ public:
     }
 
     /**
-     *  \brief Retourner toutes les valeurs possible de g, dans l'ensemble Z/n²Z* et qui respectent gcd_64t(l,n) !=1,  sous forme d'un vecteur.
-     *  \details
-     *  \param
-     *  \authors Katia Auxilien
-     *  \date 27/05/2024 15:00:00
+     *  \brief Return the set Z/n²Z* that satisfy the condition gcd(L(g^lambda mod n²), n) = 1 as a vector.
+     *  \details This function returns the set Z/n²Z* that satisfy the condition gcd(L(g^lambda mod n²), n) = 1 as a vector.
+     *  \param uint64_t n - The n parameter of public key.
+     *  \param uint64_t lambda - The lambda parameter of private key.
+     *  \return std::vector<uint64_t> - The set Z/n²Z* that satisfy the condition gcd(L(g^lambda mod n²), n) = 1 as a vector.
+     *  \author Katia Auxilien
+     *  \date 27 May 2024 15:00:00
      */
     std::vector<uint64_t> get_set_ZN2ZStar(uint64_t n, uint64_t lambda)
     {
@@ -319,11 +345,12 @@ public:
     }
 
     /**
-     *  \brief
-     *  \details Basé sur le programme Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) développé par by Omar Hasan.
-     *          On vérifie que la valeur de g donne gcd(L(g^lambda mod n^2), n) = 1 sachant que L(u) = (u-1)/n
-     *  \param uint64_t n
-     *  \param uint64_t lambda
+     *  \brief Generate g for Paillier cryptosystem.
+     *  \details This function generates g for Paillier cryptosystem such that gcd(L(g^lambda mod n²), n) = 1 where L(u) = (u-1)/n.
+     *  From program Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) developped by Omar Hasan.
+     *  \param uint64_t n - The n parameter of public key.
+     *  \param uint64_t lambda - The lambda parameter of private key.
+     *  \return uint64_t - The generated value of g.
      *  \authors Katia Auxilien
      *  \date 23/05/2024 15:00:00
      */
@@ -340,14 +367,14 @@ public:
     };
 
     /**
-     *  \brief Génération du Mu.
-     *  \details Génération du paramètre Mu nécessaire à la clé privée du chiffrement par Paillier.
-     *  \param uint64_t &mu
-     * 	\param const uint64_t &g
-     *  \param const uint64_t &lambda
-     *  \param const uint64_t &n
-     *  \authors Bianca Jansen Van Rensburg
-     *  \date ?
+     * \brief Generate Mu for Paillier cryptosystem.
+     * \details This function generates Mu for Paillier cryptosystem which is used in the decryption process.
+     * \param uint64_t &mu - The generated value of Mu.
+     * \param const uint64_t &g - The generator value.
+     * \param const uint64_t &lambda - The Carmichael function of n.
+     * \param const uint64_t &n - The modulus value.
+     * \author Bianca Jansen Van Rensburg
+     * \date ?
      */
     void generateMu_64t(uint64_t &mu, const uint64_t &g, const uint64_t &lambda, const uint64_t &n)
     {
@@ -357,16 +384,15 @@ public:
     };
 
     /**
-     *  \brief Génération de la clé privée du chiffrement par Paillier.
-     *  \details Génération de la clé privée du chiffrement par Paillier avec des paramètres sur 64 bit.
-     *  \param uint64_t &lambda
-     * 	\param uint64_t &mu
-     *  \param const uint64_t &p
-     *  \param const uint64_t &q
-     *  \param const uint64_t &n
-     *  \param const uint64_t &g
-     *  \authors Bianca Jansen Van Rensburg
-     *  \date ?
+     * \brief Generate private key for Paillier cryptosystem.
+     * \details This function generates the private key for Paillier cryptosystem which consists of lambda and Mu values.
+     * \param uint64_t &lambda - The generated value of lambda.
+     * \param uint64_t &mu - The generated value of Mu.
+     * \param const uint64_t &p - The first prime factor of n.
+     * \param const uint64_t &q - The second prime factor of n.
+     * \param const uint64_t &n - The n parameter of public key.
+     * \param const uint64_t &g - The generator value.
+     * \author Bianca Jansen Van Rensburg
      */
     void generatePrivateKey_64t(uint64_t &lambda, uint64_t &mu, const uint64_t &p, const uint64_t &q, const uint64_t &n, const uint64_t &g)
     {
@@ -379,15 +405,14 @@ public:
 
     /**
      *  \overload
-     *  \brief Chiffrement par paillier.
-     *  \details Chiffrement par paillier d'un message m sur n bit.
-     *  \param uint64_t n valeur p*q.
-     * 	\param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*.
-     *  \param T_in m message en clair sur n bit.
-     *  \return static_cast<T_in>(c) : Le message m chiffré, dont le chiffré est sur 2*n bit.
-     *  \retval T_in
+     *  \brief Encrypt a message using Paillier cryptosystem.
+     *  \details This function encrypts a message using Paillier cryptosystem.
+     *  \param uint64_t n - The modulus value.
+     *  \param uint64_t g - The generator value.
+     *  \param T_in m - The message to be encrypted.
+     *  \return T_out - The encrypted message.
      *  \authors Bianca Jansen Van Rensburg, Katia Auxilien
-     *  \date 13/05/2024
+     *  \date 13 May 2024
      */
     T_out paillierEncryption(uint64_t n, uint64_t g, T_in m)
     {
@@ -420,14 +445,13 @@ public:
 
     /**
      *  \overload
-     *  \brief Chiffrement par paillier.
-     *  \details Chiffrement par paillier d'un message m sur n bit.
-     *  \param uint64_t n valeur p*q, fait partie de la clé publique.
-     * 	\param uint64_t g élément choisit dans l'ensemble (Z/n2Z)*, fait partie de la clé publique.
-     *  \param T_in m message en clair sur nbit.
-     *  \param uint64_t r élément aléatoire appartenant à l'ensemble r ∈ (Z/nZ)*.
-     *  \return static_cast<T_out>(c) : Le message m chiffré, dont le chiffré est sur 2*n bit.
-     *  \retval T_out
+     *  \brief Encrypt a message using Paillier cryptosystem with a given random value.
+     *  \details This function encrypts a message using Paillier cryptosystem with a given random value.
+     *  \param uint64_t n - The modulus value.
+     *  \param uint64_t g - The generator value.
+     *  \param T_in m - The message to be encrypted.
+     *  \param uint64_t r - The random value.
+     *  \return T_out - The encrypted message.
      *  \authors Bianca Jansen Van Rensburg, Katia Auxilien
      *  \date 13/05/2024
      */
@@ -453,16 +477,15 @@ public:
 
     /**
      *  \overload
-     *  \brief Déchiffrement par paillier.
-     *  \details Déchiffrement par paillier d'un chiffré sur 2*n bit.
-     *  \param uint64_t n valeur p*q.
-     * 	\param uint64_t lambda correspond au lcm(p-1,q-1), fait partie de la clé privée.
-     *  \param uint64_t mu généré par la fonction generateMu_64t(...), fait partie de la clé privée.
-     *  \param T_out c message chiffré sur 2*nbits.
-     *  \return static_cast<T_in>(result) : Le message clair, déchiffré de c, sur n bit.
-     *  \retval T_in
+     *  \brief Decrypt a ciphertext using Paillier cryptosystem.
+     *  \details This function decrypts a ciphertext using Paillier cryptosystem.
+     *  \param uint64_t n - The modulus value.
+     *  \param uint64_t lambda - The Carmichael function of n.
+     *  \param uint64_t mu - The Mu value.
+     *  \param T_out c - The ciphertext to be decrypted.
+     *  \return T_in - The decrypted message.
      *  \authors Bianca Jansen Van Rensburg, Katia Auxilien
-     *  \date 13/05/2024
+     *  \date 13 May 2024
      */
     T_in paillierDecryption(uint64_t n, uint64_t lambda, uint64_t mu, T_out c)
     {

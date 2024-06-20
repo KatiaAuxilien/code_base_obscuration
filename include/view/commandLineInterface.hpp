@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : commandLineInterface.hpp
+ * File : commandLineInterface.hpp
  *
  * Description :
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

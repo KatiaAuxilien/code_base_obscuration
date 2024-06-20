@@ -1,11 +1,11 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : AES.h
+ * File : AES.h
  *
  * Description :
  *
- * Auteur : Norman HUTTE
+ * Author : Norman HUTTE
  *
  * Mail : ?
  *
@@ -24,9 +24,9 @@
 #include <vector>
 
 /**
- * \brief
- * \details
- * \author Norman HUTTE
+ * \brief Enum class representing the possible key lengths for AES encryption.
+ * \details This enum class defines the possible key lengths for AES encryption, which are AES_128, AES_192, and AES_256.
+ * \author Norman HUTTE 
  */
 enum class AESKeyLength
 {

@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : PaillierController.hpp
+ * File : PaillierController.hpp
  *
  * Description : Superclass, of Paillier main, that contain common methods between subclasses.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien\mail.fr
  *

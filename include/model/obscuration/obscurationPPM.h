@@ -1,11 +1,11 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : obscurationPPM.h
+ * File : obscurationPPM.h
  *
  * Description :
  *
- * Auteur : Norman HUTTE
+ * Author : Norman HUTTE
  *
  * Mail :
  *

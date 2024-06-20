@@ -1,16 +1,15 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : filesystemCommon.h
+ * File : filesystemCommon.h
  *
- * Description : Classe contenant des fonctions qui permettent de traiter des
- *  images dans un système de fichiers. Inspirée de function.h de Norman Hutte.
+ * Description :This file contains the declaration of the filesystemCommon class, which provides various utility functions for handling files and directories.
  *
- * Auteurs : Norman Hutte, Katia Auxilien
+ * Authors : Norman Hutte, Katia Auxilien
  *
  * Mail : , katia.auxilien@mail.fr
  *
- * Date : Avril 2024
+ * Date : April 2024
  *
  *******************************************************************************/
 #include <iostream>
@@ -26,20 +25,21 @@
 #ifndef FILESYSTEM_COMMON_LIBRARY
 #define FILESYSTEM_COMMON_LIBRARY
 
-//TODO : Documentation
-
+/**
+ * \class filesystemCommon
+ * \brief A utility class providing functions to handle files and directories.
+ * \author Norman Hutte
+ * \date 06/03/2024
+ */
 class filesystemCommon
 {
     public:
     /**
-     *  @brief
-     *  @param
-     *  @authors Norman Hutte
-     *  @date 06/03/2024
-     *
-     *  desc
-     *
-     *  @details
+     *  \brief Get the last directory name from a given path.
+     *  \param path The path to extract the last directory name from.
+     *  \return std::string The last directory name in the given path.
+     *  \author Norman Hutte
+     *  \date 06 March 2024
      */
     static std::string getLastDirectoryName(const std::string &path)
     {
@@ -48,14 +48,11 @@ class filesystemCommon
     }
 
     /**
-     *  @brief
-     *  @param
-     *  @authors Norman Hutte
-     *  @date 06/03/2024
-     *
-     *  desc
-     *
-     *  @details
+     *  \brief Get the program folder path.
+     *  \param programName The name of the program.
+     *  \return std::string The path to the program's folder.
+     *  \author Norman Hutte
+     *  \date 06 March 2024
      */
     static std::string getProgramFolderPath(std::string programName)
     {
@@ -63,14 +60,10 @@ class filesystemCommon
     }
 
     /**
-     *  @brief
-     *  @param
-     *  @authors Norman Hutte
-     *  @date 06/03/2024
-     *
-     *  desc
-     *
-     *  @details
+     *  \brief Create a directory at the given path if it does not already exist.
+     *  \param path The path where the directory should be created.
+     *  \author Norman Hutte
+     *  \date 06 March 2024
      */
     static void createDirectoryIfNotExists(const std::string &path)
     {

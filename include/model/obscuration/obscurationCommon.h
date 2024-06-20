@@ -1,11 +1,11 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : ObscurationPgm.h
+ * File : ObscurationPgm.h
  *
  * Description : Classe contenant des méthodes communes et utiles pour l'obscuration des images ppm et pgm
  *
- * Auteur : Katia Auxilien, Norman Hutte
+ * Author : Katia Auxilien, Norman Hutte
  *
  * Mail : katia.auxilien@mail.fr ,
  *

@@ -1,13 +1,13 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_model.hpp
+ * File : Paillier_model.hpp
  *
  * Description : Implémentation de singleton de
  *  https://www.geeksforgeeks.org/implementation-of-singleton-class-in-cpp/
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

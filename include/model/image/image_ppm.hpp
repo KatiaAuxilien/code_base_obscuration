@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : image_ppm.h
+ * File : image_ppm.h
  *
  * Description :
  *   Fichier source de départ image.h, ICAR_Library, de William Puech, en Tue Mar 31 13:26:36 2005
  * 
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

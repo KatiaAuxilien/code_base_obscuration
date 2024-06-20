@@ -1,12 +1,14 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : PaillierControllerStatR.hpp
+ * File : PaillierControllerStatR.hpp
  *
- * Description :
+ * Description : This file contains the declaration of the PaillierControllerStatR 
+ * class, which is derived from the PaillierController class. This class is used 
+ * to perform statistical calculations on r in the Paillier cryptosystem.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien\mail.fr
  *
@@ -20,40 +22,53 @@
 #include <stdio.h>
 #include "../../include/controller/PaillierController.hpp"
 
-//TODO : Documentation
-
+/**
+ * \class PaillierControllerStatR
+ * \brief This class is used to perform statistical calculations on r in the Paillier cryptosystem.
+ * \details This class is derived from the PaillierController class.
+ * \author Katia Auxilien
+ * \date 30 mai 2024, 15:50:00 
+ */
 class PaillierControllerStatR : public PaillierController
 {
 public:
 
     /**
-    * \brief 
-    * \details
-    * \author 
-    * \date 
+    * \brief Constructor of the PaillierControllerStatR class.
+    * \details This constructor initializes the PaillierControllerStatR object.
+    * \author Katia Auxilien
+    * \date 30 mai 2024, 15:50:00
     */
     PaillierControllerStatR();
     
     /**
-    * \brief 
-    * \details
-    * \author 
-    * \date 
+    * \brief Destructor of the PaillierControllerStatR class.
+    * \details This destructor frees the memory allocated by the PaillierControllerStatR object.
+    * \author Katia Auxilien
+    * \date 30 mai 2024, 15:50:00
     */
     ~PaillierControllerStatR();
+
+    /**
+     * \brief Initialize the PaillierControllerStatR object.
+     * \details This function initializes the PaillierControllerStatR object.
+     * \author Katia Auxilien
+     * \date 30 May 2024, 15:50:00
+     * 
+     */
     void init();
 
     /**
-     *  \brief
-     *  \details Vérification pour le programme effectuant des calculs statistiques sur r.
-     *  \param char* arg_in[]
-     *  \param int size_arg
-     *  \param bool param[]
+     * \brief Check parameters for the program performing statistical calculations on r.
+	 * \param char* arg_in[] - The array of input arguments.
+	 * \param int size_arg - The size of the input arguments array.
+     * \param bool param[]
      *				0	bool useKeys = false;
      *				1	bool distributeOnTwo = false;
      *				2	bool optimisationLSB = false;
-     *  \authors Katia Auxilien
-     *  \date 27/05/2024 11:52:00
+     * \details This function checks the parameters for the program performing statistical calculations on r.
+     * \author Katia Auxilien
+     * \date 27/05/2024 11:52:00
      */
     void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
@@ -66,11 +81,10 @@ public:
 
     /************** 8bits **************/
     /**
-     *  \brief
-     *  \details
-     *  \param
-     *  \authors Katia Auxilien
-     *  \date 30/05/2024
+     * \brief Perform encryption calculations.
+     * \details This function performs encryption calculations.
+     * \author Katia Auxilien
+     * \date 30/05/2024
      */
     void calc_encrypt();
 };

@@ -3,7 +3,8 @@
  *
  * Fichier : PaillierControllerStatR.cpp
  *
- * Description :
+ * Description : This file contains the implementation of the PaillierControllerStatR 
+ * class, which is a derivative of the PaillierController class.
  *
  *
  * Auteur : Katia Auxilien

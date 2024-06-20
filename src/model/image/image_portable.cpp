@@ -1,16 +1,21 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : image.cpp
+ * File : image_portable.cpp
  *
  * Description :
- *   Fichier source de départ image.cpp de Bianca Jansen Van Rensburg
+ *   This file contains the implementation of the image_portable class, which
+ * provides an interface for reading and writing portable image formats, such
+ * as PGM and PPM. The class defines pure virtual methods for reading the
+ * number of lines and columns of an image, reading an image into a buffer,
+ * and writing an image from a buffer. Derived classes must implement these
+ * methods to provide support for a specific image format. 
  * 
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
- * Date : Avril 2024 - Mai 2024
+ * Date : April 2024 - May 2024
  *
  *******************************************************************************/
 #include "../../../include/model/image/image_portable.hpp"

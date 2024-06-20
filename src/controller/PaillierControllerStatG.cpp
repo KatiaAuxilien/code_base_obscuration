@@ -1,18 +1,19 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : PaillierControllerStatG.cpp
+ * File: PaillierControllerStatG.hpp
  *
- * Description :
+ * Description: This file contains the implementation of the PaillierControllerStatG class,
+ *              which is a derivative of the PaillierController class.
  *
+ * Author: Katia Auxilien
  *
- * Auteur : Katia Auxilien
+ * Mail: katia.auxilien@mail.fr
  *
- * Mail : katia.auxilien@mail.fr
+ * Date: 30 May 2024, 15:50:00
  *
- * Date : 29 Mai 2024, 13:57:00
- *
- *******************************************************************************/
+ ******************************************************************************/
+
 #include "../../include/controller/PaillierControllerStatG.hpp"
 
 void PaillierControllerStatG::init()
@@ -98,7 +99,7 @@ void PaillierControllerStatG::checkParameters(char *arg_in[], int size_arg, bool
 
 void PaillierControllerStatG::printHelp()
 {
-	this->view->getInstance()->help("./PaillierStatG.out\nNAME\n \t./PaillierStatG.out - Encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files.\n\nSYNOPSIS\n\t./PaillierStatG.out [p] [q] \n\nDESCRIPTION\n	Program to encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.\n\n");
+    this->view->getInstance()->help("./PaillierStatG.out\nNAME\n \t./PaillierStatG.out - Encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files.\n\nSYNOPSIS\n\t./PaillierStatG.out [p] [q] \n\nDESCRIPTION\n	Program to encrypt message from 0 to n with all possible valeus or r, and 10 possible values of G, and return results with 10 .bin files. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.\n\n");
 }
 
 void PaillierControllerStatG::calc_encrypt_all_g()

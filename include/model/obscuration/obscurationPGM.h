@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : ObscurationPGM.h
+ * File : ObscurationPGM.h
  *
  * Description : Fichier contenant des fonctions qui permettent d'obscurcir
  *    une image au format .pgm. Classe inspirée de obscurationPPM.h de Norman Hutte.
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

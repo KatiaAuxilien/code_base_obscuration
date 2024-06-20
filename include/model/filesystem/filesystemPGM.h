@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : filesystementPGM.h
+ * File : filesystementPGM.h
  *
- * Description : Classe contenant des fonctions qui permettent de récupérer des
- *    images au format .pgm. Classe inspirée de Functions.h de Norman Hutte.
+ * Description : Class containing functions that allow to retrieve images in .pgm format.
+ * Class inspired by Functions.h of Norman Hutte.
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
@@ -26,21 +26,22 @@
 #include <filesystem>
 #include <string>
 
-//TODO : Documentation
-
+/**
+ * \class filesystemPGM
+ * \brief Utility class for handling .pgm image files.
+ * \details This class provides functions for checking if a file extension is .pgm and for retrieving the file paths of all .pgm images in a folder. It is inspired by Norman Hutte's Functions.h.
+ * \author Katia Auxilien
+ */
 class filesystemPGM
 {
 
 public:
     /**
-     *  @brief
-     *  @param extension
-     *  @authors Norman Hutte, Katia Auxilien
-     *  @date 11/04/2024
-     *
-     *  desc
-     *
-     *  @details
+     *  \brief Check if the file extension is .pgm
+     *  \param extension The file extension to check
+     *  \return True if the extension is .pgm, false otherwise
+     *  \authors Norman Hutte, Katia Auxilien
+     *  \date 11 April 2024
      */
     static bool is_pgm(const std::string &extension)
     {
@@ -48,15 +49,12 @@ public:
     }
 
     /**
-     *  @brief
-     *  @param imagePaths
-     *  @param folderPath
-     *  @authors Norman Hutte, Katia Auxilien
-     *  @date 11/04/2024
-     *
-     *
-     *
-     *  @details
+     * \brief Get the file paths of all .pgm images in a folder
+     * \param imagePaths Vector to store the file paths of the .pgm images
+     * \param folderPath Path of the folder to search for .pgm images
+     * \details This function clears the imagePaths vector and then iterates through all the files in the folder specified by folderPath. If a file is a regular file (not a directory) and its extension is .pgm, the file path is added to the imagePaths vector.
+     * \authors Norman Hutte, Katia Auxilien
+     * \date 11 April 2024
      */
     static void getFilePathsOfPGMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath)
     {

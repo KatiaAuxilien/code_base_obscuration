@@ -1,14 +1,14 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_public_key.hpp
+ * File : Paillier_public_key.hpp
  *
  * Description : Header of the Public key in the Paillier cryptosystem.
  * This class represents the public key used in the Paillier cryptosystem.
  * It contains the n value, which is the modulus used in the encryption process,
  * and the g value, which is a generator used in the encryption process.
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
