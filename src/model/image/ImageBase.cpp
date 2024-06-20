@@ -12,7 +12,7 @@
  * Date : Octobre 2012
  *
  *******************************************************************************/
-#include "../../include/image/ImageBase.hpp"
+#include "../../../include/model/image/ImageBase.hpp"
 
 ImageBase::ImageBase(void)
 {

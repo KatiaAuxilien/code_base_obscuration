@@ -13,7 +13,7 @@
  * Date : Mai 2024
  *
  *******************************************************************************/
-#include "../../include/image/image_portable.hpp"
+#include "../../include/model/image/image_portable.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>

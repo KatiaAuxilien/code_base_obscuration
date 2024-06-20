@@ -133,8 +133,17 @@ public:
 	 *  \authors Katia Auxilien
 	 *  \date 07/07/2024
 	 */
-	uint16_t * decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int nTailleOriginale));
+	uint16_t * decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int nTailleOriginale);
 
+
+	/**
+	 * \brief After image compression, method to decompose the size in pixel of the image compressed to have a new resolution.
+	 * 
+	 * \param n int the size in pixel of the image compressed.
+	 * \retval nHComp int variable of the Height of the image compressed.
+	 * \retval nWComp int variable of the Width of image compressed.
+	 */
+	pair<int, int> decomposeDimension(int n);
 
 	/**
 	 *  \brief
@@ -332,7 +341,7 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 	char cNomImgEcriteEnc[250];
 	strcpy(cNomImgEcriteEnc, s_fileNew.c_str());
 
-	int nH, nW, nTaille;
+	int nH, nW, nTaille; //TODO : Change nH nW to uint16_t and nTaille type to uint32_t
 	uint64_t n = model->getInstance()->getPublicKey().getN();
 	uint64_t g = model->getInstance()->getPublicKey().getG();
 
@@ -363,17 +372,13 @@ void PaillierControllerPGM::encryptCompression(bool distributeOnTwo,bool recropP
 
 		uint16_t *ImgOutEncComp = compressBits(ImgOutEnc,nH,nW);
 		int nbPixelsComp = ceil((double)(nH * nW * 11)/16);
+		printf("Size : %d\n", nbPixelsComp);
 
-		//TODO : Ajouter étape de décomposition nbPixel
+		pair<int, int> dimensionComp = decomposeDimension(nbPixelsComp);
+		int nHComp = dimensionComp.first;
+		int nWComp = dimensionComp.second;
 
-		int nHComp = 256;
-		int nWComp = 704;
-		/*
-		 
-		 */
-
-
-		image_pgm::ecrire_image_pgm_variable_size(cNomImgEcriteEnc, ImgOutEncComp, nHComp, nWComp, n*n);
+		image_pgm::write_image_pgm_compressed_variable_size(cNomImgEcriteEnc, ImgOutEncComp,nHComp, nWComp, n*n, nbPixelsComp, nH,nW);
 
 		free(ImgIn);
 		free(ImgOutEnc);
@@ -402,20 +407,16 @@ void PaillierControllerPGM::decryptCompression(bool distributeOnTwo, Paillier<T_
 	n = model->getInstance()->getPrivateKey().getN();
 
 	OCTET *ImgOutDec;
-	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nH, &nW);
+	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nHComp, &nWComp);
 	nTailleComp = nHComp * nWComp;
-
+	printf("Controller : %d %d\n", nHComp, nWComp);
 		uint16_t *ImgInComp;
 		allocation_tableau(ImgInComp, uint16_t, nTailleComp);
-		image_pgm::lire_image_pgm_and_get_maxgrey(cNomImgLue, ImgInComp, nTailleComp);
+		pair<int,int> dimesionOriginal = image_pgm::read_image_pgm_compressed_and_get_originalDimension(cNomImgLue, ImgInComp);
 
-		//TODO : Ajouter une étape pour retrouver la taille originale.
-
-		/*
-		On sait que nH ou nW est la dimension originale.
-		*/
-
-		nTaille = 512*512;
+		nH = dimesionOriginal.second;
+		nW = dimesionOriginal.first;
+		nTaille = nH*nW;
 
 		allocation_tableau(ImgOutDec, OCTET, nTaille);
 

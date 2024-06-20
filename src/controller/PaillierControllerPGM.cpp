@@ -212,11 +212,8 @@ uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPix
 }
 /*********************** Chiffrement/Déchiffrement ***********************/
 
-
-
 uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes)
 {
-
 	int nbPixel = nb_colonnes * nb_lignes;
 	if (nbPixel > 132710400)
 	{
@@ -225,7 +222,7 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 	}
 
 	// Taille max image 15360*8640l
-	// std::bitset<2123366400> finalSet;
+	// std::bitset<2 123 366 400> finalSet;
 	std::bitset<2123366400> *finalSet = new std::bitset<2123366400>;
 
 	int j = 0;
@@ -245,6 +242,7 @@ uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes,
 	int size_ImgOutEnc16bits = ceil((double)size_ImgIn11bits/16);
 
 	uint16_t * ImgOutEnc16bits = new uint16_t[size_ImgOutEnc16bits];
+
 
 	int k = 0;
 	for (int i = 0; i < size_ImgOutEnc16bits; i++)
@@ -266,21 +264,21 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 {
 	// TODO : Trouver une solution
 	int sizeImg = (nb_lignes * nb_colonnes * 16) /11;
-
+	int sizeComp = nb_lignes * nb_colonnes;
 	std::bitset<2123366400> *setTemp = new std::bitset<2123366400>;
 
 	int j = 0;
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < sizeComp; i++)
 	{
 		std::bitset<16> setImg = ImgInEnc[i];
 		for (int k = 0; k < 16; k++)
 		{
-			(*setTemp).set(j, setImg[k]);
+			setTemp->set(j, setImg[k]);
 			j++;
 		}
 	}
 
-	std::cout << setTemp << std::endl;
+	// std::cout << setTemp << std::endl;
 
 	// step 2 : On écrit ce bitset dans le tableau originalImg
 	// int sizeOriginal = nb_lignes * nb_colonnes * 16;
@@ -300,12 +298,26 @@ uint16_t *PaillierControllerPGM::decompressBits(uint16_t *ImgInEnc, int nb_ligne
 			j++;
 		}
 		originalImg[i] = (uint16_t)setImg.to_ulong();
-		std::cout << setImg << std::endl;
+		// std::cout << setImg << std::endl;
 	}
 
 	return originalImg;
 }
 
+pair<int, int> PaillierControllerPGM::decomposeDimension(int n){
+    int facteur1 = 1, facteur2 = n;
+    for (int i = 2; i <= n / 2; i++) {
+        if (n % i == 0) {
+            int diff = abs(i - n / i);
+            int diff_actuelle = abs(facteur1 - facteur2);
+            if (diff < diff_actuelle) {
+                facteur1 = i;
+                facteur2 = n / i;
+            }
+        }
+    }
+    return make_pair(facteur1, facteur2);
+}
 
 /*compression with mod 32 */
 /*

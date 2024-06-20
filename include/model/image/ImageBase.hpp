@@ -16,8 +16,9 @@
 #pragma once
 #include <cstdio>
 #include <cstdlib>
-#include "../../include/image/image_ppm.hpp"
-#include "../../include/image/image_pgm.hpp"
+#include "../../include/model/image/image_pgm.hpp"
+#include "../../include/model/image/image_ppm.hpp"
+
 
 class ImageBase
 {
