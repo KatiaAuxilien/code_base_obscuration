@@ -211,7 +211,7 @@ void image_pgm::write_image_pgm_compressed_variable_size(char nom_image[], uint1
 	else
 	{
 		fprintf(f_image, "P5\r"); /*ecriture entete*/
-		fprintf(f_image, "#%d %d\r",nWOriginal, nHOriginal);
+		fprintf(f_image, "%d %d\r",nWOriginal, nHOriginal);
 		fprintf(f_image, "%d %d\r%" PRIu16 "\r", nb_colonnes, nb_lignes, max_value);
 
 		if ((fwrite((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
@@ -251,6 +251,7 @@ pair<int, int> image_pgm::read_image_pgm_compressed_and_get_originalDimension(ch
 		ignorer_commentaires(f_image); 
 
 		fscanf(f_image, "%d %d %" SCNd16 "%*c",&nb_colonnes, &nb_lignes, &max_grey_val);
+
 		taille_image = nb_colonnes * nb_lignes;
 
 		if ((fread((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
