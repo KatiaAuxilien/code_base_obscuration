@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -Wextra -g
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = ObscurationPGM_main.cpp ../../../src/model/image/image_portable.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/image/image_ppm.cpp ../../../src/model/image/ImageBase.cpp ../../../src/model/encryption/AES/AES.cpp ../../../src/model/filesystem/filesystemCommon.cpp ../../../src/model/filesystem/filesystemPGM.cpp ../../../src/model/obscuration/obscurationPGM.cpp  ../../../src/model/obscuration/obscurationCommon.cpp 
+SRC = ObscurationPGM_main.cpp ../../../src/model/image/image_portable.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/image/image_ppm.cpp ../../../src/model/image/ImageBase.cpp ../../../src/model/encryption/AES/AES.cpp ../../../src/model/filesystem/filesystemCommon.cpp ../../../src/model/filesystem/filesystemPGM.cpp ../../../src/model/obscuration/obscurationPGM.cpp  ../../../src/model/obscuration/obscurationCommon.cpp
 OBJ = $(SRC:../../../../src/%.cpp=../../../../obj/%.o)
 EXEC = ObscurationPGM_main.out
 

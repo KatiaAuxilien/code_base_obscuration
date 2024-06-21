@@ -22,3 +22,4 @@ main/Paillier/PaillierPgm/Paillier_public_key.bin
 obj/controller/PaillierControllerPGM.o
 main/Obscuration/PPM/ObscurationPPM_main.out
 main/Obscuration/PGM/ObscurationPGM_main.out
+main/Paillier/PaillierStat/PaillierStatG.out
