@@ -5,7 +5,7 @@
 
 >  It implements different obscuration methods on portable images (.pgm and .ppm). Repository dedicated to an internship in the ICAR team at LIRMM. 
 
-📄 [Documentation](https://katiaauxilien.github.io/code_base_obscuration/html/) *in progress*
+📄 [Documentation](https://katiaauxilien.github.io/code_base_obscuration/doc/)
 
 ## Installation
 
@@ -114,10 +114,10 @@ WARNING : You can't combine `-distribution` and `-optlsbr`, if you do that the p
 
 - [X] Add a -help -h option to print user's guide.
 - [X] Generate documentation with dioxygen. 
-  - [ ] Complete documentation. [*in progress*]
+  - [X] Complete documentation.
 - [X] Implement LSB compression.
 - [ ] Implement new solution for size encryption. (to make program usable with n > 256)
-- [ ] Fix obscuration parts.
+- [X] Fix obscuration parts.
 
 
 ## Author
