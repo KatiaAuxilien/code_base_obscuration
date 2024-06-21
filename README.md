@@ -5,6 +5,7 @@
 
 >  It implements different obscuration methods on portable images (.pgm and .ppm). Repository dedicated to an internship in the ICAR team at LIRMM. 
 
+📄 [Documentation](https://katiaauxilien.github.io/code_base_obscuration/html/) *in progress*
 
 ## Installation
 
@@ -105,14 +106,18 @@ $ ./Paillier_pgm_main.out decryption -k [PRIVATE KEY FILE .BIN] [FILE.PGM]
 
 `-histogramexpansion` ou `-hexp` to specify during **encryption** that we want to transform the histogram befor image encryption.
 
-`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation.
+`-optlsbr` or `-olsbr` to specify that we want to use bit compression with encrypted through optimized r generation. 
+
+WARNING : You can't combine `-distribution` and `-optlsbr`, if you do that the priority is `-optlsbr`.
 
 ## Progression
 
 - [X] Add a -help -h option to print user's guide.
-- [ ] Generate documentation with dioxygen.
-- [ ] Implement LSB compression.
+- [X] Generate documentation with dioxygen. 
+  - [ ] Complete documentation. [*in progress*]
+- [X] Implement LSB compression.
 - [ ] Implement new solution for size encryption. (to make program usable with n > 256)
+- [ ] Fix obscuration parts.
 
 
 ## Author
