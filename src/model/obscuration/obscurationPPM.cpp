@@ -18,7 +18,7 @@
 
 //====================== Interpolate ======================//
 
-static int obscurationPPM::interpolate_color(int p11, int p21, int p12, int p22, float dx, float dy)
+int obscurationPPM::interpolate_color(int p11, int p21, int p12, int p22, float dx, float dy)
 {
     float interpolated_value =
         p11 * (1 - dx) * (1 - dy) +
@@ -28,7 +28,7 @@ static int obscurationPPM::interpolate_color(int p11, int p21, int p12, int p22,
     return static_cast<int>(interpolated_value);
 }
 
-static void obscurationPPM::interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, float i, float j)
+void obscurationPPM::interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, float i, float j)
 {
     int i1 = static_cast<int>(i), j1 = static_cast<int>(j);
     int i2 = i + 1, j2 = j + 1;
@@ -39,7 +39,7 @@ static void obscurationPPM::interpolate_bilinear(ImageBase &image, int &valR, in
     valB = interpolate_color(image[3 * i1][3 * j1 + 2], image[3 * i2][3 * j1 + 2], image[3 * i1][3 * j2 + 2], image[3 * i2][3 * j2 + 2], di, dj);
 }
 
-static void obscurationPPM::bilinearRedim299(ImageBase &image, ImageBase &o_image)
+void obscurationPPM::bilinearRedim299(ImageBase &image, ImageBase &o_image)
 {
     float ratio_w = (image.getWidth() - 1) / 299.;
     float ratio_h = (image.getHeight() - 1) / 299.;
@@ -62,7 +62,7 @@ static void obscurationPPM::bilinearRedim299(ImageBase &image, ImageBase &o_imag
 
 //====================== Histogram ======================//
 
-static void obscurationPPM::computeColorHist(ImageBase &image, int histR[256], int histG[256], int histB[256])
+void obscurationPPM::computeColorHist(ImageBase &image, int histR[256], int histG[256], int histB[256])
 {
     for (int v = 0; v < 256; ++v)
     {
@@ -79,7 +79,7 @@ static void obscurationPPM::computeColorHist(ImageBase &image, int histR[256], i
         }
 }
 
-static void obscurationPPM::compareImagesByHist(ImageBase &image1, ImageBase &image2)
+void obscurationPPM::compareImagesByHist(ImageBase &image1, ImageBase &image2)
 {
     bool isSame = true;
     int histR1[256], histG1[256], histB1[256];
@@ -96,7 +96,7 @@ static void obscurationPPM::compareImagesByHist(ImageBase &image1, ImageBase &im
 
 //====================== Gaussian blurring ======================//
 
-static void obscurationPPM::generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, float sigma)
+void obscurationPPM::generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, float sigma)
 {
     float sum = 0.0;
     for (int y = -size / 2; y <= size / 2; ++y)
@@ -117,7 +117,7 @@ static void obscurationPPM::generateGaussianKernel(std::vector<std::vector<float
     }
 }
 
-static void obscurationPPM::gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float sigma)
+void obscurationPPM::gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float sigma)
 {
     std::vector<std::vector<float>> kernel(kernelSize, std::vector<float>(kernelSize));
     generateGaussianKernel(kernel, kernelSize, sigma);
@@ -157,7 +157,7 @@ static void obscurationPPM::gaussianBlur(ImageBase &image, ImageBase &o_image, i
 
 //====================== Average blurring ======================//
 
-static void obscurationPPM::averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize)
+void obscurationPPM::averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize)
 {
     int sum_R, sum_G, sum_B, nbV;
     for (int i = 0; i < image.getHeight(); ++i)
@@ -182,7 +182,7 @@ static void obscurationPPM::averageBlurring(ImageBase &image, ImageBase &o_image
         }
 }
 
-static void obscurationPPM::newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
+void obscurationPPM::newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
 {
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -243,7 +243,7 @@ static void obscurationPPM::newAverageBlurring(ImageBase &image, std::vector<Ima
 
 //====================== Scrambling ======================//
 
-static void obscurationPPM::areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+void obscurationPPM::areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     std::random_device randev;
@@ -272,7 +272,7 @@ static void obscurationPPM::areaScrambling(ImageBase &image, ImageBase &o_image,
         }
 }
 
-static void obscurationPPM::scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+void obscurationPPM::scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -295,7 +295,7 @@ static void obscurationPPM::scrambling(ImageBase &image, ImageBase &o_image, int
 
 //====================== Averager ======================//
 
-static void obscurationPPM::areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+void obscurationPPM::areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     int sum_R = 0, sum_G = 0, sum_B = 0;
@@ -316,7 +316,7 @@ static void obscurationPPM::areaAverager(ImageBase &image, ImageBase &o_image, i
         }
 }
 
-static void obscurationPPM::averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+void obscurationPPM::averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -339,7 +339,7 @@ static void obscurationPPM::averageByRegion(ImageBase &image, ImageBase &o_image
 
 //====================== Encryption ======================//
 
-static void obscurationPPM::selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
+void obscurationPPM::selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -375,7 +375,7 @@ static void obscurationPPM::selectiveProgressiveEncryption(ImageBase &image, Ima
     }
 }
 
-static void obscurationPPM::selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8])
+void obscurationPPM::selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8])
 {
     unsigned int bSeq[8];
     int height, width;
@@ -405,7 +405,7 @@ static void obscurationPPM::selectiveIndividualEncryption(ImageBase &image, Imag
     }
 }
 
-static void obscurationPPM::selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
+void obscurationPPM::selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -434,7 +434,7 @@ static void obscurationPPM::selectiveGroupEncryption(ImageBase &image, ImageBase
     }
 }
 
-static double obscurationPPM::computePSNR(ImageBase &image1, ImageBase &image2)
+double obscurationPPM::computePSNR(ImageBase &image1, ImageBase &image2)
 {
     double mse = 0;
     double maxIntensity = 255.0;
@@ -455,7 +455,7 @@ static double obscurationPPM::computePSNR(ImageBase &image1, ImageBase &image2)
     return psnr;
 }
 
-static void obscurationPPM::computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *baseName, int i_min, int i_max, int step)
+void obscurationPPM::computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *baseName, int i_min, int i_max, int step)
 {
     char filePath[200];
     std::strcpy(filePath, baseName);
@@ -473,7 +473,7 @@ static void obscurationPPM::computePSNRforAllAlterations(std::vector<double> &PS
     }
 }
 
-static void obscurationPPM::writeDataOnTxt(std::vector<double> &data, std::string filename)
+void obscurationPPM::writeDataOnTxt(std::vector<double> &data, std::string filename)
 {
     std::ofstream file(filename);
     if (file.is_open())
@@ -491,14 +491,14 @@ static void obscurationPPM::writeDataOnTxt(std::vector<double> &data, std::strin
     }
 }
 
-static void obscurationPPM::RGB2GREY(ImageBase &imColor, ImageBase &imGrey)
+void obscurationPPM::RGB2GREY(ImageBase &imColor, ImageBase &imGrey)
 {
     for (int i = 0; i < imColor.getHeight(); ++i)
         for (int j = 0; j < imColor.getWidth(); ++j)
             imGrey[i][j] = 0.299 * imColor[3 * i][3 * j] + 0.587 * imColor[3 * i][3 * j + 1] + 0.114 * imColor[3 * i][3 * j + 2];
 }
 
-static double obscurationPPM::computeImageMean(ImageBase &image)
+double obscurationPPM::computeImageMean(ImageBase &image)
 {
     double sum = 0.;
     for (int i = 0; i < image.getHeight(); ++i)
@@ -507,7 +507,7 @@ static double obscurationPPM::computeImageMean(ImageBase &image)
     return sum / (image.getWidth() * image.getHeight());
 }
 
-static double obscurationPPM::computeSSIM(ImageBase &image1, ImageBase &image2)
+double obscurationPPM::computeSSIM(ImageBase &image1, ImageBase &image2)
 {
     ImageBase image1grey(image1.getWidth(), image1.getHeight(), false);
     ImageBase image2grey(image1.getWidth(), image1.getHeight(), false);

@@ -14,7 +14,7 @@
  *
  *******************************************************************************/
 
-#include "../../../../include/model/encryption/AES/AES.h"
+#include "../../../../include/model/encryption/AES/AES.hpp"
 
 AES::AES(const AESKeyLength keyLength)
 {

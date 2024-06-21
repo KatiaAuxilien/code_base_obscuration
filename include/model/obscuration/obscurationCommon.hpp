@@ -50,6 +50,6 @@ public:
      *  \date 06 March 2024
      */
     static void intVec2intArray(std::vector<int> &vec, int arr[8]);
-}
+};
 
 #endif // OBSCURATION_COMMON_LIBRARY

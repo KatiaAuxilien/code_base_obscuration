@@ -29,7 +29,7 @@
  */
 class obscurationPPM : public obscurationCommon
 {
-
+public:
     //====================== Interpolate ======================//
 
     /**
@@ -276,6 +276,6 @@ class obscurationPPM : public obscurationCommon
      *  \date 6 March 2024
      */
     static double computeSSIM(ImageBase &image1, ImageBase &image2);
-}
+};
 
 #endif // STAGE_IMAGE_FUNCTIONS_H

@@ -171,6 +171,6 @@ public:
      *  \date 15 April 2024
      */
     static void selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize);
-}
+};
 
 #endif // OBSCURATION_PGM_LIBRARY

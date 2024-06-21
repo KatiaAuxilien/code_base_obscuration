@@ -1,23 +1,22 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : ObscurationPPM_main.cpp
- *
- * Description :
- *   Source files main.cpp and Functions.h by Norman Hutte
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : April 2024
- *
- *******************************************************************************/
-#include "../../../../include/model/filesystem/filesystemCommon.hpp"
-#include "../../../../include/model/image/ImageBase.hpp"
-#include "../../../../include/model/image/image_ppm.hpp"
-#include "../../../../include/model/obscuration/obscurationPPM.hpp"
-#include "../../../../include/model/obscuration/obscurationCommon.hpp"
+/**
+ * @file ObscurationPPM_main.cpp
+ * @brief  This file contains the main function for the PPM image obscuration program, 
+ * which applies various image obscuration techniques to PPM images using the 
+ * Paillier cryptosystem. 
+ * @author Katia Auxilien
+ * @date April 2024
+ * @details The techniques include blurring, scrambling, pixelation, 
+ * and selective encryption. The program takes a directory as input and applies the
+ * obscuration techniques to all PPM images in the directory. The obscured images 
+ * are then saved to separate directories based on the technique used.
+ * Source files main.cpp and Functions.h by Norman Hutte.
+ */
+
+#include "../../../include/model/filesystem/filesystemCommon.hpp"
+#include "../../../include/model/image/ImageBase.hpp"
+#include "../../../include/model/image/image_ppm.hpp"
+#include "../../../include/model/obscuration/obscurationCommon.hpp"
+#include "../../../include/model/obscuration/obscurationPPM.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -25,13 +24,25 @@
 #include <string>
 #include <vector>
 
-//TODO : Documentation
-
+/**
+ * @brief Checks if a given file extension is PPM.
+ * @param extension The file extension to check.
+ * @return True if the extension is PPM, false otherwise.
+ * @author Katia Auxilien
+ * @date April 2024
+ */
 bool is_ppm(const std::string &extension)
 {
     return extension == ".ppm";
 }
 
+/**
+ * @brief Gets the file paths of all PPM images in a given folder.
+ * @param imagePaths The vector to store the file paths in.
+ * @param folderPath The path to the folder to search in.
+ * @author Katia Auxilien
+ * @date April 2024
+ */
 void getFilePathsOfPPMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath)
 {
     imagePaths.clear();
@@ -47,13 +58,26 @@ void getFilePathsOfPPMFilesFromFolder(std::vector<std::string> &imagePaths, std:
         }
     }
 }
-
+/**
+ * @brief Converts a std::string to a char array.
+ * @param str The string to convert.
+ * @param charArray The char array to store the result in.
+ * @author Katia Auxilien
+ * @date April 2024
+ */
 void string2char(std::string str, char *charArray)
 {
     charArray = new char[str.length() + 1];
     std::strcpy(charArray, str.c_str());
 }
-
+/**
+ * @brief Main function for the PPM image obscuration program.
+ * @param argc The number of command-line arguments.
+ * @param argv The command-line arguments.
+ * @return 0 if the program runs successfully, 1 otherwise. 
+ * @author Katia Auxilien
+ * @date April 2024
+ */
 int main(int argc, char **argv)
 {
     if (argc != 2)
@@ -82,11 +106,11 @@ int main(int argc, char **argv)
         std::strcpy(imagePath, imInPath.c_str());
         imInOriginal.load(imagePath);
         ImageBase imIn(299, 299, true);
-        bilinearRedim299(imInOriginal, imIn);
+        obscurationPPM::bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
         filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
         std::vector<ImageBase> o_images;
-        newAverageBlurring(imIn, o_images);
+        obscurationPPM::newAverageBlurring(imIn, o_images);
         for (int cpt = 1; cpt <= 101; cpt += 2)
         {
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
@@ -112,7 +136,7 @@ int main(int argc, char **argv)
         std::strcpy(imagePath, imInPath.c_str());
         imInOriginal.load(imagePath);
         ImageBase imIn(299, 299, true);
-        bilinearRedim299(imInOriginal, imIn);
+        obscurationPPM::bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
         filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
 
@@ -121,7 +145,7 @@ int main(int argc, char **argv)
             ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
             std::strcpy(imagePath, imOutPath.c_str());
-            scrambling(imIn, imOut, cpt, cpt);
+            obscurationPPM::scrambling(imIn, imOut, cpt, cpt);
             imOut.save(imagePath);
         }
     }
@@ -143,7 +167,7 @@ int main(int argc, char **argv)
         std::strcpy(imagePath, imInPath.c_str());
         imInOriginal.load(imagePath);
         ImageBase imIn(299, 299, true);
-        bilinearRedim299(imInOriginal, imIn);
+        obscurationPPM::bilinearRedim299(imInOriginal, imIn);
         std::string imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt);
         filesystemCommon::createDirectoryIfNotExists(imgNewFolderPath);
         for (int cpt = 1; cpt <= 50; ++cpt)
@@ -151,7 +175,7 @@ int main(int argc, char **argv)
             ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
             std::strcpy(imagePath, imOutPath.c_str());
-            averageByRegion(imIn, imOut, cpt, cpt);
+            obscurationPPM::averageByRegion(imIn, imOut, cpt, cpt);
             imOut.save(imagePath);
         }
     }
@@ -174,7 +198,7 @@ int main(int argc, char **argv)
         std::strcpy(imagePath, imInPath.c_str());
         imInOriginal.load(imagePath);
         ImageBase imIn(299, 299, true);
-        bilinearRedim299(imInOriginal, imIn);
+        obscurationPPM::bilinearRedim299(imInOriginal, imIn);
 
         // Bits individuels
         imgNewFolderPath = newfolderpath + "/" + std::to_string(img_cpt) + "/individual";
@@ -188,7 +212,7 @@ int main(int argc, char **argv)
                                    ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                    ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                    ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor())};
-        selectiveIndividualEncryption(imIn, ind_images);
+        obscurationPPM::selectiveIndividualEncryption(imIn, ind_images);
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
@@ -208,7 +232,7 @@ int main(int argc, char **argv)
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor())};
-        selectiveProgressiveEncryption(imIn, cons1_images, true);
+        obscurationPPM::selectiveProgressiveEncryption(imIn, cons1_images, true);
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
@@ -228,7 +252,7 @@ int main(int argc, char **argv)
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor()),
                                      ImageBase(imIn.getWidth(), imIn.getHeight(), imIn.getColor())};
-        selectiveProgressiveEncryption(imIn, cons2_images, false);
+        obscurationPPM::selectiveProgressiveEncryption(imIn, cons2_images, false);
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
             std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(cpt) + ".ppm";
@@ -243,13 +267,13 @@ int main(int argc, char **argv)
         for (int gsize = 1; gsize <= 8; ++gsize)
         {
             std::vector<std::vector<int>> groups;
-            genBitsGroups(groups, gsize);
+            obscurationPPM::genBitsGroups(groups, gsize);
             for (size_t i = 0; i < groups.size(); ++i)
             {
                 int group[8];
-                intVec2intArray(groups[i], group);
+                obscurationPPM::intVec2intArray(groups[i], group);
                 ImageBase imOut(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
-                selectiveGroupEncryption(imIn, imOut, group, gsize);
+                obscurationPPM::selectiveGroupEncryption(imIn, imOut, group, gsize);
                 std::string imOutPath = imgNewFolderPath + "/" + classString + "_" + std::to_string(img_cpt) + "_" + std::to_string(gsize) + "_" + std::to_string(i) + ".ppm";
                 std::strcpy(imagePath, imOutPath.c_str());
                 imOut.save(imagePath);

@@ -48,7 +48,7 @@ class image_portable
 {
 protected:
     /**
-     * \brief A base class for different image formats. / class image_portable{ protected: /*
+     * \brief A base class for different image formats.
      * \brief Ignore comments in a file.
      * \param f The file pointer.
      * \author William Puech

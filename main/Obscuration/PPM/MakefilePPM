@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -Wextra -g
 INCLUDES = -I./include/
 LDLIBS = 
 
-SRC = ObscurationPPM_main.cpp ../../../src/model/image/ImageBase.cpp  ../../../src/model/image/image.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/image/image_ppm.cpp
+SRC = ObscurationPPM_main.cpp ../../../src/model/image/ImageBase.cpp  ../../../src/model/image/image_portable.cpp ../../../src/model/image/image_pgm.cpp ../../../src/model/image/image_ppm.cpp ../../../src/model/filesystem/filesystemCommon.cpp ../../../src/model/obscuration/obscurationCommon.cpp ../../../src/model/obscuration/obscurationPPM.cpp
 OBJ = $(SRC:../../../../src/%.cpp=../../../../obj/%.o)
 EXEC = ObscurationPPM_main.out
 

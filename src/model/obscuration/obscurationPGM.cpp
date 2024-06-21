@@ -17,7 +17,7 @@
 #include "../../../include/model/obscuration/obscurationPGM.hpp"
 
 //====================== Interpolate ======================//
-static int obscurationPGM::interpolate_grey(int p11, int p21, int p12, int p22, float dx, float dy)
+int obscurationPGM::interpolate_grey(int p11, int p21, int p12, int p22, float dx, float dy)
 {
     float interpolated_value =
         p11 * (1 - dx) * (1 - dy) +
@@ -27,7 +27,7 @@ static int obscurationPGM::interpolate_grey(int p11, int p21, int p12, int p22, 
     return static_cast<int>(interpolated_value);
 }
 
-static void obscurationPGM::interpolate_bilinear_PGM(ImageBase &image, int &valV, float i, float j)
+void obscurationPGM::interpolate_bilinear_PGM(ImageBase &image, int &valV, float i, float j)
 {
     int i1 = static_cast<int>(i), j1 = static_cast<int>(j);
     int i2 = i + 1,
@@ -38,7 +38,7 @@ static void obscurationPGM::interpolate_bilinear_PGM(ImageBase &image, int &valV
     valV = interpolate_grey(image[i1][j1], image[i2][j1], image[i1][j2], image[i2][j2], di, dj);
 }
 
-static void obscurationPGM::bilinearRedim299_PGM(ImageBase &image, ImageBase &o_image)
+void obscurationPGM::bilinearRedim299_PGM(ImageBase &image, ImageBase &o_image)
 {
     float ratio_w = (image.getWidth() - 1) / 299.;
     float ratio_h = (image.getHeight() - 1) / 299.;
@@ -59,7 +59,7 @@ static void obscurationPGM::bilinearRedim299_PGM(ImageBase &image, ImageBase &o_
 
 //====================== Average blurring ======================//
 
-static void obscurationPGM::newAverageBlurring_PGM(ImageBase &image, std::vector<ImageBase> &o_images)
+void obscurationPGM::newAverageBlurring_PGM(ImageBase &image, std::vector<ImageBase> &o_images)
 {
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -116,7 +116,7 @@ static void obscurationPGM::newAverageBlurring_PGM(ImageBase &image, std::vector
 
 //====================== Scrambling ======================//
 
-static void obscurationPGM::areaScrambling_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+void obscurationPGM::areaScrambling_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     std::random_device randev;
@@ -140,7 +140,7 @@ static void obscurationPGM::areaScrambling_PGM(ImageBase &image, ImageBase &o_im
         }
 }
 
-static void obscurationPGM::scrambling_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+void obscurationPGM::scrambling_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -163,7 +163,7 @@ static void obscurationPGM::scrambling_PGM(ImageBase &image, ImageBase &o_image,
 
 //====================== Averager ======================//
 
-static void obscurationPGM::areaAverager_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+void obscurationPGM::areaAverager_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     int sum_V = 0;
@@ -180,7 +180,7 @@ static void obscurationPGM::areaAverager_PGM(ImageBase &image, ImageBase &o_imag
         }
 }
 
-static void obscurationPGM::averageByRegion_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+void obscurationPGM::averageByRegion_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -203,7 +203,7 @@ static void obscurationPGM::averageByRegion_PGM(ImageBase &image, ImageBase &o_i
 
 //====================== Encryption ======================//
 
-static void obscurationPGM::selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
+void obscurationPGM::selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
 {
     unsigned int bSeq[8];
     int height, width;
@@ -225,7 +225,7 @@ static void obscurationPGM::selectiveIndividualEncryption_PGM(ImageBase &image, 
     }
 }
 
-static void obscurationPGM::selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
+void obscurationPGM::selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -253,7 +253,7 @@ static void obscurationPGM::selectiveProgressiveEncryption_PGM(ImageBase &image,
     }
 }
 
-static void obscurationPGM::selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
+void obscurationPGM::selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -275,4 +275,4 @@ static void obscurationPGM::selectiveGroupEncryption_PGM(ImageBase &image, Image
         }
     }
 }
-}
+

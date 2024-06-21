@@ -157,10 +157,10 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         std::vector<ImageBase> v_ibImgOut;
-        newAverageBlurring_PGM(ibImgInResized, v_ibImgOut);
+        obscurationPGM::newAverageBlurring_PGM(ibImgInResized, v_ibImgOut);
 
         for (int cpt = 1; cpt <= 101; cpt += 2)
         {
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         for (int cpt = 1; cpt <= 50; ++cpt)
         {
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
             std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
             std::strcpy(t_cImagePath, sImOutPath.c_str());
 
-            scrambling_PGM(ibImgInResized, ibImgOut, cpt, cpt);
+            obscurationPGM::scrambling_PGM(ibImgInResized, ibImgOut, cpt, cpt);
             ibImgOut.save(t_cImagePath);
         }
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -236,7 +236,7 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         for (int cpt = 1; cpt <= 50; ++cpt)
         {
@@ -245,7 +245,7 @@ int main(int argc, char **argv)
             std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(cpt) + FILE_EXT;
             std::strcpy(t_cImagePath, sImOutPath.c_str());
 
-            averageByRegion_PGM(ibImgInResized, ibImgOut, cpt, cpt);
+            obscurationPGM::averageByRegion_PGM(ibImgInResized, ibImgOut, cpt, cpt);
             ibImgOut.save(t_cImagePath);
         }
         // std::cout << "Image " << nImg_cpt + 1 << " sur " << v_sImagePaths.size() << "\n";
@@ -282,7 +282,7 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         ImageBase t_ibImages[8] = {ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor())};
-        selectiveIndividualEncryption_PGM(ibImgInResized, t_ibImages);
+        obscurationPGM::selectiveIndividualEncryption_PGM(ibImgInResized, t_ibImages);
 
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
@@ -330,7 +330,7 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         ImageBase t_ibImages[8] = {ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
@@ -340,7 +340,7 @@ int main(int argc, char **argv)
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor())};
-        selectiveProgressiveEncryption_PGM(ibImgInResized, t_ibImages, true);
+        obscurationPGM::selectiveProgressiveEncryption_PGM(ibImgInResized, t_ibImages, true);
 
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
@@ -378,7 +378,7 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         ImageBase t_ibImages[8] = {ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
@@ -388,7 +388,7 @@ int main(int argc, char **argv)
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor()),
                                    ImageBase(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor())};
-        selectiveProgressiveEncryption_PGM(ibImgInResized, t_ibImages, false);
+        obscurationPGM::selectiveProgressiveEncryption_PGM(ibImgInResized, t_ibImages, false);
 
         for (int cpt = 0; cpt <= 7; ++cpt)
         {
@@ -425,18 +425,18 @@ int main(int argc, char **argv)
         filesystemCommon::createDirectoryIfNotExists(sNewImgPath);
 
         ImageBase ibImgInResized(299, 299, false);
-        bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
+        obscurationPGM::bilinearRedim299_PGM(ibImgInOriginal, ibImgInResized);
 
         for (int nGSize = 1; nGSize <= 8; ++nGSize)
         {
             std::vector<std::vector<int>> v_nBitGroup;
-            genBitsGroups(v_nBitGroup, nGSize);
+            obscurationPGM::genBitsGroups(v_nBitGroup, nGSize);
             for (size_t i = 0; i < v_nBitGroup.size(); ++i)
             {
                 int nGroup[8];
-                intVec2intArray(v_nBitGroup[i], nGroup);
+                obscurationPGM::intVec2intArray(v_nBitGroup[i], nGroup);
                 ImageBase ibImgOut(ibImgInResized.getWidth(), ibImgInResized.getHeight(), ibImgInResized.getColor());
-                selectiveGroupEncryption_PGM(ibImgInResized, ibImgOut, nGroup, nGSize);
+                obscurationPGM::selectiveGroupEncryption_PGM(ibImgInResized, ibImgOut, nGroup, nGSize);
 
                 std::string sImOutPath = sNewImgPath + "/" + sImgClass + "_" + std::to_string(nImg_cpt) + "_" + std::to_string(nGSize) + FILE_EXT;
                 std::strcpy(t_cImagePath, sImOutPath.c_str());

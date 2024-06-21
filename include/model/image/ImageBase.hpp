@@ -8,8 +8,8 @@
 #pragma once
 #include <cstdio>
 #include <cstdlib>
-#include "../../include/model/image/image_pgm.hpp"
-#include "../../include/model/image/image_ppm.hpp"
+#include "image_pgm.hpp"
+#include "image_ppm.hpp"
 
 /**
  * \class ImageBase

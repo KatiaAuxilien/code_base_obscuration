@@ -34,10 +34,7 @@ public:
      *  \authors Norman Hutte, Katia Auxilien
      *  \date 11 April 2024
      */
-    static bool is_pgm(const std::string &extension)
-    {
-        return extension == ".pgm";
-    }
+    static bool is_pgm(const std::string &extension);
 
     /**
      * \brief Get the file paths of all .pgm images in a folder
@@ -47,21 +44,7 @@ public:
      * \authors Norman Hutte, Katia Auxilien
      * \date 11 April 2024
      */
-    static void getFilePathsOfPGMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath)
-    {
-        imagePaths.clear();
-        for (const auto &entry : std::filesystem::directory_iterator(folderPath))
-        {
-            if (entry.is_regular_file())
-            {
-                std::string file_extension = entry.path().extension().string();
-                if (is_pgm(file_extension))
-                {
-                    imagePaths.push_back(entry.path().string());
-                }
-            }
-        }
-    }
+    static void getFilePathsOfPGMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath);
 };
 
 #endif // FILESYSTEM_PGM_LIBRARY

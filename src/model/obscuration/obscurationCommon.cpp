@@ -16,7 +16,7 @@
 
 #include "../../../include/model/obscuration/obscurationCommon.hpp"
 
-static void obscurationCommon::genPRNS(unsigned int seq[8])
+void obscurationCommon::genPRNS(unsigned int seq[8])
 {
     std::random_device randev;
     std::mt19937 rng(randev());
@@ -25,7 +25,7 @@ static void obscurationCommon::genPRNS(unsigned int seq[8])
         seq[i] = distrbit(rng);
 }
 
-static void obscurationCommon::genBitsGroups(std::vector<std::vector<int>> &groups, int groupSize)
+void obscurationCommon::genBitsGroups(std::vector<std::vector<int>> &groups, int groupSize)
 {
     groups.clear();
     for (int i = 0; i < 7 - groupSize + 2; ++i)
@@ -39,7 +39,7 @@ static void obscurationCommon::genBitsGroups(std::vector<std::vector<int>> &grou
     }
 }
 
-static void obscurationCommon::intVec2intArray(std::vector<int> &vec, int arr[8])
+void obscurationCommon::intVec2intArray(std::vector<int> &vec, int arr[8])
 {
     for (size_t i = 0; i < vec.size(); ++i)
         arr[i] = vec[i];
