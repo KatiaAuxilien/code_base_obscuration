@@ -31,7 +31,7 @@ var searchData=
   ['getcolor_28',['getColor',['../class_image_base.html#a4b4770cd6a57bfeab11d72a61fe13eba',1,'ImageBase']]],
   ['getdata_29',['getData',['../class_image_base.html#afb62eeacad80ffd9c5943437430ca77d',1,'ImageBase']]],
   ['getfilepathsofpgmfilesfromfolder_30',['getFilePathsOfPGMFilesFromFolder',['../classfilesystem_p_g_m.html#a8c7d46b8c0fa1066292c664afce78a3b',1,'filesystemPGM']]],
-  ['getfilepathsofppmfilesfromfolder_31',['getFilePathsOfPPMFilesFromFolder',['../_obscuration_p_p_m__main_8cpp.html#a2180f0f1daf30fac8cbd14df7a3e1561',1,'ObscurationPPM_main.cpp']]],
+  ['getfilepathsofppmfilesfromfolder_31',['getFilePathsOfPPMFilesFromFolder',['../obscuration_p_p_m__main_8cpp.html#a2180f0f1daf30fac8cbd14df7a3e1561',1,'ObscurationPPM_main.cpp']]],
   ['getg_32',['getG',['../class_paillier_public_key.html#ac96d442e52e2cb555375171b34446498',1,'PaillierPublicKey::getG()'],['../class_paillier_model.html#aa6b0e1eb993ab409d78369ebf789845f',1,'PaillierModel::getG()']]],
   ['getheight_33',['getHeight',['../class_image_base.html#ae645a4bb60f2bf6402d03eadd5055af7',1,'ImageBase']]],
   ['getinstance_34',['getInstance',['../class_paillier_model.html#a7114cb20aa72e91cf170aaa639cd61ee',1,'PaillierModel::getInstance()'],['../classcommand_line_interface.html#a0b6104b096612d51848287cc7af8e3de',1,'commandLineInterface::getInstance()']]],

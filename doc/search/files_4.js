@@ -6,6 +6,6 @@ var searchData=
   ['image_5fportable_2ehpp_3',['image_portable.hpp',['../image__portable_8hpp.html',1,'']]],
   ['image_5fppm_2ecpp_4',['image_ppm.cpp',['../image__ppm_8cpp.html',1,'']]],
   ['image_5fppm_2ehpp_5',['image_ppm.hpp',['../image__ppm_8hpp.html',1,'']]],
-  ['imagebase_2ecpp_6',['ImageBase.cpp',['../_image_base_8cpp.html',1,'']]],
-  ['imagebase_2ehpp_7',['ImageBase.hpp',['../_image_base_8hpp.html',1,'']]]
+  ['imagebase_2ecpp_6',['ImageBase.cpp',['../image_base_8cpp.html',1,'']]],
+  ['imagebase_2ehpp_7',['ImageBase.hpp',['../image_base_8hpp.html',1,'']]]
 ];

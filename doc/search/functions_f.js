@@ -20,5 +20,5 @@ var searchData=
   ['setprivatekey_17',['setPrivateKey',['../class_paillier_model.html#a205a6d3092f7088ec849d819425b62ea',1,'PaillierModel']]],
   ['setpublickey_18',['setPublicKey',['../class_paillier_model.html#a31d3f2336e31ea8ca437adb43625a855',1,'PaillierModel']]],
   ['setq_19',['setQ',['../class_paillier_model.html#ac50c67c3f1de25bd3a06cb3097bedfc2',1,'PaillierModel']]],
-  ['string2char_20',['string2char',['../_obscuration_p_p_m__main_8cpp.html#a38b8f9c71bd0f17144ef69ef74d593f8',1,'ObscurationPPM_main.cpp']]]
+  ['string2char_20',['string2char',['../obscuration_p_p_m__main_8cpp.html#a38b8f9c71bd0f17144ef69ef74d593f8',1,'ObscurationPPM_main.cpp']]]
 ];

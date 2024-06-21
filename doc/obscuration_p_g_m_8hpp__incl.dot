@@ -8,7 +8,7 @@ digraph "C:/Users/Katia/Documents/GitHub/code_base_obscuration/include/model/obs
   Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
   Node2 [id="Node000002",label="obscurationCommon.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$obscuration_common_8hpp.html",tooltip="Header of super class containing common and useful methods for obscuring pgm and ppm images."];
   Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
-  Node3 [id="Node000003",label="../image/ImageBase.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_image_base_8hpp.html",tooltip="Base class containing some basic functionalities for images."];
+  Node3 [id="Node000003",label="../image/ImageBase.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$image_base_8hpp.html",tooltip="Base class containing some basic functionalities for images."];
   Node3 -> Node4 [id="edge3_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
   Node4 [id="Node000004",label="cstdio",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node3 -> Node5 [id="edge4_Node000003_Node000005",color="steelblue1",style="solid",tooltip=" "];

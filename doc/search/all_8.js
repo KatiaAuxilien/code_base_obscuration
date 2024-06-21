@@ -32,7 +32,7 @@ var searchData=
   ['getcolor_29',['getColor',['../class_image_base.html#a4b4770cd6a57bfeab11d72a61fe13eba',1,'ImageBase']]],
   ['getdata_30',['getData',['../class_image_base.html#afb62eeacad80ffd9c5943437430ca77d',1,'ImageBase']]],
   ['getfilepathsofpgmfilesfromfolder_31',['getFilePathsOfPGMFilesFromFolder',['../classfilesystem_p_g_m.html#a8c7d46b8c0fa1066292c664afce78a3b',1,'filesystemPGM']]],
-  ['getfilepathsofppmfilesfromfolder_32',['getFilePathsOfPPMFilesFromFolder',['../_obscuration_p_p_m__main_8cpp.html#a2180f0f1daf30fac8cbd14df7a3e1561',1,'ObscurationPPM_main.cpp']]],
+  ['getfilepathsofppmfilesfromfolder_32',['getFilePathsOfPPMFilesFromFolder',['../obscuration_p_p_m__main_8cpp.html#a2180f0f1daf30fac8cbd14df7a3e1561',1,'ObscurationPPM_main.cpp']]],
   ['getg_33',['getG',['../class_paillier_public_key.html#ac96d442e52e2cb555375171b34446498',1,'PaillierPublicKey::getG()'],['../class_paillier_model.html#aa6b0e1eb993ab409d78369ebf789845f',1,'PaillierModel::getG()']]],
   ['getheight_34',['getHeight',['../class_image_base.html#ae645a4bb60f2bf6402d03eadd5055af7',1,'ImageBase']]],
   ['getinstance_35',['getInstance',['../class_paillier_model.html#a7114cb20aa72e91cf170aaa639cd61ee',1,'PaillierModel::getInstance()'],['../classcommand_line_interface.html#a0b6104b096612d51848287cc7af8e3de',1,'commandLineInterface::getInstance()']]],
@@ -52,7 +52,7 @@ var searchData=
   ['getvalidity_49',['getValidity',['../class_image_base.html#a0c352ac615f717d33c462fbadc8f9204',1,'ImageBase']]],
   ['getview_50',['getView',['../class_paillier_controller.html#a122b2a6ec110fe84fbdd9d37db2e291f',1,'PaillierController']]],
   ['getwidth_51',['getWidth',['../class_image_base.html#aba23064ee3a63d34affd98302bba524a',1,'ImageBase']]],
-  ['grn_52',['GRN',['../_a_n_s_i-color-codes_8h.html#aea69ffbacdcdf16c21b8c9961df84448',1,'ANSI-color-codes.h']]],
-  ['grnb_53',['GRNB',['../_a_n_s_i-color-codes_8h.html#a906e1183ece851df294cfd43b14561c8',1,'ANSI-color-codes.h']]],
-  ['grnhb_54',['GRNHB',['../_a_n_s_i-color-codes_8h.html#ad1c69f0fbadaa9bef5acfb1aac37cbbb',1,'ANSI-color-codes.h']]]
+  ['grn_52',['GRN',['../a_n_s_i-color-codes_8h.html#aea69ffbacdcdf16c21b8c9961df84448',1,'ANSI-color-codes.h']]],
+  ['grnb_53',['GRNB',['../a_n_s_i-color-codes_8h.html#a906e1183ece851df294cfd43b14561c8',1,'ANSI-color-codes.h']]],
+  ['grnhb_54',['GRNHB',['../a_n_s_i-color-codes_8h.html#ad1c69f0fbadaa9bef5acfb1aac37cbbb',1,'ANSI-color-codes.h']]]
 ];

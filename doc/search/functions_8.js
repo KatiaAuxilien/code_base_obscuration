@@ -10,6 +10,6 @@ var searchData=
   ['interpolate_5fgrey_7',['interpolate_grey',['../classobscuration_p_g_m.html#a00f85f118fd943de6afc5597d903b47f',1,'obscurationPGM']]],
   ['intvec2intarray_8',['intVec2intArray',['../classobscuration_common.html#a823772a0b7804701aaa7df8c131ab422',1,'obscurationCommon']]],
   ['is_5fpgm_9',['is_pgm',['../classfilesystem_p_g_m.html#a7a9777036eb056b8fce7428982f032e7',1,'filesystemPGM']]],
-  ['is_5fppm_10',['is_ppm',['../_obscuration_p_p_m__main_8cpp.html#a2fab4d152821adf4fd54db29a4d7b2b5',1,'ObscurationPPM_main.cpp']]],
-  ['isprime_11',['isPrime',['../class_paillier_controller.html#ae703299ebf4b97ffa2d77461b52a26c3',1,'PaillierController::isPrime()'],['../_paillier__num__main___v3_8cpp.html#ab6bc672e8d10e76e3faba6bee7a9cfac',1,'isPrime():&#160;Paillier_num_main_V3.cpp']]]
+  ['is_5fppm_10',['is_ppm',['../obscuration_p_p_m__main_8cpp.html#a2fab4d152821adf4fd54db29a4d7b2b5',1,'ObscurationPPM_main.cpp']]],
+  ['isprime_11',['isPrime',['../class_paillier_controller.html#ae703299ebf4b97ffa2d77461b52a26c3',1,'PaillierController::isPrime()'],['../paillier__num__main___v3_8cpp.html#ab6bc672e8d10e76e3faba6bee7a9cfac',1,'isPrime():&#160;Paillier_num_main_V3.cpp']]]
 ];
