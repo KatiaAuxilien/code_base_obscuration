@@ -10,7 +10,7 @@
  *
  * Author : Katia Auxilien
  *
- * Mail : katia.auxilien\mail.fr
+ * Mail : katia.auxilien@mail.fr
  *
  * Date : 29 May 2024, 13:55:00
  *
@@ -31,7 +31,7 @@
 #include "../../include/controller/PaillierController.hpp"
 #include "../../include/model/image/image_portable.hpp"
 #include "../../include/model/image/image_pgm.hpp"
-#include "../../include/model/filesystem/filesystemPGM.h"
+#include "../../include/model/filesystem/filesystemPGM.hpp"
 
 /**
  * \class PaillierControllerPGM

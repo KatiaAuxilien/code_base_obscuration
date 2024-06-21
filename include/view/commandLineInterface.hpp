@@ -14,7 +14,7 @@
  *
  *******************************************************************************/
 #ifndef CMD_LINE_INTERFACE
-#define CMD_LINE_INTERFACE 
+#define CMD_LINE_INTERFACE
 
 #include <stdio.h>
 #include <string>
@@ -22,33 +22,34 @@
 
 using namespace std;
 
-//TODO : Documentation
+// TODO : Documentation
 
 class commandLineInterface
 {
-private :
+private:
 	static commandLineInterface *instancePtr;
 	commandLineInterface();
 
 public:
 	commandLineInterface(const commandLineInterface &obj) = delete;
-	
-	static commandLineInterface *getInstance(){
-    if (instancePtr == NULL)
-    {
-        instancePtr = new commandLineInterface();
-        return instancePtr;
-    }
-    else
-    {
-        return instancePtr;
-    }
+
+	static commandLineInterface *getInstance()
+	{
+		if (instancePtr == NULL)
+		{
+			instancePtr = new commandLineInterface();
+			return instancePtr;
+		}
+		else
+		{
+			return instancePtr;
+		}
 	};
-	
+
 	~commandLineInterface();
 
 	/**
-	 * @brief 
+	 * @brief
 	 * @author Katia Auxilien
 	 * @date 07/06/2024 16:47:00
 	 */
@@ -69,6 +70,7 @@ public:
 	 *  @date 28/05/2024 15:33:00
 	 */
 	void error_warning(string msg) const;
+
 private:
 	/**
 	 *  @brief
@@ -95,7 +97,7 @@ private:
 	void cmd_colorWarning() const;
 
 	/**
-	 * @brief 
+	 * @brief
 	 * @author Katia Auxilien
 	 * @date 07/06/2024 16:47:00
 	 */

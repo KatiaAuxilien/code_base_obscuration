@@ -3,7 +3,7 @@
  *
  * Fichier : AES.cpp
  *
- * Description : This file contains the methods implementation of AES class, which implements the AES 
+ * Description : This file contains the methods implementation of AES class, which implements the AES
  * encryption and decryption algorithms as specified in the FIPS 197 standard.
  *
  * Auteur : Norman HUTTE

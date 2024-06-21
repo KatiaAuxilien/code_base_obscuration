@@ -9,7 +9,7 @@
  *
  * Author : Katia Auxilien
  *
- * Mail : katia.auxilien\mail.fr
+ * Mail : katia.auxilien@mail.fr
  *
  * Date : 30 May 2024, 15:50:00
  *

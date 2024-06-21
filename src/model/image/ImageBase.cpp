@@ -3,7 +3,8 @@
  *
  * Fichier : ImageBase.cpp
  *
- * Description : Voir le fichier .h
+ * Description : Implementation of base class containing some basic
+ * functionalities for images
  *
  * Auteur : Mickael Pinto
  *

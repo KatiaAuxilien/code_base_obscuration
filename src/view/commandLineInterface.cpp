@@ -4,7 +4,7 @@
  * Fichier : commandLineInterface.cpp
  *
  * Description :
- * 
+ *
  *
  * Auteur : Katia Auxilien
  *
@@ -21,14 +21,16 @@ commandLineInterface::~commandLineInterface(){};
 
 commandLineInterface *commandLineInterface ::instancePtr = NULL;
 
-void commandLineInterface::error_failure(string msg) const{
+void commandLineInterface::error_failure(string msg) const
+{
     cmd_colorError();
-    fprintf(stderr,"%s",msg.c_str());
+    fprintf(stderr, "%s", msg.c_str());
     cmd_colorStandard();
 }
-void commandLineInterface::error_warning(std::string msg) const{
+void commandLineInterface::error_warning(std::string msg) const
+{
     cmd_colorWarning();
-    fprintf(stderr,"%s",msg.c_str());
+    fprintf(stderr, "%s", msg.c_str());
     cmd_colorStandard();
 }
 
@@ -39,7 +41,7 @@ void commandLineInterface::cmd_colorStandard() const
 
 void commandLineInterface::cmd_colorError() const
 {
-    fprintf(stderr,BRED);
+    fprintf(stderr, BRED);
 }
 
 void commandLineInterface::cmd_colorWarning() const
@@ -47,13 +49,14 @@ void commandLineInterface::cmd_colorWarning() const
     fprintf(stderr, BYEL);
 }
 
-void commandLineInterface::cmd_colorHelping() const{
+void commandLineInterface::cmd_colorHelping() const
+{
     fprintf(stderr, BHCYN);
 }
 
-
-void commandLineInterface::help(string msg) const {
+void commandLineInterface::help(string msg) const
+{
     cmd_colorHelping();
-    printf("%s",msg.c_str());
+    printf("%s", msg.c_str());
     cmd_colorStandard();
 }

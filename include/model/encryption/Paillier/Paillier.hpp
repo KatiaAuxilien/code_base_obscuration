@@ -31,10 +31,10 @@ using namespace std;
 // TODO : Documentation
 
 /**
- * @class Paillier
+ * \class Paillier
  *
- * @tparam T_in
- * @tparam T_out
+ * \tparam T_in
+ * \tparam T_out
  * \author Katia Auxilien
  * \date April 2024 - May 2024
  */
@@ -43,14 +43,14 @@ class Paillier
 {
 public:
     /**
-     * @brief Construct a new Paillier object
+     * \brief Construct a new Paillier object
      * \author Katia Auxilien
      * \date April 2024 - May 2024
      */
     Paillier(){};
 
     /**
-     * @brief Destroy the Paillier object
+     * \brief Destroy the Paillier object
      *
      * \author Katia Auxilien
      * \date April 2024 - May 2024

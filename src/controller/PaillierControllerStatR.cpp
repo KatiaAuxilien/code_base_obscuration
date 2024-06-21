@@ -3,7 +3,7 @@
  *
  * Fichier : PaillierControllerStatR.cpp
  *
- * Description : This file contains the implementation of the PaillierControllerStatR 
+ * Description : This file contains the implementation of the PaillierControllerStatR
  * class, which is a derivative of the PaillierController class.
  *
  *
@@ -49,88 +49,89 @@ void PaillierControllerStatR::checkParameters(char *arg_in[], int size_arg, bool
     }
     if (!param[3])
     {
-    int i = 0;
-    if ((strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
-    {
-        uint64_t p = check_p_q_arg(arg_in[1]);
-        if (p == 1)
+        int i = 0;
+        if ((strcmp(arg_in[i], "-k") && strcmp(arg_in[i], "-key")))
         {
-            this->getView()->error_failure("checkParameters : p == 1");
-            exit(EXIT_FAILURE);
-        }
-        this->getModel()->setP(p);
-
-        uint64_t q = check_p_q_arg(arg_in[2]);
-        if (q == 1)
-        {
-            this->getView()->error_failure("checkParameters : q == 1");
-            exit(EXIT_FAILURE);
-        }
-        this->getModel()->setQ(q);
-
-        Paillier<uint64_t, uint64_t> paillier;
-        uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
-
-        if (pgc_pq != 1)
-        {
-            string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
-            this->getView()->error_failure(msg);
-            exit(EXIT_FAILURE);
-        }
-
-        this->getModel()->setN(p * q);
-        getModel()->setPaillierGenerationKey(paillier);
-        
-        uint64_t lambda = paillier.lcm_64t(p - 1, q - 1);
-        this->getModel()->setLambda(lambda);
-
-        i = 3;
-        isFileBIN = true;
-    }
-
-    for (i = i; i < size_arg; i++)
-    {
-        if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (endsWith(arg_in[i], ".bin")))
-        {
-            if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
+            uint64_t p = check_p_q_arg(arg_in[1]);
+            if (p == 1)
             {
-                setCKeyFile(arg_in[i + 1]);
-                param[0] = true;
-                i++;
-            }
-            if (param[0] == true)
-            {
-                setCKeyFile(arg_in[i]);
-            }
-            /****************** Check .bin file **************************/
-            string s_key_file = getCKeyFile();
-            ifstream file(getCKeyFile());
-            if (!file || !endsWith(getCKeyFile(), ".bin"))
-            {
-                getView()->error_failure("The argument after -k or dec must be an existing .bin file.\n");
+                this->getView()->error_failure("checkParameters : p == 1");
                 exit(EXIT_FAILURE);
             }
+            this->getModel()->setP(p);
+
+            uint64_t q = check_p_q_arg(arg_in[2]);
+            if (q == 1)
+            {
+                this->getView()->error_failure("checkParameters : q == 1");
+                exit(EXIT_FAILURE);
+            }
+            this->getModel()->setQ(q);
+
+            Paillier<uint64_t, uint64_t> paillier;
+            uint64_t pgc_pq = paillier.gcd_64t(p * q, (p - 1) * (q - 1));
+
+            if (pgc_pq != 1)
+            {
+                string msg = "pgcd(p * q, (p - 1) * (q - 1))= " + to_string(pgc_pq) + "\np & q arguments must have a gcd = 1. Please retry with others p and q.\n";
+                this->getView()->error_failure(msg);
+                exit(EXIT_FAILURE);
+            }
+
+            this->getModel()->setN(p * q);
+            getModel()->setPaillierGenerationKey(paillier);
+
+            uint64_t lambda = paillier.lcm_64t(p - 1, q - 1);
+            this->getModel()->setLambda(lambda);
+
+            i = 3;
             isFileBIN = true;
         }
-        else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
-        {
-            param[1] = true;
-        }
-        else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
-        {
-            param[2] = true;
-        }
-    }
 
-    if (param[0] == true && !isFileBIN)
-    {
-        getView()->error_failure("The argument after -k or dec must be a .bin file.\n");
-        exit(EXIT_FAILURE);
-    }
+        for (i = i; i < size_arg; i++)
+        {
+            if ((!isFileBIN && !strcmp(arg_in[i], "-k")) || !strcmp(arg_in[i], "-key") || (endsWith(arg_in[i], ".bin")))
+            {
+                if (!strcmp(arg_in[i], "-k") || !strcmp(arg_in[i], "-key"))
+                {
+                    setCKeyFile(arg_in[i + 1]);
+                    param[0] = true;
+                    i++;
+                }
+                if (param[0] == true)
+                {
+                    setCKeyFile(arg_in[i]);
+                }
+                /****************** Check .bin file **************************/
+                string s_key_file = getCKeyFile();
+                ifstream file(getCKeyFile());
+                if (!file || !endsWith(getCKeyFile(), ".bin"))
+                {
+                    getView()->error_failure("The argument after -k or dec must be an existing .bin file.\n");
+                    exit(EXIT_FAILURE);
+                }
+                isFileBIN = true;
+            }
+            else if (!strcmp(arg_in[i], "-d") || !strcmp(arg_in[i], "-distr") || !strcmp(arg_in[i], "-distribution"))
+            {
+                param[1] = true;
+            }
+            else if (!strcmp(arg_in[i], "-olsbr") || !strcmp(arg_in[i], "-optlsbr"))
+            {
+                param[2] = true;
+            }
+        }
+
+        if (param[0] == true && !isFileBIN)
+        {
+            getView()->error_failure("The argument after -k or dec must be a .bin file.\n");
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
-void PaillierControllerStatR::printHelp(){
+void PaillierControllerStatR::printHelp()
+{
     this->view->getInstance()->help("./PaillierStatR.out\nNAME\n \t./PaillierStatR.out - Encrypt message from 0 to n with all possible valeus or r and return results with .bin file.\n\nSYNOPSIS\n\t./PaillierStatR.out [OPTIONS] \n\nDESCRIPTION\n	Program to encrypt message from 0 to n with all possible valeus or r and return results with .bin file.\n     \n\t./PaillierStatR.out p q    \n\t\tspecify p and q arguments. p and q are prime number where pgcd(p * q,p-1 * q-1) = 1.   \n \n\t./PaillierStatR.out -k [PUBLIC KEY FILE]    \n\t./PaillierStatR.out -key [PUBLIC KEY FILE]    \n\t\tspecify usage of public key, followed by file.bin, your key file.    \n\n");
 }
 
@@ -151,9 +152,9 @@ void PaillierControllerStatR::calc_encrypt()
         {
             unsigned char msg = i;
             uint16_t pixel_enc = paillier8bit.paillierEncryption(n,
-                                                                g,
-                                                                msg,
-                                                                set_ZNZStar.at(l));
+                                                                 g,
+                                                                 msg,
+                                                                 set_ZNZStar.at(l));
             t_pix_enc[l][i] = pixel_enc;
             if (i == 0)
             {
@@ -175,7 +176,7 @@ void PaillierControllerStatR::calc_encrypt()
     fprintf(file_enc_pix, "\n");
     fprintf(file_enc_pix, "%ld", set_ZNZStar.size());
 
-    for (size_t l = 0; l <  set_ZNZStar.size(); l++)
+    for (size_t l = 0; l < set_ZNZStar.size(); l++)
     {
         fprintf(file_enc_pix, "\n");
         fprintf(file_enc_pix, "%" PRIu64 "", set_ZNZStar.at(l));

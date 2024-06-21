@@ -99,14 +99,13 @@ void PaillierController::generateAndSaveKeyPair()
     uint64_t mu = 0;
     uint64_t g = this->model->getInstance()->getPaillierGenerationKey().generate_g_64t(this->model->getInstance()->getN(), this->model->getInstance()->getLambda());
 
-
     uint64_t lambda = this->model->getInstance()->getLambda();
     this->model->getInstance()->getPaillierGenerationKey().generatePrivateKey_64t(lambda,
-                                                     mu,
-                                                      this->model->getInstance()->getP(),
-                                                      this->model->getInstance()->getQ(),
-                                                     this->model->getInstance()->getN(),
-                                                     g);
+                                                                                  mu,
+                                                                                  this->model->getInstance()->getP(),
+                                                                                  this->model->getInstance()->getQ(),
+                                                                                  this->model->getInstance()->getN(),
+                                                                                  g);
 
     this->model->getInstance()->setLambda(lambda);
 
@@ -118,11 +117,11 @@ void PaillierController::generateAndSaveKeyPair()
     this->model->getInstance()->setMu(mu);
     this->model->getInstance()->setG(g);
 
-    PaillierPrivateKey tempPK = PaillierPrivateKey(this->model->getInstance()->getLambda(), 
-                                                this->model->getInstance()->getMu(),
-                                                this->model->getInstance()->getN());
+    PaillierPrivateKey tempPK = PaillierPrivateKey(this->model->getInstance()->getLambda(),
+                                                   this->model->getInstance()->getMu(),
+                                                   this->model->getInstance()->getN());
     PaillierPublicKey tempPubK = PaillierPublicKey(this->model->getInstance()->getN(),
-                                                                this->model->getInstance()->getG());
+                                                   this->model->getInstance()->getG());
 
     this->model->getInstance()->setPrivateKey(tempPK);
     this->model->getInstance()->setPublicKey(tempPubK);
@@ -150,7 +149,7 @@ void PaillierController::generateAndSaveKeyPair()
 
     if (f_private_key == NULL)
     {
-        this->view->getInstance()->error_failure( "Error ! Opening Paillier_private_key.bin\n");
+        this->view->getInstance()->error_failure("Error ! Opening Paillier_private_key.bin\n");
         exit(EXIT_FAILURE);
     }
     PaillierPrivateKey pk = this->model->getInstance()->getPrivateKey();
@@ -192,7 +191,7 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         if (f_private_key == NULL)
         {
-            string msg = "Error ! Opening "+std::string (this->getCKeyFile())+" \n";
+            string msg = "Error ! Opening " + std::string(this->getCKeyFile()) + " \n";
             this->view->getInstance()->error_failure(msg);
             exit(EXIT_FAILURE);
         }
@@ -214,7 +213,7 @@ void PaillierController::readKeyFile(bool isEncryption)
 
         if (f_public_key == NULL)
         {
-            string msg = "Error ! Opening "+std::string (this->getCKeyFile())+" \n";
+            string msg = "Error ! Opening " + std::string(this->getCKeyFile()) + " \n";
             this->view->getInstance()->error_failure(msg);
             exit(EXIT_FAILURE);
         }

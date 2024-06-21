@@ -3,8 +3,9 @@
  *
  * Fichier : Paillier_model.cpp
  *
- * Description :
- *
+ * Description : Implementation of singleton of
+ *              https://www.geeksforgeeks.org/implementation-of-singleton-class-in-cpp/
+ *              using the Paillier cryptosystem.
  *
  * Auteur : Katia Auxilien
  *
@@ -26,7 +27,7 @@ uint64_t PaillierModel::getMu() const { return this->mu; }
 uint64_t PaillierModel::getG() const { return this->g; }
 uint64_t PaillierModel::getP() const { return this->p; }
 uint64_t PaillierModel::getQ() const { return this->q; }
-Paillier<uint64_t,uint64_t> PaillierModel::getPaillierGenerationKey() const { return this->paillier_generation_key; }
+Paillier<uint64_t, uint64_t> PaillierModel::getPaillierGenerationKey() const { return this->paillier_generation_key; }
 PaillierPrivateKey PaillierModel::getPrivateKey() const { return this->privateKey; }
 PaillierPublicKey PaillierModel::getPublicKey() const { return this->publicKey; }
 
@@ -38,19 +39,21 @@ void PaillierModel::setG(uint64_t value) { this->g = value; }
 void PaillierModel::setP(uint64_t value) { this->p = value; }
 void PaillierModel::setQ(uint64_t value) { this->q = value; }
 
-void PaillierModel::setPaillierGenerationKey(Paillier<uint64_t,uint64_t> value) 
-{ this->paillier_generation_key = value; }
+void PaillierModel::setPaillierGenerationKey(Paillier<uint64_t, uint64_t> value)
+{
+    this->paillier_generation_key = value;
+}
 
-void PaillierModel::setPrivateKey(PaillierPrivateKey value) 
-{ 
+void PaillierModel::setPrivateKey(PaillierPrivateKey value)
+{
     this->privateKey = value;
     this->setLambda(value.getLambda());
     this->setN(value.getN());
-    this->setMu(value.getMu()); 
+    this->setMu(value.getMu());
 }
-void PaillierModel::setPublicKey(PaillierPublicKey value) 
+void PaillierModel::setPublicKey(PaillierPublicKey value)
 {
     this->publicKey = value;
     this->setN(value.getN());
-    this->setG(value.getG());    
+    this->setG(value.getG());
 }

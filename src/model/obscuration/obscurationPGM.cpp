@@ -1,48 +1,23 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * File : ObscurationPGM.h
+ * File : ObscurationPGM.cpp
  *
- * Description : Fichier contenant des fonctions qui permettent d'obscurcir
- *    une image au format .pgm. Classe inspirée de obscurationPPM.h de Norman Hutte.
+ * Description : Implement functions to obscure images in the PGM format.
+ *              The functions are inspired by Norman Hutte's methods for PPM images.
  *
- * Author : Katia Auxilien
+ * Authors : Katia Auxilien, Norman Hutte
  *
- * Mail : katia.auxilien@mail.fr
+ * Mail : katia.auxilien@mail.fr, ?
  *
  * Date : Avril 2024
  *
  *******************************************************************************/
-//TODO : Separate header and source
 
-//TODO : Documentation
-
-#include <iostream>
-#include <vector>
-#include <random>
-#include <bitset>
-#include <cstring>
-#include <fstream>
-#include <cstdio>
-#include <filesystem>
-#include <string>
-
-#ifndef OBSCURATION_PGM_LIBRARY
-#define OBSCURATION_PGM_LIBRARY
+#include "../../../include/model/obscuration/obscurationPGM.hpp"
 
 //====================== Interpolate ======================//
-
-/**
- *  @brief
- *  @param
- *  @authors Katia Auxilien
- *  @date 12/04/2024
- *  Inspired by Norman Hutte's method interpolate_color.
- *
- *
- *  @details
- */
-int interpolate_grey(int p11, int p21, int p12, int p22, float dx, float dy)
+static int obscurationPGM::interpolate_grey(int p11, int p21, int p12, int p22, float dx, float dy)
 {
     float interpolated_value =
         p11 * (1 - dx) * (1 - dy) +
@@ -52,17 +27,7 @@ int interpolate_grey(int p11, int p21, int p12, int p22, float dx, float dy)
     return static_cast<int>(interpolated_value);
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 12/04/2024
- *  Inspired by Norman Hutte's method interpolate_bilinear.
- *  ??
- *
- *  @details
- */
-void interpolate_bilinear_PGM(ImageBase &image, int &valV, float i, float j)
+static void obscurationPGM::interpolate_bilinear_PGM(ImageBase &image, int &valV, float i, float j)
 {
     int i1 = static_cast<int>(i), j1 = static_cast<int>(j);
     int i2 = i + 1,
@@ -73,17 +38,7 @@ void interpolate_bilinear_PGM(ImageBase &image, int &valV, float i, float j)
     valV = interpolate_grey(image[i1][j1], image[i2][j1], image[i1][j2], image[i2][j2], di, dj);
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 12/04/2024
- * Inspired by Norman Hutte's method bilinearRedim299.
- *  ??
- *
- *  @details
- */
-void bilinearRedim299_PGM(ImageBase &image, ImageBase &o_image)
+static void obscurationPGM::bilinearRedim299_PGM(ImageBase &image, ImageBase &o_image)
 {
     float ratio_w = (image.getWidth() - 1) / 299.;
     float ratio_h = (image.getHeight() - 1) / 299.;
@@ -104,18 +59,7 @@ void bilinearRedim299_PGM(ImageBase &image, ImageBase &o_image)
 
 //====================== Average blurring ======================//
 
-/**
- *  @brief
- *  @param
- *  @param
- *  @author Katia Auxilien
- *  @date 11/04/2024
- *  Inspired by Norman Hutte's method newAverageBlurring.
- *
- *
- *  @details
- */
-void newAverageBlurring_PGM(ImageBase &image, std::vector<ImageBase> &o_images)
+static void obscurationPGM::newAverageBlurring_PGM(ImageBase &image, std::vector<ImageBase> &o_images)
 {
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -172,22 +116,7 @@ void newAverageBlurring_PGM(ImageBase &image, std::vector<ImageBase> &o_images)
 
 //====================== Scrambling ======================//
 
-/**
- *  @brief
- *  @param image
- *  @param o_image
- *  @param start_i
- *  @param start_j
- *  @param area_h
- *  @param area_w
- *  @author Katia Auxilien
- *  @date 12/04/2024
- *  Inspired by Norman Hutte's method areaScrambling.
- *
- *
- *  @details
- */
-void areaScrambling_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+static void obscurationPGM::areaScrambling_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     std::random_device randev;
@@ -211,17 +140,7 @@ void areaScrambling_PGM(ImageBase &image, ImageBase &o_image, int start_i, int s
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 12/04/2024
- *  Inspired by Norman Hutte's method scrambling.
- *
- *
- *  @details
- */
-void scrambling_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+static void obscurationPGM::scrambling_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -244,22 +163,7 @@ void scrambling_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int 
 
 //====================== Averager ======================//
 
-/**
- *  @brief
- *  @param image
- *  @param o_image
- *  @param start_i
- *  @param start_j
- *  @param area_h
- *  @param area_w
- *  @author Katia Auxilien
- *  @date 12/04/2024
- *  Inspired by Norman Hutte's method areaAverager.
- *
- *
- *  @details
- */
-void areaAverager_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+static void obscurationPGM::areaAverager_PGM(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     int sum_V = 0;
@@ -276,17 +180,7 @@ void areaAverager_PGM(ImageBase &image, ImageBase &o_image, int start_i, int sta
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 12/04/2024
- * Inspired by Norman Hutte's method averageByRegion.
- *
- *
- *  @details
- */
-void averageByRegion_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+static void obscurationPGM::averageByRegion_PGM(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -309,17 +203,7 @@ void averageByRegion_PGM(ImageBase &image, ImageBase &o_image, int regionHeight,
 
 //====================== Encryption ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 15/04/2024
- *  Inspired by Norman Hutte's method selectiveIndividualEncryption.
- *
- *
- *  @details
- */
-void selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
+static void obscurationPGM::selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
 {
     unsigned int bSeq[8];
     int height, width;
@@ -341,17 +225,7 @@ void selectiveIndividualEncryption_PGM(ImageBase &image, ImageBase o_images[8])
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 15/04/2024
- *  Inspired by Norman Hutte's method selectiveProgressiveEncryption.
- *
- *
- *  @details
- */
-void selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
+static void obscurationPGM::selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -379,17 +253,7 @@ void selectiveProgressiveEncryption_PGM(ImageBase &image, ImageBase o_images[8],
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Katia Auxilien
- *  @date 15/04/2024
- *  Inspired by Norman Hutte's method selectiveGroupEncryption.
- *
- *
- *  @details
- */
-void selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
+static void obscurationPGM::selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -411,5 +275,4 @@ void selectiveGroupEncryption_PGM(ImageBase &image, ImageBase &o_image, int bits
         }
     }
 }
-
-#endif // OBSCURATION_PGM_LIBRARY
+}

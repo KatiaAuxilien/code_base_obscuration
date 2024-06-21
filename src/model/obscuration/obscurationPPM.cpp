@@ -3,47 +3,22 @@
  *
  * File : obscurationPPM.h
  *
- * Description :
+ * Description : Implementation of class obscuration.cpp that implement
+ *              obscuration for PPM images.
  *
  * Author : Norman HUTTE
  *
- * Mail :
+ * Mail : ?
  *
- * Date : 06/03/2024
+ * Date : 06 March 2024
  *
  *******************************************************************************/
-//TODO : Separate header and source
 
-//TODO : Documentation
-
-#include "../image/ImageBase.hpp"
-#include "../obscuration/obscurationCommon.h"
-
-#include <iostream>
-#include <vector>
-#include <random>
-#include <bitset>
-#include <cstring>
-#include <fstream>
-
-#ifndef STAGE_IMAGE_FUNCTIONS_H
-#define STAGE_IMAGE_FUNCTIONS_H
-
-#define M_PI 3.14159265358979323846
+#include "../../../include/model/obscuration/obscurationPPM.hpp"
 
 //====================== Interpolate ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  ?
- *
- *  @details
- */
-int interpolate_color(int p11, int p21, int p12, int p22, float dx, float dy)
+static int obscurationPPM::interpolate_color(int p11, int p21, int p12, int p22, float dx, float dy)
 {
     float interpolated_value =
         p11 * (1 - dx) * (1 - dy) +
@@ -53,17 +28,7 @@ int interpolate_color(int p11, int p21, int p12, int p22, float dx, float dy)
     return static_cast<int>(interpolated_value);
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  ??
- *
- *  @details
- */
-void interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, float i, float j)
+static void obscurationPPM::interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, float i, float j)
 {
     int i1 = static_cast<int>(i), j1 = static_cast<int>(j);
     int i2 = i + 1, j2 = j + 1;
@@ -74,17 +39,7 @@ void interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, flo
     valB = interpolate_color(image[3 * i1][3 * j1 + 2], image[3 * i2][3 * j1 + 2], image[3 * i1][3 * j2 + 2], image[3 * i2][3 * j2 + 2], di, dj);
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  ??
- *
- *  @details
- */
-void bilinearRedim299(ImageBase &image, ImageBase &o_image)
+static void obscurationPPM::bilinearRedim299(ImageBase &image, ImageBase &o_image)
 {
     float ratio_w = (image.getWidth() - 1) / 299.;
     float ratio_h = (image.getHeight() - 1) / 299.;
@@ -107,17 +62,7 @@ void bilinearRedim299(ImageBase &image, ImageBase &o_image)
 
 //====================== Histogram ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  Calcule les histogrammes des composantes couleur d'une image pass�e en entr�e
- *
- *  @details
- */
-void computeColorHist(ImageBase &image, int histR[256], int histG[256], int histB[256])
+static void obscurationPPM::computeColorHist(ImageBase &image, int histR[256], int histG[256], int histB[256])
 {
     for (int v = 0; v < 256; ++v)
     {
@@ -134,17 +79,7 @@ void computeColorHist(ImageBase &image, int histR[256], int histG[256], int hist
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  Compare les histogrammes de deux images
- *
- *  @details
- */
-void compareImagesByHist(ImageBase &image1, ImageBase &image2)
+static void obscurationPPM::compareImagesByHist(ImageBase &image1, ImageBase &image2)
 {
     bool isSame = true;
     int histR1[256], histG1[256], histB1[256];
@@ -161,17 +96,7 @@ void compareImagesByHist(ImageBase &image1, ImageBase &image2)
 
 //====================== Gaussian blurring ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  G�n�re un kernel de flou gaussien selon la taille et le sigma pass�s en param�tres
- *
- *  @details
- */
-void generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, float sigma)
+static void obscurationPPM::generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, float sigma)
 {
     float sum = 0.0;
     for (int y = -size / 2; y <= size / 2; ++y)
@@ -192,17 +117,7 @@ void generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, f
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  Applique un flou gaussien � l'image d'entr�e, sur l'image de sortie
- *
- *  @details
- */
-void gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float sigma)
+static void obscurationPPM::gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float sigma)
 {
     std::vector<std::vector<float>> kernel(kernelSize, std::vector<float>(kernelSize));
     generateGaussianKernel(kernel, kernelSize, sigma);
@@ -242,17 +157,7 @@ void gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float si
 
 //====================== Average blurring ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize)
+static void obscurationPPM::averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize)
 {
     int sum_R, sum_G, sum_B, nbV;
     for (int i = 0; i < image.getHeight(); ++i)
@@ -277,17 +182,7 @@ void averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize)
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
+static void obscurationPPM::newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
 {
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -348,27 +243,16 @@ void newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images)
 
 //====================== Scrambling ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+static void obscurationPPM::areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     std::random_device randev;
-    std::mt19937 rng(randev());                                            // QUESTION : Qu'est-ce que rng ?
-                                                                           //  => Générateur de pseudo-aléatoire.
-    std::uniform_int_distribution<unsigned int> distrbit(0, nbPixels - 1); // QUESTION : A quoi ça sert ?
-                                                                           //=> La distribution uniforme distrbit est utilisée pour choisir de manière
-                                                                           // aléatoire un pixel dans la région en cours de mélange.
-    ImageBase unavailability(area_w, area_h, false);                       // QUESTION : ?
-                                                                           //  => Image binaire pour marquer les pixels déjà mélangés.
+    std::mt19937 rng(randev());
+
+    std::uniform_int_distribution<unsigned int> distrbit(0, nbPixels - 1);
+
+    ImageBase unavailability(area_w, area_h, false);
+
     for (int i = 0; i < area_h; ++i)
         for (int j = 0; j < area_w; ++j)
         {
@@ -388,17 +272,7 @@ void areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+static void obscurationPPM::scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -421,17 +295,7 @@ void scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regi
 
 //====================== Averager ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
+static void obscurationPPM::areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w)
 {
     int nbPixels = area_h * area_w;
     int sum_R = 0, sum_G = 0, sum_B = 0;
@@ -452,17 +316,7 @@ void areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j
         }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
+static void obscurationPPM::averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth)
 {
     int current_i = 0, current_j = 0;
     int height, width;
@@ -485,18 +339,7 @@ void averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int
 
 //====================== Encryption ======================//
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *  Applique un flou selectif progressif � l'ensemble des pixels (on applique un XOR � chaque pixel de gauche �
- * droite (dir == 0) ou de droite � gauche (dir == 1) et stocke les images respectives dans o_images
- *
- *  @details
- */
-void selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
+static void obscurationPPM::selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -532,17 +375,7 @@ void selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], boo
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8])
+static void obscurationPPM::selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8])
 {
     unsigned int bSeq[8];
     int height, width;
@@ -572,17 +405,7 @@ void selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8])
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
+static void obscurationPPM::selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize)
 {
     unsigned int bSeq[8];
     int height, width;
@@ -611,17 +434,7 @@ void selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGrou
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-double computePSNR(ImageBase &image1, ImageBase &image2)
+static double obscurationPPM::computePSNR(ImageBase &image1, ImageBase &image2)
 {
     double mse = 0;
     double maxIntensity = 255.0;
@@ -642,17 +455,7 @@ double computePSNR(ImageBase &image1, ImageBase &image2)
     return psnr;
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *baseName, int i_min, int i_max, int step)
+static void obscurationPPM::computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *baseName, int i_min, int i_max, int step)
 {
     char filePath[200];
     std::strcpy(filePath, baseName);
@@ -670,17 +473,7 @@ void computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *ba
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void writeDataOnTxt(std::vector<double> &data, std::string filename)
+static void obscurationPPM::writeDataOnTxt(std::vector<double> &data, std::string filename)
 {
     std::ofstream file(filename);
     if (file.is_open())
@@ -698,34 +491,14 @@ void writeDataOnTxt(std::vector<double> &data, std::string filename)
     }
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-void RGB2GREY(ImageBase &imColor, ImageBase &imGrey)
+static void obscurationPPM::RGB2GREY(ImageBase &imColor, ImageBase &imGrey)
 {
     for (int i = 0; i < imColor.getHeight(); ++i)
         for (int j = 0; j < imColor.getWidth(); ++j)
             imGrey[i][j] = 0.299 * imColor[3 * i][3 * j] + 0.587 * imColor[3 * i][3 * j + 1] + 0.114 * imColor[3 * i][3 * j + 2];
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-double computeImageMean(ImageBase &image)
+static double obscurationPPM::computeImageMean(ImageBase &image)
 {
     double sum = 0.;
     for (int i = 0; i < image.getHeight(); ++i)
@@ -734,17 +507,7 @@ double computeImageMean(ImageBase &image)
     return sum / (image.getWidth() * image.getHeight());
 }
 
-/**
- *  @brief
- *  @param
- *  @author Norman Hutte
- *  @date 06/03/2024
- *
- *
- *
- *  @details
- */
-double computeSSIM(ImageBase &image1, ImageBase &image2)
+static double obscurationPPM::computeSSIM(ImageBase &image1, ImageBase &image2)
 {
     ImageBase image1grey(image1.getWidth(), image1.getHeight(), false);
     ImageBase image2grey(image1.getWidth(), image1.getHeight(), false);
@@ -753,5 +516,3 @@ double computeSSIM(ImageBase &image1, ImageBase &image2)
 
     return 0.;
 }
-
-#endif // STAGE_IMAGE_FUNCTIONS_H

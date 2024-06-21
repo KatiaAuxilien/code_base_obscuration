@@ -9,8 +9,8 @@
  * as PGM and PPM. The class defines pure virtual methods for reading the
  * number of lines and columns of an image, reading an image into a buffer,
  * and writing an image from a buffer. Derived classes must implement these
- * methods to provide support for a specific image format. 
- * 
+ * methods to provide support for a specific image format.
+ *
  * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr

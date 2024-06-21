@@ -33,7 +33,7 @@
  */
 class filesystemCommon
 {
-    public:
+public:
     /**
      *  \brief Get the last directory name from a given path.
      *  \param path The path to extract the last directory name from.
