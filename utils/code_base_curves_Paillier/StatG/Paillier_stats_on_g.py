@@ -7,7 +7,20 @@ import cv2
 import sys
 import pickle
 
-############### En fonction de r
+############### According to r value.
+
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo k by r value.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param p: A prime number used in Paillier encryption.
+# @param q: Another prime number used in Paillier encryption.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n,size_vec_r, p, q):
     t_k = [2,4,8,16,32,64,128,256]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
@@ -60,6 +73,18 @@ def avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n,size_vec_r, p, q):
         plt.legend()
         plt.show()
 
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo k by r value for inverse encryption.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param p: A prime number used in Paillier encryption.
+# @param q: Another prime number used in Paillier encryption.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_k_by_r_value_inv(t_pix_enc, vector_r_values,n,size_vec_r, p,q):
     t_k = [2,4,8,16,32,64,128,256]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
@@ -112,7 +137,22 @@ def avg_curve_mod_k_by_r_value_inv(t_pix_enc, vector_r_values,n,size_vec_r, p,q)
         plt.legend()
         plt.show()
 
-#En fonction de la valeur du pixel clair.
+############### According to initial pixel value.
+
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo k by pixel value.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param p: A prime number used in Paillier encryption.
+# @param q: Another prime number used in Paillier encryption.
+# @param inverse: A boolean value indicating whether to use inverse encryption or not.
+# @param g: A value used in Paillier encryption.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, inverse, g):
     t_k = [2,4,8,16,32,64,128,256, 512]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid","purple"]
@@ -167,7 +207,19 @@ def avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p,
         plt.legend()
         plt.show()
 
-#En fonction de la valeur du pixel clair différents modulod
+############### According to initial pixel value with differents modulo
+
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo 2 by pixel value.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param title: The title of the plot.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, title):
     # t_k = [2,4,8,16,32,64,128,256]
     t_k = [2]
@@ -216,6 +268,17 @@ def avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
 
         plt.show()
 
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo 4 by pixel value.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param title: The title of the plot.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, title):
     t_k = [4]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid"]
@@ -294,7 +357,22 @@ def avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, titl
         plt.show()
 
 
-#En fonction de la valeur du pixel clair, différent modulo, valeurs commune où il n'y a pas de r existant pour modulo k = 0
+############### According to initial pixel value, with different modulo, with common values where there is no r value for modulo k = 0
+
+##
+# @brief This function calculates and plots the average curve of encrypted pixels modulo k by pixel value for common values.
+#
+# @param t_pix_enc: A 2D list containing encrypted pixel values.
+# @param t_pix_inv_enc: A 2D list containing inversely encrypted pixel values.
+# @param vector_r_values: A list containing r values.
+# @param n: The number of pixels.
+# @param size_vec_r: The size of the r value vector.
+# @param p: A prime number used in Paillier encryption.
+# @param q: Another prime number used in Paillier encryption.
+# @param g: A value used in Paillier encryption.
+# @author Katia Auxilien
+# @date April 2024
+#
 def avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_inv_enc, vector_r_values, n, size_vec_r, p, q,g):
     t_k = [2,4,8,16,32,64,128,256, 512, 1024]
     color_main_curve = ["orangered","darkorange","gold","limegreen","springgreen","deepskyblue","royalblue","darkorchid","purple", "deeppink"]
@@ -403,16 +481,23 @@ def avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_inv_enc, vector_r_
         
         plt.show()
 
-            
-
+##
+# @brief This function processes the results and plots various curves.
+#
+# @param f_pix: The file containing pixel data.
+# @param p: A prime number used in Paillier encryption.
+# @param q: Another prime number used in Paillier encryption.
+# @author Katia Auxilien
+# @date April 2024
+#            
 def traiterResultats(f_pix, p,q) :
 
-############### Initialisation, récupération des données.
+############### Initialisation, get data.
     f_pix = open(f_pix, "r")
 
-    # f_pix = open("results_pix_p13q19nbr216.txt", "r")
-    # p = 13
-    # q = 19
+    f_pix = open("results_pix_p13q19nbr216.txt", "r")
+    p = 13
+    q = 19
 
     lines_pix = f_pix.readlines()
 
@@ -428,7 +513,7 @@ def traiterResultats(f_pix, p,q) :
     t_pix_enc = []
 
     line_index = 3
-    # Pixels chiffrés 
+    # Encrypted pixels 
     for _ in range(size_vec_r):
         r_value = np.uint64(lines_pix[line_index].strip())
         vector_r_values.append(r_value)
@@ -448,52 +533,53 @@ def traiterResultats(f_pix, p,q) :
     #         print(f"r_value: {r_value}")
     #         print(f"t_pix_enc: {row}")
 
-############### Courbes
+############### Curves
 
-    # Pixels chiffrés
-    # avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    # avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    # Encrypted pixels 
+    avg_curve_mod_2_by_pixel_value(t_pix_enc, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_4_by_pixel_value(t_pix_enc, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés, par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
     avg_curve_mod_k_by_pixel_value(t_pix_enc, vector_r_values, n, size_vec_r, p, q, False,g)
 
-    # avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
+    avg_curve_mod_k_by_r_value(t_pix_enc, vector_r_values,n, size_vec_r, p ,q)
 
+    # Encrypted pixels complement
+    t_pix_enc_inv= []
+    for i in range(size_vec_r):
+        t_pix_enc_inv_row= []
+        for j in range(n):
+            x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
+            t_pix_enc_inv_row.append(x)
+            # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
 
-    # # Pixels chiffrés inversés.
-    # t_pix_enc_inv= []
-    # for i in range(size_vec_r):
-    #     t_pix_enc_inv_row= []
-    #     for j in range(n):
-    #         x = np.invert(np.array(t_pix_enc[i][j], dtype=np.uint16))
-    #         t_pix_enc_inv_row.append(x)
-    #         # print("!" + str(t_pix_enc[i][j]) + " = " + str(np.binary_repr(t_pix_enc[i][j], width=16)) + "=" + str(np.binary_repr(x, width=16)))
+        t_pix_enc_inv.append(t_pix_enc_inv_row)
 
-    #     t_pix_enc_inv.append(t_pix_enc_inv_row)
+    avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
+    avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True,g)
 
-    # avg_curve_mod_2_by_pixel_value(t_pix_enc_inv, vector_r_values,n,size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 2 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    # avg_curve_mod_4_by_pixel_value(t_pix_enc_inv, vector_r_values,n, size_vec_r, 'Courbe de la moyenne des chiffrés inversés (!E(x)), par paillier g = '+str(g)+', modulo 4 en fonction de la valeur du pixel, pour p = '+str(p)+' et q = '+str(q)+'.')
-    # avg_curve_mod_k_by_pixel_value(t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, True,g)
+    avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
 
-    # avg_curve_mod_k_by_r_value_inv(t_pix_enc_inv, vector_r_values,n, size_vec_r, p, q)
+    # Curves of pixels E(x) and !E(x) to have r values which don't have mod(k) = 0.
+    avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, g)
 
-    # Courbe des pixels E(x) et !E(x) pour voir les valeurs de r qui n'ont pas de mod(k) = 0.
-    # avg_curve_mod_k_by_pixel_value_in_common(t_pix_enc, t_pix_enc_inv, vector_r_values, n, size_vec_r, p, q, g)
-
-
+##
+# @brief The main function that processes all result files in a directory.
+# @author Katia Auxilien
+# @date April 2024
+#
 def main() :
     
-    # dossier_images = "StatG3_83\\"
-    # file_tab = []
-    # for fichier in os.listdir(dossier_images):
-    #     if fichier.endswith(".txt") :
-    #         file_tab.append(dossier_images+fichier)
+    dossier_images = "StatG3_83\\"
+    file_tab = []
+    for fichier in os.listdir(dossier_images):
+        if fichier.endswith(".txt") :
+            file_tab.append(dossier_images+fichier)
 
-    # p = 3
-    # q = 83
+    p = 3
+    q = 83
 
-    # for i in range(len(file_tab)): 
-    #     traiterResultats(file_tab[i], p, q)
-
-
+    for i in range(len(file_tab)): 
+        traiterResultats(file_tab[i], p, q)
 
     dossier_images = "StatG13_19\\"
     file_tab = []
