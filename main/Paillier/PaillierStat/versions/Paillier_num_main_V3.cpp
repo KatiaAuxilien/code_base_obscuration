@@ -25,12 +25,12 @@
 using namespace std;
 
 /**
- *  @brief Vérifier si n est un nombre premier.
- *  @details
- *  @param int n 
- *  @param int i
- *  @authors Katia Auxilien
- *  @date 30 April 2024 
+ *  \brief Vérifier si n est un nombre premier.
+ *  \details
+ *  \param int n 
+ *  \param int i
+ *  \authors Katia Auxilien
+ *  \date 30 April 2024 
  */
 bool isPrime(int n, int i = 2)
 {
@@ -45,12 +45,12 @@ bool isPrime(int n, int i = 2)
 }
 
 /**
- *  @brief
- *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
- *  @param string pos
- * 	@param char *arg
- *  @authors Katia Auxilien
- *  @date 30 April 2024
+ *  \brief
+ *  \details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nombre et qu'il est premier.
+ *  \param string pos
+ * 	\param char *arg
+ *  \authors Katia Auxilien
+ *  \date 30 April 2024
  */
 uint64_t checkNumbersArgument(string pos, char *arg)
 {
@@ -73,12 +73,12 @@ uint64_t checkNumbersArgument(string pos, char *arg)
 }
 
 /**
- *  @brief
- *  @details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
- *  @param const std::string &str
- * 	@param const std::string &suffix
- *  @authors Katia Auxilien
- *  @date 30 April 2024
+ *  \brief
+ *  \details Vérification de l'argument en paramètre, afin de voir si c'est bel et bien un nom de fichier terminant par .pgm.
+ *  \param const std::string &str
+ * 	\param const std::string &suffix
+ *  \authors Katia Auxilien
+ *  \date 30 April 2024
  */
 bool endsWith(const std::string &str, const std::string &suffix)
 {

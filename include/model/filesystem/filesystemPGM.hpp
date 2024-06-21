@@ -1,9 +1,9 @@
 /**
- * @file filesystementPGM.hpp
- * @brief Class containing functions that allow to retrieve images in .pgm format.
- * @author Katia Auxilien
- * @date April 2024
- * @details Class inspired by Functions.h of Norman Hutte.
+ * \file filesystementPGM.hpp
+ * \brief Class containing functions that allow to retrieve images in .pgm format.
+ * \author Katia Auxilien
+ * \date April 2024
+ * \details Class inspired by Functions.h of Norman Hutte.
  */
 #ifndef FILESYSTEM_PGM_LIBRARY
 #define FILESYSTEM_PGM_LIBRARY

@@ -1,9 +1,9 @@
 /**
- * @file ObscurationPGM_main.cpp
- * @brief Main file for the PGM image obscuration program using the Paillier cryptosystem.
- * @author Katia Auxilien
- * @date April 2024
- * @details This program implements various image obscuration techniques on PGM images
+ * \file ObscurationPGM_main.cpp
+ * \brief Main file for the PGM image obscuration program using the Paillier cryptosystem.
+ * \author Katia Auxilien
+ * \date April 2024
+ * \details This program implements various image obscuration techniques on PGM images
  * using the Paillier cryptosystem. The techniques include blurring, scrambling,
  * pixelation, and selective encryption. The program takes a directory as input
  * and applies the obscuration techniques to all PGM images in the directory.
@@ -41,10 +41,10 @@
 #define FILE_EXT ".pgm"
 
 /**
- * @brief Displays a progress bar in the console.
- * @param progress The current progress (number of completed tasks).
- * @param total The total number of tasks.
- * @details This function displays a progress bar in the console using ASCII characters.
+ * \brief Displays a progress bar in the console.
+ * \param progress The current progress (number of completed tasks).
+ * \param total The total number of tasks.
+ * \details This function displays a progress bar in the console using ASCII characters.
  * The color of the progress bar changes based on the percentage of completion.
  * If the completion percentage is less than or equal to 50%, the color is red.
  * If it is between 50% and 70%, the color is yellow. Otherwise, the color is
@@ -94,11 +94,11 @@ void afficherBarreDeChargement(size_t progress, size_t total)
 }
 
 /**
- * @brief Main function for the PGM image obscuration program.
- * @param argc The number of command-line arguments.
- * @param argv The command-line arguments.
- * @return 0 if the program runs successfully, 1 otherwise.
- * @details This function is the entry point for the PGM image obscuration program.
+ * \brief Main function for the PGM image obscuration program.
+ * \param argc The number of command-line arguments.
+ * \param argv The command-line arguments.
+ * \return 0 if the program runs successfully, 1 otherwise.
+ * \details This function is the entry point for the PGM image obscuration program.
  * It takes two arguments: the number of command-line arguments and the
  * command-line arguments themselves.
  * The function first checks if the correct number of arguments has been

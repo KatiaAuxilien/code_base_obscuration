@@ -1,11 +1,11 @@
 /**
- * @file PaillierControllerPGM.hpp
- * @brief Header file for the PaillierControllerPGM class, which is a
+ * \file PaillierControllerPGM.hpp
+ * \brief Header file for the PaillierControllerPGM class, which is a
  * controller for the Paillier cryptosystem applied to PGM (Portable Gray Map)
  * images.
- * @author Katia Auxilien
- * @date 29 May 2024, 13:55:00
- * @details 
+ * \author Katia Auxilien
+ * \date 29 May 2024, 13:55:00
+ * \details 
  */
 
 #ifndef PAILLIERCONTROLLER_PGM

@@ -1,9 +1,9 @@
 /**
- * @file Paillier_public_key.hpp
- * @brief Header of the Public key in the Paillier cryptosystem.
- * @author Katia Auxilien
- * @date 28 may 2024, 13:55:00
- * @details  This class represents the public key used in the Paillier cryptosystem.
+ * \file Paillier_public_key.hpp
+ * \brief Header of the Public key in the Paillier cryptosystem.
+ * \author Katia Auxilien
+ * \date 28 may 2024, 13:55:00
+ * \details  This class represents the public key used in the Paillier cryptosystem.
  * It contains the n value, which is the modulus used in the encryption process,
  * and the g value, which is a generator used in the encryption process.
  */

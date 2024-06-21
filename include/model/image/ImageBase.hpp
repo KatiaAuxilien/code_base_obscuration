@@ -1,9 +1,9 @@
 /**
- * @file ImageBase.hpp
- * @brief Base class containing some basic functionalities for images.
- * @author Mickael Pinto (mickael.pinto@live.fr)
- * @date October 2012
- * @details 
+ * \file ImageBase.hpp
+ * \brief Base class containing some basic functionalities for images.
+ * \author Mickael Pinto (mickael.pinto\live.fr)
+ * \date October 2012
+ * \details 
  */
 #pragma once
 #include <cstdio>

@@ -1,9 +1,9 @@
 /**
- * @file obscurationPPM.hpp
- * @brief Header of class that implement obscuration for PPM images.
- * @author Norman Hutte
- * @date 6 March 2024
- * @details 
+ * \file obscurationPPM.hpp
+ * \brief Header of class that implement obscuration for PPM images.
+ * \author Norman Hutte
+ * \date 6 March 2024
+ * \details 
  */
 #include "../image/ImageBase.hpp"
 #include "obscurationCommon.hpp"

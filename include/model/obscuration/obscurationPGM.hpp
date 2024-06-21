@@ -1,10 +1,10 @@
 /**
- * @file ObscurationPGM.hpp
- * @brief This library provides functions to obscure images in the PGM format.
+ * \file ObscurationPGM.hpp
+ * \brief This library provides functions to obscure images in the PGM format.
  * The functions are inspired by Norman Hutte's methods for PPM images.
- * @authors Katia Auxilien, Norman Hutte
- * @date April 2024
- * @details 
+ * \authors Katia Auxilien, Norman Hutte
+ * \date April 2024
+ * \details 
  */
 #include "obscurationCommon.hpp"
 #include <iostream>

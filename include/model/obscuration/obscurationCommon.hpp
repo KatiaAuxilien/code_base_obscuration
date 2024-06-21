@@ -1,10 +1,10 @@
 /**
- * @file ObscurationCommon.hpp
- * @brief Header of super class containing common and useful methods
+ * \file ObscurationCommon.hpp
+ * \brief Header of super class containing common and useful methods
  * for obscuring pgm and ppm images.
- * @authors Katia Auxilien, Norman Hutte
- * @date April 2024
- * @details 
+ * \authors Katia Auxilien, Norman Hutte
+ * \date April 2024
+ * \details
  */
 
 #include "../image/ImageBase.hpp"
@@ -18,10 +18,17 @@
 #ifndef OBSCURATION_COMMON_LIBRARY
 #define OBSCURATION_COMMON_LIBRARY
 
-//====================== Encryption utils ======================//
+/**
+ * \class obscurationCommon
+ * \brief This class contains common and useful methods for obscuring images.
+ * \authors Katia Auxilien, Norman Hutte
+ * \date April 2024
+ */
 class obscurationCommon
 {
 public:
+    //====================== Encryption utils ======================//
+
     /**
      *  \brief Generate a random sequence of 8 bits
      *  \details This function generates a random sequence of 8 bits and stores it in the given array.

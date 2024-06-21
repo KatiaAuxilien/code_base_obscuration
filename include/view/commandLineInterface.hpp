@@ -1,9 +1,9 @@
 /**
- * @file commandLineInterface.hpp
- * @brief This file contains the command line interface for the Paillier cryptosystem.
- * @author Katia Auxilien
- * @date  21 mai 2024, 16:37:00
- * @details 
+ * \file commandLineInterface.hpp
+ * \brief This file contains the command line interface for the Paillier cryptosystem.
+ * \author Katia Auxilien
+ * \date  21 mai 2024, 16:37:00
+ * \details 
  */
 
 #ifndef CMD_LINE_INTERFACE

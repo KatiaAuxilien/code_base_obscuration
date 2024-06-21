@@ -8,7 +8,7 @@
  *
  * Author : Mickael Pinto
  *
- * Mail : mickael.pinto@live.fr
+ * Mail : mickael.pinto\live.fr
  *
  * Date : Octobre 2012
  *

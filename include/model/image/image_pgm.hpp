@@ -1,10 +1,10 @@
 /**
- * @file image_pgm.hpp
- * @brief This file contains the declaration of the image_pgm class, which is used to
+ * \file image_pgm.hpp
+ * \brief This file contains the declaration of the image_pgm class, which is used to
  * read and write PGM images with various bit depths.
- * @authors Katia Auxilien, William Puech
- * @date  May 2024 - Tue Mar 31 13:26:36 2005
- * @details Source file is image.h, ICAR_Library, by William Puech, Tue Mar 31 13:26:36 2005
+ * \authors Katia Auxilien, William Puech
+ * \date  May 2024 - Tue Mar 31 13:26:36 2005
+ * \details Source file is image.h, ICAR_Library, by William Puech, Tue Mar 31 13:26:36 2005
  */
 #ifndef IMAGE_PGM
 #define IMAGE_PGM

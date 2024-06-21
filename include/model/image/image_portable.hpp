@@ -1,10 +1,10 @@
 /**
- * @file image_portable.hpp
- * @brief This file defines the image_portable class, which is a base class for
+ * \file image_portable.hpp
+ * \brief This file defines the image_portable class, which is a base class for
  * different image formats. 
- * @authors Katia Auxilien, William Puech
- * @date Mai 2024 - Tue Mar 31 13:26:36 2005
- * @details  It provides a protected method for ignoring
+ * \authors Katia Auxilien, William Puech
+ * \date Mai 2024 - Tue Mar 31 13:26:36 2005
+ * \details  It provides a protected method for ignoring
  * comments in a file. Source file is image.h, ICAR_Library, 
  * by William Puech, Tue Mar 31 13:26:36 2005
  */

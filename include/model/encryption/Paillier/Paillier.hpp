@@ -1,10 +1,10 @@
 /**
- * @file Paillier.hpp
- * @brief This file contains the Paillier cryptosystem implementation in
+ * \file Paillier.hpp
+ * \brief This file contains the Paillier cryptosystem implementation in
  * C++.
- * @author Katia Auxilien
- * @date Avril 2024 - Mai 2024
- * @details The Paillier cryptosystem is an additive homomorphic encryption scheme
+ * \author Katia Auxilien
+ * \date Avril 2024 - Mai 2024
+ * \details The Paillier cryptosystem is an additive homomorphic encryption scheme
  * that allows computations to be performed on encrypted data without decrypting it.
  * File source is Paillier_image.cpp by Bianca Jansen Van Rensburg
  */
@@ -22,9 +22,9 @@ using namespace std;
 
 /**
  * \class Paillier
- *
- * \tparam T_in
- * \tparam T_out
+ * \brief This class implements the Paillier cryptosystem.
+ * \tparam T_in The input data type.
+ * \tparam T_out The output data type.
  * \author Katia Auxilien
  * \date April 2024 - May 2024
  */

@@ -1,9 +1,9 @@
 /**
- * @file PaillierController.hpp
- * @brief Superclass, of Paillier main, that contain common methods between subclasses.
- * @author Katia Auxilien
- * @date 28 May 2024, 13:48:00
- * @details 
+ * \file PaillierController.hpp
+ * \brief Superclass, of Paillier main, that contain common methods between subclasses.
+ * \author Katia Auxilien
+ * \date 28 May 2024, 13:48:00
+ * \details 
  */
 
 #ifndef PAILLIERCONTROLLER

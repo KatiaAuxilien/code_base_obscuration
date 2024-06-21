@@ -1,9 +1,9 @@
 /**
- * @file filesystemCommon.hpp
- * @brief
- * @authors Katia Auxilien, Norman Hutte
- * @date April 2024
- * @details This file contains the declaration of the filesystemCommon class,
+ * \file filesystemCommon.hpp
+ * \brief
+ * \authors Katia Auxilien, Norman Hutte
+ * \date April 2024
+ * \details This file contains the declaration of the filesystemCommon class,
  * which provides various utility functions for handling files and directories.
  */
 

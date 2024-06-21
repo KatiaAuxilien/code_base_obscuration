@@ -1,9 +1,9 @@
 /**
- * @file filesystemCommon.cpp
- * @brief
- * @authors Katia Auxilien, Norman Hutte
- * @date April 2024
- * @details This file contains the implementation of the filesystemCommon class,
+ * \file filesystemCommon.cpp
+ * \brief
+ * \authors Katia Auxilien, Norman Hutte
+ * \date April 2024
+ * \details This file contains the implementation of the filesystemCommon class,
  * which provides various utility functions for handling files and directories.
  */
 

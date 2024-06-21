@@ -1,11 +1,11 @@
 /**
- * @file PaillierControllerStatG.hpp
- * @brief This file contains the declaration of the PaillierControllerStatG class,
+ * \file PaillierControllerStatG.hpp
+ * \brief This file contains the declaration of the PaillierControllerStatG class,
  * which is a derivative of the PaillierController class. This class is used
  * to perform statistical calculations on g in a Paillier cryptosystem.
- * @author Katia Auxilien
- * @date 30 May 2024, 15:50:00
- * @details 
+ * \author Katia Auxilien
+ * \date 30 May 2024, 15:50:00
+ * \details 
  */
 
 #ifndef PAILLIERCONTROLLER_Stat_G

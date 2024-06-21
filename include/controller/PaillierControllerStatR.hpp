@@ -1,11 +1,11 @@
 /**
- * @file PaillierControllerStatR.hpp
- * @brief This file contains the declaration of the PaillierControllerStatR
+ * \file PaillierControllerStatR.hpp
+ * \brief This file contains the declaration of the PaillierControllerStatR
  * class, which is derived from the PaillierController class. This class is used
  * to perform statistical calculations on r in the Paillier cryptosystem.
- * @author Katia Auxilien
- * @date 30 mai 2024, 15:50:00
- * @details 
+ * \author Katia Auxilien
+ * \date 30 mai 2024, 15:50:00
+ * \details 
  */
 #ifndef PAILLIERCONTROLLER_Stat_R
 #define PAILLIERCONTROLLER_Stat_R

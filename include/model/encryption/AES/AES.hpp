@@ -1,9 +1,9 @@
 /**
- * @file AES.hpp
- * @brief 
- * @author  Norman HUTTE
- * @date ?
- * @details 
+ * \file AES.hpp
+ * \brief 
+ * \author  Norman HUTTE
+ * \date ?
+ * \details 
  */
 #ifndef _AES_H_
 #define _AES_H_

@@ -1,9 +1,9 @@
 /**
- * @file Paillier_private_key.hpp
- * @brief Header of the Private key class in the Paillier cryptosystem.
- * @author Katia Auxilien
- * @date 28 may 2024, 13:55:00
- * @details The Paillier cryptosystem is a public key cryptosystem that allows for homomorphic
+ * \file Paillier_private_key.hpp
+ * \brief Header of the Private key class in the Paillier cryptosystem.
+ * \author Katia Auxilien
+ * \date 28 may 2024, 13:55:00
+ * \details The Paillier cryptosystem is a public key cryptosystem that allows for homomorphic
  * encryption of messages. The private key is used to decrypt messages that have
  * been encrypted with the corresponding public key.
  * This class represents the private key used in the Paillier cryptosystem.

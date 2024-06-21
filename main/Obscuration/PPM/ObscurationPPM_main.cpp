@@ -1,11 +1,11 @@
 /**
- * @file ObscurationPPM_main.cpp
- * @brief  This file contains the main function for the PPM image obscuration program, 
+ * \file ObscurationPPM_main.cpp
+ * \brief  This file contains the main function for the PPM image obscuration program, 
  * which applies various image obscuration techniques to PPM images using the 
  * Paillier cryptosystem. 
- * @author Katia Auxilien
- * @date April 2024
- * @details The techniques include blurring, scrambling, pixelation, 
+ * \author Katia Auxilien
+ * \date April 2024
+ * \details The techniques include blurring, scrambling, pixelation, 
  * and selective encryption. The program takes a directory as input and applies the
  * obscuration techniques to all PPM images in the directory. The obscured images 
  * are then saved to separate directories based on the technique used.
@@ -25,11 +25,11 @@
 #include <vector>
 
 /**
- * @brief Checks if a given file extension is PPM.
- * @param extension The file extension to check.
- * @return True if the extension is PPM, false otherwise.
- * @author Katia Auxilien
- * @date April 2024
+ * \brief Checks if a given file extension is PPM.
+ * \param extension The file extension to check.
+ * \return True if the extension is PPM, false otherwise.
+ * \author Katia Auxilien
+ * \date April 2024
  */
 bool is_ppm(const std::string &extension)
 {
@@ -37,11 +37,11 @@ bool is_ppm(const std::string &extension)
 }
 
 /**
- * @brief Gets the file paths of all PPM images in a given folder.
- * @param imagePaths The vector to store the file paths in.
- * @param folderPath The path to the folder to search in.
- * @author Katia Auxilien
- * @date April 2024
+ * \brief Gets the file paths of all PPM images in a given folder.
+ * \param imagePaths The vector to store the file paths in.
+ * \param folderPath The path to the folder to search in.
+ * \author Katia Auxilien
+ * \date April 2024
  */
 void getFilePathsOfPPMFilesFromFolder(std::vector<std::string> &imagePaths, std::string folderPath)
 {
@@ -59,11 +59,11 @@ void getFilePathsOfPPMFilesFromFolder(std::vector<std::string> &imagePaths, std:
     }
 }
 /**
- * @brief Converts a std::string to a char array.
- * @param str The string to convert.
- * @param charArray The char array to store the result in.
- * @author Katia Auxilien
- * @date April 2024
+ * \brief Converts a std::string to a char array.
+ * \param str The string to convert.
+ * \param charArray The char array to store the result in.
+ * \author Katia Auxilien
+ * \date April 2024
  */
 void string2char(std::string str, char *charArray)
 {
@@ -71,12 +71,12 @@ void string2char(std::string str, char *charArray)
     std::strcpy(charArray, str.c_str());
 }
 /**
- * @brief Main function for the PPM image obscuration program.
- * @param argc The number of command-line arguments.
- * @param argv The command-line arguments.
- * @return 0 if the program runs successfully, 1 otherwise. 
- * @author Katia Auxilien
- * @date April 2024
+ * \brief Main function for the PPM image obscuration program.
+ * \param argc The number of command-line arguments.
+ * \param argv The command-line arguments.
+ * \return 0 if the program runs successfully, 1 otherwise. 
+ * \author Katia Auxilien
+ * \date April 2024
  */
 int main(int argc, char **argv)
 {

@@ -25,16 +25,16 @@
 using namespace std;
 
 /**
- *  @brief
- *  @param string pos
- * 	@param char *arg
- *  @authors Katia Auxilien
- *  @date 30 April 2024
+ *  \brief
+ *  \param string pos
+ * 	\param char *arg
+ *  \authors Katia Auxilien
+ *  \date 30 April 2024
  *
  *  Vérification de l'argument en paramètre, afin de voir si
  * 	c'est bel et bien un nombre et qu'il est premier.
  *
- *  @details
+ *  \details
  */
 uint64_t checkNumbersArgument(string pos, char *arg)
 {
@@ -57,16 +57,16 @@ uint64_t checkNumbersArgument(string pos, char *arg)
 }
 
 /**
- *  @brief
- *  @param const std::string &str
- * 	@param const std::string &suffix
- *  @authors Katia Auxilien
- *  @date 30 April 2024
+ *  \brief
+ *  \param const std::string &str
+ * 	\param const std::string &suffix
+ *  \authors Katia Auxilien
+ *  \date 30 April 2024
  *
  *  Vérification de l'argument en paramètre, afin de voir si c'est bel et bien
  * 	un nom de fichier terminant par .pgm.
  *
- *  @details
+ *  \details
  */
 bool endsWith(const std::string &str, const std::string &suffix)
 {
