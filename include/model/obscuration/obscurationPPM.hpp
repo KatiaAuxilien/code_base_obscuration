@@ -1,18 +1,10 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : obscurationPPM.h
- *
- * Description : Header of class that implement obscuration for PPM images.
- *
- * Author : Norman HUTTE
- *
- * Mail : ?
- *
- * Date : 06 March 2024
- *
- *******************************************************************************/
-
+/**
+ * @file obscurationPPM.hpp
+ * @brief Header of class that implement obscuration for PPM images.
+ * @author Norman Hutte
+ * @date 6 March 2024
+ * @details 
+ */
 #include "../image/ImageBase.hpp"
 #include "obscurationCommon.hpp"
 
@@ -63,7 +55,7 @@ class obscurationPPM : public obscurationCommon
      *  \param i The vertical coordinate of the target position.
      *  \param j The horizontal coordinate of the target position.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void interpolate_bilinear(ImageBase &image, int &valR, int &valG, int &valB, float i, float j);
 
@@ -72,7 +64,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image The input image.
      *  \param o_image The output image.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void bilinearRedim299(ImageBase &image, ImageBase &o_image);
 
@@ -85,7 +77,7 @@ class obscurationPPM : public obscurationCommon
      *  \param histG The histogram of the green color component.
      *  \param histB The histogram of the blue color component.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void computeColorHist(ImageBase &image, int histR[256], int histG[256], int histB[256]);
 
@@ -94,7 +86,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image1 The first image.
      *  \param image2 The second image.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void compareImagesByHist(ImageBase &image1, ImageBase &image2);
 
@@ -106,7 +98,7 @@ class obscurationPPM : public obscurationCommon
      *  \param size The size of the kernel.
      *  \param sigma The standard deviation of the Gaussian distribution.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void generateGaussianKernel(std::vector<std::vector<float>> &kernel, int size, float sigma);
 
@@ -117,7 +109,7 @@ class obscurationPPM : public obscurationCommon
      *  \param kernelSize The size of the Gaussian kernel.
      *  \param sigma The standard deviation of the Gaussian distribution.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void gaussianBlur(ImageBase &image, ImageBase &o_image, int kernelSize, float sigma);
 
@@ -129,7 +121,7 @@ class obscurationPPM : public obscurationCommon
      *  \param o_image The output image.
      *  \param regionSize The size of the averaging region.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void averageBlurring(ImageBase &image, ImageBase &o_image, int regionSize);
 
@@ -138,7 +130,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image The input image.
      *  \param o_images The output images.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void newAverageBlurring(ImageBase &image, std::vector<ImageBase> &o_images);
 
@@ -153,7 +145,7 @@ class obscurationPPM : public obscurationCommon
      *  \param area_h The height of the scrambling area.
      *  \param area_w The width of the scrambling area.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void areaScrambling(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w);
 
@@ -164,7 +156,7 @@ class obscurationPPM : public obscurationCommon
      *  \param regionHeight The height of the scrambling region.
      *  \param regionWidth The width of the scrambling region.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void scrambling(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth);
 
@@ -179,7 +171,7 @@ class obscurationPPM : public obscurationCommon
      *  \param area_h The height of the averaging area.
      *  \param area_w The width of the averaging area.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void areaAverager(ImageBase &image, ImageBase &o_image, int start_i, int start_j, int area_h, int area_w);
 
@@ -190,7 +182,7 @@ class obscurationPPM : public obscurationCommon
      *  \param regionHeight The height of the averaging region.
      *  \param regionWidth The width of the averaging region.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void averageByRegion(ImageBase &image, ImageBase &o_image, int regionHeight, int regionWidth);
 
@@ -202,7 +194,7 @@ class obscurationPPM : public obscurationCommon
      *  \param o_images The output images.
      *  \param MSBtoLSB The encryption direction (true for MSB to LSB, false for LSB to MSB).
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void selectiveProgressiveEncryption(ImageBase &image, ImageBase o_images[8], bool MSBtoLSB);
 
@@ -211,7 +203,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image The input image.
      *  \param o_images The output images.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void selectiveIndividualEncryption(ImageBase &image, ImageBase o_images[8]);
 
@@ -222,7 +214,7 @@ class obscurationPPM : public obscurationCommon
      *  \param bitsGroup The bit group to encrypt.
      *  \param groupSize The size of the bit group.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void selectiveGroupEncryption(ImageBase &image, ImageBase &o_image, int bitsGroup[8], int groupSize);
 
@@ -232,7 +224,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image2 The second image.
      *  \return The PSNR value.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static double computePSNR(ImageBase &image1, ImageBase &image2);
 
@@ -244,7 +236,7 @@ class obscurationPPM : public obscurationCommon
      *  \param i_max The maximum alteration index.
      *  \param step The step size between alteration indices.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void computePSNRforAllAlterations(std::vector<double> &PSNRArray, const char *baseName, int i_min, int i_max, int step);
 
@@ -253,7 +245,7 @@ class obscurationPPM : public obscurationCommon
      *  \param data The data to write.
      *  \param filename The name of the output file.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void writeDataOnTxt(std::vector<double> &data, std::string filename);
 
@@ -262,7 +254,7 @@ class obscurationPPM : public obscurationCommon
      *  \param imColor The input RGB image.
      *  \param imGrey The output grayscale image.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static void RGB2GREY(ImageBase &imColor, ImageBase &imGrey);
 
@@ -271,7 +263,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image The input image.
      *  \return The mean value.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static double computeImageMean(ImageBase &image);
 
@@ -281,7 +273,7 @@ class obscurationPPM : public obscurationCommon
      *  \param image2 The second image.
      *  \return The SSIM value.
      *  \author Norman Hutte
-     *  \date 06/03/2024
+     *  \date 6 March 2024
      */
     static double computeSSIM(ImageBase &image1, ImageBase &image2);
 }

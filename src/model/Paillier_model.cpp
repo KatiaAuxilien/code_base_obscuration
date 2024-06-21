@@ -1,13 +1,13 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_model.cpp
+ * File : Paillier_model.cpp
  *
  * Description : Implementation of singleton of
  *              https://www.geeksforgeeks.org/implementation-of-singleton-class-in-cpp/
  *              using the Paillier cryptosystem.
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

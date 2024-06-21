@@ -9,7 +9,7 @@
  * its pure virtual methods.
  *   Source file is image.cpp by Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

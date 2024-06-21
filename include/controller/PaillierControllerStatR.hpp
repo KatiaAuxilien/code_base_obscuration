@@ -1,21 +1,12 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : PaillierControllerStatR.hpp
- *
- * Description : This file contains the declaration of the PaillierControllerStatR
+/**
+ * @file PaillierControllerStatR.hpp
+ * @brief This file contains the declaration of the PaillierControllerStatR
  * class, which is derived from the PaillierController class. This class is used
  * to perform statistical calculations on r in the Paillier cryptosystem.
- *
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : 30 mai 2024, 15:50:00
- *
- *******************************************************************************/
-
+ * @author Katia Auxilien
+ * @date 30 mai 2024, 15:50:00
+ * @details 
+ */
 #ifndef PAILLIERCONTROLLER_Stat_R
 #define PAILLIERCONTROLLER_Stat_R
 
@@ -67,14 +58,14 @@ public:
      *				2	bool optimisationLSB = false;
      * \details This function checks the parameters for the program performing statistical calculations on r.
      * \author Katia Auxilien
-     * \date 27/05/2024 11:52:00
+     * \date 27 May 2024 11:52:00
      */
     void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
     /**
      * \brief Afficher le manuel du programme.
      * \author Katia Auxilien
-     * \date 07/06/2024 16:41:00
+     * \date 07 June 2024 16:41:00
      */
     void printHelp();
 
@@ -83,7 +74,7 @@ public:
      * \brief Perform encryption calculations.
      * \details This function performs encryption calculations.
      * \author Katia Auxilien
-     * \date 30/05/2024
+     * \date 30 May 2024
      */
     void calc_encrypt();
 };

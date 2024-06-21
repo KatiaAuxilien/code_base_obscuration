@@ -1,19 +1,13 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : Paillier_model.hpp
- *
- * Description : Header of singleton of
- *              https://www.geeksforgeeks.org/implementation-of-singleton-class-in-cpp/
- *              using the Paillier cryptosystem.
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : 28 may 2024, 13:48:00
- *
- *******************************************************************************/
+/**
+ * @file Paillier_model.hpp
+ * @brief Header of singleton of
+ * https://www.geeksforgeeks.org/implementation-of-singleton-class-in-cpp/
+ * using the Paillier cryptosystem.
+ * @author Katia Auxilien
+ * @date 28 may 2024, 13:48:00
+ * @details 
+ */
+
 #ifndef PAILLIER_MODEL
 #define PAILLIER_MODEL
 

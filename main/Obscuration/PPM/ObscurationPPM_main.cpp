@@ -1,23 +1,23 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : ObscurationPPM_main.cpp
+ * File : ObscurationPPM_main.cpp
  *
  * Description :
- *   Fichier source de départ main.cpp et Functions.h de  Norman Hutte
+ *   Source files main.cpp and Functions.h by Norman Hutte
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
- * Date : Avril 2024
+ * Date : April 2024
  *
  *******************************************************************************/
-#include "../../../../include/model/filesystem/filesystemCommon.h"
+#include "../../../../include/model/filesystem/filesystemCommon.hpp"
 #include "../../../../include/model/image/ImageBase.hpp"
 #include "../../../../include/model/image/image_ppm.hpp"
-#include "../../../../include/model/obscuration/obscurationPPM.h"
-#include "../../../../include/model/obscuration/obscurationCommon.h"
+#include "../../../../include/model/obscuration/obscurationPPM.hpp"
+#include "../../../../include/model/obscuration/obscurationCommon.hpp"
 
 #include <cstdio>
 #include <cstring>

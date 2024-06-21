@@ -1,20 +1,12 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : image_ppm.h
- *
- * Description :
- *   Source file is image.h, ICAR_Library, by William Puech, Tue Mar 31 13:26:36 2005
- *   This header file defines the image_ppm class, which is derived from image_portable.
- *   It provides methods to read and write PPM images, and to extract their R, G, and B planes.
- *
- * Author : Katia Auxilien, William Puech
- *
- * Mail : katia.auxilien@mail.fr, ?
- *
- * Date : May 2024 - Tue Mar 31 13:26:36 2005
- *
- *******************************************************************************/
+/**
+ * @file image_ppm.hpp
+ * @brief This header file defines the image_ppm class, which is derived from image_portable.
+ * @authors Katia Auxilien, William Puech
+ * @date May 2024 - Tue Mar 31 13:26:36 2005
+ * @details Source file is image.h, ICAR_Library, by William Puech, Tue Mar 31 13:26:36 2005
+ *  It provides methods to read and write PPM images, and to extract their R, G, and B planes.
+ */
+
 #include "image_portable.hpp"
 #include <stdlib.h>
 #include <stdio.h>

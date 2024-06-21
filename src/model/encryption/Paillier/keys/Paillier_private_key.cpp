@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_private_key.cpp
+ * File : Paillier_private_key.cpp
  *
  * Description : Implementation of the Private key class, in the Paillier cryptosystem.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

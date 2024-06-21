@@ -1,13 +1,13 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : PaillierControllerStatR.cpp
+ * File : PaillierControllerStatR.cpp
  *
  * Description : This file contains the implementation of the PaillierControllerStatR
  * class, which is a derivative of the PaillierController class.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

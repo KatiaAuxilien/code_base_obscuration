@@ -1,21 +1,13 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : Paillier.hpp
- *
- * Description : This file contains the Paillier cryptosystem implementation in
- * C++. The Paillier cryptosystem is an additive homomorphic encryption scheme
+/**
+ * @file Paillier.hpp
+ * @brief This file contains the Paillier cryptosystem implementation in
+ * C++.
+ * @author Katia Auxilien
+ * @date Avril 2024 - Mai 2024
+ * @details The Paillier cryptosystem is an additive homomorphic encryption scheme
  * that allows computations to be performed on encrypted data without decrypting it.
  * File source is Paillier_image.cpp by Bianca Jansen Van Rensburg
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : Avril 2024 - Mai 2024
- *
- *******************************************************************************/
-
+ */
 #define BITSETSIZE 64
 
 #ifndef PAILLIER_CRYPTOSYSTEM
@@ -27,8 +19,6 @@
 #include <random> //Randomdevice and mt19937
 
 using namespace std;
-
-// TODO : Documentation
 
 /**
  * \class Paillier
@@ -82,7 +72,7 @@ public:
      * \param uint64_t n - The n parameter of public key.
      * \return uint64_t - The result of the modular exponentiation.
      *  \author Bianca Jansen Van Rensburg
-     *  \date 30/04/2024
+     *  \date 30 April 2024
      */
     uint64_t fastMod_64t(uint64_t x, uint64_t e, uint64_t n)
     {
@@ -124,7 +114,7 @@ public:
      * \param uint64_t n - The n parameter of public key.
      * \return std::vector<uint64_t> - The set of elements in (Z/n²Z)* that are coprime to n.
      *  \authors Katia Auxilien
-     *  \date 30/04/2024 15:51:00
+     *  \date 30 April 2024 15:51:00
      */
     std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t(uint64_t n)
     {
@@ -147,7 +137,7 @@ public:
      * \param const uint64_t &lambda - The lambda parameter of private key.
      * \return std::vector<uint64_t> - The set of elements in (Z/n²Z)* that satisfy the condition L(x) = (x-1)/n where x is a positive integer and mu exists.
      *  \authors Katia Auxilien
-     *  \date 22/05/2024 14:45:00
+     *  \date 22 May 2024 14:45:00
      */
     std::vector<uint64_t> calc_set_same_remainder_divide_euclide_64t_v2(uint64_t n, const uint64_t &lambda)
     {
@@ -180,7 +170,7 @@ public:
      * \param const uint64_t &lambda - The lambda parameter of private key.
      * \return uint64_t - The chosen value of g.
      *  \authors Katia Auxilien
-     *  \date 02/05/2024
+     *  \date 02 May 2024
      */
     uint64_t choose_g_in_vec_64t(std::vector<uint64_t> &set, const uint64_t &n, const uint64_t &lambda)
     {
@@ -206,7 +196,7 @@ public:
      * \param std::vector<uint64_t> &set - The set of elements in (Z/n²Z)*.
      * \return uint64_t - The chosen value of g.
      * \authors Katia Auxilien
-     * \date 22/05/2024 14:45:00
+     * \date 22 May 2024 14:45:00
      */
     uint64_t choose_g_in_vec_64t_v2(std::vector<uint64_t> &set)
     {
@@ -279,7 +269,7 @@ public:
     };
 
     /**
-     *  \brief Choose a random element from the set Z/nZ*. 
+     *  \brief Choose a random element from the set Z/nZ*.
      *  \details This function chooses a random element from the set Z/nZ*.
      *  From program Paillier.java (https://perso.liris.cnrs.fr/omar.hasan/pprs/paillierdemo/) developped by Omar Hasan.
      *  \param uint64_t n - The n parameter of public key.
@@ -352,7 +342,7 @@ public:
      *  \param uint64_t lambda - The lambda parameter of private key.
      *  \return uint64_t - The generated value of g.
      *  \authors Katia Auxilien
-     *  \date 23/05/2024 15:00:00
+     *  \date 23 May 2024 15:00:00
      */
     uint64_t generate_g_64t(uint64_t n, uint64_t lambda)
     {
@@ -453,7 +443,7 @@ public:
      *  \param uint64_t r - The random value.
      *  \return T_out - The encrypted message.
      *  \authors Bianca Jansen Van Rensburg, Katia Auxilien
-     *  \date 13/05/2024
+     *  \date 13 May 2024
      */
     T_out paillierEncryption(uint64_t n, uint64_t g, T_in m, uint64_t r)
     {

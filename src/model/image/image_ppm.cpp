@@ -1,14 +1,14 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : image_ppm.cpp
+ * File : image_ppm.cpp
  *
  * Description :
  * 	 This file implements the image_ppm class, which is derived from image_portable.
  *   It provides methods to read and write PPM images, and to extract their R, G, and B planes.
  *   Source file image.cpp by Bianca Jansen Van Rensburg and William Puech
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

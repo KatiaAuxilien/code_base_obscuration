@@ -1,25 +1,37 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * Fichier : ObscurationPGM_main.cpp
- *
- * Description :
- *   Fichier source de départ main.cpp et Functions.h de  Norman Hutte
- *
- * Auteur : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : Avril 2024
- *
- *******************************************************************************/
-
+/**
+ * @file ObscurationPGM_main.cpp
+ * @brief Main file for the PGM image obscuration program using the Paillier cryptosystem.
+ * @author Katia Auxilien
+ * @date April 2024
+ * @details This program implements various image obscuration techniques on PGM images
+ * using the Paillier cryptosystem. The techniques include blurring, scrambling,
+ * pixelation, and selective encryption. The program takes a directory as input
+ * and applies the obscuration techniques to all PGM images in the directory.
+ * The obscured images are then saved to separate directories based on the
+ * technique used.
+ * The main function first checks if the correct number of arguments has been
+ * provided. If not, it prints a usage message and returns 1. Otherwise, it
+ * initializes an empty PGM image and proceeds to apply the obscuration
+ * techniques.
+ * The blurring technique uses a simple average filter to blur the image.
+ * The scrambling technique divides the image into regions and scrambles the
+ * pixels within each region. The pixelation technique replaces each region
+ * with its average color. The selective encryption technique encrypts only
+ * certain bits of the image data using the Paillier cryptosystem.
+ * The program uses the filesystemPGM and filesystemCommon classes to handle
+ * file I/O operations. It also uses the AES class from the encryption module
+ * to perform AES encryption on the image data.
+ * The program displays a progress bar during the obscuration process to provide
+ * feedback to the user. It also prints error messages if any issues occur
+ * during the process.
+ * Source files main.cpp and Functions.h by Norman Hutte
+ */
 #include "../../../include/model/image/ImageBase.hpp"
-#include "../../../include/model/obscuration/obscurationCommon.h"
-#include "../../../include/model/obscuration/obscurationPGM.h"
-#include "../../../include/model/filesystem/filesystemPGM.h"
-#include "../../../include/model/filesystem/filesystemCommon.h"
-#include "../../../include/model/encryption/AES/AES.h"
+#include "../../../include/model/obscuration/obscurationCommon.hpp"
+#include "../../../include/model/obscuration/obscurationPGM.hpp"
+#include "../../../include/model/filesystem/filesystemPGM.hpp"
+#include "../../../include/model/filesystem/filesystemCommon.hpp"
+#include "../../../include/model/encryption/AES/AES.hpp"
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -28,8 +40,23 @@
 
 #define FILE_EXT ".pgm"
 
-//TODO : Documentation
-
+/**
+ * @brief Displays a progress bar in the console.
+ * @param progress The current progress (number of completed tasks).
+ * @param total The total number of tasks.
+ * @details This function displays a progress bar in the console using ASCII characters.
+ * The color of the progress bar changes based on the percentage of completion.
+ * If the completion percentage is less than or equal to 50%, the color is red.
+ * If it is between 50% and 70%, the color is yellow. Otherwise, the color is
+ * dark green.
+ * The function takes two arguments: the current progress and the total number
+ * of tasks. It calculates the size of the progress bar based on these values
+ * and then prints the progress bar to the console using the std::cout object.
+ * The function also prints the completion percentage next to the progress bar.
+ * The function uses the std::string object to store the color code for the
+ * progress bar. It also uses a loop to print the progress bar characters one
+ * by one.
+ */
 void afficherBarreDeChargement(size_t progress, size_t total)
 {
     int barSize = 50;
@@ -67,8 +94,27 @@ void afficherBarreDeChargement(size_t progress, size_t total)
 }
 
 /**
- * Pour utiliser ce programme, les images contenues dans vos fichiers doivent avoir le nom 'nomdudossier_ (i)' i allant de 0 à n images.
- **/
+ * @brief Main function for the PGM image obscuration program.
+ * @param argc The number of command-line arguments.
+ * @param argv The command-line arguments.
+ * @return 0 if the program runs successfully, 1 otherwise.
+ * @details This function is the entry point for the PGM image obscuration program.
+ * It takes two arguments: the number of command-line arguments and the
+ * command-line arguments themselves.
+ * The function first checks if the correct number of arguments has been
+ * provided. If not, it prints a usage message and returns 1. Otherwise, it
+ * initializes an empty PGM image and proceeds to apply the obscuration
+ * techniques.
+ * The function uses the filesystemPGM and filesystemCommon classes to handle
+ * file I/O operations. It also uses the AES class from the encryption module
+ * to perform AES encryption on the image data.
+ * The function displays a progress bar during the obscuration process to provide
+ * feedback to the user. It also prints error messages if any issues occur
+ * during the process.
+ * Example usage:
+ * $ ./ObscurationPGM_main /path/to/image/directory
+ * To use this program, the images contained in your files must have the name 'foldername_ (i)' where i goes from 0 to n images.
+ */
 int main(int argc, char **argv)
 {
     image_pgm img_pgm;

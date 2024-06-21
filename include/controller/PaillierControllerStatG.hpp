@@ -1,19 +1,12 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : PaillierControllerStatG.hpp
- *
- * Description :This file contains the declaration of the PaillierControllerStatG class,
- *              which is a derivative of the PaillierController class. This class is used
- *              to perform statistical calculations on g in a Paillier cryptosystem.
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : 30 May 2024, 15:50:00
- *
- *******************************************************************************/
+/**
+ * @file PaillierControllerStatG.hpp
+ * @brief This file contains the declaration of the PaillierControllerStatG class,
+ * which is a derivative of the PaillierController class. This class is used
+ * to perform statistical calculations on g in a Paillier cryptosystem.
+ * @author Katia Auxilien
+ * @date 30 May 2024, 15:50:00
+ * @details 
+ */
 
 #ifndef PAILLIERCONTROLLER_Stat_G
 #define PAILLIERCONTROLLER_Stat_G
@@ -54,7 +47,7 @@ public:
 	 *				0	bool distributeOnTwo = false;
 	 *				1	bool optimisationLSB = false;
 	 * \authors Katia Auxilien
-	 * \date 27/05/2024 11:52:00
+	 * \date 27 May 2024 11:52:00
 	 * \details The function checks the input arguments and sets the parameters accordingly.
 	 */
 	void checkParameters(char *arg_in[], int size_arg, bool param[]);
@@ -62,7 +55,7 @@ public:
 	/**
 	 * \brief Print the manual of the program.
 	 * \author Katia Auxilien
-	 * \date 07/06/2024 16:41:00
+	 * \date 07 June 2024 16:41:00
 	 */
 	void printHelp();
 

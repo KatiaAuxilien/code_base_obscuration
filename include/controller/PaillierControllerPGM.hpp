@@ -1,20 +1,12 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : PaillierControllerPGM.hpp
- *
- * Description : Header file for the PaillierControllerPGM class, which is a
+/**
+ * @file PaillierControllerPGM.hpp
+ * @brief Header file for the PaillierControllerPGM class, which is a
  * controller for the Paillier cryptosystem applied to PGM (Portable Gray Map)
  * images.
- *
- *
- * Author : Katia Auxilien
- *
- * Mail : katia.auxilien@mail.fr
- *
- * Date : 29 May 2024, 13:55:00
- *
- *******************************************************************************/
+ * @author Katia Auxilien
+ * @date 29 May 2024, 13:55:00
+ * @details 
+ */
 
 #ifndef PAILLIERCONTROLLER_PGM
 #define PAILLIERCONTROLLER_PGM
@@ -107,7 +99,7 @@ public:
 	 *				3	bool recropPixels = false;
 	 *				4	bool optimisationLSB = false;
 	 *  \authors Katia Auxilien
-	 *  \date 29 May 2024, 13:55:0015/05/2024 9:00:00
+	 *  \date 29 May 2024, 13:55:00
 	 */
 	void checkParameters(char *arg_in[], int size_arg, bool param[]);
 
@@ -243,7 +235,7 @@ public:
 	//  *  \param bool recropPixels
 	//  *  \param Paillier<T_in, T_out> paillier
 	//  *  \authors Katia Auxilien
-	//  *  \date 29 May 2024, 13:55:0015/05/2024
+	//  *  \date 29 May 2024, 13:55:00
 	//  */
 	// template <typename T_in, typename T_out>
 	// void encrypt2(bool distributeOnTwo, bool recropPixels, Paillier<T_in,T_out> paillier);
@@ -255,7 +247,7 @@ public:
 	//  *  \param bool recropPixels
 	//  *  \param Paillier<T_in, T_out> paillier
 	//  *  \authors Katia Auxilien
-	//  *  \date 29 May 2024, 13:55:0015/05/2024
+	//  *  \date 29 May 2024, 13:55:00
 	//  */
 	// template <typename T_in, typename T_out>
 	// void decrypt2(bool distributeOnTwo, Paillier<T_in,T_out> paillier);

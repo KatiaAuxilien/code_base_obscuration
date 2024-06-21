@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_main.cpp
+ * File : Paillier_main.cpp
  *
  * Description :
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
@@ -29,7 +29,7 @@ using namespace std;
  *  @param string pos
  * 	@param char *arg
  *  @authors Katia Auxilien
- *  @date 30/04/2024
+ *  @date 30 April 2024
  *
  *  Vérification de l'argument en paramètre, afin de voir si
  * 	c'est bel et bien un nombre et qu'il est premier.
@@ -61,7 +61,7 @@ uint64_t checkNumbersArgument(string pos, char *arg)
  *  @param const std::string &str
  * 	@param const std::string &suffix
  *  @authors Katia Auxilien
- *  @date 30/04/2024
+ *  @date 30 April 2024
  *
  *  Vérification de l'argument en paramètre, afin de voir si c'est bel et bien
  * 	un nom de fichier terminant par .pgm.

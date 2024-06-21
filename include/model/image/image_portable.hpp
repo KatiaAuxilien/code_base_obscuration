@@ -1,20 +1,13 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : image_portable.hpp
- *
- * Description : This file defines the image_portable class, which is a base class for
- * different image formats. It provides a protected method for ignoring
- * comments in a file.
- * Source file is image.h, ICAR_Library, by William Puech, Tue Mar 31 13:26:36 2005
- *
- * Authors : Katia Auxilien, William Puech
- *
- * Mail : katia.auxilien@mail.fr ,
- *
- * Date : Mai 2024 - Tue Mar 31 13:26:36 2005
- *
- *******************************************************************************/
+/**
+ * @file image_portable.hpp
+ * @brief This file defines the image_portable class, which is a base class for
+ * different image formats. 
+ * @authors Katia Auxilien, William Puech
+ * @date Mai 2024 - Tue Mar 31 13:26:36 2005
+ * @details  It provides a protected method for ignoring
+ * comments in a file. Source file is image.h, ICAR_Library, 
+ * by William Puech, Tue Mar 31 13:26:36 2005
+ */
 #ifndef IMAGE_PORTABLE
 #define IMAGE_PORTABLE
 

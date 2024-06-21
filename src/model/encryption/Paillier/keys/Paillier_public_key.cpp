@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_public_key.cpp
+ * File : Paillier_public_key.cpp
  *
  * Description : Implementation of the Public key class, in the Paillier cryptosystem.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

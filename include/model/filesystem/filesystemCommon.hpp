@@ -1,17 +1,12 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : filesystemCommon.h
- *
- * Description :This file contains the declaration of the filesystemCommon class, which provides various utility functions for handling files and directories.
- *
- * Authors : Norman Hutte, Katia Auxilien
- *
- * Mail : , katia.auxilien@mail.fr
- *
- * Date : April 2024
- *
- *******************************************************************************/
+/**
+ * @file filesystemCommon.hpp
+ * @brief 
+ * @authors Katia Auxilien, Norman Hutte
+ * @date April 2024
+ * @details This file contains the declaration of the filesystemCommon class, 
+ * which provides various utility functions for handling files and directories.
+ */
+
 #include <iostream>
 #include <vector>
 #include <random>
@@ -29,7 +24,7 @@
  * \class filesystemCommon
  * \brief A utility class providing functions to handle files and directories.
  * \author Norman Hutte
- * \date 06/03/2024
+ * \date 06 March 2024
  */
 class filesystemCommon
 {

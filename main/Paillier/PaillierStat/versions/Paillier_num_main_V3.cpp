@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_num_main_V3.cpp
+ * File : Paillier_num_main_V3.cpp
  *
  * Description :
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
@@ -30,7 +30,7 @@ using namespace std;
  *  @param int n 
  *  @param int i
  *  @authors Katia Auxilien
- *  @date 30/04/2024 
+ *  @date 30 April 2024 
  */
 bool isPrime(int n, int i = 2)
 {
@@ -50,7 +50,7 @@ bool isPrime(int n, int i = 2)
  *  @param string pos
  * 	@param char *arg
  *  @authors Katia Auxilien
- *  @date 30/04/2024
+ *  @date 30 April 2024
  */
 uint64_t checkNumbersArgument(string pos, char *arg)
 {
@@ -78,7 +78,7 @@ uint64_t checkNumbersArgument(string pos, char *arg)
  *  @param const std::string &str
  * 	@param const std::string &suffix
  *  @authors Katia Auxilien
- *  @date 30/04/2024
+ *  @date 30 April 2024
  */
 bool endsWith(const std::string &str, const std::string &suffix)
 {

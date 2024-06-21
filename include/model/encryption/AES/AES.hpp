@@ -1,18 +1,10 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : AES.h
- *
- * Description :
- *
- * Author : Norman HUTTE
- *
- * Mail : ?
- *
- * Date : ?
- *
- *******************************************************************************/
-
+/**
+ * @file AES.hpp
+ * @brief 
+ * @author  Norman HUTTE
+ * @date ?
+ * @details 
+ */
 #ifndef _AES_H_
 #define _AES_H_
 

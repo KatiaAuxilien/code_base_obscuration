@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : commandLineInterface.cpp
+ * File : commandLineInterface.cpp
  *
- * Description :
+ * Description : This file implement the command line interface for the Paillier cryptosystem.
  *
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

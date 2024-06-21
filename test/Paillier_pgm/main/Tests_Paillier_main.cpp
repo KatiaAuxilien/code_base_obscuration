@@ -1,17 +1,17 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Tests_Paillier_main.cpp
+ * File : Tests_Paillier_main.cpp
  *
  * Description : Main qui permet de tester et vérifier le bon fonctionnement de
  * 	l'enregistrement des clés et la génération de g.
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *
- * Date : 03/05/2024 9:50:00
+ * Date : 03 May 2024 9:50:00
  *
  *******************************************************************************/
 #include "../../include/Paillier.h"

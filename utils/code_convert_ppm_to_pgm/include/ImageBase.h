@@ -1,11 +1,11 @@
 /******************************************************************************
 * ICAR_Library
 *
-* Fichier : ImageBase.h
+* File : ImageBase.h
 *
 * Description : Classe contennant quelques fonctionnalit�s de base
 *
-* Auteur : Mickael Pinto
+* Author : Mickael Pinto
 *
 * Mail : mickael.pinto@live.fr
 *

@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_pgm_main.cpp
+ * File : Paillier_pgm_main.cpp
  *
  * Description :
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

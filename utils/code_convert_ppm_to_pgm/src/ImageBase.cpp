@@ -1,11 +1,11 @@
 /******************************************************************************
 * ICAR_Library
 *
-* Fichier : ImageBase.cpp
+* File : ImageBase.cpp
 *
 * Description : Voir le fichier .h
 *
-* Auteur : Mickael Pinto
+* Author : Mickael Pinto
 *
 * Mail : mickael.pinto@live.fr
 *

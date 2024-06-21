@@ -1,18 +1,11 @@
-/******************************************************************************
- * ICAR_Interns_Library
- *
- * File : ObscurationCommon.hpp
- *
- * Description : Header of super class containing common and useful methods
- *               for obscuring pgm and ppm images.
- *
- * Authors : Katia Auxilien, Norman Hutte
- *
- * Mail : katia.auxilien@mail.fr , ?
- *
- * Date : April 2024
- *
- *******************************************************************************/
+/**
+ * @file ObscurationCommon.hpp
+ * @brief Header of super class containing common and useful methods
+ * for obscuring pgm and ppm images.
+ * @authors Katia Auxilien, Norman Hutte
+ * @date April 2024
+ * @details 
+ */
 
 #include "../image/ImageBase.hpp"
 #include <iostream>

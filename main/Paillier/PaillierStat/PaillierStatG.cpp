@@ -1,12 +1,12 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * Fichier : Paillier_num_main_V5_calc_r.cpp
+ * File : Paillier_num_main_V5_calc_r.cpp
  *
  * Description : Essais sur la taille d'un chiffré dont n > 255
- *   Fichier source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
+ *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
  *
- * Auteur : Katia Auxilien
+ * Author : Katia Auxilien
  *
  * Mail : katia.auxilien@mail.fr
  *

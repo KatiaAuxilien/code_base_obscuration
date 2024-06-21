@@ -1,18 +1,10 @@
-/******************************************************************************
- * ICAR_Library
- *
- * File : ImageBase.h
- *
- * Description : Base class containing some basic functionalities for images
- *
- * Author : Mickael Pinto
- *
- * Mail : mickael.pinto@live.fr
- *
- * Date : October 2012
- *
- *******************************************************************************/
-
+/**
+ * @file ImageBase.hpp
+ * @brief Base class containing some basic functionalities for images.
+ * @author Mickael Pinto (mickael.pinto@live.fr)
+ * @date October 2012
+ * @details 
+ */
 #pragma once
 #include <cstdio>
 #include <cstdlib>
