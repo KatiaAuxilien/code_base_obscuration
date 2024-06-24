@@ -39,15 +39,16 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	bool parameters[6];
+	bool parameters[7];
 	controller->checkParameters(argv, argc, parameters);
 
 	bool isEncryption = parameters[0];
 	bool useKeys = parameters[1];
 	bool distributeOnTwo = parameters[2];
 	bool recropPixels = parameters[3];
-	bool optimisationLSB = parameters[4];
-	bool needHelp = parameters[5];
+	bool optimisationLSB32 = parameters[4];
+	bool optimisationLSB16 = parameters[5];
+	bool needHelp = parameters[6];
 
 	if(needHelp)
 	{
@@ -75,15 +76,20 @@ int main(int argc, char **argv)
 	{
 		if (n <= 256)
 		{
-			if (!optimisationLSB)
+			if (!optimisationLSB32 && !optimisationLSB16)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
 				controller->encrypt(distributeOnTwo, recropPixels, paillier);
 			}
-			if (optimisationLSB)
+			if (optimisationLSB32)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->encryptCompression(recropPixels, paillier);
+				controller->encryptCompression(recropPixels, paillier, 5);
+			}
+			if (optimisationLSB16)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->encryptCompression(recropPixels, paillier, 4);
 			}
 		}
 		// else if (n > 256 && n <= 65535)
@@ -102,15 +108,20 @@ int main(int argc, char **argv)
 	{
 		if (n <= 256)
 		{
-			if (!optimisationLSB)
+			if (!optimisationLSB32 && !optimisationLSB16)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
 				controller->decrypt(distributeOnTwo, paillier);
 			}
-			if (optimisationLSB)
+			if (optimisationLSB32)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->decryptCompression(paillier);
+				controller->decryptCompression(paillier, 5);
+			}
+			if (optimisationLSB16)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->decryptCompression(paillier, 4);
 			}
 		}
 		// else if (n > 256 && n <= 65535)

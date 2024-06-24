@@ -217,16 +217,17 @@ void image_pgm::write_image_pgm_compressed_variable_size(char nom_image[], uint1
 
 		if ((fwrite((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
 		{
+			printf("Taille : %d\n", taille_image);
+			printf("nHO : %d\n", nHOriginal);
+			printf("nWO : %d\n", nWOriginal);
+			printf("nHC : %d\n", nb_lignes);
+			printf("nWC : %d\n", nb_colonnes);
 			printf("\nErreur d'écriture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
 
-		printf("Taille : %d\n", taille_image);
-		printf("nHO : %d\n", nHOriginal);
-		printf("nWO : %d\n", nWOriginal);
-		printf("nHC : %d\n", nb_lignes);
-		printf("nWC : %d\n", nb_colonnes);
+
 	}
 }
 
@@ -257,22 +258,22 @@ pair<int, int> image_pgm::read_image_pgm_compressed_and_get_originalDimension(ch
 		if ((fread((uint16_t *)pt_image, sizeof(uint16_t), taille_image, f_image)) != (size_t)taille_image)
 		{
 
-			printf("Taille : %d\n", taille_image);
-			printf("nHO : %d\n", nHOriginal);
-			printf("nWO : %d\n", nWOriginal);
-			printf("nHC : %d\n", nb_lignes);
-			printf("nWC : %d\n", nb_colonnes);
+			// printf("Taille : %d\n", taille_image);
+			// printf("nHO : %d\n", nHOriginal);
+			// printf("nWO : %d\n", nWOriginal);
+			// printf("nHC : %d\n", nb_lignes);
+			// printf("nWC : %d\n", nb_colonnes);
 
 			printf("\nErreur de lecture de l'image %s \n", nom_image);
 			exit(EXIT_FAILURE);
 		}
 		fclose(f_image);
 
-		printf("Taille : %d\n", taille_image);
-		printf("nHO : %d\n", nHOriginal);
-		printf("nWO : %d\n", nWOriginal);
-		printf("nHC : %d\n", nb_lignes);
-		printf("nWC : %d\n", nb_colonnes);
+		// printf("Taille : %d\n", taille_image);
+		// printf("nHO : %d\n", nHOriginal);
+		// printf("nWO : %d\n", nWOriginal);
+		// printf("nHC : %d\n", nb_lignes);
+		// printf("nWC : %d\n", nb_colonnes);
 	}
 
 	return make_pair(nWOriginal, nHOriginal);

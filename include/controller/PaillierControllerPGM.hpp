@@ -97,7 +97,9 @@ public:
 	 *				1	bool useKeys = false;
 	 *				2	bool distributeOnTwo = false;
 	 *				3	bool recropPixels = false;
-	 *				4	bool optimisationLSB = false;
+	 *				4	bool optimisationLSB32 = false;
+	 *				5	bool optimisationLSB16 = false;
+	 *				6 	bool needHelp = false;
 	 *  \authors Katia Auxilien
 	 *  \date 29 May 2024, 13:55:00
 	 */
@@ -157,18 +159,19 @@ public:
 	void decrypt(bool distributeOnTwo, Paillier<T_in, T_out> paillier);
 
 	/**
-	 * \brief Encrypt an image using the Paillier cryptosystem with compression.
+	 * \brief Encrypt an image using the Paillier cryptosystem with compression mod32.
 	 * \details This method encrypts an image using the Paillier cryptosystem with
 	 * compression and writes the encrypted image to a file.
 	 * \tparam T_in The input integer type.
 	 * \tparam T_out The output integer type.
 	 * \param recropPixels A bool value indicating whether to recrop the pixels.
 	 * \param paillier A Paillier object used for encryption.
+	 * \param bitsCompressed An int representing how many bits to free.
 	 * \author Katia Auxilien
-	 * \date 29 May 2024, 13:55:00
+	 * \date 19 June 2024
 	 */
 	template <typename T_in, typename T_out>
-	void encryptCompression(bool recropPixels, Paillier<T_in, T_out> paillier);
+	void encryptCompression(bool recropPixels, Paillier<T_in, T_out> paillier, int bitsCompressed);
 
 	/**
 	 * \brief This function compresses the encrypted bits of an image.
@@ -181,11 +184,12 @@ public:
 	 * \param ImgInEnc A 2D array of 16-bit unsigned integers representing the encrypted image to be compressed.
 	 * \param nb_lignes An integer representing the number of rows of the encrypted image.
 	 * \param nb_colonnes An integer representing the number of columns of the encrypted image.
+	 * \param bitsCompressed An integer representig how many bits are at 0.
 	 * \return A 2D array of 16-bit unsigned integers representing the compressed encrypted image.
 	 * \authors Katia Auxilien
 	 * \date 29 May 2024, 13:55:00
 	 */
-	uint16_t *compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes);
+	uint16_t *compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int bitsCompressed);
 
 	/**
 	 * \brief Method to decompress an encrypted 8-bit PGM image.
@@ -194,11 +198,12 @@ public:
 	 * \param uint16_t *ImgInEnc pointer to the encrypted and compressed image data.
 	 * \param int nb_lignes number of rows in the image.
 	 * \param int nb_colonnes number of columns in the image.
+	 * \param bitsCompressed An integer representig how many bits are at 0.
 	 * \return uint16_t* pointer to the decompressed image data.
 	 * \author Katia Auxilien
 	 * \date 29 mai 2024, 13:55:00
 	 */
-	uint16_t *decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int nTailleOriginale);
+	uint16_t *decompressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int nTailleOriginale, int bitsCompressed);
 
 	/**
 	 * \brief Method to decompose the dimensions of a compressed image.
@@ -213,18 +218,20 @@ public:
 	pair<int, int> decomposeDimension(int n);
 
 	/**
-	 * \brief Method to decrypt an 8-bit PGM image with compression.
+	 * \brief Method to decrypt an 8-bit PGM image with compression mod32
 	 * \details This method decrypts an 8-bit PGM image that was previously encrypted
 	 * using the encryptCompression method and performs decompression on the decrypted
 	 * image before writing it to a file.
 	 * \tparam T_in input integer type for Paillier cryptosystem.
 	 * \tparam T_out output integer type for Paillier cryptosystem.
 	 * \param Paillier<T_in, T_out> paillier instance of the Paillier cryptosystem.
+	 * \param bitsCompressed An int representing how many bits to free.
 	 * \author Katia Auxilien
-	 * \date 29 mai 2024, 13:55:00
+	 * \date 19 June 2024
 	 */
 	template <typename T_in, typename T_out>
-	void decryptCompression(Paillier<T_in, T_out> paillier);
+	void decryptCompression(Paillier<T_in, T_out> paillier, int bitsCompressed);
+
 
 	/************** n > 8bits**************/
 
@@ -397,7 +404,7 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 }
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::encryptCompression(bool recropPixels, Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::encryptCompression(bool recropPixels, Paillier<T_in, T_out> paillier, int bitsCompressed)
 {
 	string s_file = getCFile();
 
@@ -426,12 +433,13 @@ void PaillierControllerPGM::encryptCompression(bool recropPixels, Paillier<T_in,
 	image_pgm::lire_image_p(cNomImgLue, ImgIn, nTaille);
 	allocation_tableau(ImgOutEnc, uint16_t, nTaille);
 
+	int mod = pow((double)2,(double)bitsCompressed);
 	for (int i = 0; i < nTaille; i++)
 	{
 		uint8_t pixel = histogramExpansion(ImgIn[i], recropPixels);
 		uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
 
-		while (pixel_enc % 32 != 0)
+		while (pixel_enc % mod != 0)
 		{
 			pixel_enc = paillier.paillierEncryption(n, g, pixel);
 		}
@@ -439,9 +447,8 @@ void PaillierControllerPGM::encryptCompression(bool recropPixels, Paillier<T_in,
 		ImgOutEnc[i] = pixel_enc;
 	}
 
-	uint16_t *ImgOutEncComp = compressBits(ImgOutEnc, nH, nW);
-	int nbPixelsComp = ceil((double)(nH * nW * 11) / 16);
-	printf("Size : %d\n", nbPixelsComp);
+	uint16_t *ImgOutEncComp = compressBits(ImgOutEnc, nH, nW, bitsCompressed);
+	int nbPixelsComp = ceil((double)(nH * nW * (16 - bitsCompressed)) / 16);
 
 	pair<int, int> dimensionComp = decomposeDimension(nbPixelsComp);
 	int nHComp = dimensionComp.first;
@@ -455,7 +462,7 @@ void PaillierControllerPGM::encryptCompression(bool recropPixels, Paillier<T_in,
 }
 
 template <typename T_in, typename T_out>
-void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier)
+void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier, int bitsCompressed)
 {
 	string s_file = getCFile();
 	char cNomImgLue[250];
@@ -477,7 +484,6 @@ void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier)
 	OCTET *ImgOutDec;
 	image_pgm::lire_nb_lignes_colonnes_image_p(cNomImgLue, &nHComp, &nWComp);
 	nTailleComp = nHComp * nWComp;
-	printf("Controller : %d %d\n", nHComp, nWComp);
 	uint16_t *ImgInComp;
 	allocation_tableau(ImgInComp, uint16_t, nTailleComp);
 	pair<int, int> dimesionOriginal = image_pgm::read_image_pgm_compressed_and_get_originalDimension(cNomImgLue, ImgInComp);
@@ -488,7 +494,7 @@ void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier)
 
 	allocation_tableau(ImgOutDec, OCTET, nTaille);
 
-	uint16_t *ImgInEnc = decompressBits(ImgInComp, nH, nW, nTaille);
+	uint16_t *ImgInEnc = decompressBits(ImgInComp, nH, nW, nTaille, bitsCompressed);
 
 	for (int i = 0; i < nTaille; i++)
 	{
@@ -500,5 +506,8 @@ void PaillierControllerPGM::decryptCompression(Paillier<T_in, T_out> paillier)
 	free(ImgInComp);
 	free(ImgOutDec);
 }
+
+
+
 
 #endif // PAILLIERCONTROLLER_PGM
