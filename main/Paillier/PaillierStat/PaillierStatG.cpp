@@ -24,12 +24,10 @@
 #include <string_view>
 #include <stdio.h>
 #include <ctype.h>
-#include <errno.h> /* errno */ //TODO : Gestion des erreurs + propre.
+#include <errno.h>
 #include <signal.h>
 
 using namespace std;
-
-//TODO : Documentation
 
 int main(int argc, char **argv)
 {
