@@ -387,3 +387,18 @@ def get_entropy_for_images_gray(alt_images,mode):
         img_entropy = calculate_entropy_gray(alt_img)
         entropies.append(img_entropy)
     return entropies
+
+##
+# @brief This function calculates the ? grayscale image.
+# @param ?
+# @return ?
+# @author Katia AUXILIEN
+# @date 25 june 2024 9:19:00
+#
+def calculate_correlation(image1):
+
+    for i in range(image1.shape[0]):
+        for j in range(image1.shape[1]):
+             int(image1[i][j])
+    
+    return 

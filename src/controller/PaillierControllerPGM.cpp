@@ -21,6 +21,7 @@ PaillierControllerPGM::PaillierControllerPGM()
 {
 	init();
 };
+
 PaillierControllerPGM::~PaillierControllerPGM(){};
 
 void PaillierControllerPGM::init()
@@ -220,6 +221,7 @@ uint8_t PaillierControllerPGM::histogramExpansion(OCTET ImgPixel, bool recropPix
 	}
 	return pixel;
 }
+
 /*********************** Chiffrement/Déchiffrement ***********************/
 
 uint16_t *PaillierControllerPGM::compressBits(uint16_t *ImgInEnc, int nb_lignes, int nb_colonnes, int bitsCompressed)
