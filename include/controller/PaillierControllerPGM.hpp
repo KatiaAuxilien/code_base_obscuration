@@ -358,11 +358,19 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 		image_pgm::lire_image_p(cNomImgLue, ImgIn, nTaille);
 		allocation_tableau(ImgOutEnc, OCTET, nH * (2 * nW));
 		uint64_t x = 0, y = 1;
+
+		// int bitsCompressed = 4;
+		// int mod = pow((double)2,(double)bitsCompressed);
+
 		for (int i = 0; i < nTaille; i++)
 		{
 			uint8_t pixel = histogramExpansion(ImgIn[i], recropPixels);
-
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
+
+			// while (pixel_enc % mod != 0)
+			// {
+			// 	pixel_enc = paillier.paillierEncryption(n, g, pixel);
+			// }
 
 			std::bitset<16> set_pixel = pixel_enc;
 
