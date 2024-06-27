@@ -363,10 +363,34 @@ void PaillierControllerPGM::encrypt(bool distributeOnTwo, bool recropPixels, Pai
 			uint8_t pixel = histogramExpansion(ImgIn[i], recropPixels);
 
 			uint16_t pixel_enc = paillier.paillierEncryption(n, g, pixel);
-			uint8_t pixel_enc_dec_x = pixel_enc / n;
-			uint8_t pixel_enc_dec_y = pixel_enc % n;
+
+			std::bitset<16> set_pixel = pixel_enc;
+
+			std::bitset<8> set_x;
+			std::bitset<8> set_y;
+
+			int k = 0;
+			for (int l = 0; l < 8; l++)
+			{
+				set_x.set(l,set_pixel[k]);
+				k++;
+			}
+			for (int l = 0; l < 8; l++)
+			{
+				set_y.set(l,set_pixel[k]);
+				k++;
+			}
+
+			uint8_t pixel_enc_dec_x = (uint8_t)set_x.to_ulong();
+			uint8_t pixel_enc_dec_y = (uint8_t)set_y.to_ulong();
+
 			ImgOutEnc[x] = pixel_enc_dec_x;
 			ImgOutEnc[y] = pixel_enc_dec_y;
+
+			// uint8_t pixel_enc_dec_x = pixel_enc / n;
+			// uint8_t pixel_enc_dec_y = pixel_enc % n;
+			// ImgOutEnc[x] = pixel_enc_dec_x;
+			// ImgOutEnc[y] = pixel_enc_dec_y;
 			x = x + 2;
 			y = y + 2;
 		}
@@ -435,10 +459,29 @@ void PaillierControllerPGM::decrypt(bool distributeOnTwo, Paillier<T_in, T_out> 
 		int x = 0, y = 1;
 		for (int i = 0; i < nH * (nW / 2); i++)
 		{
-			uint16_t pixel;
-			uint8_t pixel_enc_dec_x = ImgIn[x];
-			uint8_t pixel_enc_dec_y = ImgIn[y];
-			pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
+			
+			std::bitset<8> set_x = ImgIn[x];
+			std::bitset<8> set_y = ImgIn[y];
+
+			std::bitset<16> set_pixel;
+
+			int k = 0;
+			for (int l = 0; l < 8; l++)
+			{
+				set_pixel.set(k,set_x[l]);
+				k++;
+			}
+			for (int l = 0; l < 8; l++)
+			{
+				set_pixel.set(k,set_y[l]);
+				k++;
+			}
+
+			uint16_t pixel = (uint16_t)set_pixel.to_ulong();
+			
+			// uint8_t pixel_enc_dec_x = ImgIn[x];
+			// uint8_t pixel_enc_dec_y = ImgIn[y];
+			// pixel = (pixel_enc_dec_x * n) + pixel_enc_dec_y;
 			x = x + 2;
 			y = y + 2;
 			uint8_t c = paillier.paillierDecryption(n, lambda, mu, pixel);
