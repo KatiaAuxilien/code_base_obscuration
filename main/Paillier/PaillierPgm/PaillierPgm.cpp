@@ -81,15 +81,26 @@ int main(int argc, char **argv)
 				Paillier<uint8_t, uint16_t> paillier;
 				controller->encrypt(distributeOnTwo, recropPixels, paillier);
 			}
-			if (optimisationLSB32)
+			if (optimisationLSB32 && !distributeOnTwo)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->encryptCompression(recropPixels, paillier, 5);
+				controller->encryptCompression_16bpp(recropPixels, paillier, 5);
 			}
-			if (optimisationLSB16)
+			if (optimisationLSB16 && !distributeOnTwo)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->encryptCompression(recropPixels, paillier, 4);
+				controller->encryptCompression_16bpp(recropPixels, paillier, 4);
+			}
+			if (optimisationLSB32 && distributeOnTwo)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->encryptCompression_8bpp(recropPixels, paillier, 5);
+			}
+			if (optimisationLSB16 && distributeOnTwo)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->encryptCompression_8bpp(recropPixels, paillier, 4);
+
 			}
 		}
 		// else if (n > 256 && n <= 65535)
@@ -113,15 +124,25 @@ int main(int argc, char **argv)
 				Paillier<uint8_t, uint16_t> paillier;
 				controller->decrypt(distributeOnTwo, paillier);
 			}
-			if (optimisationLSB32)
+			if (optimisationLSB32 && !distributeOnTwo)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->decryptCompression(paillier, 5);
+				controller->decryptCompression_16bpp(paillier, 5);
 			}
-			if (optimisationLSB16)
+			if (optimisationLSB16 && !distributeOnTwo)
 			{
 				Paillier<uint8_t, uint16_t> paillier;
-				controller->decryptCompression(paillier, 4);
+				controller->decryptCompression_16bpp(paillier, 4);
+			}
+			if (optimisationLSB32 && distributeOnTwo)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->decryptCompression_8bpp(paillier, 5);
+			}
+			if (optimisationLSB16 && distributeOnTwo)
+			{
+				Paillier<uint8_t, uint16_t> paillier;
+				controller->decryptCompression_8bpp(paillier, 4);
 			}
 		}
 		// else if (n > 256 && n <= 65535)
