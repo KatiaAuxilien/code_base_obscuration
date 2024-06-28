@@ -1,7 +1,7 @@
 /******************************************************************************
  * ICAR_Interns_Library
  *
- * File : Paillier_pgm_main.cpp
+ * File : Paillier_pgm.cpp
  *
  * Description :
  *   File source de départ Paillier_image.cpp de Bianca Jansen Van Rensburg
